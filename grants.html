@@ -997,12 +997,13 @@ function renderDashboard() {
       const dl = dlInfo(g.deadline);
       const st = SM[g.status]||SM.open;
       const pr = PM[g.priority]||PM.medium;
-      return `<div class="flex items-center px-5 py-3 gap-3 hover:bg-[#FAFAFA] cursor-pointer border-b border-[#F5F5F5] last:border-0" onclick="openGrantModal('${g.id}')">
+      return `<div class="flex items-center px-5 py-3 gap-3 hover:bg-[#FAFAFA] border-b border-[#F5F5F5] last:border-0">
         <span class="w-2 h-2 rounded-full ${pr.d} flex-shrink-0"></span>
-        <div class="flex-1 min-w-0">
+        <div class="flex-1 min-w-0 cursor-pointer" onclick="openGrantModal('${g.id}')">
           <p class="font-medium text-sm lc1">${esc(g.foundation_name)}${g.title?' — '+esc(g.title):''}</p>
           ${g.notes?`<p class="text-xs text-[#999] lc1">${esc(g.notes)}</p>`:''}
         </div>
+        ${g.url?`<a href="${esc(g.url)}" target="_blank" onclick="event.stopPropagation()" class="flex-shrink-0 text-[#999] hover:text-black" title="פתח קישור"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`:'<span class="w-[14px] flex-shrink-0"></span>'}
         <span class="text-xs whitespace-nowrap ${dl.c}">${dl.t}</span>
         <span class="text-xs px-2 py-0.5 rounded-full ${st.c} whitespace-nowrap">${st.l}</span>
       </div>`;
@@ -1021,11 +1022,12 @@ function renderDashboard() {
     sl.innerHTML = subs.map(g => {
       const st = SM[g.status]||SM.open;
       const dl = dlInfo(g.deadline);
-      return `<div class="flex items-center px-5 py-3 gap-3 hover:bg-[#FAFAFA] cursor-pointer border-b border-[#F5F5F5] last:border-0" onclick="openGrantModal('${g.id}')">
-        <div class="flex-1 min-w-0">
+      return `<div class="flex items-center px-5 py-3 gap-3 hover:bg-[#FAFAFA] border-b border-[#F5F5F5] last:border-0">
+        <div class="flex-1 min-w-0 cursor-pointer" onclick="openGrantModal('${g.id}')">
           <p class="font-medium text-sm lc1">${esc(g.foundation_name)}${g.title?' — '+esc(g.title):''}</p>
           ${g.amount_max?`<p class="text-xs text-[#999]">${fmtAmt(g.amount_min,g.amount_max)}</p>`:''}
         </div>
+        ${g.url?`<a href="${esc(g.url)}" target="_blank" onclick="event.stopPropagation()" class="flex-shrink-0 text-[#999] hover:text-black" title="פתח קישור"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`:'<span class="w-[14px] flex-shrink-0"></span>'}
         <span class="text-xs text-[#999] whitespace-nowrap">${dl.days!==null && dl.days<0 ? 'הוגש '+dl.t.replace(' (עבר)','') : ''}</span>
         <span class="text-xs px-2 py-0.5 rounded-full ${st.c} whitespace-nowrap">${st.l}</span>
       </div>`;
