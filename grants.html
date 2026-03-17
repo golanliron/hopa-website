@@ -459,6 +459,7 @@
             <h1 class="text-2xl font-bold">פרויקטי הופה</h1>
             <p class="text-sm text-[#999] mt-1">התוכניות והפרויקטים הפעילים — בסיס לכתיבת בקשות מענק</p>
           </div>
+          <button onclick="openProjectModal()" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900]">+ פרויקט חדש</button>
         </div>
         <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           <div class="col-span-full text-center py-10 text-[#999] text-sm">טוען פרויקטים...</div>
@@ -564,9 +565,9 @@
 <!-- Grant Modal -->
 <div id="grant-modal" class="fixed inset-0 bg-black/60 z-50 items-start justify-center p-4 pt-8 overflow-y-auto hidden" style="display:none">
   <div class="modal-box bg-white rounded-2xl w-full max-w-2xl shadow-2xl mx-auto">
-    <div class="flex items-center justify-between px-6 py-4 border-b border-[#E5E5E5]">
-      <h2 id="gm-title" class="font-bold text-lg">קול קורא חדש</h2>
-      <button onclick="closeGrantModal()" class="text-[#999] hover:text-[#111] text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
+    <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl" style="background:#000;">
+      <h2 id="gm-title" class="font-bold text-lg" style="color:#FFF200;">קול קורא חדש</h2>
+      <button onclick="closeGrantModal()" class="text-[#666] hover:text-white text-2xl leading-none w-8 h-8 flex items-center justify-center transition-colors">×</button>
     </div>
     <div class="p-6 space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -669,9 +670,9 @@
 <!-- Draft Modal -->
 <div id="draft-modal" class="fixed inset-0 bg-black/60 z-[60] items-start justify-center p-4 pt-12 overflow-y-auto hidden" style="display:none">
   <div class="modal-box bg-white rounded-2xl w-full max-w-xl shadow-2xl mx-auto">
-    <div class="flex items-center justify-between px-6 py-4 border-b border-[#E5E5E5]">
-      <h2 class="font-bold text-lg">✍️ כתיבה עם Claude</h2>
-      <button onclick="closeDraftModal()" class="text-[#999] hover:text-[#111] text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
+    <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl" style="background:#000;">
+      <h2 class="font-bold text-lg" style="color:#FFF200;">✍️ כתיבה עם Claude</h2>
+      <button onclick="closeDraftModal()" class="text-[#666] hover:text-white text-2xl leading-none w-8 h-8 flex items-center justify-center transition-colors">×</button>
     </div>
     <div class="p-6 space-y-4">
       <div>
@@ -724,9 +725,9 @@
 <!-- Import Modal -->
 <div id="import-modal" class="fixed inset-0 bg-black/60 z-50 items-start justify-center p-4 pt-8 hidden" style="display:none">
   <div class="modal-box bg-white rounded-2xl w-full max-w-2xl shadow-2xl mx-auto max-h-[85vh] flex flex-col">
-    <div class="flex items-center justify-between px-6 py-4 border-b border-[#E5E5E5] flex-shrink-0">
-      <h2 class="font-bold text-lg">ייבוא מ-Excel</h2>
-      <button onclick="closeImportModal()" class="text-[#999] hover:text-[#111] text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
+    <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl flex-shrink-0" style="background:#000;">
+      <h2 class="font-bold text-lg" style="color:#FFF200;">ייבוא מ-Excel</h2>
+      <button onclick="closeImportModal()" class="text-[#666] hover:text-white text-2xl leading-none w-8 h-8 flex items-center justify-center transition-colors">×</button>
     </div>
     <div class="p-6 overflow-y-auto flex-1">
       <div id="imp-s1">
@@ -763,11 +764,11 @@
 </div>
 
 <!-- Watchlist Modal -->
-<div id="watch-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
+<div id="watch-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
   <div class="modal-box bg-white rounded-2xl w-full max-w-md shadow-2xl">
-    <div class="flex items-center justify-between px-6 py-4 border-b border-[#E5E5E5]">
-      <h2 class="font-bold text-lg">הוספת קרן לרשימה</h2>
-      <button onclick="closeWatchModal()" class="text-[#999] hover:text-[#111] text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
+    <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl" style="background:#000;">
+      <h2 class="font-bold text-lg" style="color:#FFF200;">הוספת קרן לרשימה</h2>
+      <button onclick="closeWatchModal()" class="text-[#666] hover:text-white text-2xl leading-none w-8 h-8 flex items-center justify-center transition-colors">×</button>
     </div>
     <div class="p-6 space-y-4">
       <div><label class="lbl">שם הקרן *</label><input id="w-name" type="text" class="inp" placeholder="קרן רוטשילד"/></div>
@@ -784,12 +785,48 @@
   </div>
 </div>
 
+<!-- Project Modal -->
+<div id="project-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
+  <div class="modal-box bg-white rounded-2xl w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl" style="background:#000;">
+      <h2 id="pm-title" class="font-bold text-lg" style="color:#FFF200;">פרויקט חדש</h2>
+      <button onclick="closeProjectModal()" class="text-[#666] hover:text-white text-2xl leading-none w-8 h-8 flex items-center justify-center transition-colors">×</button>
+    </div>
+    <div class="p-6 space-y-4">
+      <input type="hidden" id="pm-id"/>
+      <div><label class="lbl">שם הפרויקט *</label><input id="pm-name" type="text" class="inp" placeholder="מניעת נשירה בבתי ספר"/></div>
+      <div>
+        <label class="lbl">קטגוריה</label>
+        <select id="pm-category" class="inp">
+          <option value="נשירה">🏫 נשירה</option>
+          <option value="בוגרים">🎓 בוגרים</option>
+          <option value="טכנולוגיה">💻 טכנולוגיה</option>
+          <option value="אתיופים">🌍 אתיופים</option>
+          <option value="נשים">👩 נשים</option>
+          <option value="חרדים">📖 חרדים</option>
+          <option value="חיילים">🪖 חיילים</option>
+          <option value="קהילה">🏘️ קהילה</option>
+          <option value="כללי">📋 כללי</option>
+        </select>
+      </div>
+      <div><label class="lbl">תיאור</label><textarea id="pm-description" rows="3" class="inp resize-none" placeholder="תיאור קצר של הפרויקט..."></textarea></div>
+      <div><label class="lbl">קהל יעד</label><input id="pm-audience" type="text" class="inp" placeholder="תלמידים 14–18 בסיכון לנשירה"/></div>
+      <div><label class="lbl">נקודות מפתח</label><input id="pm-highlights" type="text" class="inp" placeholder="זיהוי מוקדם, ליווי אנושי, מודל הרדאר..."/></div>
+      <div><label class="lbl">הערת תקציב</label><input id="pm-budget" type="text" class="inp" placeholder="93,500 ₪ לשנה (נשירה) / 60,500 ₪ (בוגרים)"/></div>
+    </div>
+    <div class="px-6 py-4 border-t border-[#E5E5E5] flex justify-end gap-3">
+      <button onclick="closeProjectModal()" class="border border-[#E5E5E5] px-4 py-2 rounded-xl text-sm">ביטול</button>
+      <button onclick="saveProject()" class="bg-[#FFF200] text-black font-bold px-6 py-2 rounded-xl text-sm hover:bg-[#E6D900]">שמור</button>
+    </div>
+  </div>
+</div>
+
 <!-- Research Modal -->
-<div id="research-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
+<div id="research-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
   <div class="modal-box bg-white rounded-2xl w-full max-w-md shadow-2xl">
-    <div class="flex items-center justify-between px-6 py-4 border-b border-[#E5E5E5]">
-      <h2 class="font-bold text-lg">הוספת מחקר / נתון סטטיסטי</h2>
-      <button onclick="closeResearchModal()" class="text-[#999] hover:text-[#111] text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
+    <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl" style="background:#000;">
+      <h2 class="font-bold text-lg" style="color:#FFF200;">הוספת מחקר / נתון סטטיסטי</h2>
+      <button onclick="closeResearchModal()" class="text-[#666] hover:text-white text-2xl leading-none w-8 h-8 flex items-center justify-center transition-colors">×</button>
     </div>
     <div class="p-6 space-y-4">
       <div><label class="lbl">הנתון / הממצא *</label><textarea id="res-stat" rows="3" class="inp resize-none" placeholder='למשל: "כ-30% מהצעירים נושרים מהמערכת עד גיל 18"'></textarea></div>
@@ -818,11 +855,11 @@
 </div>
 
 <!-- Document Modal -->
-<div id="doc-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
+<div id="doc-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
   <div class="modal-box bg-white rounded-2xl w-full max-w-md shadow-2xl">
-    <div class="flex items-center justify-between px-6 py-4 border-b border-[#E5E5E5]">
-      <h2 class="font-bold text-lg">הוספת מסמך</h2>
-      <button onclick="closeDocModal()" class="text-[#999] hover:text-[#111] text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
+    <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl" style="background:#000;">
+      <h2 class="font-bold text-lg" style="color:#FFF200;">הוספת מסמך</h2>
+      <button onclick="closeDocModal()" class="text-[#666] hover:text-white text-2xl leading-none w-8 h-8 flex items-center justify-center transition-colors">×</button>
     </div>
     <div class="p-6 space-y-4">
       <div><label class="lbl">שם המסמך *</label><input id="doc-name" type="text" class="inp" placeholder="אישור ניהול תקין, תקנון..."/></div>
@@ -846,11 +883,11 @@
 </div>
 
 <!-- Setup Modal -->
-<div id="setup-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
+<div id="setup-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
   <div class="modal-box bg-white rounded-2xl w-full max-w-xl shadow-2xl">
-    <div class="flex items-center justify-between px-6 py-4 border-b border-[#E5E5E5]">
-      <h2 class="font-bold text-lg">הגדרות</h2>
-      <button onclick="closeSetupModal()" class="text-[#999] hover:text-[#111] text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
+    <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl" style="background:#000;">
+      <h2 class="font-bold text-lg" style="color:#FFF200;">הגדרות</h2>
+      <button onclick="closeSetupModal()" class="text-[#666] hover:text-white text-2xl leading-none w-8 h-8 flex items-center justify-center transition-colors">×</button>
     </div>
     <div class="p-6 space-y-5">
       <!-- SQL -->
@@ -1813,10 +1850,22 @@ async function analyzeFromUrl() {
   if (!url) { toast('הכנס קישור', 'error'); return; }
   showAnalyzeLoading();
   try {
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-    const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(12000) });
-    const data = await res.json();
-    const html = data.contents || '';
+    let html = '';
+    const proxies = [
+      `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+    ];
+    for (const proxyUrl of proxies) {
+      try {
+        const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(10000) });
+        if (proxyUrl.includes('allorigins')) {
+          const d = await res.json(); html = d.contents || '';
+        } else {
+          html = await res.text();
+        }
+        if (html.length > 200) break;
+      } catch { continue; }
+    }
     const text = html
       .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
       .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
@@ -1899,9 +1948,11 @@ ${text}
     });
     if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || res.status); }
     const data = await res.json();
-    const raw = data.content[0].text.trim()
-      .replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
-    analyzedData = JSON.parse(raw);
+    let raw = data.content[0].text.trim();
+    // Extract JSON object even if Claude wraps it in markdown or adds extra text
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('לא נמצא JSON בתגובה');
+    analyzedData = JSON.parse(jsonMatch[0]);
     if (!analyzedData.url && sourceUrl) analyzedData.url = sourceUrl;
     hideAnalyzeLoading();
     showAnalysisResult(analyzedData);
@@ -1993,26 +2044,90 @@ async function loadProjects() {
     grid.innerHTML = '<div class="col-span-full text-center py-10 text-red-400 text-sm">שגיאה בטעינה</div>';
     return;
   }
+  _allProjects = data;
   if (!data.length) {
     grid.innerHTML = '<div class="col-span-full text-center py-10 text-[#999] text-sm">אין פרויקטים</div>';
     return;
   }
   grid.innerHTML = data.map(p => {
     const icon = PROJECT_CATEGORY_ICONS[p.category] || '📋';
-    return `<div class="bg-white rounded-2xl border border-[#E5E5E5] p-5 hover:shadow-md transition-shadow">
+    return `<div class="bg-white rounded-2xl border border-[#E5E5E5] p-5 hover:shadow-md transition-shadow flex flex-col">
       <div class="flex items-start gap-3 mb-3">
         <span class="text-2xl">${icon}</span>
         <div class="flex-1 min-w-0">
-          <h3 class="font-bold text-sm leading-snug">${p.name}</h3>
-          ${p.category ? `<span class="text-xs text-[#999]">${p.category}</span>` : ''}
+          <h3 class="font-bold text-sm leading-snug">${esc(p.name)}</h3>
+          ${p.category ? `<span class="text-xs text-[#999]">${esc(p.category)}</span>` : ''}
+        </div>
+        <div class="flex gap-1 flex-shrink-0">
+          <button onclick="openProjectModal(${p.id})" class="text-[#999] hover:text-black p-1 rounded-lg hover:bg-[#F7F7F7]" title="עריכה">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button onclick="deleteProject(${p.id})" class="text-[#CCC] hover:text-red-400 p-1 rounded-lg hover:bg-[#F7F7F7]" title="מחיקה">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+          </button>
         </div>
       </div>
-      ${p.description ? `<p class="text-xs text-[#555] mb-3 leading-relaxed lc2">${p.description}</p>` : ''}
-      ${p.audience ? `<div class="mb-2"><span class="text-xs font-semibold text-[#666]">קהל יעד: </span><span class="text-xs text-[#555]">${p.audience}</span></div>` : ''}
-      ${p.highlights ? `<div class="mb-2"><span class="text-xs font-semibold text-[#666]">נקודות מפתח: </span><span class="text-xs text-[#555]">${p.highlights}</span></div>` : ''}
-      ${p.budget_note ? `<div class="bg-[#FFF200]/30 rounded-lg px-3 py-1.5 mt-2"><span class="text-xs font-semibold">תקציב: </span><span class="text-xs">${p.budget_note}</span></div>` : ''}
+      ${p.description ? `<p class="text-xs text-[#555] mb-3 leading-relaxed lc2">${esc(p.description)}</p>` : ''}
+      ${p.audience ? `<div class="mb-2"><span class="text-xs font-semibold text-[#666]">קהל יעד: </span><span class="text-xs text-[#555]">${esc(p.audience)}</span></div>` : ''}
+      ${p.highlights ? `<div class="mb-2"><span class="text-xs font-semibold text-[#666]">נקודות מפתח: </span><span class="text-xs text-[#555]">${esc(p.highlights)}</span></div>` : ''}
+      ${p.budget_note ? `<div class="bg-[#FFFDE0] rounded-lg px-3 py-1.5 mt-auto"><span class="text-xs font-semibold">💰 תקציב: </span><span class="text-xs">${esc(p.budget_note)}</span></div>` : ''}
     </div>`;
   }).join('');
+}
+
+let _allProjects = [];
+
+async function openProjectModal(id) {
+  document.getElementById('pm-id').value = id || '';
+  document.getElementById('pm-title').textContent = id ? 'עריכת פרויקט' : 'פרויקט חדש';
+  if (id) {
+    const p = _allProjects.find(x => x.id == id);
+    if (p) {
+      document.getElementById('pm-name').value        = p.name || '';
+      document.getElementById('pm-category').value    = p.category || 'כללי';
+      document.getElementById('pm-description').value = p.description || '';
+      document.getElementById('pm-audience').value    = p.audience || '';
+      document.getElementById('pm-highlights').value  = p.highlights || '';
+      document.getElementById('pm-budget').value      = p.budget_note || '';
+    }
+  } else {
+    ['pm-name','pm-description','pm-audience','pm-highlights','pm-budget'].forEach(i => document.getElementById(i).value = '');
+    document.getElementById('pm-category').value = 'נשירה';
+  }
+  document.getElementById('project-modal').classList.remove('hidden');
+}
+function closeProjectModal() { document.getElementById('project-modal').classList.add('hidden'); }
+
+async function saveProject() {
+  const name = document.getElementById('pm-name').value.trim();
+  if (!name) { toast('שם הפרויקט הוא שדה חובה', 'error'); return; }
+  const id = document.getElementById('pm-id').value;
+  const payload = {
+    name,
+    category:    document.getElementById('pm-category').value,
+    description: document.getElementById('pm-description').value.trim() || null,
+    audience:    document.getElementById('pm-audience').value.trim() || null,
+    highlights:  document.getElementById('pm-highlights').value.trim() || null,
+    budget_note: document.getElementById('pm-budget').value.trim() || null,
+  };
+  let error;
+  if (id) {
+    ({ error } = await sb.from('hopa_projects').update(payload).eq('id', id));
+  } else {
+    ({ error } = await sb.from('hopa_projects').insert([{ ...payload, is_active: true }]));
+  }
+  if (error) { toast('שגיאה: ' + error.message, 'error'); return; }
+  toast(id ? '✓ פרויקט עודכן' : '✓ פרויקט נוסף', 'success');
+  closeProjectModal();
+  loadProjects();
+}
+
+async function deleteProject(id) {
+  if (!confirm('למחוק פרויקט זה?')) return;
+  const { error } = await sb.from('hopa_projects').update({ is_active: false }).eq('id', id);
+  if (error) { toast('שגיאה', 'error'); return; }
+  toast('נמחק', 'success');
+  loadProjects();
 }
 
 // ── SOURCES ───────────────────────────────────────────────
