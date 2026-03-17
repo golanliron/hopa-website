@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>בוגרים הופה — לוח ניהול</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
+      background: #F7F7F7;
+      color: #111111;
+    }
+    .hopa-yellow { background-color: #FFF200; }
+    .hopa-yellow-text { color: #FFF200; }
+    .hopa-yellow-border { border-color: #FFF200; }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 20px; height: 20px;
+      border: 3px solid #E5E5E5;
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Bar chart */
+    .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .bar-label { min-width: 160px; font-size: 14px; color: #111; text-align: right; }
+    .bar-track { flex: 1; background: #E5E5E5; border-radius: 4px; height: 26px; overflow: hidden; position: relative; }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; background: #000; display: flex; align-items: center; padding: 0 8px; min-width: 2px; }
+    .bar-count { font-size: 12px; font-weight: 700; color: #fff; white-space: nowrap; }
+    .bar-pct { font-size: 13px; color: #666; min-width: 44px; text-align: left; }
+
+    /* Tabs */
+    .tab-btn { padding: 8px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; border: 1.5px solid #E5E5E5; background: #fff; color: #111; transition: all 0.15s; }
+    .tab-btn.active { background: #FFF200; border-color: #FFF200; color: #000; }
+    .tab-btn:not(.active):hover { background: #F7F7F7; }
+
+    /* Table */
+    table { border-collapse: collapse; width: 100%; }
+    th { background: #000; color: #fff; padding: 10px 12px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+    td { padding: 9px 12px; font-size: 13px; border-bottom: 1px solid #E5E5E5; white-space: nowrap; }
+    tr:hover td { background: #FFFDE0; cursor: pointer; }
+    tr:last-child td { border-bottom: none; }
+
+    /* School table */
+    .school-table th:first-child,
+    .school-table td:first-child { text-align: right; }
+
+    /* KPI Cards */
+    .kpi-card { background: #fff; border: 1.5px solid #E5E5E5; border-radius: 12px; padding: 22px 20px; min-width: 130px; }
+    .kpi-number { font-size: 36px; font-weight: 800; color: #111; line-height: 1.1; }
+    .kpi-label { font-size: 13px; color: #666; margin-top: 4px; }
+
+    /* Badge */
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+    .badge-green { background: #D1FAE5; color: #065F46; }
+    .badge-yellow { background: #FEF9C3; color: #854D0E; }
+    .badge-red { background: #FEE2E2; color: #991B1B; }
+
+    /* Search / Filter */
+    input[type="text"], select {
+      border: 1.5px solid #E5E5E5;
+      border-radius: 7px;
+      padding: 7px 12px;
+      font-size: 14px;
+      background: #fff;
+      color: #111;
+      outline: none;
+      transition: border-color 0.15s;
+      font-family: inherit;
+    }
+    input[type="text"]:focus, select:focus { border-color: #000; }
+
+    /* Loading overlay */
+    #loading-section { background: #fff; border-radius: 14px; border: 1.5px solid #E5E5E5; padding: 32px; }
+    .progress-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #F0F0F0; font-size: 14px; }
+    .progress-item:last-child { border-bottom: none; }
+    .progress-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .dot-pending { background: #E5E5E5; }
+    .dot-loading { background: #FFF200; animation: pulse 1s infinite; }
+    .dot-done { background: #000; }
+    .dot-error { background: #ef4444; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* Pagination */
+    .page-btn { width: 34px; height: 34px; border-radius: 6px; border: 1.5px solid #E5E5E5; background: #fff; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .page-btn.active { background: #000; color: #fff; border-color: #000; }
+    .page-btn:not(.active):hover { background: #FFF200; border-color: #FFF200; }
+    .page-btn:disabled { opacity: 0.4; cursor: default; }
+
+    /* Section header */
+    .section-title { font-size: 18px; font-weight: 700; color: #111; }
+    .section-sub { font-size: 13px; color: #666; margin-top: 2px; }
+
+    /* Scrollable table wrapper */
+    .table-wrap { overflow-x: auto; border-radius: 10px; border: 1.5px solid #E5E5E5; background: #fff; }
+
+    /* Accent line on KPI card on hover */
+    .kpi-card:hover { border-color: #FFF200; box-shadow: 0 2px 12px rgba(255,242,0,0.18); transition: all 0.15s; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+<!-- HEADER -->
+<header style="background:#000; border-bottom: 3px solid #FFF200;" class="sticky top-0 z-50">
+  <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div style="background:#FFF200; color:#000; font-weight:900; font-size:18px; padding:4px 12px; border-radius:6px; letter-spacing:1px;">
+        הופה
+      </div>
+      <div>
+        <div style="color:#fff; font-size:17px; font-weight:700;">בוגרים — לוח ניהול</div>
+        <div id="last-updated" style="color:#999; font-size:12px;">טוען נתונים...</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <div id="header-spinner" class="spinner" style="display:none;"></div>
+      <button id="refresh-btn" onclick="startFetch()" style="background:#FFF200; color:#000; font-weight:700; font-size:14px; padding:8px 20px; border-radius:8px; border:none; cursor:pointer; transition:background 0.15s;"
+        onmouseover="this.style.background='#E6D900'" onmouseout="this.style.background='#FFF200'">
+        ↺ רענן נתונים
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="max-w-screen-xl mx-auto px-6 py-8">
+
+  <!-- LOADING SECTION -->
+  <div id="loading-section" class="mb-8">
+    <div class="flex items-center gap-3 mb-5">
+      <div class="spinner"></div>
+      <div>
+        <div class="section-title">טוען נתוני בוגרים</div>
+        <div class="section-sub">אנא המתן — מביא נתונים מ-6 לוחות</div>
+      </div>
+    </div>
+    <div id="progress-list"></div>
+  </div>
+
+  <!-- DASHBOARD (hidden until loaded) -->
+  <div id="dashboard" style="display:none;">
+
+    <!-- KPI CARDS -->
+    <div id="kpi-section" class="mb-8">
+      <div class="mb-4">
+        <div class="section-title">סקירה כללית</div>
+        <div class="section-sub">נתונים מכלל בתי הספר</div>
+      </div>
+      <div class="flex flex-wrap gap-4">
+        <div class="kpi-card">
+          <div class="kpi-number" id="kpi-total">0</div>
+          <div class="kpi-label">סה"כ בוגרים</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-number" id="kpi-talked">0</div>
+          <div class="kpi-label">נגענו / דיברנו</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-number" id="kpi-working">0</div>
+          <div class="kpi-label">עובדים</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-number" id="kpi-studying">0</div>
+          <div class="kpi-label">בלימודים</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-number" id="kpi-inprocess">0</div>
+          <div class="kpi-label">בתהליך טיפול</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-number" id="kpi-callback">0</div>
+          <div class="kpi-label">ממתינים לחזרה</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PER-SCHOOL TABLE -->
+    <div class="mb-8">
+      <div class="mb-4">
+        <div class="section-title">פירוט לפי בית ספר</div>
+        <div class="section-sub">נגיעה = מי שיש עליו נתון כלשהו (מה עושה, הערות, אימפקט, תאריכי שיחה)</div>
+      </div>
+      <div class="table-wrap">
+        <table class="school-table">
+          <thead>
+            <tr>
+              <th style="text-align:right;">בית ספר</th>
+              <th>סה"כ</th>
+              <th>נגענו</th>
+              <th>עובדים</th>
+              <th>בלימודים</th>
+              <th>בצבא</th>
+              <th>מסתדרים</th>
+              <th>בטיפול</th>
+              <th>% נגיעה</th>
+            </tr>
+          </thead>
+          <tbody id="school-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STATUS BREAKDOWN -->
+    <div class="mb-8">
+      <div class="mb-4">
+        <div class="section-title">פילוח סטטוסים</div>
+        <div class="section-sub">חלוקה לפי קטגוריה</div>
+      </div>
+      <div style="background:#fff; border-radius:12px; border:1.5px solid #E5E5E5; overflow:hidden;">
+        <!-- Tab buttons -->
+        <div class="flex gap-2 p-4 border-b" style="border-color:#E5E5E5;">
+          <button class="tab-btn active" onclick="switchTab('whattoday')" id="tab-whattoday">מה עושים היום</button>
+          <button class="tab-btn" onclick="switchTab('impact')" id="tab-impact">הערות ואימפקט</button>
+          <button class="tab-btn" onclick="switchTab('service')" id="tab-service">סטטוס שירות</button>
+        </div>
+        <!-- Tab content -->
+        <div class="p-6">
+          <div id="chart-whattoday"></div>
+          <div id="chart-impact" style="display:none;"></div>
+          <div id="chart-service" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRADUATE LIST -->
+    <div class="mb-8">
+      <div class="mb-4">
+        <div class="section-title">רשימת בוגרים</div>
+        <div class="section-sub">לחץ על שורה לפתיחה ב-Monday.com</div>
+      </div>
+
+      <!-- Filters -->
+      <div style="background:#fff; border-radius:12px; border:1.5px solid #E5E5E5; padding:16px; margin-bottom:16px;">
+        <div class="flex flex-wrap gap-3 items-center">
+          <input type="text" id="search-name" placeholder="חיפוש לפי שם..." style="min-width:200px;" oninput="applyFilters()" />
+          <select id="filter-school" onchange="applyFilters()">
+            <option value="">כל בתי הספר</option>
+          </select>
+          <select id="filter-whattoday" onchange="applyFilters()">
+            <option value="">מה עושה היום — הכל</option>
+          </select>
+          <select id="filter-impact" onchange="applyFilters()">
+            <option value="">הערות ואימפקט — הכל</option>
+          </select>
+          <select id="filter-notes" onchange="applyFilters()">
+            <option value="">הערות — הכל</option>
+          </select>
+          <select id="filter-year" onchange="applyFilters()">
+            <option value="">שנת סיום — הכל</option>
+          </select>
+          <button onclick="clearFilters()" style="padding:7px 14px; border-radius:7px; border:1.5px solid #E5E5E5; background:#fff; font-size:13px; cursor:pointer; color:#666;" onmouseover="this.style.background='#F7F7F7'" onmouseout="this.style.background='#fff'">נקה פילטרים</button>
+          <span id="results-count" style="font-size:13px; color:#666; margin-right:auto;"></span>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap">
+        <table id="grad-table">
+          <thead>
+            <tr>
+              <th style="text-align:right;">שם מלא</th>
+              <th style="text-align:right;">בית ספר</th>
+              <th>מה עושה</th>
+              <th>הערות ואימפקט</th>
+              <th>שיחה אחרונה</th>
+              <th>שיחה הבאה</th>
+            </tr>
+          </thead>
+          <tbody id="grad-table-body"></tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div id="pagination" class="flex items-center gap-2 mt-4 justify-center flex-wrap"></div>
+    </div>
+
+  </div><!-- /dashboard -->
+</main>
+
+<script>
+const MONDAY_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjU1MTE3ODY0MCwiYWFpIjoxMSwidWlkIjo3OTYwODg1MSwiaWFkIjoiMjAyNS0wOC0xN1QxNDoyMjowMS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MzA3Mjc0MDAsInJnbiI6ImV1YzEifQ.v08TgFNEtd9pBcws4lpRs-8TVxAW3YBAuOOPP3IYo4Q';
+const MONDAY_URL = 'https://api.monday.com/v2';
+
+// Per-board config — each board has different column IDs for notes/impact
+const BOARDS = [
+  { id: '5090724887', name: 'עכו מרום',           total: 313, notesCol: 'color_mkvwrzc4', impactCol: 'color_mkvwbt7y' },
+  { id: '2108494562', name: 'אורט בית הערבה',     total: 374, notesCol: 'color_mkvwrzc4', impactCol: 'color_mkvwbt7y' },
+  { id: '5088745147', name: 'אורט אדיבי אשקלון',  total: 296, notesCol: 'dropdown_mm0wzrrt', impactCol: 'color_mm143ssv' },
+  { id: '5090710409', name: 'מוצקין',              total: 98,  notesCol: 'dropdown_mm0p4kps', impactCol: 'color_mkvwbt7y' },
+  { id: '5091889860', name: 'מגשימים בית שאן',    total: 78,  notesCol: 'color_mkvwrzc4',   impactCol: 'color_mkvwbt7y' },
+  { id: '5089053235', name: 'צור ברק',             total: 51,  notesCol: 'color_mkvwrzc4',   impactCol: 'color_mkvwbt7y' },
+];
+
+// All column IDs to fetch (union of all boards)
+const COL_IDS = [
+  'text_mkvbye47',    // שם משפחה
+  'color_mkw0rdsg',   // סטטוס שירות
+  'color_mkw4et1p',   // מה עושה היום
+  'color_mkvwbt7y',   // אימפקט הופה (most boards)
+  'color_mm143ssv',   // אימפקט הופה (אדיבי)
+  'color_mkvwrzc4',   // הערות מרוכזות (most boards)
+  'dropdown_mm0wzrrt',// הערות (אדיבי)
+  'dropdown_mm0p4kps',// הערות (מוצקין)
+  'date_mkvw1gnh',    // תאריך שיחה אחרונה
+  'date_mkvw7ytx',    // תאריך השיחה הבאה
+  'text_mkvwcbmn',    // שנת סיום
+];
+
+// Global state
+window.allGraduates = [];
+let filteredGraduates = [];
+let currentPage = 1;
+const PAGE_SIZE = 50;
+let activeTab = 'whattoday';
+
+// ─── FETCH ─────────────────────────────────────────────────────────────────
+
+async function fetchBoardItems(boardId, onProgress) {
+  let cursor = null;
+  let items = [];
+  let page = 1;
+  do {
+    const query = `
+      query GetItems($boardId: ID!, $cursor: String) {
+        boards(ids: [$boardId]) {
+          items_page(limit: 500, cursor: $cursor) {
+            cursor
+            items {
+              id
+              name
+              column_values(ids: ${JSON.stringify(COL_IDS)}) {
+                id
+                text
+              }
+            }
+          }
+        }
+      }
+    `;
+    const variables = { boardId: String(boardId), cursor: cursor || undefined };
+    const resp = await fetch(MONDAY_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': MONDAY_TOKEN,
+        'API-Version': '2024-10',
+      },
+      body: JSON.stringify({ query, variables }),
+    });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const json = await resp.json();
+    if (json.errors) throw new Error(json.errors[0]?.message || 'GraphQL error');
+    const ip = json?.data?.boards?.[0]?.items_page;
+    if (!ip) throw new Error('Unexpected response shape');
+    items = items.concat(ip.items || []);
+    cursor = ip.cursor || null;
+    page++;
+    if (onProgress) onProgress(items.length);
+  } while (cursor);
+  return items;
+}
+
+function parseItem(raw, board) {
+  const colMap = {};
+  (raw.column_values || []).forEach(cv => { colMap[cv.id] = cv.text || ''; });
+  return {
+    id:            raw.id,
+    boardId:       board.id,
+    boardName:     board.name,
+    name:          raw.name || '',
+    lastName:      colMap['text_mkvbye47'] || '',
+    serviceStatus: colMap['color_mkw0rdsg'] || '',
+    whatToday:     colMap['color_mkw4et1p'] || '',
+    impact:        colMap[board.impactCol] || '',
+    notes:         colMap[board.notesCol] || '',
+    lastTalk:      colMap['date_mkvw1gnh'] || '',
+    nextTalk:      colMap['date_mkvw7ytx'] || '',
+    year:          colMap['text_mkvwcbmn'] || '',
+  };
+}
+
+// Helpers for flexible matching
+function isWorking(g) {
+  const w = (g.whatToday || '').toLowerCase();
+  return w.includes('עובד') || w.includes('עבודה') || w.includes('בעל עסק') || w.includes('בעלת עסק');
+}
+function isStudying(g) {
+  const w = (g.whatToday || '').toLowerCase();
+  return w.includes('לימוד') || w.includes('מכינה');
+}
+function isArmy(g) {
+  const w = (g.whatToday || '').toLowerCase();
+  const s = (g.serviceStatus || '').toLowerCase();
+  return w.includes('חייל') || s.includes('במהלך צבא') || s.includes('במהלך שירות');
+}
+// "נגיעה" = we spoke / wrote anything about them
+function isTouched(g) {
+  return !!(g.whatToday || g.notes || g.impact || g.lastTalk || g.nextTalk || g.serviceStatus);
+}
+// "מסתדר" — we know they're fine
+function isOkay(g) {
+  const n = g.notes || ''; const i = g.impact || '';
+  return n.includes('מסתדר') || i.includes('מסתדר') || n.includes('לא רלוונטי');
+}
+// Open needs
+function needsCallback(g) {
+  const n = g.notes || '';
+  return n.includes('לחזור') || n.includes('לחזור אליו') || n.includes('לחזור אליה');
+}
+
+// Combined impact breakdown: merge notes + impact columns
+function getCombinedImpact(g) {
+  const vals = [];
+  if (g.impact) g.impact.split(',').map(v=>v.trim()).filter(Boolean).forEach(v => vals.push(v));
+  if (g.notes)  g.notes.split(',').map(v=>v.trim()).filter(Boolean).forEach(v => vals.push(v));
+  return [...new Set(vals)];
+}
+
+// ─── PROGRESS UI ────────────────────────────────────────────────────────────
+
+function initProgressList() {
+  const el = document.getElementById('progress-list');
+  el.innerHTML = BOARDS.map(b => `
+    <div class="progress-item" id="prog-${b.id}">
+      <div class="progress-dot dot-pending" id="dot-${b.id}"></div>
+      <div style="flex:1;">
+        <span style="font-weight:600;">${b.name}</span>
+        <span style="color:#666; font-size:12px;"> — ${b.total} רשומות צפויות</span>
+      </div>
+      <div id="prog-count-${b.id}" style="font-size:12px; color:#666;"></div>
+    </div>
+  `).join('');
+}
+
+function setDot(boardId, state) {
+  const el = document.getElementById(`dot-${boardId}`);
+  if (!el) return;
+  el.className = 'progress-dot dot-' + state;
+}
+function setProgCount(boardId, n) {
+  const el = document.getElementById(`prog-count-${boardId}`);
+  if (el) el.textContent = n > 0 ? `${n} נטענו` : '';
+}
+
+// ─── MAIN FETCH ─────────────────────────────────────────────────────────────
+
+async function startFetch() {
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('loading-section').style.display = 'block';
+  document.getElementById('header-spinner').style.display = 'inline-block';
+  document.getElementById('refresh-btn').disabled = true;
+  document.getElementById('last-updated').textContent = 'טוען נתונים...';
+  window.allGraduates = [];
+  initProgressList();
+
+  for (const board of BOARDS) {
+    setDot(board.id, 'loading');
+    try {
+      const items = await fetchBoardItems(board.id, (n) => setProgCount(board.id, n));
+      const parsed = items.map(raw => parseItem(raw, board));
+      window.allGraduates = window.allGraduates.concat(parsed);
+      setDot(board.id, 'done');
+      setProgCount(board.id, parsed.length);
+    } catch (err) {
+      setDot(board.id, 'error');
+      const el = document.getElementById(`prog-count-${board.id}`);
+      if (el) el.textContent = '⚠ שגיאה: ' + err.message;
+    }
+  }
+
+  document.getElementById('header-spinner').style.display = 'none';
+  document.getElementById('refresh-btn').disabled = false;
+  const ts = new Date().toLocaleString('he-IL');
+  document.getElementById('last-updated').textContent = 'עדכון אחרון: ' + ts;
+
+  // Short delay then show dashboard
+  setTimeout(() => {
+    document.getElementById('loading-section').style.display = 'none';
+    buildDashboard();
+    document.getElementById('dashboard').style.display = 'block';
+  }, 400);
+}
+
+// ─── DASHBOARD BUILD ────────────────────────────────────────────────────────
+
+function buildDashboard() {
+  buildKPIs();
+  buildSchoolTable();
+  buildCharts();
+  buildFilterOptions();
+  applyFilters();
+}
+
+// ─── KPIs ────────────────────────────────────────────────────────────────────
+
+function buildKPIs() {
+  const all = window.allGraduates;
+  const total     = all.length;
+  const touched   = all.filter(isTouched).length;       // נגענו / דיברנו (כל מי שיש עליו נתון כלשהו)
+  const working   = all.filter(isWorking).length;
+  const studying  = all.filter(isStudying).length;
+  const inprocess = all.filter(g => (g.impact||'').includes('בתהליך')).length;
+  const callback  = all.filter(needsCallback).length;
+
+  document.getElementById('kpi-total').textContent    = total.toLocaleString('he-IL');
+  document.getElementById('kpi-talked').textContent   = touched.toLocaleString('he-IL');
+  document.getElementById('kpi-working').textContent  = working.toLocaleString('he-IL');
+  document.getElementById('kpi-studying').textContent = studying.toLocaleString('he-IL');
+  document.getElementById('kpi-inprocess').textContent= inprocess.toLocaleString('he-IL');
+  document.getElementById('kpi-callback').textContent = callback.toLocaleString('he-IL');
+}
+
+// ─── SCHOOL TABLE ────────────────────────────────────────────────────────────
+
+function buildSchoolTable() {
+  const all = window.allGraduates;
+  const tbody = document.getElementById('school-table-body');
+  tbody.innerHTML = '';
+
+  function mkRow(grads, label, bold) {
+    const count   = grads.length;
+    const touched = grads.filter(isTouched).length;
+    const working = grads.filter(isWorking).length;
+    const studying= grads.filter(isStudying).length;
+    const army    = grads.filter(isArmy).length;
+    const okay    = grads.filter(isOkay).length;
+    const withImpact = grads.filter(g => g.impact && !isOkay(g)).length;
+    const pct = count > 0 ? Math.round((touched / count) * 100) : 0;
+    let badgeCls = 'badge-red';
+    if (pct >= 60) badgeCls = 'badge-green';
+    else if (pct >= 30) badgeCls = 'badge-yellow';
+    const w = bold ? 'font-weight:700;' : 'font-weight:600;';
+    const tr = document.createElement('tr');
+    if (bold) tr.style.background = '#F7F7F7';
+    tr.innerHTML = `
+      <td style="${w}">${label}</td>
+      <td style="text-align:center;${w}">${count}</td>
+      <td style="text-align:center;${w}">${touched}</td>
+      <td style="text-align:center;${w}">${working}</td>
+      <td style="text-align:center;${w}">${studying}</td>
+      <td style="text-align:center;${w}">${army}</td>
+      <td style="text-align:center;${w}">${okay}</td>
+      <td style="text-align:center;${w}">${withImpact}</td>
+      <td style="text-align:center;"><span class="badge ${badgeCls}">${pct}%</span></td>
+    `;
+    tbody.appendChild(tr);
+  }
+
+  BOARDS.forEach(board => {
+    const grads = all.filter(g => g.boardId === board.id);
+    mkRow(grads, board.name, false);
+  });
+  mkRow(all, 'סה"כ', true);
+}
+
+// ─── CHARTS ──────────────────────────────────────────────────────────────────
+
+const BAR_PALETTE = [
+  '#000','#333','#555','#777','#999','#aaa','#bbb',
+  '#1a1a2e','#16213e','#0f3460','#533483','#e94560'
+];
+
+function buildChart(containerId, data) {
+  const el = document.getElementById(containerId);
+  if (!data || data.length === 0) { el.innerHTML = '<div style="color:#666;font-size:14px;padding:12px;">אין נתונים</div>'; return; }
+  const max = Math.max(...data.map(d => d.count));
+  el.innerHTML = data.map((d, i) => {
+    const w = max > 0 ? Math.round((d.count / max) * 100) : 0;
+    const pct = d.total > 0 ? Math.round((d.count / d.total) * 100) : 0;
+    const color = BAR_PALETTE[i % BAR_PALETTE.length];
+    return `
+      <div class="bar-row">
+        <div class="bar-label">${d.label}</div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:${Math.max(w,2)}%; background:${color};">
+            ${d.count > 0 ? `<span class="bar-count">${d.count}</span>` : ''}
+          </div>
+        </div>
+        <div class="bar-pct">${pct}%</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function countByField(field) {
+  const map = {};
+  window.allGraduates.forEach(g => {
+    const v = (g[field] || '').trim();
+    if (!v) return;
+    map[v] = (map[v] || 0) + 1;
+  });
+  const total = window.allGraduates.length;
+  return Object.entries(map)
+    .sort((a, b) => b[1] - a[1])
+    .map(([label, count]) => ({ label, count, total }));
+}
+
+// Combined: count all unique notes+impact values together
+function countCombinedImpact() {
+  const map = {};
+  window.allGraduates.forEach(g => {
+    const vals = getCombinedImpact(g);
+    vals.forEach(v => {
+      if (v) map[v] = (map[v] || 0) + 1;
+    });
+  });
+  const total = window.allGraduates.length;
+  return Object.entries(map)
+    .sort((a, b) => b[1] - a[1])
+    .map(([label, count]) => ({ label, count, total }));
+}
+
+function buildCharts() {
+  buildChart('chart-whattoday', countByField('whatToday'));
+  buildChart('chart-impact',    countCombinedImpact());   // merged notes + impact
+  buildChart('chart-service',   countByField('serviceStatus'));
+}
+
+function switchTab(tab) {
+  activeTab = tab;
+  ['whattoday','impact','service'].forEach(t => {
+    document.getElementById('chart-' + t).style.display = t === tab ? 'block' : 'none';
+    document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+  });
+}
+
+// ─── FILTERS ─────────────────────────────────────────────────────────────────
+
+function populateSelect(id, values) {
+  const el = document.getElementById(id);
+  const first = el.options[0];
+  el.innerHTML = '';
+  el.appendChild(first);
+  [...new Set(values)].filter(Boolean).sort().forEach(v => {
+    const o = document.createElement('option');
+    o.value = v; o.textContent = v;
+    el.appendChild(o);
+  });
+}
+
+function buildFilterOptions() {
+  const all = window.allGraduates;
+  // combined impact+notes values for filter
+  const allImpactVals = [];
+  all.forEach(g => getCombinedImpact(g).forEach(v => allImpactVals.push(v)));
+  populateSelect('filter-school',    all.map(g => g.boardName));
+  populateSelect('filter-whattoday', all.map(g => g.whatToday).filter(Boolean));
+  populateSelect('filter-impact',    allImpactVals);
+  populateSelect('filter-notes',     all.map(g => g.notes).filter(Boolean));
+  populateSelect('filter-year',      all.map(g => g.year).filter(Boolean));
+}
+
+function applyFilters() {
+  const search    = (document.getElementById('search-name').value || '').trim().toLowerCase();
+  const school    = document.getElementById('filter-school').value;
+  const whattoday = document.getElementById('filter-whattoday').value;
+  const impact    = document.getElementById('filter-impact').value;
+  const notes     = document.getElementById('filter-notes').value;
+  const year      = document.getElementById('filter-year').value;
+
+  filteredGraduates = window.allGraduates.filter(g => {
+    if (search && !(g.name.toLowerCase().includes(search) || g.lastName.toLowerCase().includes(search))) return false;
+    if (school    && g.boardName !== school)    return false;
+    if (whattoday && !(g.whatToday||'').includes(whattoday)) return false;
+    // impact filter checks both impact AND notes columns
+    if (impact && !getCombinedImpact(g).some(v => v.includes(impact))) return false;
+    if (notes  && !(g.notes||'').includes(notes)) return false;
+    if (year   && g.year !== year) return false;
+    return true;
+  });
+
+  currentPage = 1;
+  document.getElementById('results-count').textContent = `${filteredGraduates.length} תוצאות`;
+  renderTable();
+  renderPagination();
+}
+
+function clearFilters() {
+  document.getElementById('search-name').value = '';
+  ['filter-school','filter-whattoday','filter-impact','filter-notes','filter-year'].forEach(id => {
+    document.getElementById(id).selectedIndex = 0;
+  });
+  applyFilters();
+}
+
+// ─── TABLE RENDER ────────────────────────────────────────────────────────────
+
+function formatDate(raw) {
+  if (!raw || raw.trim() === '') return '—';
+  // raw might be YYYY-MM-DD or similar
+  const m = raw.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if (m) return `${m[3]}/${m[2]}/${m[1]}`;
+  return raw;
+}
+
+function renderTable() {
+  const tbody = document.getElementById('grad-table-body');
+  tbody.innerHTML = '';
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const slice = filteredGraduates.slice(start, start + PAGE_SIZE);
+
+  if (slice.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#666;padding:32px;">אין תוצאות</td></tr>';
+    return;
+  }
+
+  slice.forEach(g => {
+    const url = `https://hopa-org.monday.com/boards/${g.boardId}/pulses/${g.id}`;
+    const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.title = 'פתח ב-Monday.com';
+    tr.onclick = () => window.open(url, '_blank');
+    const fullName = [g.name, g.lastName].filter(Boolean).join(' ').trim() || '—';
+    // Build combined tags for impact+notes
+    const combined = getCombinedImpact(g);
+    const tagsHtml = combined.length
+      ? combined.map(v => `<span style="display:inline-block;background:#FFF9C4;padding:2px 6px;border-radius:4px;font-size:11px;margin:1px;">${escHtml(v)}</span>`).join('')
+      : '<span style="color:#bbb">—</span>';
+
+    tr.innerHTML = `
+      <td style="font-weight:600;">${escHtml(fullName)}</td>
+      <td>${escHtml(g.boardName)}</td>
+      <td>${g.whatToday ? `<span style="background:#F0F0F0;padding:2px 7px;border-radius:4px;font-size:12px;">${escHtml(g.whatToday)}</span>` : '<span style="color:#bbb">—</span>'}</td>
+      <td style="max-width:220px;white-space:normal;">${tagsHtml}</td>
+      <td style="color:#444;">${formatDate(g.lastTalk)}</td>
+      <td style="color:#444;">${formatDate(g.nextTalk)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── PAGINATION ──────────────────────────────────────────────────────────────
+
+function renderPagination() {
+  const total = filteredGraduates.length;
+  const pages = Math.ceil(total / PAGE_SIZE);
+  const el = document.getElementById('pagination');
+  el.innerHTML = '';
+  if (pages <= 1) return;
+
+  const addBtn = (label, page, disabled, isActive) => {
+    const btn = document.createElement('button');
+    btn.className = 'page-btn' + (isActive ? ' active' : '');
+    btn.textContent = label;
+    btn.disabled = disabled;
+    if (!disabled && !isActive) btn.onclick = () => { currentPage = page; renderTable(); renderPagination(); };
+    el.appendChild(btn);
+  };
+
+  addBtn('‹', currentPage - 1, currentPage === 1, false);
+
+  // Window of pages
+  let start = Math.max(1, currentPage - 3);
+  let end = Math.min(pages, currentPage + 3);
+  if (start > 1) { addBtn('1', 1, false, false); if (start > 2) { const d = document.createElement('span'); d.textContent='...'; d.style.cssText='padding:0 4px;color:#666;'; el.appendChild(d); } }
+  for (let p = start; p <= end; p++) addBtn(p, p, false, p === currentPage);
+  if (end < pages) { if (end < pages - 1) { const d = document.createElement('span'); d.textContent='...'; d.style.cssText='padding:0 4px;color:#666;'; el.appendChild(d); } addBtn(pages, pages, false, false); }
+
+  addBtn('›', currentPage + 1, currentPage === pages, false);
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', () => {
+  initProgressList();
+  startFetch();
+});
+</script>
+</body>
+</html>
