@@ -222,9 +222,46 @@
             <p id="st-live-pages" class="text-[10px] text-[#4ade80]/40 mt-1 truncate"></p>
           </div>
         </div>
+        <!-- Age breakdown -->
+        <div class="grid grid-cols-2 gap-4 mb-5">
+          <div class="bg-white rounded-2xl p-4 border border-[#E5E5E5] flex items-center justify-between">
+            <div><p class="text-xs text-[#999] mb-1">נוער 14–18</p><p id="st-y1418" class="text-2xl font-black">—</p><p class="text-xs text-[#999] mt-0.5">מענים רלוונטיים</p></div>
+            <div class="w-2 h-10 rounded-full bg-black"></div>
+          </div>
+          <div class="bg-white rounded-2xl p-4 border border-[#E5E5E5] flex items-center justify-between">
+            <div><p class="text-xs text-[#999] mb-1">צעירים 18–26</p><p id="st-y1826" class="text-2xl font-black">—</p><p class="text-xs text-[#999] mt-0.5">מענים רלוונטיים</p></div>
+            <div class="w-2 h-10 rounded-full bg-[#FFF200] border border-[#ccc]"></div>
+          </div>
+        </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          <div class="bg-white rounded-2xl border border-[#E5E5E5] p-5"><h2 class="font-bold mb-4 text-sm">לפי קטגוריה</h2><div id="dash-cats" class="space-y-3"></div></div>
+          <div class="bg-white rounded-2xl border border-[#E5E5E5] p-5">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-bold text-sm">לפי קטגוריה</h2>
+              <div class="flex items-center gap-3 text-xs text-[#999]">
+                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-black inline-block"></span>14–18</span>
+                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#FFF200] inline-block border border-[#ccc]"></span>18–26</span>
+              </div>
+            </div>
+            <div id="dash-cats" class="space-y-3"></div>
+          </div>
           <div class="bg-white rounded-2xl border border-[#E5E5E5] p-5"><h2 class="font-bold mb-4 text-sm">נוספו לאחרונה</h2><div id="dash-recent" class="divide-y divide-[#F7F7F7]"></div></div>
+        </div>
+        <!-- Inquiries + Submissions -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
+          <div class="bg-white rounded-2xl border border-[#E5E5E5] p-5">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-bold text-sm flex items-center gap-2">פניות<span id="dash-inq-badge" class="bg-[#FFF200] text-black text-xs font-bold px-2 py-0.5 rounded-full hidden"></span></h2>
+              <button onclick="showView('inquiries')" class="text-xs text-[#999] hover:text-black font-medium">כל הפניות →</button>
+            </div>
+            <div id="dash-inq-list" class="divide-y divide-[#F7F7F7] text-sm text-[#bbb]">טוען...</div>
+          </div>
+          <div class="bg-white rounded-2xl border border-[#E5E5E5] p-5">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-bold text-sm flex items-center gap-2">הגשות עמותות<span id="dash-sub-badge" class="bg-[#FFF200] text-black text-xs font-bold px-2 py-0.5 rounded-full hidden"></span></h2>
+              <button onclick="showView('submissions')" class="text-xs text-[#999] hover:text-black font-medium">כל ההגשות →</button>
+            </div>
+            <div id="dash-sub-list" class="divide-y divide-[#F7F7F7] text-sm text-[#bbb]">טוען...</div>
+          </div>
         </div>
       </div>
 
@@ -956,7 +993,11 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div><label class="lbl">קטגוריה</label><select id="pf-cat" onchange="updateSubcats()" class="inp bg-white"><option value="">בחר</option><option>שירות צבאי/לאומי</option><option>השכלה ופיתוח קריירה</option><option>זכויות, דיור וסיוע כלכלי</option><option>חוסן ותמיכה רגשית</option><option>אוכלוסיות יעד מגוונות</option></select></div>
-          <div><label class="lbl">תת-קטגוריה</label><select id="pf-subcat" class="inp bg-white"><option value="">בחר</option></select></div>
+          <div>
+            <label class="lbl">תת-קטגוריה</label>
+            <input id="pf-subcat" list="subcat-datalist" class="inp" placeholder="בחר או הקלד תת-קטגוריה חדשה"/>
+            <datalist id="subcat-datalist"></datalist>
+          </div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div><label class="lbl">סוג שירות</label><input id="pf-stype" class="inp"/></div>
@@ -1557,13 +1598,47 @@ const SB_URL = 'https://vhmwijzcrqjjquxomccq.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZobXdpanpjcnFqanF1eG9tY2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1Nzk0MDgsImV4cCI6MjA4OTE1NTQwOH0.rMnAcdMiPddUAoap63tMiqeQQanJoF-HDmzra7P-5Cc';
 const PER = 30;
 
-const CATS = {
-  'שירות צבאי/לאומי':          ['התנדבות לצה"ל','חיילים בודדים','מכינות ושנת שירות','מנטורים במהלך הצבא'],
-  'השכלה ופיתוח קריירה':        ['הכוונה תעסוקתית','הנדסאים ועתודאים','השלמת בגרויות','לימודי יג-יד','מלגות לימודים','מרכזי צעירים','פתיחת עסק'],
-  'זכויות, דיור וסיוע כלכלי':  ['הלנת חירום','זכויות חיילים משוחררים','סיוע כלכלי ודיור','סיוע משפטי ומיצוי זכויות'],
-  'חוסן ותמיכה רגשית':          ['טיפול בהתמכרויות','טרום הורות','מוגנות','מנטורים לחיים','סיוע רפואי ורגשי'],
-  'אוכלוסיות יעד מגוונות':      ['חרבות ברזל','יוצאי החברה החרדית','קהילה אתיופית','קהילה להט"בית'],
+// מקור אמת אחד — כולל קישורים לאתר הופה
+const CATS_FULL = {
+  'שירות צבאי/לאומי': { subs: [
+    { name: 'חיילים בודדים',           url: 'https://hopa.org.il/servises/חיילים-בודדים/' },
+    { name: 'מכינות ושנת שירות',       url: 'https://hopa.org.il/servises/מכינות-ושנת-שירות/' },
+    { name: 'מנטורים במהלך הצבא',      url: 'https://hopa.org.il/servises/מנטורים-במהלך-הצבא/' },
+    { name: 'התנדבות לצה"ל',           url: 'https://hopa.org.il/servises/התנדבות-לצהל/' },
+  ]},
+  'השכלה ופיתוח קריירה': { subs: [
+    { name: 'הכוונה תעסוקתית',         url: 'https://hopa.org.il/servises/הכוונה-תעסוקתית-ולימודית/' },
+    { name: 'הנדסאים ועתודאים',        url: 'https://hopa.org.il/servises/עתודאי/' },
+    { name: 'השלמת בגרויות',           url: 'https://hopa.org.il/servises/השלמת-בגרויות/' },
+    { name: 'לימודי יג-יד',            url: 'https://hopa.org.il/servises/לימודי-יג-יד/' },
+    { name: 'מלגות לימודים',           url: 'https://hopa.org.il/servises/מלגות-לימודים/' },
+    { name: 'מרכזי צעירים',            url: 'https://hopa.org.il/servises/מרכזי-צעירים-ברחבי-הארץ/' },
+    { name: 'פתיחת עסק',               url: 'https://hopa.org.il/servises/פתיחת-עסק/' },
+  ]},
+  'זכויות, דיור וסיוע כלכלי': { subs: [
+    { name: 'הלנת חירום',              url: 'https://hopa.org.il/servises/הלנת-חירום/' },
+    { name: 'זכויות חיילים משוחררים',  url: 'https://hopa.org.il/servises/זכויות-חיילים-משוחררים/' },
+    { name: 'סיוע כלכלי ודיור',        url: 'https://hopa.org.il/servises/סיוע-כלכלי-ודיור/' },
+    { name: 'סיוע משפטי ומיצוי זכויות',url: 'https://hopa.org.il/servises/סיוע-משפטי-ומיצוי-זכויות/' },
+  ]},
+  'חוסן ותמיכה רגשית': { subs: [
+    { name: 'טיפול בהתמכרויות',        url: 'https://hopa.org.il/servises/טיפול-בהתמכרויות/' },
+    { name: 'טרום הורות',              url: 'https://hopa.org.il/servises/טרום-הורות/' },
+    { name: 'מוגנות',                  url: 'https://hopa.org.il/servises/מוגנות/' },
+    { name: 'מנטורים לחיים',           url: 'https://hopa.org.il/servises/מנטורים-לחיים/' },
+    { name: 'סיוע רפואי ורגשי',        url: 'https://hopa.org.il/servises/סיוע-רפואי-ורגשי/' },
+  ]},
+  'אוכלוסיות יעד מגוונות': { subs: [
+    { name: 'חרבות ברזל',              url: 'https://hopa.org.il/servises/צעירי-נפגעי-מלחמת-חרבות-ברזל/' },
+    { name: 'יוצאי החברה החרדית',      url: 'https://hopa.org.il/servises/יוצאי-ויוצאות-החברה-החרדית/' },
+    { name: 'קהילה אתיופית',           url: 'https://hopa.org.il/servises/קהילה-אתיופית/' },
+    { name: 'קהילה להט"בית',           url: 'https://hopa.org.il/servises/צעירים-וצעירות-מהקהילה-הלהטבית/' },
+  ]},
 };
+// אובייקט נגזר לשימוש קיים: קטגוריה → מערך שמות
+const CATS = Object.fromEntries(
+  Object.entries(CATS_FULL).map(([cat,{subs}]) => [cat, subs.map(s=>s.name)])
+);
 
 const POPS = ['אזרחים ותיקים','בדואים','בעלי מוגבלויות','דור ראשון להשכלה גבוהה','דרוזים','הנדסאים וטכנאים','חיילים בודדים','חיילים משוחררים','יוצאי אתיופיה','יוצאי החברה החרדית','כלל הסטודנטים','להט"ב','לומדים בהכשרה מקצועית','לומדים בחיפה','מגזר דתי-לאומי','מגזר חרדי','מגזר ערבי','מוסלמים','מפונים','מצב סוציו-אקונומי נמוך','משרתי מילואים','משרתי שירות לאומי/אזרחי','נוצרים','נפגעי מלחמה/חרבות ברזל','נשים בלבד','סטודנטים לתואר מתקדם','סטודנטים לתואר ראשון','עולים חדשים','עתודאים',"צ'רקסים",'צעירים בסכנת נשירה','צעירים ללא עורף משפחתי','תושבי עוטף/חבל תקומה','תושבי פריפריה','תושבי/לומדים בירושלים','תלמידי מכינה קדם-אקדמית'];
 
@@ -1841,16 +1916,31 @@ function updateDash() {
   setTxt('sb-all-badge', tp+ts); setTxt('sb-progs-badge', tp); setTxt('sb-schols-badge', ts);
   setTxt('sb-arts-badge', allArts.length||'');
 
-  const counts = {};
-  allProgs.forEach(p => { const c = p.category||'ללא קטגוריה'; counts[c]=(counts[c]||0)+1; });
-  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
-  const max = sorted[0]?.[1]||1;
-  $('dash-cats').innerHTML = sorted.map(([c,n]) => `
-    <div class="flex items-center gap-3">
-      <span class="text-xs font-medium w-44 truncate">${h(c)}</span>
-      <div class="flex-1 bg-[#F7F7F7] rounded-full h-2"><div class="bg-[#FFF200] h-2 rounded-full" style="width:${Math.round(n/max*100)}%"></div></div>
-      <span class="text-xs font-bold w-6 text-left">${n}</span>
-    </div>`).join('');
+  const y1418 = allProgs.filter(p => p.age_track==='1418'||p.age_track==='1426').length;
+  const y1826 = allProgs.filter(p => p.age_track==='1826'||p.age_track==='1426').length;
+  setTxt('st-y1418', y1418); setTxt('st-y1826', y1826);
+
+  const counts1418 = {}, counts1826 = {};
+  allProgs.forEach(p => {
+    const c = p.category||'ללא קטגוריה';
+    if (p.age_track==='1418'||p.age_track==='1426') counts1418[c]=(counts1418[c]||0)+1;
+    if (p.age_track==='1826'||p.age_track==='1426') counts1826[c]=(counts1826[c]||0)+1;
+  });
+  const allCats = [...new Set(allProgs.map(p=>p.category||'ללא קטגוריה'))];
+  const sorted = allCats.map(c=>[c,(counts1418[c]||0)+(counts1826[c]||0)]).sort((a,b)=>b[1]-a[1]);
+  const max = Math.max(...sorted.map(([c])=>Math.max(counts1418[c]||0,counts1826[c]||0)),1);
+  $('dash-cats').innerHTML = sorted.map(([c]) => {
+    const n14=counts1418[c]||0, n18=counts1826[c]||0;
+    return `<div class="space-y-1">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-medium truncate max-w-[160px]">${h(c)}</span>
+        <span class="text-xs text-[#aaa]">${n14} / ${n18}</span>
+      </div>
+      <div class="flex gap-1.5">
+        <div class="flex-1 bg-[#F7F7F7] rounded-full h-2.5"><div class="bg-black h-2.5 rounded-full" style="width:${Math.round(n14/max*100)}%"></div></div>
+        <div class="flex-1 bg-[#F7F7F7] rounded-full h-2.5"><div class="bg-[#FFF200] h-2.5 rounded-full border-r border-[#ccc]" style="width:${Math.round(n18/max*100)}%"></div></div>
+      </div>
+    </div>`;}).join('');
 
   const recent = [...allProgs].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,8);
   $('dash-recent').innerHTML = recent.map(p=>`
@@ -1861,6 +1951,38 @@ function updateDash() {
       </div>
       <button onclick="editProg(${p.id})" class="text-xs text-[#999] hover:text-black ml-2">עריכה</button>
     </div>`).join('');
+
+  loadDashInquiries();
+}
+
+async function loadDashInquiries() {
+  const [inqRes, subRes] = await Promise.all([
+    sb.from('inquiries').select('*').order('created_at',{ascending:false}).limit(5),
+    sb.from('submissions').select('*').order('created_at',{ascending:false}).limit(5)
+  ]);
+  const inqs = inqRes.data||[], subs = subRes.data||[];
+  const newInqs = inqs.filter(i=>i.status==='new').length;
+  const newSubs = subs.filter(s=>s.status==='new'||!s.status).length;
+  if(newInqs>0){$('dash-inq-badge').textContent=newInqs;$('dash-inq-badge').classList.remove('hidden');}
+  if(newSubs>0){$('dash-sub-badge').textContent=newSubs;$('dash-sub-badge').classList.remove('hidden');}
+  $('dash-inq-list').innerHTML = inqs.length ? inqs.map(i=>`
+    <div class="flex items-center justify-between py-2.5 cursor-pointer hover:bg-[#F7F7F7] -mx-1 px-1 rounded-lg" onclick="showView('inquiries')">
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="w-1.5 h-1.5 rounded-full flex-shrink-0 ${i.status==='new'?'bg-[#FFF200] border border-yellow-400':'bg-[#ddd]'}"></span>
+        <span class="font-medium truncate">${h(i.name||i.full_name||'אנונימי')}</span>
+        ${i.status==='new'?'<span class="text-xs bg-[#FFF200] text-black px-1.5 py-0.5 rounded-full font-bold flex-shrink-0">חדש</span>':''}
+      </div>
+      <span class="text-xs text-[#aaa] flex-shrink-0 mr-2">${new Date(i.created_at).toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit'})}</span>
+    </div>`).join('') : '<p class="text-[#bbb] text-sm py-4 text-center">אין פניות</p>';
+  $('dash-sub-list').innerHTML = subs.length ? subs.map(s=>`
+    <div class="flex items-center justify-between py-2.5 cursor-pointer hover:bg-[#F7F7F7] -mx-1 px-1 rounded-lg" onclick="showView('submissions')">
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="w-1.5 h-1.5 rounded-full flex-shrink-0 ${!s.status||s.status==='new'?'bg-[#FFF200] border border-yellow-400':'bg-[#ddd]'}"></span>
+        <span class="font-medium truncate">${h(s.name||s.org_name||'הגשה חדשה')}</span>
+        ${(!s.status||s.status==='new')?'<span class="text-xs bg-[#FFF200] text-black px-1.5 py-0.5 rounded-full font-bold flex-shrink-0">חדש</span>':''}
+      </div>
+      <span class="text-xs text-[#aaa] flex-shrink-0 mr-2">${new Date(s.created_at).toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit'})}</span>
+    </div>`).join('') : '<p class="text-[#bbb] text-sm py-4 text-center">אין הגשות</p>';
 }
 
 // ─── View modes & Export ──────────────────────
@@ -2232,9 +2354,20 @@ async function toggleProgStatus(id,cur) {
   toast(ns==='active'?'הוגדר כפעיל':'הוגדר כלא פעיל'); await loadProgs();
 }
 
-function updateSubcats(sel='') {
-  const cat=$('pf-cat').value, opts=CATS[cat]||[];
-  $('pf-subcat').innerHTML='<option value="">בחר</option>'+opts.map(o=>`<option ${o===sel?'selected':''}>${h(o)}</option>`).join('');
+async function updateSubcats(sel='') {
+  const cat = $('pf-cat').value;
+  const staticOpts = CATS[cat] || [];
+  // טוען גם תתי-קטגוריות שנשמרו בסופאבייס (כולל חדשות שהוזנו ידנית)
+  let dynOpts = [];
+  if (cat) {
+    const { data } = await sb.from('programs').select('subcategory').eq('category', cat).not('subcategory','is',null);
+    if (data) dynOpts = [...new Set(data.map(r=>r.subcategory).filter(Boolean))];
+  }
+  const allOpts = [...new Set([...staticOpts, ...dynOpts])].sort();
+  const dl = $('subcat-datalist');
+  if (dl) dl.innerHTML = allOpts.map(o=>`<option value="${h(o)}">`).join('');
+  const inp = $('pf-subcat');
+  if (inp) inp.value = sel || '';
 }
 
 // ─── Program Image Upload ─────────────────────
@@ -3606,19 +3739,14 @@ function startLiveTracking() {
 // ══════════════════════════════════════════════
 // ─── CATEGORIES ───────────────────────────────
 // ══════════════════════════════════════════════
-const CATS_DATA = {
-  'שירות צבאי/לאומי': ['חיילים בודדים','שירות לאומי/אזרחי','גיוס ושחרור','פנסיה ביטחונית','התנדבות לצה"ל'],
-  'השכלה ופיתוח קריירה': ['מלגות לימודים','לימודי יג-יד','השמה לעבודה','הכשרות מקצועיות','יזמות וסטרטאפ'],
-  'זכויות, דיור וסיוע כלכלי': ['הלוואות וסיוע כלכלי','דיור','הלנת חירום','ביטוח לאומי','סיוע משפטי'],
-  'חוסן ותמיכה רגשית': ['בריאות הנפש','קהילה ושייכות','ספורט ופנאי','מניעת נשירה'],
-  'אוכלוסיות יעד מגוונות': ['יוצאי אתיופיה','ערבים','חרדים','LGBTQ+','עולים חדשים','נכים ומוגבלויות']
-};
+function copySubcatUrl(url) {
+  navigator.clipboard.writeText(url).then(() => toast('קישור הועתק ✓'));
+}
 
 function renderCategories() {
   const cont = $('cats-main-list');
   cont.innerHTML = '';
-  Object.entries(CATS_DATA).forEach(([cat, subs]) => {
-    const counts = {}; // we'll load live counts from programs
+  Object.entries(CATS_FULL).forEach(([cat, {subs}]) => {
     const card = document.createElement('div');
     card.className = 'bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden';
     card.innerHTML = `
@@ -3627,10 +3755,22 @@ function renderCategories() {
         <span id="cat-count-${h(cat.replace(/[^א-ת\w]/g,'_'))}" class="text-xs bg-black text-white px-2.5 py-1 rounded-full">—</span>
       </div>
       <div class="divide-y divide-[#F7F7F7]">
-        ${subs.map(s=>`<div class="flex items-center justify-between px-5 py-2.5 hover:bg-[#FAFAFA]">
-          <span class="text-sm">${h(s)}</span>
-          <span id="subcat-count-${h((cat+s).replace(/[^א-ת\w]/g,'_'))}" class="text-xs text-[#999]">—</span>
-        </div>`).join('')}
+        ${subs.map(s=>`
+          <div class="flex items-center justify-between px-5 py-2.5 hover:bg-[#FAFAFA] group">
+            <div class="flex items-center gap-2">
+              <span class="text-sm">${h(s.name)}</span>
+              ${s.url ? `<a href="${h(s.url)}" target="_blank" title="פתח בהופה" class="opacity-0 group-hover:opacity-100 transition-opacity text-[#999] hover:text-black">
+                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </a>` : ''}
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="subcat-count-${h((cat+s.name).replace(/[^א-ת\w]/g,'_'))}" class="text-xs text-[#999]">—</span>
+              ${s.url ? `<button onclick="copySubcatUrl('${h(s.url)}')" title="העתק קישור לשליחה" class="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-xs text-[#999] hover:text-black border border-transparent hover:border-[#E5E5E5] px-1.5 py-0.5 rounded">
+                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                קישור
+              </button>` : ''}
+            </div>
+          </div>`).join('')}
       </div>`;
     cont.appendChild(card);
   });
