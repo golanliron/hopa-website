@@ -7,345 +7,310 @@
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;overflow:hidden;}
-body{font-family:'Rubik',sans-serif;background:#fff;color:#111;direction:rtl;display:flex;flex-direction:column;}
+body{font-family:'Rubik',sans-serif;background:#fff;color:#111;direction:rtl;min-height:100vh;}
 
-/* ─── NAV ─── */
-nav{background:#000;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0;}
-.nav-logo{color:#FFF200;font-weight:900;font-size:1.1rem;letter-spacing:-.5px;}
-.nav-links{display:flex;gap:24px;}
-.nav-links a{color:#fff;font-size:.82rem;font-weight:500;text-decoration:none;opacity:.75;transition:opacity .15s;}
-.nav-links a:hover{opacity:1;}
+/* ── NAV ── */
+.nav{background:#111;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:100;}
+.nav-logo{color:#fff;font-weight:900;font-size:1rem;letter-spacing:-.3px;}
+.nav-logo span{color:#FFF200;}
+.nav-links{display:flex;gap:28px;}
+.nav-links a{color:#fff;font-size:.82rem;font-weight:500;text-decoration:none;opacity:.6;transition:opacity .15s;}
+.nav-links a:hover,.nav-links a.active{opacity:1;}
+.nav-links a.active{border-bottom:2px solid #FFF200;padding-bottom:2px;}
 .nav-right{display:flex;align-items:center;gap:10px;}
-.spin{width:16px;height:16px;border:2px solid #444;border-top-color:#FFF200;border-radius:50%;animation:sp .7s linear infinite;display:none;}
+.spin{width:18px;height:18px;border:2px solid #333;border-top-color:#FFF200;border-radius:50%;animation:sp .7s linear infinite;display:none;}
 @keyframes sp{to{transform:rotate(360deg)}}
-.upd{color:#555;font-size:.7rem;}
-.btn-nav{background:#FFF200;color:#000;border:none;border-radius:20px;padding:6px 16px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:'Rubik',sans-serif;}
-.btn-nav:hover{background:#E6D900;}
+.btn-refresh{background:#FFF200;color:#000;border:none;border-radius:20px;padding:6px 18px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:'Rubik',sans-serif;transition:background .15s;}
+.btn-refresh:hover{background:#E6D900;}
 
-/* ─── HERO ─── */
-.hero{background:#fff;padding:28px 28px 0;flex-shrink:0;}
-.hero-top{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-.age-pill{padding:6px 18px;border-radius:30px;font-size:.82rem;font-weight:600;border:1.5px solid #E5E5E5;cursor:pointer;transition:all .15s;font-family:'Rubik',sans-serif;background:#fff;color:#555;}
-.age-pill.on{background:#FFF200;border-color:#FFF200;color:#000;font-weight:700;}
-.hero-title{font-size:2.1rem;font-weight:900;line-height:1.15;margin-bottom:6px;}
-.hero-title span{color:#FFF200;}
-.hero-sub{font-size:.88rem;color:#666;margin-bottom:18px;}
-.search-row{display:flex;gap:10px;align-items:center;margin-bottom:0;}
-.search-bar{display:flex;align-items:center;gap:10px;border:1.5px solid #E5E5E5;border-radius:12px;padding:10px 16px;flex:1;max-width:540px;background:#fff;transition:border .15s;}
-.search-bar:focus-within{border-color:#111;}
-.search-bar input{border:none;outline:none;font-size:.9rem;font-family:'Rubik',sans-serif;flex:1;}
-.btn-search{background:#FFF200;color:#000;border:none;border-radius:8px;padding:10px 20px;font-weight:700;font-size:.85rem;cursor:pointer;font-family:'Rubik',sans-serif;white-space:nowrap;}
+/* ── HERO ── */
+.hero{background:#fff;padding:40px 32px 28px;border-bottom:1px solid #F0F0F0;}
+.age-selector{display:flex;gap:8px;margin-bottom:20px;}
+.age-pill{padding:7px 20px;border-radius:30px;font-size:.82rem;font-weight:600;border:1.5px solid #E5E5E5;cursor:pointer;color:#888;background:#fff;transition:all .2s;font-family:'Rubik',sans-serif;}
+.age-pill.active{background:#FFF200;border-color:#FFF200;color:#000;}
+.hero-title{font-size:2.4rem;font-weight:900;line-height:1.15;margin-bottom:8px;color:#111;}
+.hero-title .yellow{color:#FFF200;}
+.hero-sub{font-size:.9rem;color:#777;margin-bottom:24px;max-width:500px;line-height:1.6;}
+.search-wrap{display:flex;align-items:center;gap:10px;max-width:580px;}
+.search-input-box{flex:1;display:flex;align-items:center;gap:10px;border:1.5px solid #E5E5E5;border-radius:12px;padding:11px 16px;background:#fff;transition:border .15s;}
+.search-input-box:focus-within{border-color:#111;}
+.search-input-box svg{flex-shrink:0;color:#aaa;}
+.search-input-box input{border:none;outline:none;font-size:.9rem;font-family:'Rubik',sans-serif;width:100%;background:transparent;}
+.btn-search{background:#FFF200;color:#000;border:none;border-radius:10px;padding:11px 24px;font-weight:700;font-size:.88rem;cursor:pointer;font-family:'Rubik',sans-serif;white-space:nowrap;transition:background .15s;}
 .btn-search:hover{background:#E6D900;}
 
-/* ─── STATS STRIP ─── */
-.stats-strip{display:flex;align-items:center;gap:24px;padding:14px 28px;border-bottom:1px solid #E5E5E5;background:#fff;flex-shrink:0;}
-.stat-item{display:flex;align-items:center;gap:7px;font-size:.8rem;color:#555;}
-.stat-num{font-weight:800;color:#111;font-size:.88rem;}
-.stat-ico{font-size:.9rem;}
-.stat-div{width:1px;height:16px;background:#E5E5E5;}
+/* ── CTA BANNER ── */
+.cta-banner{background:#FFF200;margin:0 32px 0;border-radius:16px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:24px;}
+.cta-ico{background:#000;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cta-label{font-size:.68rem;font-weight:700;color:#00000066;margin-bottom:2px;}
+.cta-title{font-weight:800;font-size:.9rem;color:#000;}
+.cta-btn{background:#000;color:#fff;border:none;border-radius:9px;padding:9px 18px;font-weight:700;font-size:.8rem;cursor:pointer;white-space:nowrap;font-family:'Rubik',sans-serif;transition:background .15s;}
+.cta-btn:hover{background:#333;}
 
-/* ─── FILTER BAR ─── */
-.filter-bar{display:flex;align-items:center;gap:8px;padding:12px 28px;border-bottom:1px solid #F0F0F0;background:#fff;flex-wrap:wrap;flex-shrink:0;}
-.pill{padding:7px 16px;border-radius:30px;font-size:.78rem;font-weight:500;border:1.5px solid #E5E5E5;cursor:pointer;color:#555;white-space:nowrap;transition:all .12s;font-family:'Rubik',sans-serif;background:#fff;display:flex;align-items:center;gap:5px;}
-.pill.on{background:#111;border-color:#111;color:#fff;font-weight:600;}
-.pill:hover:not(.on){border-color:#999;background:#F7F7F7;}
-.pill .ico{font-size:.8rem;}
-.filter-right{margin-right:auto;display:flex;align-items:center;gap:8px;}
-.view-toggle{display:flex;border:1.5px solid #E5E5E5;border-radius:8px;overflow:hidden;}
-.view-btn{padding:5px 10px;font-size:.8rem;cursor:pointer;border:none;background:#fff;color:#888;font-family:'Rubik',sans-serif;transition:all .12s;}
-.view-btn.on{background:#111;color:#fff;}
+/* ── STATS STRIP ── */
+.stats{display:flex;align-items:center;gap:32px;padding:14px 32px;border-bottom:1px solid #F0F0F0;background:#fff;}
+.stat{display:flex;align-items:center;gap:7px;font-size:.8rem;color:#666;}
+.stat-n{font-weight:800;color:#111;font-size:.9rem;}
+.stat-ico{font-size:.85rem;}
+.stat-sep{width:1px;height:16px;background:#E5E5E5;}
 
-/* ─── TABS ─── */
-.tabs{background:#fff;border-bottom:1px solid #E5E5E5;display:flex;padding:0 28px;gap:2px;flex-shrink:0;}
-.tab{padding:10px 18px;font-size:.8rem;font-weight:600;cursor:pointer;color:#888;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:'Rubik',sans-serif;}
+/* ── FILTERS ── */
+.filters{display:flex;align-items:center;gap:8px;padding:14px 32px;border-bottom:1px solid #F0F0F0;flex-wrap:wrap;background:#fff;position:sticky;top:56px;z-index:50;}
+.fpill{display:flex;align-items:center;gap:6px;padding:8px 18px;border-radius:30px;font-size:.78rem;font-weight:500;border:1.5px solid #E5E5E5;cursor:pointer;color:#555;background:#fff;white-space:nowrap;transition:all .15s;font-family:'Rubik',sans-serif;}
+.fpill.on{background:#111;border-color:#111;color:#fff;font-weight:600;}
+.fpill:hover:not(.on){border-color:#999;background:#F9F9F9;}
+.fpill-ico{font-size:.8rem;}
+.f-right{margin-right:auto;display:flex;align-items:center;gap:8px;}
+.upd-txt{font-size:.74rem;color:#aaa;}
+.res-count{background:#F0F0F0;color:#666;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;}
+
+/* ── TABS ── */
+.tabs-bar{background:#fff;border-bottom:1px solid #F0F0F0;display:flex;padding:0 32px;gap:4px;}
+.tab{padding:11px 18px;font-size:.8rem;font-weight:600;cursor:pointer;color:#888;border-bottom:2.5px solid transparent;margin-bottom:-1px;background:none;border-top:none;border-left:none;border-right:none;font-family:'Rubik',sans-serif;transition:all .15s;white-space:nowrap;}
 .tab.on{color:#111;border-bottom-color:#FFF200;}
-.tab-count{background:#F0F0F0;color:#666;font-size:.65rem;font-weight:700;padding:1px 6px;border-radius:20px;margin-right:4px;}
-.tab.on .tab-count{background:#FFF200;color:#000;}
-.res-info{margin-right:auto;font-size:.72rem;color:#aaa;align-self:center;padding-left:16px;}
+.tab-badge{background:#F0F0F0;color:#666;font-size:.65rem;font-weight:700;padding:1px 7px;border-radius:20px;margin-right:4px;}
+.tab.on .tab-badge{background:#FFF200;color:#000;}
 
-/* ─── BODY ─── */
-.body-area{display:flex;flex:1;overflow:hidden;}
+/* ── CARDS GRID ── */
+.main-content{padding:24px 32px;background:#F7F7F7;min-height:calc(100vh - 56px);}
+.section-content{display:none;}
+.section-content.on{display:block;}
 
-/* ─── TABLE ─── */
-.tbl-wrap{flex:1;overflow:auto;}
-.tbl-pane{display:none;height:100%;flex-direction:column;}
-.tbl-pane.on{display:flex;}
-table{width:100%;border-collapse:collapse;font-size:.79rem;}
-thead th{background:#111;color:#fff;padding:9px 12px;text-align:right;font-weight:600;white-space:nowrap;position:sticky;top:0;z-index:10;font-size:.73rem;letter-spacing:.01em;}
-thead th:first-child{position:sticky;right:0;z-index:11;}
-tbody tr{border-bottom:1px solid #F5F5F5;transition:background .1s;cursor:pointer;}
-tbody tr:hover td{background:#FFFDE7;}
-tbody tr.sel td{background:#FFF9C4;}
-tbody tr.sel{border-right:3px solid #FFF200;}
-tbody td{padding:8px 12px;vertical-align:middle;}
-tbody td:first-child{position:sticky;right:0;background:#fff;font-weight:700;white-space:nowrap;}
-tbody tr:hover td:first-child{background:#FFFDE7;}
-tbody tr.sel td:first-child{background:#FFF9C4;}
-tbody tr.overdue td{background:#FFF8F8!important;}
-tbody tr.overdue td:first-child{background:#FFF8F8!important;}
-.nd{color:#ccc;font-style:italic;}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+.grad-card{background:#fff;border:1.5px solid #E5E5E5;border-radius:14px;padding:16px;cursor:pointer;transition:all .2s;position:relative;}
+.grad-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.09);border-color:#ccc;transform:translateY(-1px);}
+.grad-card.selected{border-color:#FFF200;box-shadow:0 0 0 2px #FFF20044;}
+.grad-card.overdue{border-right:3px solid #FFB3B3;}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.card-avatar{width:40px;height:40px;border-radius:50%;background:#FFF200;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.95rem;color:#000;flex-shrink:0;}
+.card-name{font-weight:800;font-size:.9rem;line-height:1.3;flex:1;margin-right:8px;}
+.card-year{font-size:.7rem;color:#aaa;margin-top:1px;}
+.card-meta{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid #F5F5F5;}
+.card-phone{font-size:.74rem;color:#888;direction:ltr;unicode-bidi:isolate;}
+.card-date{font-size:.7rem;color:#aaa;}
+.card-overdue-date{color:#c00;font-weight:700;}
+.card-link{color:#999;text-decoration:none;font-size:.8rem;transition:color .15s;}
+.card-link:hover{color:#000;}
+.no-results{text-align:center;padding:60px 20px;color:#bbb;font-size:.9rem;grid-column:1/-1;}
 
-/* ─── BADGES ─── */
-.b{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.66rem;font-weight:600;white-space:nowrap;}
+/* ── BADGES ── */
+.b{display:inline-block;padding:3px 9px;border-radius:20px;font-size:.68rem;font-weight:600;white-space:nowrap;}
 .bg{background:#E6F9EE;color:#1a7a3c;}
 .bb{background:#EEF3FF;color:#2244bb;}
 .bo{background:#FFF3E0;color:#b45309;}
 .br{background:#FFE8E8;color:#c00;}
 .by{background:#FFF200;color:#000;}
-.bgr{background:#F0F0F0;color:#555;}
-.bpu{background:#F3E8FF;color:#7c3aed;}
+.bgr{background:#F0F0F0;color:#666;}
 
-/* ─── PAGINATION ─── */
-.pg-bar{background:#fff;border-top:1px solid #F0F0F0;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.pg-btn{border:1.5px solid #E5E5E5;background:#fff;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:.76rem;color:#333;font-family:'Rubik',sans-serif;transition:all .12s;}
-.pg-btn:hover:not(:disabled){background:#FFF200;border-color:#FFF200;}
-.pg-btn:disabled{opacity:.3;cursor:not-allowed;}
-.pg-btn.curr{background:#111;color:#fff;border-color:#111;}
-.pg-info{font-size:.72rem;color:#aaa;}
-.pg-nums{display:flex;gap:3px;}
-
-/* ─── SIDE PANEL ─── */
-.side{width:360px;flex-shrink:0;background:#fff;border-right:1px solid #E5E5E5;display:flex;flex-direction:column;overflow:hidden;}
-.side-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;padding:32px 24px;color:#ccc;}
-.side-empty-ico{font-size:2.5rem;margin-bottom:12px;}
-.side-empty-title{font-weight:600;color:#aaa;margin-bottom:4px;font-size:.9rem;}
-.side-scroll{flex:1;overflow-y:auto;}
-.side-head{background:#111;padding:18px 18px 16px;}
-.s-avatar{width:44px;height:44px;background:#FFF200;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem;color:#000;flex-shrink:0;}
-.s-name{color:#fff;font-weight:800;font-size:.95rem;line-height:1.3;}
-.s-sub{color:#666;font-size:.71rem;margin-top:2px;}
-.side-body{padding:16px 18px;}
-.sec{margin-bottom:18px;}
-.sec-hd{font-size:.64rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.08em;margin-bottom:9px;display:flex;align-items:center;gap:5px;}
-.sec-hd::before{content:'';width:3px;height:10px;background:#FFF200;border-radius:2px;display:inline-block;}
-.info-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.ii .l{font-size:.62rem;color:#bbb;margin-bottom:1px;font-weight:600;letter-spacing:.03em;}
-.ii .v{font-size:.8rem;font-weight:500;}
-.nbox{background:#F7F7F7;border-radius:9px;padding:9px 11px;font-size:.78rem;line-height:1.55;margin-top:5px;}
-.maan-card{background:#F7F7F7;border-radius:10px;padding:10px 12px;margin-bottom:6px;}
-.maan-nm{font-weight:700;font-size:.8rem;}
-.maan-cat{font-size:.66rem;color:#888;margin-top:2px;}
-.maan-a{display:inline-block;margin-top:5px;font-size:.7rem;font-weight:700;color:#000;text-decoration:none;border-bottom:1.5px solid #FFF200;}
-.btn-mon{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:9px;background:#111;color:#fff;font-size:.78rem;font-weight:700;text-decoration:none;transition:background .15s;margin-top:6px;}
-.btn-mon:hover{background:#333;}
-.close-btn{background:none;border:none;cursor:pointer;color:#fff;font-size:1.2rem;opacity:.45;padding:0;}
+/* ── MODAL / PROFILE ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center;padding:20px;}
+.overlay.open{display:flex;}
+.modal{background:#fff;border-radius:20px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:mIn .2s ease;}
+@keyframes mIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.modal-head{background:#111;padding:22px 24px;border-radius:20px 20px 0 0;display:flex;align-items:flex-start;justify-content:space-between;}
+.m-avatar{width:48px;height:48px;background:#FFF200;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;color:#000;flex-shrink:0;}
+.m-name{color:#fff;font-weight:800;font-size:1rem;line-height:1.3;}
+.m-sub{color:#666;font-size:.74rem;margin-top:3px;}
+.close-btn{background:none;border:none;cursor:pointer;color:#fff;font-size:1.3rem;opacity:.4;line-height:1;}
 .close-btn:hover{opacity:1;}
+.modal-body{padding:20px 24px;}
+.msec{margin-bottom:20px;}
+.msec-title{font-size:.65rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:5px;}
+.msec-title::before{content:'';width:3px;height:10px;background:#FFF200;border-radius:2px;display:inline-block;}
+.info-g{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ii .l{font-size:.63rem;color:#bbb;margin-bottom:2px;font-weight:600;letter-spacing:.03em;}
+.ii .v{font-size:.83rem;font-weight:500;color:#111;}
+.notes-box{background:#F7F7F7;border-radius:10px;padding:10px 12px;font-size:.8rem;line-height:1.6;color:#333;margin-top:6px;}
+.maan-card{background:#F7F7F7;border-radius:10px;padding:10px 13px;margin-bottom:7px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.maan-nm{font-weight:700;font-size:.8rem;}
+.maan-cat{font-size:.66rem;color:#888;margin-top:1px;}
+.maan-a{font-size:.72rem;font-weight:700;color:#000;text-decoration:none;border-bottom:1.5px solid #FFF200;white-space:nowrap;flex-shrink:0;}
+.btn-mon{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:10px;background:#111;color:#fff;font-size:.8rem;font-weight:700;text-decoration:none;transition:background .15s;margin-top:4px;}
+.btn-mon:hover{background:#333;}
 
-/* ─── BIRTHDAY GRID ─── */
-.bday-section{padding:20px 28px;overflow-y:auto;}
-.bday-month-title{font-size:.68rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #F0F0F0;}
-.bday-month{margin-bottom:24px;}
-.bday-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
-.bday-card{background:#fff;border:1.5px solid #E5E5E5;border-radius:12px;padding:13px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s;}
-.bday-card:hover{box-shadow:0 3px 14px rgba(0,0,0,.08);border-color:#ccc;}
+/* ── BIRTHDAY ── */
+.bday-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
+.bday-card{background:#fff;border:1.5px solid #E5E5E5;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s;}
+.bday-card:hover{box-shadow:0 3px 14px rgba(0,0,0,.08);}
 .bday-card.today{border-color:#FFF200;box-shadow:0 0 0 2px #FFF20055;}
-.bday-box{background:#FFF200;border-radius:9px;padding:7px 9px;text-align:center;min-width:46px;flex-shrink:0;}
+.bday-box{background:#FFF200;border-radius:9px;padding:7px 10px;text-align:center;min-width:48px;flex-shrink:0;}
 .bday-d{font-size:1.3rem;font-weight:900;line-height:1;}
-.bday-m{font-size:.58rem;font-weight:700;}
+.bday-m{font-size:.6rem;font-weight:700;}
 .bday-nm{font-weight:700;font-size:.83rem;}
 .bday-days{font-size:.7rem;color:#888;margin-top:2px;}
 
-/* ─── ANALYTICS ─── */
-.analytics-section{padding:20px 28px;overflow-y:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
-.acrd{background:#fff;border:1.5px solid #E5E5E5;border-radius:12px;padding:16px;}
-.acrd-t{font-size:.68rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;}
-.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
-.bar-l{font-size:.75rem;color:#444;min-width:105px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.bar-bg{flex:1;background:#F0F0F0;border-radius:20px;height:19px;overflow:hidden;}
+/* ── ANALYTICS ── */
+.analytics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+.acrd{background:#fff;border:1.5px solid #E5E5E5;border-radius:14px;padding:18px;}
+.acrd-t{font-size:.68rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.bar-l{font-size:.76rem;color:#444;min-width:100px;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bar-bg{flex:1;background:#F0F0F0;border-radius:20px;height:18px;overflow:hidden;}
 .bar-f{height:100%;background:#FFF200;border-radius:20px;display:flex;align-items:center;padding-right:6px;font-size:.63rem;font-weight:700;color:#000;transition:width .5s;min-width:20px;}
-.bar-c{font-size:.7rem;color:#888;min-width:20px;}
+.bar-c{font-size:.7rem;color:#999;min-width:22px;}
 
-/* ─── PRIORITY ─── */
-.pri-section{padding:16px 28px;overflow-y:auto;}
-.pri-item{background:#fff;border:1.5px solid #E5E5E5;border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:6px;cursor:pointer;transition:all .12s;}
-.pri-item:hover{box-shadow:0 2px 10px rgba(0,0,0,.07);border-color:#ccc;}
-.pri-nm{font-weight:700;font-size:.85rem;flex:1;}
+/* ── PRIORITY ── */
+.pri-item{background:#fff;border:1.5px solid #E5E5E5;border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px;cursor:pointer;transition:all .15s;}
+.pri-item:hover{box-shadow:0 3px 12px rgba(0,0,0,.07);border-color:#ccc;}
+.pri-nm{font-weight:700;font-size:.87rem;flex:1;}
 
-/* ─── YELLOW CTA BANNER ─── */
-.cta-banner{background:#FFF200;border-radius:14px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:12px;}
-.cta-txt{font-weight:700;font-size:.88rem;color:#000;}
-.cta-sub{font-size:.75rem;color:#00000088;margin-top:2px;}
-.cta-btn{background:#000;color:#fff;border:none;border-radius:9px;padding:9px 18px;font-weight:700;font-size:.8rem;cursor:pointer;white-space:nowrap;font-family:'Rubik',sans-serif;}
+/* ── LOAD MORE ── */
+.load-more-wrap{text-align:center;padding:24px;}
+.btn-load{background:#fff;border:1.5px solid #E5E5E5;border-radius:30px;padding:10px 28px;font-size:.82rem;font-weight:600;cursor:pointer;font-family:'Rubik',sans-serif;transition:all .15s;color:#555;}
+.btn-load:hover{border-color:#999;background:#F9F9F9;}
 
-.empty{text-align:center;color:#bbb;padding:48px;font-size:.88rem;}
-
-@media(max-width:900px){.side{width:100%;max-width:100%;border-right:none;border-top:1px solid #E5E5E5;}.body-area{flex-direction:column;}.nav-links{display:none;}}
+@media(max-width:640px){
+  .nav-links{display:none;}
+  .hero{padding:28px 16px 20px;}
+  .cta-banner{margin:16px;}
+  .stats{padding:12px 16px;gap:16px;flex-wrap:wrap;}
+  .filters{padding:10px 16px;}
+  .tabs-bar{padding:0 16px;}
+  .main-content{padding:16px;}
+  .cards-grid{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
-  <div style="display:flex;align-items:center;gap:16px;">
-    <span class="nav-logo">הופה</span>
+<nav class="nav">
+  <div style="display:flex;align-items:center;gap:20px;">
+    <span class="nav-logo"><span>הופה</span></span>
     <div class="nav-links">
-      <a href="#">מניעת נשירה</a>
-      <a href="#" style="opacity:1;font-weight:700;border-bottom:1px solid #FFF200;">תוכנית הבוגרים</a>
       <a href="#">מענים ותוכניות</a>
+      <a href="#" class="active">תוכנית הבוגרים</a>
       <a href="#">אודות</a>
     </div>
   </div>
   <div class="nav-right">
     <div class="spin" id="spin"></div>
-    <span class="upd" id="updTxt">טרם נטען</span>
-    <button class="btn-nav" onclick="loadAll()">⟳ רענן</button>
+    <span style="font-size:.72rem;color:#555;" id="updTxt"></span>
+    <button class="btn-refresh" onclick="loadAll()">⟳ רענן</button>
   </div>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-top">
-    <div class="age-pill on">מוצקין</div>
-    <div class="age-pill" style="cursor:default;opacity:.5;">בוגרים 14–26</div>
+  <div class="age-selector">
+    <div class="age-pill active">בוגרים 18–26</div>
+    <div class="age-pill" style="cursor:default;opacity:.45;">מניעת נשירה 14–18</div>
   </div>
-  <h1 class="hero-title">לוח בקרה בוגרים <span>מוצקין</span></h1>
-  <p class="hero-sub">כל הבוגרים, ה-followups וההזדמנויות — במקום אחד</p>
-  <div class="search-row">
-    <div class="search-bar">
-      <svg width="16" height="16" fill="none" stroke="#aaa" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+  <h1 class="hero-title">בוגרים ותוכנית מעקב<br><span class="yellow">מוצקין</span></h1>
+  <p class="hero-sub">כל הבוגרים, המעקב וההזדמנויות — במקום אחד</p>
+  <div class="search-wrap">
+    <div class="search-input-box">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" id="srch" placeholder="חפשו שם, טלפון, עיר, מגמה..." oninput="doFilter()"/>
     </div>
     <button class="btn-search" onclick="doFilter()">חפש</button>
   </div>
+
+  <!-- CTA banner -->
+  <div class="cta-banner" style="margin:24px 0 0;">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="cta-ico">
+        <svg width="18" height="18" fill="none" stroke="#FFF200" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+      </div>
+      <div>
+        <div class="cta-label">לצוות הופה</div>
+        <div class="cta-title">מחפשים בוגר ספציפי? חפשו בשם או בטלפון</div>
+      </div>
+    </div>
+    <button class="cta-btn" onclick="document.getElementById('srch').focus()">חפש עכשיו ←</button>
+  </div>
 </div>
 
 <!-- STATS STRIP -->
-<div class="stats-strip">
-  <div class="stat-item"><span class="stat-ico">📊</span><span class="stat-num" id="kTotal">—</span> בוגרים בסה"כ</div>
-  <div class="stat-div"></div>
-  <div class="stat-item"><span class="stat-ico">✅</span><span class="stat-num" id="kTouch">—</span> יש לנו מידע</div>
-  <div class="stat-div"></div>
-  <div class="stat-item"><span class="stat-ico">💼</span><span class="stat-num" id="kWork">—</span> עובדים</div>
-  <div class="stat-div"></div>
-  <div class="stat-item"><span class="stat-ico">🎖</span><span class="stat-num" id="kArmy">—</span> בצבא</div>
-  <div class="stat-div"></div>
-  <div class="stat-item"><span class="stat-ico">📞</span><span class="stat-num" id="kCb">—</span> לחזור אליהם</div>
-  <div class="stat-div"></div>
-  <div class="stat-item"><span class="stat-ico">📅</span><span class="stat-num" id="kWk">—</span> שיחה השבוע</div>
+<div class="stats">
+  <div class="stat"><span class="stat-ico">📊</span><span class="stat-n" id="kTotal">—</span> בוגרים בסה"כ</div>
+  <div class="stat-sep"></div>
+  <div class="stat"><span class="stat-ico">✅</span><span class="stat-n" id="kTouch">—</span> יש לנו מידע</div>
+  <div class="stat-sep"></div>
+  <div class="stat"><span class="stat-ico">💼</span><span class="stat-n" id="kWork">—</span> עובדים</div>
+  <div class="stat-sep"></div>
+  <div class="stat"><span class="stat-ico">🎖</span><span class="stat-n" id="kArmy">—</span> בצבא</div>
+  <div class="stat-sep"></div>
+  <div class="stat"><span class="stat-ico">📞</span><span class="stat-n" id="kCb">—</span> לחזור אליהם</div>
+  <div class="stat-sep"></div>
+  <div class="stat"><span class="stat-ico">📅</span><span class="stat-n" id="kWk">—</span> שיחה השבוע</div>
 </div>
 
-<!-- FILTER BAR -->
-<div class="filter-bar">
-  <div class="pill on" onclick="setF('what','',this)"><span class="ico">🔍</span> הכל</div>
-  <div class="pill" onclick="setF('what','חייל',this)"><span class="ico">🎖</span> חייל/ת</div>
-  <div class="pill" onclick="setF('what','עובד',this)"><span class="ico">💼</span> עובד/ת</div>
-  <div class="pill" onclick="setF('what','לימודים',this)"><span class="ico">📚</span> לימודים</div>
-  <div class="pill" onclick="setF('what','מכינה',this)"><span class="ico">🎓</span> מכינה</div>
-  <div class="pill" onclick="setF('what','לא עובד',this)"><span class="ico">⭕</span> לא עובד</div>
-  <div class="pill" onclick="setF('info','no',this)"><span class="ico">❓</span> אין מידע</div>
-  <div class="pill" onclick="setF('overdue','1',this)"><span class="ico">⚠️</span> שיחה פגה</div>
-  <div class="filter-right">
-    <span id="resInfo" style="font-size:.75rem;color:#aaa;"></span>
+<!-- FILTERS -->
+<div class="filters" id="filterBar">
+  <div class="fpill on" onclick="setF('what','',this)"><span class="fpill-ico">🔍</span> הכל</div>
+  <div class="fpill" onclick="setF('what','חייל',this)"><span class="fpill-ico">🎖</span> שירות צבאי/לאומי</div>
+  <div class="fpill" onclick="setF('what','עובד',this)"><span class="fpill-ico">💼</span> תעסוקה</div>
+  <div class="fpill" onclick="setF('what','לימודים',this)"><span class="fpill-ico">📚</span> השכלה ולימודים</div>
+  <div class="fpill" onclick="setF('what','מכינה',this)"><span class="fpill-ico">🎓</span> מכינות</div>
+  <div class="fpill" onclick="setF('what','לא עובד',this)"><span class="fpill-ico">⭕</span> זקוק לסיוע</div>
+  <div class="fpill" onclick="setF('overdue','1',this)"><span class="fpill-ico">⚠️</span> שיחה פגה</div>
+  <div class="f-right">
+    <span class="res-count" id="resCount"></span>
+    <span class="upd-txt" id="updTxt2"></span>
   </div>
 </div>
 
 <!-- TABS -->
-<div class="tabs">
-  <button class="tab on" onclick="switchTab('list',this)">📋 כל הבוגרים <span class="tab-count" id="tcList">—</span></button>
-  <button class="tab" onclick="switchTab('priority',this)">⚡ דחוף <span class="tab-count" id="tcPri">—</span></button>
-  <button class="tab" onclick="switchTab('bday',this)">🎂 ימי הולדת <span class="tab-count" id="tcBday">—</span></button>
+<div class="tabs-bar">
+  <button class="tab on" onclick="switchTab('cards',this)">כרטיסי בוגרים <span class="tab-badge" id="tc1">—</span></button>
+  <button class="tab" onclick="switchTab('priority',this)">⚡ דחוף לטיפול <span class="tab-badge" id="tc2">—</span></button>
+  <button class="tab" onclick="switchTab('bday',this)">🎂 ימי הולדת <span class="tab-badge" id="tc3">—</span></button>
   <button class="tab" onclick="switchTab('analytics',this)">📊 נתונים</button>
 </div>
 
-<!-- BODY -->
-<div class="body-area">
+<!-- MAIN -->
+<div class="main-content">
 
-  <!-- SIDE PANEL -->
-  <div class="side" id="sidePanel">
-    <div class="side-empty" id="sideEmpty">
-      <div class="side-empty-ico">👆</div>
-      <div class="side-empty-title">בחרי בוגר</div>
-      <div style="font-size:.76rem;color:#ccc;line-height:1.6;">לחצי על כל שורה כדי לראות את הפרטים המלאים והמענים המתאימים</div>
+  <!-- CARDS -->
+  <div class="section-content on" id="sec-cards">
+    <div class="cards-grid" id="cardsGrid">
+      <div class="no-results">טוען מ-Monday.com...</div>
     </div>
-    <div id="sideContent" style="display:none;flex-direction:column;overflow-y:auto;flex:1;"></div>
+    <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+      <button class="btn-load" onclick="showMore()">הצג עוד בוגרים</button>
+    </div>
   </div>
 
-  <!-- MAIN -->
-  <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-width:0;">
+  <!-- PRIORITY -->
+  <div class="section-content" id="sec-priority">
+    <div id="priList"><div style="text-align:center;padding:40px;color:#bbb;">טוען...</div></div>
+  </div>
 
-    <!-- LIST TAB -->
-    <div class="tbl-pane on" id="tab-list">
-      <div class="tbl-wrap">
-        <table id="mainTbl">
-          <thead>
-            <tr>
-              <th style="min-width:130px;">שם מלא</th>
-              <th style="min-width:100px;">טלפון</th>
-              <th style="min-width:95px;">מה עושה</th>
-              <th style="min-width:140px;">הערות</th>
-              <th style="min-width:110px;">אימפקט</th>
-              <th style="min-width:85px;">שיחה אחרונה</th>
-              <th style="min-width:85px;">שיחה הבאה</th>
-              <th style="min-width:55px;">שנה</th>
-              <th style="min-width:90px;">מגמה</th>
-              <th style="min-width:80px;">עיר</th>
-              <th style="min-width:70px;">שירות</th>
-              <th style="min-width:75px;">שאלון</th>
-              <th style="min-width:45px;text-align:center;">↗</th>
-            </tr>
-          </thead>
-          <tbody id="tBody"><tr><td colspan="13" class="empty">טוען מ-Monday.com...</td></tr></tbody>
-        </table>
-      </div>
-      <div class="pg-bar">
-        <button class="pg-btn" id="prevBtn" onclick="changePg(-1)" disabled>→ הקודם</button>
-        <div class="pg-nums" id="pgNums"></div>
-        <span class="pg-info" id="pgInfo"></span>
-        <button class="pg-btn" id="nextBtn" onclick="changePg(1)">הבא ←</button>
-      </div>
-    </div>
+  <!-- BIRTHDAY -->
+  <div class="section-content" id="sec-bday">
+    <div id="bdayContent"><div style="text-align:center;padding:40px;color:#bbb;">טוען...</div></div>
+  </div>
 
-    <!-- PRIORITY TAB -->
-    <div class="tbl-pane" id="tab-priority">
-      <div class="pri-section" id="priList"><div class="empty">טוען...</div></div>
-    </div>
+  <!-- ANALYTICS -->
+  <div class="section-content" id="sec-analytics">
+    <div class="analytics-grid" id="analyticsGrid"><div style="text-align:center;padding:40px;color:#bbb;grid-column:1/-1;">טוען...</div></div>
+  </div>
 
-    <!-- BIRTHDAY TAB -->
-    <div class="tbl-pane" id="tab-bday">
-      <div id="bdayContent" class="bday-section"><div class="empty">טוען...</div></div>
-    </div>
+</div>
 
-    <!-- ANALYTICS TAB -->
-    <div class="tbl-pane" id="tab-analytics">
-      <div class="analytics-section" id="analyticsContent"><div class="empty" style="grid-column:1/-1">טוען...</div></div>
-    </div>
-
+<!-- PROFILE MODAL -->
+<div class="overlay" id="overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal" onclick="event.stopPropagation()">
+    <div id="modalContent"></div>
   </div>
 </div>
 
 <script>
-/* ═══════════════ CONFIG ═══════════════ */
+/* ══ CONFIG ══ */
 const MON_TOKEN='eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjU1MTE3ODY0MCwiYWFpIjoxMSwidWlkIjo3OTYwODg1MSwiaWFkIjoiMjAyNS0wOC0xN1QxNDoyMjowMS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MzA3Mjc0MDAsInJnbiI6ImV1YzEifQ.v08TgFNEtd9pBcws4lpRs-8TVxAW3YBAuOOPP3IYo4Q';
-const BOARD='5090710409';
-const MON='https://api.monday.com/v2';
+const BOARD='5090710409', MON='https://api.monday.com/v2';
 const SUP_URL='https://vhmwijzcrqjjquxomccq.supabase.co';
 const SUP_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZobXdpanpjcnFqanF1eG9tY2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1Nzk0MDgsImV4cCI6MjA4OTE1NTQwOH0.rMnAcdMiPddUAoap63tMiqeQQanJoF-HDmzra7P-5Cc';
-
-// Known column IDs
-const C={
-  lastName:'text_mkvbye47', phone:'phone_mkvb5qwz', phoneText:'text_mm0vv7rt',
-  gender:'text_mkvwa8nb',   year:'color_mm0mssvc',   city:'text_mkvwnmm4',
-  major:'color_mm0mjsj8',   service:'color_mkw0rdsg', whatToday:'color_mkw4et1p',
-  impact:'color_mkvwbt7y',  notes:'dropdown_mm0p4kps', hopaNotes:'long_text_mkw0p90p',
-  lastTalk:'date_mkvw1gnh', nextTalk:'date_mkvw7ytx',
-  formSent:'color_mkvx5qmw', answeredQ:'color_mm0p98aw',
-};
-// birthday column discovered dynamically
+const C={lastName:'text_mkvbye47',phone:'phone_mkvb5qwz',phoneText:'text_mm0vv7rt',gender:'text_mkvwa8nb',year:'color_mm0mssvc',city:'text_mkvwnmm4',major:'color_mm0mjsj8',service:'color_mkw0rdsg',whatToday:'color_mkw4et1p',impact:'color_mkvwbt7y',notes:'dropdown_mm0p4kps',hopaNotes:'long_text_mkw0p90p',lastTalk:'date_mkvw1gnh',nextTalk:'date_mkvw7ytx',formSent:'color_mkvx5qmw',answeredQ:'color_mm0p98aw'};
 let BDAY_COL=null;
-
 const HEM=['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
-let ALL=[],FILT=[],PROGS=[],PAGE=1,PER=40,SEL=null;
-const F={what:'',info:'',overdue:''};
+let ALL=[],FILT=[],PROGS=[],SHOWN=40;
+const F={what:'',overdue:''};
 
-/* ═══ HELPERS ═══ */
-function ct(item,id){
-  const c=(item.column_values||[]).find(x=>x.id===id);
-  if(!c)return'';
-  if(c.text)return c.text.trim();
-  try{const v=JSON.parse(c.value||'{}');if(v&&v.chosenValues)return v.chosenValues.map(x=>x.name).join(', ');}catch(e){}
-  return'';
-}
+/* helpers */
+function ct(item,id){const c=(item.column_values||[]).find(x=>x.id===id);if(!c)return'';if(c.text)return c.text.trim();try{const v=JSON.parse(c.value||'{}');if(v&&v.chosenValues)return v.chosenValues.map(x=>x.name).join(', ');}catch(e){}return'';}
 function cd(item,id){const c=(item.column_values||[]).find(x=>x.id===id);return c&&c.text?c.text.trim():'';}
 function pd(s){if(!s)return null;const m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);return m?new Date(+m[1],+m[2]-1,+m[3]):null;}
 function fd(s){const d=pd(s);return d?d.toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit',year:'2-digit'}):'—';}
@@ -353,26 +318,11 @@ function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace
 function mUrl(id){return`https://hopa-org.monday.com/boards/${BOARD}/pulses/${id}`;}
 function isTouched(g){return!!(g.whatToday||g.notes||g.impact||g.lastTalk||g.hopaNotes);}
 function isWork(g){const w=(g.whatToday||'').toLowerCase();return w.includes('עובד')||w.includes('עבודה')||w.includes('בעל עסק');}
-function isArmy(g){const w=(g.whatToday||'');return w.includes('חייל')||w.includes('חיילת');}
-
-function parse(item){
-  const ph=ct(item,C.phone)||ct(item,C.phoneText);
-  const bday=BDAY_COL?cd(item,BDAY_COL):'';
-  return{
-    id:item.id, name:item.name||'',
-    lastName:ct(item,C.lastName),
-    fullName:[item.name,ct(item,C.lastName)].filter(Boolean).join(' ')||'—',
-    phone:ph, gender:ct(item,C.gender), year:ct(item,C.year), city:ct(item,C.city),
-    major:ct(item,C.major), service:ct(item,C.service), whatToday:ct(item,C.whatToday),
-    impact:ct(item,C.impact), notes:ct(item,C.notes), hopaNotes:ct(item,C.hopaNotes),
-    lastTalk:cd(item,C.lastTalk), nextTalk:cd(item,C.nextTalk),
-    formSent:ct(item,C.formSent), answeredQ:ct(item,C.answeredQ),
-    birthday:bday,
-  };
-}
+function isArmy(g){const w=g.whatToday||'';return w.includes('חייל')||w.includes('חיילת');}
+function parse(item){const ph=ct(item,C.phone)||ct(item,C.phoneText);const bd=BDAY_COL?cd(item,BDAY_COL):'';return{id:item.id,name:item.name||'',lastName:ct(item,C.lastName),fullName:[item.name,ct(item,C.lastName)].filter(Boolean).join(' ')||'—',phone:ph,gender:ct(item,C.gender),year:ct(item,C.year),city:ct(item,C.city),major:ct(item,C.major),service:ct(item,C.service),whatToday:ct(item,C.whatToday),impact:ct(item,C.impact),notes:ct(item,C.notes),hopaNotes:ct(item,C.hopaNotes),lastTalk:cd(item,C.lastTalk),nextTalk:cd(item,C.nextTalk),formSent:ct(item,C.formSent),answeredQ:ct(item,C.answeredQ),birthday:bd};}
 
 function wBadge(w){
-  if(!w)return`<span class="b bgr">לא ידוע</span>`;
+  if(!w)return'';
   if(w.includes('חייל')||w.includes('חיילת'))return`<span class="b bb">${esc(w)}</span>`;
   if(isWork({whatToday:w}))return`<span class="b bg">${esc(w)}</span>`;
   if(w.includes('לימוד')||w.includes('מכינה'))return`<span class="b bo">${esc(w)}</span>`;
@@ -380,22 +330,17 @@ function wBadge(w){
   return`<span class="b bgr">${esc(w)}</span>`;
 }
 
-/* ═══ API ═══ */
+/* ══ API ══ */
 async function fetchColumns(){
-  const q=`{boards(ids:[${BOARD}]){columns{id title type}}}`;
-  const r=await fetch(MON,{method:'POST',headers:{'Content-Type':'application/json','Authorization':MON_TOKEN,'API-Version':'2024-10'},body:JSON.stringify({query:q})});
-  const d=await r.json();
-  const cols=d?.data?.boards?.[0]?.columns||[];
-  // Find birthday column: date type with birthday-related title
-  const bday=cols.find(c=>c.type==='date'&&/הולדת|birthday|born|לידה/i.test(c.title));
-  if(bday){BDAY_COL=bday.id;console.log('Birthday column found:',bday.id,bday.title);}
-  else{
-    // Fallback: list all date columns
-    const dateCols=cols.filter(c=>c.type==='date');
-    console.log('Date columns available:',dateCols.map(c=>c.title+' ('+c.id+')').join(', '));
-  }
+  try{
+    const q=`{boards(ids:[${BOARD}]){columns{id title type}}}`;
+    const r=await fetch(MON,{method:'POST',headers:{'Content-Type':'application/json','Authorization':MON_TOKEN,'API-Version':'2024-10'},body:JSON.stringify({query:q})});
+    const d=await r.json();
+    const cols=d?.data?.boards?.[0]?.columns||[];
+    const bc=cols.find(c=>c.type==='date'&&/הולדת|birthday|born|לידה/i.test(c.title));
+    if(bc){BDAY_COL=bc.id;}
+  }catch(e){}
 }
-
 async function fetchPage(cursor){
   const cp=cursor?`, cursor:"${cursor}"`:'';
   const ids=[...Object.values(C),BDAY_COL].filter(Boolean).map(id=>`"${id}"`).join(',');
@@ -407,34 +352,29 @@ async function fetchPage(cursor){
   const pg=d.data.boards[0].items_page;
   return{items:pg.items,cursor:pg.cursor};
 }
-
 async function fetchProgs(){
-  try{
-    const r=await fetch(`${SUP_URL}/rest/v1/programs?select=id,name,category,subcategory,url&limit=500`,
-      {headers:{apikey:SUP_KEY,Authorization:`Bearer ${SUP_KEY}`}});
-    return r.ok?await r.json():[];
-  }catch{return[];}
+  try{const r=await fetch(`${SUP_URL}/rest/v1/programs?select=id,name,category,subcategory,url&limit=500`,{headers:{apikey:SUP_KEY,Authorization:`Bearer ${SUP_KEY}`}});return r.ok?await r.json():[];}catch{return[];}
 }
 
 async function loadAll(){
   document.getElementById('spin').style.display='block';
-  document.getElementById('tBody').innerHTML='<tr><td colspan="13" class="empty">טוען מ-Monday.com...</td></tr>';
+  document.getElementById('cardsGrid').innerHTML='<div class="no-results">טוען מ-Monday.com...</div>';
   try{
-    await fetchColumns(); // auto-discover birthday column
+    await fetchColumns();
     let items=[],cur=null;
     do{const r=await fetchPage(cur);items=items.concat(r.items);cur=r.cursor;}while(cur);
-    ALL=items.map(parse);
-    PROGS=await fetchProgs();
-    FILT=[...ALL];PAGE=1;
-    updateKPIs();renderTable();renderPriority();renderBday();renderAnalytics();
+    ALL=items.map(parse);PROGS=await fetchProgs();FILT=[...ALL];SHOWN=40;
+    updateKPIs();renderCards();renderPriority();renderBday();renderAnalytics();
     const t=new Date();
-    document.getElementById('updTxt').textContent='עדכון אחרון: '+t.toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+    const s='עדכון אחרון: היום, '+t.toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+    document.getElementById('updTxt').textContent=s;
+    document.getElementById('updTxt2').textContent=s;
   }catch(e){
-    document.getElementById('tBody').innerHTML=`<tr><td colspan="13" class="empty" style="color:#e00">שגיאה: ${esc(e.message)}</td></tr>`;
+    document.getElementById('cardsGrid').innerHTML=`<div class="no-results" style="color:#e00">שגיאה: ${esc(e.message)}</div>`;
   }finally{document.getElementById('spin').style.display='none';}
 }
 
-/* ═══ KPIs ═══ */
+/* ══ KPIs ══ */
 function updateKPIs(){
   const today=new Date();today.setHours(0,0,0,0);
   const w7=new Date(today);w7.setDate(w7.getDate()+7);
@@ -444,107 +384,78 @@ function updateKPIs(){
   document.getElementById('kArmy').textContent=ALL.filter(isArmy).length;
   document.getElementById('kCb').textContent=ALL.filter(g=>{const d=pd(g.nextTalk);return(g.notes||'').includes('לחזור')||(d&&d>=today);}).length;
   document.getElementById('kWk').textContent=ALL.filter(g=>{const d=pd(g.nextTalk);return d&&d>=today&&d<=w7;}).length;
-  document.getElementById('tcList').textContent=ALL.length;
-  const pri=ALL.filter(g=>{const d=pd(g.nextTalk);const t=new Date();t.setHours(0,0,0,0);return(d&&d<t)||((g.notes||'').includes('לחזור')&&!g.nextTalk);});
-  document.getElementById('tcPri').textContent=pri.length;
-  const withBday=ALL.filter(g=>g.birthday&&pd(g.birthday));
-  document.getElementById('tcBday').textContent=withBday.length?withBday.length:'—';
+  document.getElementById('tc1').textContent=ALL.length;
+  document.getElementById('tc2').textContent=ALL.filter(g=>{const d=pd(g.nextTalk);const t=new Date();t.setHours(0,0,0,0);return(d&&d<t)||((g.notes||'').includes('לחזור')&&!g.nextTalk);}).length;
+  const bd=ALL.filter(g=>g.birthday&&pd(g.birthday));
+  document.getElementById('tc3').textContent=bd.length||'—';
 }
 
-/* ═══ FILTERS ═══ */
+/* ══ FILTER ══ */
 function setF(k,v,btn){
-  // Reset all filters if clicking same group
-  if(k==='what'){F.info='';F.overdue='';}
-  if(k==='info'){F.what='';F.overdue='';}
-  if(k==='overdue'){F.what='';F.info='';}
-  F[k]=v;
-  document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));
-  if(v!==''){btn.classList.add('on');}
-  else{document.querySelector('.pill').classList.add('on');}
-  PAGE=1;doFilter();
+  F.what='';F.overdue='';F[k]=v;
+  document.querySelectorAll('.fpill').forEach(b=>b.classList.remove('on'));
+  if(v){btn.classList.add('on');}else{document.querySelector('.fpill').classList.add('on');}
+  SHOWN=40;doFilter();
 }
-
 function doFilter(){
   const s=(document.getElementById('srch').value||'').toLowerCase().trim();
   const today=new Date();today.setHours(0,0,0,0);
   FILT=ALL.filter(g=>{
     if(s&&!([g.fullName,g.phone,g.city,g.major].join(' ')).toLowerCase().includes(s))return false;
     if(F.what&&!(g.whatToday||'').includes(F.what))return false;
-    if(F.info==='no'&&isTouched(g))return false;
     if(F.overdue==='1'){const d=pd(g.nextTalk);if(!(d&&d<today))return false;}
     return true;
   });
-  PAGE=1;renderTable();
-  const shown=FILT.length;const total=ALL.length;
-  document.getElementById('resInfo').textContent=shown<total?`${shown} מתוך ${total} בוגרים`:`${total} בוגרים`;
-  document.getElementById('tcList').textContent=shown;
+  SHOWN=40;renderCards();
+  document.getElementById('resCount').textContent=FILT.length<ALL.length?`${FILT.length} תוצאות`:`${ALL.length} בוגרים`;
 }
 
-/* ═══ TABLE ═══ */
-function renderTable(){
+/* ══ CARDS ══ */
+function renderCards(){
   const today=new Date();today.setHours(0,0,0,0);
   const w7=new Date(today);w7.setDate(w7.getDate()+7);
-  const start=(PAGE-1)*PER;
-  const slice=FILT.slice(start,start+PER);
-  const tb=document.getElementById('tBody');
+  const slice=FILT.slice(0,SHOWN);
+  const grid=document.getElementById('cardsGrid');
 
-  if(!slice.length){tb.innerHTML='<tr><td colspan="13" class="empty">לא נמצאו תוצאות</td></tr>';renderPg();return;}
+  if(!slice.length){grid.innerHTML='<div class="no-results">לא נמצאו בוגרים</div>';document.getElementById('loadMoreWrap').style.display='none';return;}
 
-  tb.innerHTML=slice.map((g,i)=>{
+  grid.innerHTML=slice.map(g=>{
     const nd=pd(g.nextTalk);
     const overdue=nd&&nd<today;const soon=nd&&nd>=today&&nd<=w7;
-    const sel=SEL&&SEL.id===g.id?' sel':'';
-    const odCls=overdue?' overdue':'';
-
-    const nextCell=g.nextTalk
-      ?`<span style="${overdue?'color:#c00;font-weight:700':soon?'color:#b45309;font-weight:600':''}">${overdue?'⚠ ':''}${fd(g.nextTalk)}</span>`
-      :`<span class="nd">—</span>`;
-
-    return`<tr class="${sel}${odCls}" onclick="selRow(${start+i},this)">
-      <td>${esc(g.fullName)}</td>
-      <td><span style="direction:ltr;unicode-bidi:isolate;font-size:.75rem;">${esc(g.phone)||'<span class="nd">—</span>'}</span></td>
-      <td>${wBadge(g.whatToday)}</td>
-      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${g.notes?`<span class="b bgr" style="max-width:140px;overflow:hidden;text-overflow:ellipsis;display:inline-block;vertical-align:middle;">${esc(g.notes.split(',')[0].trim())}</span>`:'<span class="nd">—</span>'}</td>
-      <td>${g.impact?`<span class="b bg">${esc(g.impact)}</span>`:'<span class="nd">—</span>'}</td>
-      <td style="font-size:.76rem;">${g.lastTalk?fd(g.lastTalk):'<span class="nd">—</span>'}</td>
-      <td style="font-size:.76rem;">${nextCell}</td>
-      <td style="font-size:.76rem;">${esc(g.year)||'<span class="nd">—</span>'}</td>
-      <td style="max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.76rem;">${esc(g.major)||'<span class="nd">—</span>'}</td>
-      <td style="font-size:.76rem;">${esc(g.city)||'<span class="nd">—</span>'}</td>
-      <td style="max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.76rem;">${esc(g.service)||'<span class="nd">—</span>'}</td>
-      <td>${g.answeredQ?`<span class="b ${g.answeredQ==='כן'?'bg':'bgr'}">${esc(g.answeredQ)}</span>`:'<span class="nd">—</span>'}</td>
-      <td style="text-align:center;"><a href="${mUrl(g.id)}" target="_blank" onclick="event.stopPropagation()" style="color:#999;text-decoration:none;font-size:.85rem;">↗</a></td>
-    </tr>`;
+    const init=((g.name||'?')[0]+(g.lastName||'?')[0]).toUpperCase();
+    const dateStr=g.nextTalk
+      ?`<span class="${overdue?'card-overdue-date card-date':'card-date'}">${overdue?'⚠ ':''}${fd(g.nextTalk)}</span>`
+      :(g.lastTalk?`<span class="card-date">שיחה: ${fd(g.lastTalk)}</span>`:'');
+    return`<div class="grad-card${overdue?' overdue':''}" onclick="openModal('${g.id}')">
+      <div class="card-top">
+        <div style="display:flex;align-items:center;gap:10px;flex:1;">
+          <div class="card-avatar">${esc(init)}</div>
+          <div style="flex:1;min-width:0;">
+            <div class="card-name">${esc(g.fullName)}</div>
+            <div class="card-year">${[g.year,g.city].filter(Boolean).join(' · ')||'מוצקין'}</div>
+          </div>
+        </div>
+        <a href="${mUrl(g.id)}" target="_blank" onclick="event.stopPropagation()" class="card-link" title="פתח ב-Monday">↗</a>
+      </div>
+      <div class="card-meta">
+        ${wBadge(g.whatToday)}
+        ${g.impact?`<span class="b bg">${esc(g.impact)}</span>`:''}
+        ${g.notes?`<span class="b bgr" style="max-width:140px;overflow:hidden;text-overflow:ellipsis;">${esc(g.notes.split(',')[0].trim())}</span>`:''}
+      </div>
+      <div class="card-footer">
+        <span class="card-phone">${esc(g.phone)||'אין טלפון'}</span>
+        ${dateStr}
+      </div>
+    </div>`;
   }).join('');
-  renderPg();
+
+  document.getElementById('loadMoreWrap').style.display=FILT.length>SHOWN?'block':'none';
+  document.getElementById('resCount').textContent=`${Math.min(SHOWN,FILT.length)} מתוך ${FILT.length} בוגרים`;
 }
 
-function selRow(idx,el){
-  document.querySelectorAll('#tBody tr').forEach(r=>r.classList.remove('sel'));
-  el.classList.add('sel');
-  SEL=FILT[idx];
-  showProfile(FILT[idx]);
-}
+function showMore(){SHOWN+=40;renderCards();}
 
-/* ═══ PAGINATION ═══ */
-function renderPg(){
-  const total=Math.ceil(FILT.length/PER);
-  document.getElementById('prevBtn').disabled=PAGE<=1;
-  document.getElementById('nextBtn').disabled=PAGE>=total;
-  document.getElementById('pgInfo').textContent=total>1?`עמוד ${PAGE} מתוך ${total}`:'';
-  const pn=document.getElementById('pgNums');pn.innerHTML='';
-  for(let i=1;i<=total;i++){
-    if(i===1||i===total||Math.abs(i-PAGE)<=1){
-      const b=document.createElement('button');b.textContent=i;b.className='pg-btn'+(i===PAGE?' curr':'');
-      b.onclick=()=>{PAGE=i;renderTable();};pn.appendChild(b);
-    }else if(pn.lastChild&&pn.lastChild.textContent!=='...'){
-      const s=document.createElement('span');s.textContent='...';s.style.cssText='padding:0 3px;color:#ccc;font-size:.75rem;';pn.appendChild(s);
-    }
-  }
-}
-function changePg(d){PAGE=Math.max(1,Math.min(Math.ceil(FILT.length/PER),PAGE+d));renderTable();}
-
-/* ═══ PROFILE ═══ */
+/* ══ MODAL ══ */
 function matchProgs(g){
   if(!PROGS.length)return[];
   const all=[(g.notes||''),(g.whatToday||''),(g.impact||'')].join(' ').toLowerCase();
@@ -557,221 +468,141 @@ function matchProgs(g){
     if(all.includes('בגרויות')&&(c.includes('בגרות')||n.includes('בגרות')))return true;
     if((all.includes('כלכלי')||all.includes('ביטוח'))&&(c.includes('כלכלי')||c.includes('רווחה')))return true;
     return false;
-  }).slice(0,6);
+  }).slice(0,5);
 }
 
-function showProfile(g){
-  document.getElementById('sideEmpty').style.display='none';
-  const sc=document.getElementById('sideContent');
-  sc.style.display='flex';sc.style.flexDirection='column';
-  const init=((g.name||'?')[0]+(g.lastName||'?')[0]).toUpperCase();
-  const matched=matchProgs(g);
+function openModal(id){
+  const g=ALL.find(x=>x.id===id);if(!g)return;
   const today=new Date();today.setHours(0,0,0,0);
   const nd=pd(g.nextTalk);const overdue=nd&&nd<today;
+  const init=((g.name||'?')[0]+(g.lastName||'?')[0]).toUpperCase();
+  const matched=matchProgs(g);
 
-  sc.innerHTML=`
-  <div class="side-head">
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div class="s-avatar">${esc(init)}</div>
+  document.getElementById('modalContent').innerHTML=`
+    <div class="modal-head">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="m-avatar">${esc(init)}</div>
         <div>
-          <div class="s-name">${esc(g.fullName)}</div>
-          <div class="s-sub">מוצקין${g.year?' · '+esc(g.year):''}</div>
+          <div class="m-name">${esc(g.fullName)}</div>
+          <div class="m-sub">מוצקין${g.year?' · '+esc(g.year):''}${g.city?' · '+esc(g.city):''}</div>
+          <div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap;">
+            ${wBadge(g.whatToday)}
+            ${g.impact?`<span class="b bg">${esc(g.impact)}</span>`:''}
+            ${overdue?`<span class="b br">⚠ שיחה פגה</span>`:''}
+          </div>
         </div>
       </div>
-      <button class="close-btn" onclick="closeProfile()">✕</button>
+      <button class="close-btn" onclick="closeModal()">✕</button>
     </div>
-    <div style="display:flex;gap:5px;flex-wrap:wrap;">
-      ${wBadge(g.whatToday)}
-      ${g.impact?`<span class="b bg">${esc(g.impact)}</span>`:''}
-      ${overdue?`<span class="b br">⚠ שיחה פגה</span>`:''}
-    </div>
-  </div>
-  <div class="side-body">
-    <div class="sec">
-      <div class="sec-hd">פרטים אישיים</div>
-      <div class="info-g">
-        <div class="ii"><div class="l">טלפון</div><div class="v" style="direction:ltr;unicode-bidi:isolate;">${esc(g.phone)||'—'}</div></div>
-        <div class="ii"><div class="l">עיר</div><div class="v">${esc(g.city)||'—'}</div></div>
-        <div class="ii"><div class="l">מגדר</div><div class="v">${esc(g.gender)||'—'}</div></div>
-        <div class="ii"><div class="l">שנת סיום</div><div class="v">${esc(g.year)||'—'}</div></div>
-        <div class="ii"><div class="l">מגמה</div><div class="v">${esc(g.major)||'—'}</div></div>
-        <div class="ii"><div class="l">שירות</div><div class="v">${esc(g.service)||'—'}</div></div>
-        ${g.birthday?`<div class="ii" style="grid-column:1/-1;"><div class="l">יום הולדת</div><div class="v">${fd(g.birthday)}</div></div>`:''}
+    <div class="modal-body">
+      <div class="msec">
+        <div class="msec-title">פרטים אישיים</div>
+        <div class="info-g">
+          <div class="ii"><div class="l">טלפון</div><div class="v" style="direction:ltr;unicode-bidi:isolate;">${esc(g.phone)||'—'}</div></div>
+          <div class="ii"><div class="l">עיר</div><div class="v">${esc(g.city)||'—'}</div></div>
+          <div class="ii"><div class="l">מגדר</div><div class="v">${esc(g.gender)||'—'}</div></div>
+          <div class="ii"><div class="l">שנת סיום</div><div class="v">${esc(g.year)||'—'}</div></div>
+          <div class="ii"><div class="l">מגמה</div><div class="v">${esc(g.major)||'—'}</div></div>
+          <div class="ii"><div class="l">שירות</div><div class="v">${esc(g.service)||'—'}</div></div>
+        </div>
       </div>
-    </div>
-    <div class="sec">
-      <div class="sec-hd">מעקב ושיחות</div>
-      <div class="info-g">
-        <div class="ii"><div class="l">שיחה אחרונה</div><div class="v">${fd(g.lastTalk)}</div></div>
-        <div class="ii"><div class="l">שיחה הבאה</div><div class="v" style="${overdue?'color:#c00;font-weight:700':''}">${fd(g.nextTalk)}</div></div>
-        <div class="ii"><div class="l">ענה לשאלון</div><div class="v">${esc(g.answeredQ)||'—'}</div></div>
-        <div class="ii"><div class="l">טופס נשלח</div><div class="v">${esc(g.formSent)||'—'}</div></div>
+      <div class="msec">
+        <div class="msec-title">מעקב ושיחות</div>
+        <div class="info-g">
+          <div class="ii"><div class="l">שיחה אחרונה</div><div class="v">${fd(g.lastTalk)}</div></div>
+          <div class="ii"><div class="l">שיחה הבאה</div><div class="v" style="${overdue?'color:#c00;font-weight:700':''}">${fd(g.nextTalk)}</div></div>
+          <div class="ii"><div class="l">ענה לשאלון</div><div class="v">${esc(g.answeredQ)||'—'}</div></div>
+          <div class="ii"><div class="l">טופס נשלח</div><div class="v">${esc(g.formSent)||'—'}</div></div>
+        </div>
+        ${g.notes?`<div style="margin-top:10px;"><div style="font-size:.63rem;color:#bbb;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;">הערות</div><div class="notes-box">${esc(g.notes)}</div></div>`:''}
+        ${g.hopaNotes?`<div style="margin-top:8px;"><div style="font-size:.63rem;color:#bbb;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;">הערות הופה</div><div class="notes-box">${esc(g.hopaNotes)}</div></div>`:''}
       </div>
-      ${g.notes?`<div style="margin-top:8px;"><div class="l" style="font-size:.62rem;color:#bbb;margin-bottom:4px;font-weight:700;">הערות</div><div class="nbox">${esc(g.notes)}</div></div>`:''}
-      ${g.hopaNotes?`<div style="margin-top:6px;"><div class="l" style="font-size:.62rem;color:#bbb;margin-bottom:4px;font-weight:700;">הערות הופה</div><div class="nbox">${esc(g.hopaNotes)}</div></div>`:''}
-    </div>
-    <div class="sec">
-      <div class="sec-hd">מענים מתאימים (${matched.length})</div>
-      ${matched.length
-        ?matched.map(p=>`<div class="maan-card"><div class="maan-nm">${esc(p.name)}</div><div class="maan-cat">${esc(p.category||'')}${p.subcategory?' · '+esc(p.subcategory):''}</div>${p.url?`<a href="${esc(p.url)}" target="_blank" class="maan-a">צפה במענה ↗</a>`:''}</div>`).join('')
-        :`<div style="color:#bbb;font-size:.78rem;">לא נמצאו מענים תואמים</div>`
-      }
-    </div>
-    <a href="${mUrl(g.id)}" target="_blank" class="btn-mon">פתח ב-Monday.com ↗</a>
-  </div>`;
+      <div class="msec">
+        <div class="msec-title">מענים מתאימים (${matched.length})</div>
+        ${matched.length
+          ?matched.map(p=>`<div class="maan-card"><div><div class="maan-nm">${esc(p.name)}</div><div class="maan-cat">${esc(p.category||'')}${p.subcategory?' · '+esc(p.subcategory):''}</div></div>${p.url?`<a href="${esc(p.url)}" target="_blank" class="maan-a">צפה ↗</a>`:''}</div>`).join('')
+          :`<div style="color:#bbb;font-size:.8rem;padding:6px 0;">לא נמצאו מענים תואמים כרגע</div>`
+        }
+      </div>
+      <a href="${mUrl(g.id)}" target="_blank" class="btn-mon">פתח ב-Monday.com ↗</a>
+    </div>`;
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow='hidden';
 }
+function closeModal(e){if(!e||e.target===document.getElementById('overlay')){document.getElementById('overlay').classList.remove('open');document.body.style.overflow='';}}
 
-function closeProfile(){
-  document.getElementById('sideEmpty').style.display='flex';
-  document.getElementById('sideContent').style.display='none';
-  document.querySelectorAll('#tBody tr').forEach(r=>r.classList.remove('sel'));
-  SEL=null;
-}
-
-/* ═══ PRIORITY ═══ */
+/* ══ PRIORITY ══ */
 function renderPriority(){
   const today=new Date();today.setHours(0,0,0,0);
   const list=ALL.filter(g=>{const d=pd(g.nextTalk);return(d&&d<today)||((g.notes||'').includes('לחזור')&&!g.nextTalk);})
     .sort((a,b)=>(pd(a.nextTalk)||new Date(9e12))-(pd(b.nextTalk)||new Date(9e12)));
   const c=document.getElementById('priList');
-  if(!list.length){c.innerHTML='<div class="empty">אין פעולות דחופות 👍</div>';return;}
-  c.innerHTML=`
-    <div class="cta-banner" style="max-width:600px;">
-      <div><div class="cta-txt">⚡ ${list.length} בוגרים מחכים לחזרה</div><div class="cta-sub">מומלץ לטפל בהם לפי סדר הרשימה</div></div>
-      <button class="cta-btn" onclick="document.querySelector('[onclick*=list]').click()">ראה בטבלה</button>
-    </div>`
-    +list.map((g,i)=>{
-      const d=pd(g.nextTalk);const t=new Date();t.setHours(0,0,0,0);const ov=d&&d<t;
-      return`<div class="pri-item" onclick="showProfile(ALL.find(x=>x.id==='${g.id}'))">
-        <div style="width:22px;text-align:center;font-weight:800;color:#ccc;font-size:.75rem;">${i+1}</div>
-        <div class="pri-nm">${esc(g.fullName)}</div>
-        <div style="font-size:.74rem;color:${ov?'#c00':'#888'}">${g.nextTalk?fd(g.nextTalk):'אין תאריך'}</div>
-        ${ov?'<span class="b br">פגה</span>':'<span class="b by">לחזור</span>'}
-        <a href="${mUrl(g.id)}" target="_blank" onclick="event.stopPropagation()" style="color:#999;text-decoration:none;">↗</a>
-      </div>`;
-    }).join('');
+  if(!list.length){c.innerHTML='<div style="text-align:center;padding:40px;color:#bbb;">אין פעולות דחופות 👍</div>';return;}
+  c.innerHTML=`<div style="background:#FFF200;border-radius:14px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;">
+    <div><div style="font-weight:800;font-size:.9rem;">⚡ ${list.length} בוגרים ממתינים לחזרה</div><div style="font-size:.76rem;color:#0007;margin-top:2px;">מומלץ לטפל לפי סדר הרשימה</div></div>
+    <button onclick="switchTab('cards',document.querySelector('.tab'))" style="background:#000;color:#fff;border:none;border-radius:9px;padding:8px 16px;font-weight:700;font-size:.78rem;cursor:pointer;font-family:Rubik,sans-serif;">ראה כרטיסים</button>
+  </div>`
+  +list.map((g,i)=>{const d=pd(g.nextTalk);const t=new Date();t.setHours(0,0,0,0);const ov=d&&d<t;
+    return`<div class="pri-item" onclick="openModal('${g.id}')">
+      <div style="width:24px;text-align:center;font-weight:800;color:#ccc;font-size:.78rem;">${i+1}</div>
+      <div class="pri-nm">${esc(g.fullName)}</div>
+      <div style="font-size:.75rem;color:${ov?'#c00':'#999'};white-space:nowrap;">${g.nextTalk?fd(g.nextTalk):'אין תאריך'}</div>
+      ${ov?'<span class="b br">פגה</span>':'<span class="b by">לחזור</span>'}
+      <a href="${mUrl(g.id)}" target="_blank" onclick="event.stopPropagation()" style="color:#bbb;text-decoration:none;font-size:.85rem;">↗</a>
+    </div>`;}).join('');
 }
 
-/* ═══ BIRTHDAYS ═══ */
+/* ══ BIRTHDAYS ══ */
 function renderBday(){
   const container=document.getElementById('bdayContent');
   if(!BDAY_COL){
-    container.innerHTML=`<div style="text-align:center;padding:48px 24px;max-width:480px;margin:0 auto;">
+    container.innerHTML=`<div style="text-align:center;max-width:420px;margin:40px auto;padding:32px;background:#fff;border-radius:16px;border:1.5px solid #E5E5E5;">
       <div style="font-size:3rem;margin-bottom:14px;">🎂</div>
-      <div style="font-weight:800;font-size:1.1rem;color:#333;margin-bottom:8px;">עמודת יום הולדת לא נמצאה</div>
-      <div style="font-size:.85rem;color:#888;line-height:1.7;margin-bottom:16px;">
-        לא נמצאה עמודת תאריך עם המילה "הולדת" או "birthday" בלוח Monday.com.<br>
-        עמודות התאריך שנמצאו: שיחה אחרונה, שיחה הבאה.
-      </div>
-      <div style="background:#FFF9E0;border:1px solid #FFF200;border-radius:10px;padding:12px 16px;font-size:.82rem;color:#555;text-align:right;">
-        <strong>כדי להפעיל את הפיצ'ר:</strong> הוסיפי עמודת תאריך חדשה בלוח Monday.com וקראי לה <strong>"יום הולדת"</strong>.
-      </div>
-    </div>`;
-    return;
+      <div style="font-weight:800;font-size:1rem;color:#333;margin-bottom:8px;">עמודת יום הולדת לא נמצאה</div>
+      <div style="font-size:.82rem;color:#888;line-height:1.7;margin-bottom:16px;">הוסיפי עמודת תאריך בשם <strong>"יום הולדת"</strong> בלוח Monday.com — המערכת תזהה אותה אוטומטית בטעינה הבאה.</div>
+      <div style="background:#FFF9E0;border:1px solid #FFF200;border-radius:10px;padding:12px 16px;font-size:.8rem;color:#666;text-align:right;">📌 שם העמודה צריך לכלול את המילה "הולדת" או "birthday"</div>
+    </div>`;return;
   }
-
   const today=new Date();today.setHours(0,0,0,0);
   const withB=ALL.filter(g=>g.birthday&&pd(g.birthday));
-  if(!withB.length){container.innerHTML='<div class="empty">אין נתוני ימי הולדת</div>';return;}
-
+  if(!withB.length){container.innerHTML='<div style="text-align:center;padding:40px;color:#bbb;">אין נתוני ימי הולדת</div>';return;}
   const upcoming=[];
-  withB.forEach(g=>{
-    const b=pd(g.birthday);if(!b)return;
-    let t=new Date(today.getFullYear(),b.getMonth(),b.getDate());
-    if(t<today)t=new Date(today.getFullYear()+1,b.getMonth(),b.getDate());
-    const days=Math.round((t-today)/86400000);
-    upcoming.push({...g,bDate:t,days});
-  });
+  withB.forEach(g=>{const b=pd(g.birthday);if(!b)return;let t=new Date(today.getFullYear(),b.getMonth(),b.getDate());if(t<today)t=new Date(today.getFullYear()+1,b.getMonth(),b.getDate());upcoming.push({...g,bDate:t,days:Math.round((t-today)/86400000)});});
   upcoming.sort((a,b)=>a.days-b.days);
-
   const groups={};
-  upcoming.forEach(g=>{
-    const k=HEM[g.bDate.getMonth()]+' '+g.bDate.getFullYear();
-    (groups[k]=groups[k]||[]).push(g);
-  });
-
+  upcoming.forEach(g=>{const k=HEM[g.bDate.getMonth()]+' '+g.bDate.getFullYear();(groups[k]=groups[k]||[]).push(g);});
   const near=upcoming.filter(g=>g.days<=30);
   let html='';
-  if(near.length){
-    html+=`<div style="background:#FFF9E0;border:1px solid #FFF200;border-radius:12px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;">
-      <span style="font-size:1.5rem;">🎉</span>
-      <div><div style="font-weight:700;font-size:.88rem;">${near.length} ימי הולדת ב-30 הימים הקרובים</div>
-      <div style="font-size:.75rem;color:#888;">${near.map(g=>g.fullName).join(', ')}</div></div>
-    </div>`;
-  }
-
-  html+=Object.entries(groups).map(([month,grads])=>`
-    <div class="bday-month">
-      <div class="bday-month-title">${month}</div>
-      <div class="bday-cards">
-        ${grads.map(g=>{const isToday=g.days===0;const isSoon=g.days<=7;
-          return`<div class="bday-card${isToday?' today':''}" onclick="showProfile(ALL.find(x=>x.id==='${g.id}'))">
-            <div class="bday-box"><div class="bday-d">${g.bDate.getDate()}</div><div class="bday-m">${HEM[g.bDate.getMonth()].slice(0,3)}</div></div>
-            <div>
-              <div class="bday-nm">${esc(g.fullName)}</div>
-              <div class="bday-days">${isToday?'🎉 היום!':isSoon?`בעוד ${g.days} ימים`:`${g.days} ימים`}${g.phone?' · '+esc(g.phone):''}</div>
-              ${wBadge(g.whatToday)}
-            </div>
-          </div>`;}).join('')}
-      </div>
-    </div>`).join('');
-
+  if(near.length)html+=`<div style="background:#FFF9E0;border:1.5px solid #FFF200;border-radius:14px;padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;gap:12px;"><span style="font-size:1.5rem;">🎉</span><div><div style="font-weight:700;font-size:.88rem;">${near.length} ימי הולדת ב-30 הימים הקרובים</div><div style="font-size:.75rem;color:#888;margin-top:2px;">${near.map(g=>g.fullName).join(' · ')}</div></div></div>`;
+  html+=Object.entries(groups).map(([month,grads])=>`<div style="margin-bottom:22px;"><div style="font-size:.68rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #F0F0F0;">${month}</div><div class="bday-grid">${grads.map(g=>{const isT=g.days===0;const isS=g.days<=7;return`<div class="bday-card${isT?' today':''}" onclick="openModal('${g.id}')"><div class="bday-box"><div class="bday-d">${g.bDate.getDate()}</div><div class="bday-m">${HEM[g.bDate.getMonth()].slice(0,3)}</div></div><div><div class="bday-nm">${esc(g.fullName)}</div><div class="bday-days">${isT?'🎉 היום!':isS?`בעוד ${g.days} ימים`:`${g.days} ימים`}</div>${wBadge(g.whatToday)}</div></div>`;}).join('')}</div></div>`).join('');
   container.innerHTML=html;
 }
 
-/* ═══ ANALYTICS ═══ */
+/* ══ ANALYTICS ══ */
 function renderAnalytics(){
-  function cMap(key,split){
-    const m={};
-    ALL.forEach(g=>{const v=g[key]||'';
-      if(!v){m['לא ידוע']=(m['לא ידוע']||0)+1;return;}
-      if(split)v.split(',').forEach(x=>{const k=x.trim();if(k)m[k]=(m[k]||0)+1;});
-      else m[v]=(m[v]||0)+1;
-    });return m;
-  }
-  function bars(map,lim=9){
-    const s=Object.entries(map).filter(([k])=>k!=='לא ידוע').sort((a,b)=>b[1]-a[1]);
-    const unk=map['לא ידוע']||0;
-    const all=[...s,...(unk?[['לא ידוע',unk]]:[])].slice(0,lim);
-    const mx=all[0]?.[1]||1;
-    return all.map(([l,n])=>`<div class="bar-row">
-      <div class="bar-l" title="${esc(l)}">${esc(l)}</div>
-      <div class="bar-bg"><div class="bar-f" style="width:${Math.max(8,Math.round(n/mx*100))}%">${n}</div></div>
-      <div class="bar-c">${n}</div>
-    </div>`).join('');
-  }
-  const touched=ALL.filter(isTouched).length;const tot=ALL.length;
-  const charts=[
-    {t:'מה עושים היום',k:'whatToday',split:false},
-    {t:'הערות ומעקב',k:'notes',split:true},
-    {t:'אימפקט',k:'impact',split:false},
-    {t:'שנת סיום',k:'year',split:false},
-    {t:'מגמה',k:'major',split:false},
-    {t:'שירות',k:'service',split:false},
-    {t:'עיר',k:'city',split:false},
-    {t:'ענה לשאלון',k:'answeredQ',split:false},
-  ];
-  const ac=document.getElementById('analyticsContent');
-  ac.innerHTML=`
-    <div class="acrd" style="grid-column:1/-1;display:flex;gap:24px;flex-wrap:wrap;align-items:center;">
-      <div style="text-align:center;"><div style="font-size:2.2rem;font-weight:900;">${tot}</div><div style="font-size:.72rem;color:#888;">סה"כ בוגרים</div></div>
-      <div style="text-align:center;"><div style="font-size:2.2rem;font-weight:900;color:#1a7a3c;">${touched}</div><div style="font-size:.72rem;color:#888;">יש לנו מידע</div></div>
-      <div style="text-align:center;"><div style="font-size:2.2rem;font-weight:900;">${Math.round(touched/tot*100)}%</div><div style="font-size:.72rem;color:#888;">אחוז נגיעה</div></div>
-      <div style="flex:1;background:#F0F0F0;border-radius:20px;height:10px;min-width:100px;overflow:hidden;">
-        <div style="width:${Math.round(touched/tot*100)}%;height:100%;background:#FFF200;border-radius:20px;transition:width .6s;"></div>
-      </div>
+  function cMap(key,split){const m={};ALL.forEach(g=>{const v=g[key]||'';if(!v){m['לא ידוע']=(m['לא ידוע']||0)+1;return;}if(split)v.split(',').forEach(x=>{const k=x.trim();if(k)m[k]=(m[k]||0)+1;});else m[v]=(m[v]||0)+1;});return m;}
+  function bars(map,lim=9){const s=Object.entries(map).filter(([k])=>k!=='לא ידוע').sort((a,b)=>b[1]-a[1]);const unk=map['לא ידוע']||0;const all=[...s,...(unk?[['לא ידוע',unk]]:[])].slice(0,lim);const mx=all[0]?.[1]||1;return all.map(([l,n])=>`<div class="bar-row"><div class="bar-l" title="${esc(l)}">${esc(l)}</div><div class="bar-bg"><div class="bar-f" style="width:${Math.max(8,Math.round(n/mx*100))}%">${n}</div></div><div class="bar-c">${n}</div></div>`).join('');}
+  const touched=ALL.filter(isTouched).length,tot=ALL.length;
+  document.getElementById('analyticsGrid').innerHTML=`
+    <div class="acrd" style="grid-column:1/-1;display:flex;align-items:center;gap:32px;flex-wrap:wrap;">
+      <div style="text-align:center;"><div style="font-size:2.4rem;font-weight:900;">${tot}</div><div style="font-size:.72rem;color:#888;margin-top:2px;">סה"כ בוגרים</div></div>
+      <div style="text-align:center;"><div style="font-size:2.4rem;font-weight:900;color:#1a7a3c;">${touched}</div><div style="font-size:.72rem;color:#888;margin-top:2px;">יש לנו מידע</div></div>
+      <div style="text-align:center;"><div style="font-size:2.4rem;font-weight:900;">${Math.round(touched/tot*100)}%</div><div style="font-size:.72rem;color:#888;margin-top:2px;">אחוז נגיעה</div></div>
+      <div style="flex:1;min-width:120px;"><div style="background:#F0F0F0;border-radius:20px;height:12px;overflow:hidden;"><div style="width:${Math.round(touched/tot*100)}%;height:100%;background:#FFF200;border-radius:20px;transition:width .6s;"></div></div></div>
     </div>
-    ${charts.map(ch=>`<div class="acrd"><div class="acrd-t">${esc(ch.t)}</div>${bars(cMap(ch.k,ch.split))}</div>`).join('')}`;
+    ${[{t:'מה עושים היום',k:'whatToday',s:false},{t:'הערות ומעקב',k:'notes',s:true},{t:'אימפקט',k:'impact',s:false},{t:'שנת סיום',k:'year',s:false},{t:'מגמה',k:'major',s:false},{t:'שירות',k:'service',s:false},{t:'עיר מגורים',k:'city',s:false},{t:'ענה לשאלון',k:'answeredQ',s:false}].map(ch=>`<div class="acrd"><div class="acrd-t">${esc(ch.t)}</div>${bars(cMap(ch.k,ch.s))}</div>`).join('')}`;
 }
 
-/* ═══ TABS ═══ */
+/* ══ TABS ══ */
 function switchTab(name,btn){
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  document.querySelectorAll('.tbl-pane').forEach(p=>p.classList.remove('on'));
-  document.getElementById('tab-'+name).classList.add('on');
+  if(btn)btn.classList.add('on');
+  document.querySelectorAll('.section-content').forEach(s=>s.classList.remove('on'));
+  document.getElementById('sec-'+name).classList.add('on');
 }
+
+/* keyboard */
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
 loadAll();
 </script>
