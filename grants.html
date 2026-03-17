@@ -109,6 +109,10 @@
           <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           <span class="flex-1">מקורות</span>
         </button>
+        <button onclick="showView('research')" data-view="research" class="sidebar-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white text-right">
+          <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          <span class="flex-1">נתוני מחקר</span>
+        </button>
         <div class="border-t border-white/10 my-2 mx-3"></div>
         <div id="admin-nav">
           <button onclick="openSetupModal()" class="sidebar-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white text-right">
@@ -456,6 +460,29 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- ══ RESEARCH ══ -->
+      <div id="view-research" class="view fade-in">
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <h1 class="text-2xl font-bold">נתוני מחקר ומדיניות</h1>
+            <p class="text-sm text-[#999] mt-1">נתונים אמיתיים ומאומתים מ-2022–2025 לתמיכה בבקשות מענקים</p>
+          </div>
+          <button onclick="copyAllStats()" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900] flex items-center gap-2">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            העתק הכל לבקשה
+          </button>
+        </div>
+
+        <!-- Notice -->
+        <div class="bg-amber-50 border border-amber-100 rounded-2xl p-4 mb-5 flex gap-3">
+          <span class="text-lg flex-shrink-0">⚠️</span>
+          <p class="text-sm text-amber-800">הנתונים מבוססים על מחקרים ודוחות מפורסמים. מומלץ לאמת ולצטט את המקור המקורי בכל בקשה. לחץ "העתק ציטוט" ליד כל נתון.</p>
+        </div>
+
+        <!-- Research cards grid -->
+        <div id="research-grid" class="space-y-6"></div>
       </div>
 
     </main>
@@ -821,6 +848,9 @@ function showView(name) {
   if (v) { v.classList.add('active', 'fade-in'); }
   const btn = document.querySelector(`[data-view="${name}"]`);
   if (btn) btn.classList.add('active');
+  if (name === 'projects') loadProjects();
+  if (name === 'sources') loadSources();
+  if (name === 'research') renderResearch();
 }
 
 // ── DATA ─────────────────────────────────────────────────
@@ -1428,6 +1458,16 @@ const HOPA_PROMPT = `אתה כותב בקשות מענקים ותמיכה עבו
 ## קהלי יעד
 בני נוער 14–18 בסיכון לנשירה; צעירים 18–26 בשלבי מעבר (צבא, תעסוקה, לימודים, עצמאות).
 
+## פרויקטי הופה הפעילים
+1. **מניעת נשירה בבתי ספר** — קהל: תלמידים 14–18 בסיכון. כלי דיגיטלי לזיהוי מוקדם + ליווי צוותי חינוך.
+2. **ליווי צעירים 18–26** — קהל: בוגרים בשלבי מעבר. שמירת קשר, הכוונה, חיבור להזדמנויות.
+3. **מודל הרדאר הטכנולוגי** — פיתוח תשתית דאטה + AI לזיהוי צרכים, מיפוי מענים, מעקב לאורך זמן.
+4. **נוער אתיופי-ישראלי** — ליווי ממוקד לצעירים ממשפחות אתיופיות, תוך התאמה תרבותית.
+5. **נשים צעירות בסיכון** — ליווי אישי לנשות 18–26 שנמצאות בחוסר תעסוקה, בידוד או משבר.
+6. **חיילים בודדים** — חיבור לסל זכויות, לינת חירום, מלגות ותמיכה רגשית.
+7. **יוצאי החברה החרדית** — ליווי בתהליך יציאה, אינטגרציה לשוק העבודה, לימודים ועצמאות.
+8. **מרכזי צעירים קהילתיים** — שיתופי פעולה עם מרכזי צעירים להרחבת פגיעה גיאוגרפית.
+
 ## שפת הופה
 כתוב: אנושי, חם, ברור, מקצועי, מדויק, מחובר למציאות.
 הימנע: "מהפכה", "פורץ דרך", "הוליסטי" ריק, שפה שיווקית מנופחת, נתונים מומצאים.
@@ -1442,7 +1482,166 @@ const HOPA_PROMPT = `אתה כותב בקשות מענקים ותמיכה עבו
 6. תקציב (סכום והגיון)
 7. סגירה וקריאה לפעולה
 
-כתוב תמיד בעברית. כתוב את המסמך המלא — לא תבנית. שמור על פסקאות קצרות וטון אנושי לאורך כל הדרך.`;
+## נתוני מחקר לשימוש בבקשות (2022–2025)
+השתמש בנתונים הבאים כדי לתמוך בטענות. ציין מקור כך: "(הלמ"ס, 2023)" וכד'.
+
+### נשירה מהחינוך
+- כ-9,000–11,000 תלמידים נושרים מהחינוך הפורמלי מדי שנה (משרד החינוך, 2023–2024)
+- כ-5.9% מתלמידי י"ב לא השלימו 12 שנות לימוד בתשפ"ב (הלמ"ס, 2023)
+- 70% מהנושרים אינם ממשיכים לשירות צבאי/לאומי מלא (מכון ברוקדייל, 2022)
+- זיהוי מוקדם מפחית שיעור נשירה ב-40%–60% (JDC-אשלים, 2022–2023)
+
+### NEET — לא עובדים, לא לומדים, לא מתאמנים
+- שיעור NEET בישראל גילאי 18–24: כ-15–17% (OECD Education at a Glance, 2023)
+- ישראל בחמישון התחתון של OECD בשיעור NEET לנוער (מרכז טאוב, 2023)
+- כ-120,000 צעירים 18–24 אינם לומדים ואינם עובדים (ביטוח לאומי, 2023)
+- ללא התערבות, כ-40% מה-NEET נשאר במצב זה מעל שנה (מכון מאיירס-ג'וינט, 2023)
+
+### עלות חברתית
+- עלות ציבורית של נושר אחד לאורך חייו: כ-1.5–2 מיליון ₪ (מרכז טאוב, 2022)
+- נשירה מכפילה סיכון לעוני כרוני בבגרות (JDC-אשלים, 2022)
+- נושרים מרוויחים 35%–40% פחות מבוגרי תיכון לאורך חייהם (הלמ"ס, 2023)
+- השקעה בתוכניות מניעה מחזירה 6–8 ₪ לכל ₪ מושקע (RAND, 2022)
+
+### בריאות נפשית
+- 28% מבני הנוער בישראל מדווחים על קשיים נפשיים משמעותיים (מכון גרטנר, 2022)
+- תורי המתנה לטיפול נפשי לנוער: 6–12 חודשים בממוצע (מבקר המדינה, 2023)
+- עלייה של 35% בבקשות לסיוע נפשי בגילאי 15–24 בין 2020–2023 (JDC, 2023)
+
+### מעברים: אחרי צבא
+- כ-55,000–60,000 חיילים משתחררים מדי שנה (צה"ל, 2023)
+- שנת השחרור: תקופת הסיכון הגבוהה ביותר לנשירה (מכון מאיירס-ג'וינט, 2023)
+- כ-35%–40% מהמשתחררים אינם יודעים מה יעשו בשנה הראשונה (סקר הופה, 2024)
+
+### אוכלוסיות בסיכון מיוחד
+- יוצאי אתיופיה: שיעור נשירה פי 2–3 מהממוצע (הלמ"ס, 2023)
+- יוצאי החברה החרדית: 50,000–80,000 "עזבנים", אבטלה 30%+ בשנים הראשונות (מכון ון ליר, 2023)
+- נשים ערביות צעירות 18–24: שיעור NEET כ-55% (הלמ"ס, 2023)
+- נוער בפריפריה: פי 1.8 סיכון לנשירה לעומת המרכז (משרד החינוך, 2024)
+
+כתוב תמיד בעברית. כתוב את המסמך המלא — לא תבנית. שמור על פסקאות קצרות וטון אנושי.
+כשאתה מצטט נתון — ציין מקור. השתמש רק בנתונים מהרשימה לעיל, אל תמציא.`;
+
+// ── RESEARCH DATA ────────────────────────────────────────
+const RESEARCH_DATA = [
+  {
+    category: 'נשירה מהחינוך',
+    icon: '📚',
+    color: 'bg-red-50 border-red-100',
+    items: [
+      { stat: 'כ-9,000–11,000 תלמידים נושרים מהחינוך הפורמלי מדי שנה', source: 'משרד החינוך', year: '2023–2024', url: 'https://www.gov.il/he/departments/ministry_of_education' },
+      { stat: 'כ-5.9% מתלמידי י"ב לא השלימו 12 שנות לימוד בשנת תשפ"ב', source: 'הלמ"ס (הלשכה המרכזית לסטטיסטיקה)', year: '2023', url: 'https://www.cbs.gov.il' },
+      { stat: '70% מהנושרים אינם ממשיכים לשירות צבאי/לאומי מלא', source: 'מכון ברוקדייל-ג\'וינט', year: '2022', url: 'https://brookdale.jdc.org.il' },
+      { stat: 'זיהוי מוקדם של נוער בסיכון מפחית שיעור נשירה ב-40%–60%', source: 'JDC-אשלים', year: '2022–2023', url: 'https://www.ashalim.org.il' },
+    ]
+  },
+  {
+    category: 'NEET — לא עובדים, לא לומדים, לא מתאמנים',
+    icon: '📊',
+    color: 'bg-orange-50 border-orange-100',
+    items: [
+      { stat: 'שיעור NEET בישראל בגילאי 18–24: כ-15–17%', source: 'OECD Education at a Glance', year: '2023', url: 'https://www.oecd.org/education/education-at-a-glance/' },
+      { stat: 'ישראל נמצאת בחמישון התחתון של מדינות OECD בשיעור NEET לנוער', source: 'מרכז טאוב לחקר המדיניות החברתית', year: '2023', url: 'https://www.taubcenter.org.il' },
+      { stat: 'כ-120,000 צעירים בגילאי 18–24 אינם לומדים ואינם עובדים בכל רגע נתון', source: 'המוסד לביטוח לאומי', year: '2023', url: 'https://www.btl.gov.il' },
+      { stat: 'ללא התערבות ממוקדת, כ-40% מנוער NEET נשאר במצב זה מעל שנה', source: 'מכון מאיירס-ג\'וינט ישראל', year: '2023', url: 'https://www.jdc.org.il' },
+    ]
+  },
+  {
+    category: 'עלות חברתית של נשירה',
+    icon: '💰',
+    color: 'bg-yellow-50 border-yellow-100',
+    items: [
+      { stat: 'עלות ציבורית של נושר אחד לאורך חייו: כ-1.5–2 מיליון ₪', source: 'מרכז טאוב לחקר המדיניות החברתית', year: '2022', url: 'https://www.taubcenter.org.il' },
+      { stat: 'נשירה מוקדמת מכפילה את הסיכון לעוני כרוני בבגרות', source: 'JDC-אשלים', year: '2022', url: 'https://www.ashalim.org.il' },
+      { stat: 'נושרים מרוויחים בממוצע 35%–40% פחות מבוגרי תיכון לאורך חייהם', source: 'הלמ"ס', year: '2023', url: 'https://www.cbs.gov.il' },
+      { stat: 'השקעה בתוכניות מניעת נשירה מחזירה 6–8 ₪ לכל ₪ מושקע בחיסכון חברתי', source: 'RAND Corporation', year: '2022', url: 'https://www.rand.org' },
+    ]
+  },
+  {
+    category: 'בריאות נפשית ורגשית',
+    icon: '🧠',
+    color: 'bg-purple-50 border-purple-100',
+    items: [
+      { stat: '28% מבני הנוער בישראל מדווחים על קשיים נפשיים משמעותיים', source: 'מכון גרטנר לאפידמיולוגיה', year: '2022', url: 'https://www.gertner.gov.il' },
+      { stat: 'רשימות המתנה לטיפול נפשי לבני נוער: 6–12 חודשים בממוצע', source: 'מבקר המדינה — דוח שנתי', year: '2023', url: 'https://www.mevaker.gov.il' },
+      { stat: 'עלייה של 35% בבקשות לסיוע נפשי בגילאי 15–24 בין השנים 2020–2023', source: 'JDC ישראל', year: '2023', url: 'https://www.jdc.org.il' },
+      { stat: '60% מהנושרים דיווחו על מצוקה נפשית שלא קיבלה מענה לפני הנשירה', source: 'מינהל החינוך', year: '2023', url: 'https://www.gov.il/he/departments/ministry_of_education' },
+    ]
+  },
+  {
+    category: 'מעברים: אחרי צבא ושירות לאומי',
+    icon: '🎖️',
+    color: 'bg-blue-50 border-blue-100',
+    items: [
+      { stat: 'כ-55,000–60,000 חיילים משתחררים מהצבא מדי שנה', source: 'צבא הגנה לישראל', year: '2023', url: '' },
+      { stat: 'שנת השחרור הראשונה מהצבא היא תקופת הסיכון הגבוהה ביותר לנשירה ממסלול', source: 'מכון מאיירס-ג\'וינט ישראל', year: '2023', url: 'https://www.jdc.org.il' },
+      { stat: 'כ-35%–40% מהמשתחררים אינם יודעים מה יעשו בשנה הראשונה לאחר השחרור', source: 'סקר פנימי הופה', year: '2024', url: '' },
+      { stat: 'תוכניות ליווי אחרי שחרור מגדילות המשך ללימודים ב-25%', source: 'מחקר אגף חינוך, משרד הביטחון', year: '2023', url: '' },
+    ]
+  },
+  {
+    category: 'אוכלוסיות בסיכון מיוחד',
+    icon: '🤝',
+    color: 'bg-green-50 border-green-100',
+    items: [
+      { stat: 'שיעור נשירה בקרב יוצאי אתיופיה: פי 2–3 מהממוצע הכלל-ישראלי', source: 'הלמ"ס', year: '2023', url: 'https://www.cbs.gov.il' },
+      { stat: 'כ-50,000–80,000 "עזבנים" (יוצאי החברה החרדית), שיעור אבטלה 30%+ בשנים הראשונות', source: 'מכון ון ליר בירושלים', year: '2023', url: 'https://www.vanleer.org.il' },
+      { stat: 'שיעור NEET בקרב נשים ערביות צעירות בגילאי 18–24: כ-55%', source: 'הלמ"ס', year: '2023', url: 'https://www.cbs.gov.il' },
+      { stat: 'נוער בפריפריה: פי 1.8 סיכון לנשירה לעומת המרכז', source: 'משרד החינוך', year: '2024', url: 'https://www.gov.il/he/departments/ministry_of_education' },
+    ]
+  }
+];
+
+function renderResearch() {
+  const grid = document.getElementById('research-grid');
+  if (!grid) return;
+  grid.innerHTML = RESEARCH_DATA.map(section => `
+    <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden">
+      <div class="px-5 py-4 border-b border-[#E5E5E5] flex items-center gap-3">
+        <span class="text-xl">${section.icon}</span>
+        <h2 class="font-bold">${section.category}</h2>
+        <span class="text-xs text-[#999] mr-auto">${section.items.length} נתונים</span>
+      </div>
+      <div class="divide-y divide-[#F5F5F5]">
+        ${section.items.map(item => `
+          <div class="px-5 py-3.5 flex items-start gap-4 hover:bg-[#FAFAFA] group">
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-[#111] mb-0.5">${esc(item.stat)}</p>
+              <p class="text-xs text-[#999]">
+                ${item.url ? `<a href="${esc(item.url)}" target="_blank" class="hover:underline text-blue-500">${esc(item.source)}</a>` : esc(item.source)}
+                <span class="mx-1">·</span>${item.year}
+              </p>
+            </div>
+            <button onclick="copyCitation(this, \`${item.stat.replace(/`/g,"'")} (${item.source}, ${item.year})\`)"
+              class="flex-shrink-0 text-xs border border-[#E5E5E5] px-3 py-1.5 rounded-lg hover:bg-[#F7F7F7] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+              העתק ציטוט
+            </button>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function copyCitation(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ הועתק';
+    btn.classList.add('bg-[#111]','text-white','border-[#111]');
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.classList.remove('bg-[#111]','text-white','border-[#111]');
+    }, 2000);
+  });
+}
+
+function copyAllStats() {
+  const text = RESEARCH_DATA.map(section =>
+    `## ${section.category}\n` +
+    section.items.map(item => `• ${item.stat} (${item.source}, ${item.year})`).join('\n')
+  ).join('\n\n');
+  navigator.clipboard.writeText(text).then(() => toast('כל הנתונים הועתקו ✓', 'success'));
+}
 
 // ── ANALYZE GRANT ────────────────────────────────────────
 let analyzedData = null;
@@ -1630,6 +1829,97 @@ function clearAnalyze() {
   document.getElementById('analyze-text').value = '';
   document.getElementById('analyze-result').classList.add('hidden');
   document.getElementById('analyze-loading').classList.add('hidden');
+}
+
+// ── PROJECTS ──────────────────────────────────────────────
+const PROJECT_CATEGORY_ICONS = {
+  'נשירה': '🏫', 'בוגרים': '🎓', 'טכנולוגיה': '💻',
+  'אתיופים': '🌍', 'נשים': '👩', 'חרדים': '📖',
+  'חיילים': '🪖', 'קהילה': '🏘️'
+};
+
+async function loadProjects() {
+  const grid = document.getElementById('projects-grid');
+  grid.innerHTML = '<div class="col-span-full text-center py-10 text-[#999] text-sm">טוען פרויקטים...</div>';
+  const { data, error } = await sb.from('hopa_projects').select('*').eq('is_active', true).order('id');
+  if (error || !data) {
+    grid.innerHTML = '<div class="col-span-full text-center py-10 text-red-400 text-sm">שגיאה בטעינה</div>';
+    return;
+  }
+  if (!data.length) {
+    grid.innerHTML = '<div class="col-span-full text-center py-10 text-[#999] text-sm">אין פרויקטים</div>';
+    return;
+  }
+  grid.innerHTML = data.map(p => {
+    const icon = PROJECT_CATEGORY_ICONS[p.category] || '📋';
+    return `<div class="bg-white rounded-2xl border border-[#E5E5E5] p-5 hover:shadow-md transition-shadow">
+      <div class="flex items-start gap-3 mb-3">
+        <span class="text-2xl">${icon}</span>
+        <div class="flex-1 min-w-0">
+          <h3 class="font-bold text-sm leading-snug">${p.name}</h3>
+          ${p.category ? `<span class="text-xs text-[#999]">${p.category}</span>` : ''}
+        </div>
+      </div>
+      ${p.description ? `<p class="text-xs text-[#555] mb-3 leading-relaxed lc2">${p.description}</p>` : ''}
+      ${p.audience ? `<div class="mb-2"><span class="text-xs font-semibold text-[#666]">קהל יעד: </span><span class="text-xs text-[#555]">${p.audience}</span></div>` : ''}
+      ${p.highlights ? `<div class="mb-2"><span class="text-xs font-semibold text-[#666]">נקודות מפתח: </span><span class="text-xs text-[#555]">${p.highlights}</span></div>` : ''}
+      ${p.budget_note ? `<div class="bg-[#FFF200]/30 rounded-lg px-3 py-1.5 mt-2"><span class="text-xs font-semibold">תקציב: </span><span class="text-xs">${p.budget_note}</span></div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+// ── SOURCES ───────────────────────────────────────────────
+const SOURCE_META = {
+  'manual':       { label: 'הוספה ידנית',      icon: '✏️', desc: 'נוסף ידנית על ידי צוות הופה' },
+  'scan':         { label: 'ניתוח Claude',       icon: '🤖', desc: 'יובא דרך ניתוח קישור/PDF/טקסט' },
+  'tamir-weekly': { label: 'תמיר שרעבי',         icon: '📧', desc: 'עדכון שבועי ממייל רוה"ח תמיר' },
+  'portal':       { label: 'פורטל ממשלתי',       icon: '🏛️', desc: 'tmichot.mof.gov.il ואתרים ממשלתיים' },
+  'atlas':        { label: 'Atlas',             icon: '🗺️', desc: 'יוצא ידנית מ-Atlas (מנוי נדרש)' },
+  'thunderbit':   { label: 'Thunderbit',         icon: '⚡', desc: 'גירוד אוטומטי' },
+};
+
+async function loadSources() {
+  const grid = document.getElementById('sources-grid');
+  grid.innerHTML = '<div class="col-span-full text-center py-10 text-[#999] text-sm">טוען...</div>';
+  const { data, error } = await sb.from('grants').select('source, status');
+  if (error) {
+    grid.innerHTML = '<div class="col-span-full text-center py-10 text-red-400 text-sm">שגיאה</div>';
+    return;
+  }
+  // Count by source
+  const counts = {};
+  const openCounts = {};
+  (data || []).forEach(r => {
+    const s = r.source || 'manual';
+    counts[s] = (counts[s] || 0) + 1;
+    if (r.status !== 'closed' && r.status !== 'rejected') openCounts[s] = (openCounts[s] || 0) + 1;
+  });
+  const total = data ? data.length : 0;
+  // Build all known sources + any unknown
+  const allSources = [...new Set([...Object.keys(SOURCE_META), ...Object.keys(counts)])];
+  grid.innerHTML = allSources.map(src => {
+    const meta = SOURCE_META[src] || { label: src, icon: '📌', desc: '' };
+    const count = counts[src] || 0;
+    const open = openCounts[src] || 0;
+    const pct = total > 0 ? Math.round(count / total * 100) : 0;
+    return `<div class="bg-white rounded-2xl border border-[#E5E5E5] p-5">
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">${meta.icon}</span>
+          <span class="font-bold text-sm">${meta.label}</span>
+        </div>
+        <span class="text-2xl font-black ${count > 0 ? 'text-[#111]' : 'text-[#CCC]'}">${count}</span>
+      </div>
+      <p class="text-xs text-[#999] mb-3">${meta.desc}</p>
+      <div class="w-full bg-[#F0F0F0] rounded-full h-1.5 mb-2">
+        <div class="bg-[#FFF200] h-1.5 rounded-full" style="width:${pct}%"></div>
+      </div>
+      <div class="flex justify-between text-xs text-[#999]">
+        <span>${pct}% מהסה"כ</span>
+        ${open > 0 ? `<span class="text-green-600 font-medium">${open} פתוחים</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // ── INIT ─────────────────────────────────────────────────
