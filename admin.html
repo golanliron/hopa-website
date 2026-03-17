@@ -4036,8 +4036,7 @@ async function sendInvite() {
 // ══════════════════════════════════════════════
 async function loadSettingsPage() {
   // Load saved Claude key
-  const savedKey = localStorage.getItem('hopa_claude_key');
-  if (savedKey) $('settings-claude-key').value = savedKey;
+  $('settings-claude-key').value = getApiKey();
   // Load DB stats
   const [p, s, a] = await Promise.all([
     sb.from('programs').select('id',{count:'exact',head:true}),
