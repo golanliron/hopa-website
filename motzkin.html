@@ -1,734 +1,771 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>בוגרים מוצקין | הופה</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <style>
-    * { box-sizing: border-box; }
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: #F7F7F7; direction: rtl; color: #111; }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Rubik',sans-serif;background:#F7F7F7;color:#111;direction:rtl;min-height:100vh;}
 
-    /* ---- SEARCH ---- */
-    .search-hero { background: #000; padding: 28px 24px 32px; }
-    .search-box {
-      background: #fff;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-      max-width: 580px;
-      width: 100%;
-    }
-    .search-box input {
-      border: none; outline: none; font-size: 1rem;
-      flex: 1; background: transparent; direction: rtl;
-    }
-    .search-box .search-icon { color: #999; font-size: 1.1rem; }
+    /* ── HEADER ── */
+    .hdr{background:#000;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:100;}
+    .hdr-logo{background:#FFF200;color:#000;font-weight:900;font-size:1rem;padding:3px 12px;border-radius:8px;letter-spacing:-.3px;}
+    .hdr-title{color:#fff;font-weight:600;font-size:.88rem;margin-right:12px;}
+    .hdr-sep{color:#fff;opacity:.2;margin:0 4px;}
+    .hdr-right{display:flex;align-items:center;gap:10px;}
+    .btn-refresh{background:#FFF200;color:#000;border:none;border-radius:8px;padding:6px 14px;font-weight:700;cursor:pointer;font-size:.8rem;font-family:'Rubik',sans-serif;}
+    .btn-refresh:hover{background:#E6D900;}
+    .last-upd{color:#555;font-size:.72rem;}
+    .spinner{width:18px;height:18px;border:2.5px solid #333;border-top-color:#FFF200;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+    @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* ---- KPI ---- */
-    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
-    .kpi-card {
-      background: #fff;
-      border-radius: 14px;
-      border: 1px solid #E5E5E5;
-      padding: 16px 18px;
-    }
-    .kpi-num { font-size: 1.9rem; font-weight: 800; line-height: 1; color: #111; }
-    .kpi-lbl { font-size: 0.74rem; color: #666; margin-top: 4px; }
-    .kpi-accent { border-top: 3px solid #FFF200; }
+    /* ── SEARCH HERO ── */
+    .hero{background:#000;padding:28px 24px 36px;position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(255,242,0,.08) 0%,transparent 60%);}
+    .hero-label{color:#FFF200;font-size:.7rem;font-weight:700;letter-spacing:.14em;margin-bottom:10px;opacity:.9;}
+    .hero-title{color:#fff;font-size:1.7rem;font-weight:900;margin-bottom:18px;line-height:1.2;}
+    .hero-title span{color:#FFF200;}
+    .search-wrap{background:#fff;border-radius:14px;display:flex;align-items:center;gap:10px;padding:10px 16px;max-width:540px;box-shadow:0 4px 24px rgba(0,0,0,.3);}
+    .search-wrap input{border:none;outline:none;font-size:.95rem;flex:1;font-family:'Rubik',sans-serif;direction:rtl;}
+    .search-wrap .ico{color:#999;font-size:1.1rem;}
+    .search-count{font-size:.72rem;color:#aaa;white-space:nowrap;}
 
-    /* ---- TABS ---- */
-    .tabs { display: flex; gap: 0; border-bottom: 2px solid #E5E5E5; }
-    .tab {
-      padding: 10px 20px; font-size: 0.88rem; font-weight: 600;
-      cursor: pointer; color: #666; border-bottom: 3px solid transparent;
-      margin-bottom: -2px; transition: all 0.15s; white-space: nowrap;
-    }
-    .tab.active { color: #111; border-bottom-color: #FFF200; }
-    .tab:hover:not(.active) { color: #333; }
+    /* ── LAYOUT ── */
+    .content{max-width:1100px;margin:0 auto;padding:20px 16px;display:flex;gap:20px;}
+    .main-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:16px;}
+    .side-panel{width:380px;flex-shrink:0;}
 
-    /* ---- FILTERS ---- */
-    .chip {
-      display: inline-flex; align-items: center;
-      padding: 5px 14px; border-radius: 20px; font-size: 0.78rem;
-      border: 1px solid #E5E5E5; background: #fff; cursor: pointer;
-      color: #444; transition: all 0.15s; white-space: nowrap;
-    }
-    .chip.active { background: #FFF200; border-color: #FFF200; color: #000; font-weight: 700; }
-    .chip:hover:not(.active) { border-color: #999; }
+    /* ── KPI ── */
+    .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+    .kpi{background:#fff;border-radius:14px;border:1px solid #E5E5E5;padding:14px 16px;border-top:3px solid #FFF200;}
+    .kpi-n{font-size:1.8rem;font-weight:900;line-height:1;}
+    .kpi-l{font-size:.71rem;color:#666;margin-top:3px;}
 
-    /* ---- GRADUATE LIST ---- */
-    .grad-row {
-      background: #fff;
-      border: 1px solid #E5E5E5;
-      border-radius: 12px;
-      margin-bottom: 8px;
-      overflow: hidden;
-      transition: box-shadow 0.15s;
-    }
-    .grad-row:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
-    .grad-header {
-      display: grid;
-      grid-template-columns: 1fr 120px 130px 130px 40px;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 16px;
-      cursor: pointer;
-    }
-    .grad-name { font-weight: 700; font-size: 0.92rem; }
-    .grad-phone { font-size: 0.8rem; color: #555; direction: ltr; unicode-bidi: isolate; }
-    .grad-details {
-      display: none;
-      padding: 0 16px 14px;
-      border-top: 1px solid #F0F0F0;
-      margin-top: 0;
-    }
-    .grad-details.open { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; }
-    .detail-item { font-size: 0.8rem; }
-    .detail-label { color: #888; margin-bottom: 1px; }
-    .detail-value { color: #111; font-weight: 500; }
+    /* ── TABS ── */
+    .tabs-bar{background:#fff;border-radius:14px;border:1px solid #E5E5E5;overflow:hidden;}
+    .tabs-nav{display:flex;border-bottom:1px solid #E5E5E5;padding:0 4px;}
+    .tab-btn{padding:12px 16px;font-size:.82rem;font-weight:600;cursor:pointer;color:#888;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap;font-family:'Rubik',sans-serif;background:none;border-top:none;border-left:none;border-right:none;}
+    .tab-btn.on{color:#111;border-bottom-color:#FFF200;}
+    .tab-btn:hover:not(.on){color:#444;}
+    .tab-body{padding:16px;}
+    .tab-pane{display:none;}
+    .tab-pane.on{display:block;}
 
-    /* ---- BADGES ---- */
-    .badge {
-      display: inline-block;
-      padding: 2px 9px;
-      border-radius: 20px;
-      font-size: 0.71rem;
-      font-weight: 600;
-    }
-    .badge-yellow { background: #FFF200; color: #000; }
-    .badge-gray   { background: #F0F0F0; color: #444; }
-    .badge-red    { background: #FFE8E8; color: #C00; }
-    .badge-green  { background: #E6F9EE; color: #1a7a3c; }
-    .badge-blue   { background: #E8F0FF; color: #1a3ca0; }
-    .badge-orange { background: #FFF3E0; color: #b45309; }
+    /* ── FILTERS ── */
+    .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;align-items:center;}
+    .chip{padding:5px 13px;border-radius:20px;font-size:.76rem;border:1px solid #E5E5E5;background:#fff;cursor:pointer;color:#555;transition:all .15s;font-family:'Rubik',sans-serif;}
+    .chip.on{background:#FFF200;border-color:#FFF200;color:#000;font-weight:700;}
+    .chip:hover:not(.on){border-color:#999;}
+    .filter-label{font-size:.72rem;color:#aaa;font-weight:500;}
 
-    /* ---- BIRTHDAY ---- */
-    .bday-card {
-      background: #fff;
-      border: 1px solid #E5E5E5;
-      border-radius: 14px;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .bday-date-box {
-      background: #FFF200;
-      border-radius: 10px;
-      padding: 6px 12px;
-      text-align: center;
-      min-width: 56px;
-    }
-    .bday-day { font-size: 1.4rem; font-weight: 800; line-height: 1; }
-    .bday-month { font-size: 0.7rem; font-weight: 600; }
+    /* ── GRADUATE LIST ── */
+    .grad-list{display:flex;flex-direction:column;gap:6px;}
+    .grad-card{background:#fff;border:1.5px solid #E5E5E5;border-radius:12px;cursor:pointer;transition:all .15s;overflow:hidden;}
+    .grad-card:hover{border-color:#ccc;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+    .grad-card.selected{border-color:#FFF200;box-shadow:0 0 0 2px #FFF20033;}
+    .grad-row-main{display:grid;grid-template-columns:1fr 120px 140px 32px;align-items:center;gap:8px;padding:12px 14px;}
+    .grad-name{font-weight:700;font-size:.9rem;}
+    .grad-sub{font-size:.74rem;color:#888;margin-top:2px;}
+    .grad-phone{font-size:.78rem;color:#555;direction:ltr;unicode-bidi:isolate;}
+    .grad-next{font-size:.74rem;}
+    .toggle-ico{color:#bbb;font-size:.85rem;text-align:center;transition:transform .2s;}
+    .grad-card.open .toggle-ico{transform:rotate(180deg);}
 
-    /* ---- PRIORITY ---- */
-    .priority-item {
-      background: #fff;
-      border: 1px solid #E5E5E5;
-      border-radius: 10px;
-      padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.83rem;
-    }
+    /* expand details */
+    .grad-details{display:none;border-top:1px solid #F0F0F0;padding:12px 14px 14px;}
+    .grad-card.open .grad-details{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;}
+    .det-item .det-lbl{font-size:.68rem;color:#aaa;margin-bottom:1px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
+    .det-item .det-val{font-size:.82rem;color:#111;font-weight:500;}
+    .det-full{grid-column:1/-1;}
 
-    /* ---- MISC ---- */
-    .btn-monday {
-      display: inline-flex; align-items: center; gap: 4px;
-      padding: 5px 12px; border-radius: 8px;
-      background: #000; color: #fff; font-size: 0.74rem; font-weight: 600;
-      text-decoration: none; transition: background 0.15s; white-space: nowrap;
-    }
-    .btn-monday:hover { background: #333; }
-    .btn-yellow {
-      background: #FFF200; color: #000; border: none;
-      border-radius: 8px; padding: 7px 18px; font-weight: 700;
-      cursor: pointer; font-size: 0.85rem; transition: background 0.15s;
-    }
-    .btn-yellow:hover { background: #E6D900; }
-    .empty-txt { text-align: center; color: #aaa; font-size: 0.88rem; padding: 32px 0; }
-    .spinner {
-      border: 3px solid #E5E5E5; border-top: 3px solid #FFF200;
-      border-radius: 50%; width: 20px; height: 20px;
-      animation: spin 0.8s linear infinite; display: inline-block; vertical-align: middle;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .section-label {
-      font-size: 0.72rem; font-weight: 700; color: #888;
-      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;
-    }
+    /* ── BADGES ── */
+    .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.68rem;font-weight:600;}
+    .b-yellow{background:#FFF200;color:#000;}
+    .b-gray{background:#F0F0F0;color:#555;}
+    .b-green{background:#E6F9EE;color:#1a7a3c;}
+    .b-red{background:#FFE8E8;color:#c00;}
+    .b-blue{background:#EEF3FF;color:#2244bb;}
+    .b-orange{background:#FFF3E0;color:#b45309;}
+    .b-purple{background:#F3E8FF;color:#7c3aed;}
 
-    /* ---- PAGINATION ---- */
-    .page-btn {
-      border: 1px solid #E5E5E5; background: #fff;
-      border-radius: 6px; padding: 4px 11px;
-      cursor: pointer; font-size: 0.8rem; color: #333;
-    }
-    .page-btn:hover:not(:disabled) { background: #FFF200; border-color: #FFF200; }
-    .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-    .page-btn.curr { background: #000; color: #fff; border-color: #000; }
+    /* ── PAGINATION ── */
+    .pg{display:flex;align-items:center;justify-content:space-between;margin-top:12px;}
+    .pg-btn{border:1px solid #E5E5E5;background:#fff;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:.78rem;color:#333;font-family:'Rubik',sans-serif;}
+    .pg-btn:hover:not(:disabled){background:#FFF200;border-color:#FFF200;}
+    .pg-btn:disabled{opacity:.3;cursor:not-allowed;}
+    .pg-btn.curr{background:#000;color:#fff;border-color:#000;}
+    .pg-pages{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;}
 
-    @media (max-width: 640px) {
-      .grad-header { grid-template-columns: 1fr 100px 36px; }
-      .grad-header .grad-phone,
-      .grad-header .grad-what { display: none; }
-      .grad-details.open { grid-template-columns: 1fr; }
+    /* ── PRIORITY ── */
+    .pri-item{background:#fff;border:1px solid #E5E5E5;border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:.82rem;margin-bottom:6px;}
+    .pri-name{font-weight:700;flex:1;}
+
+    /* ── BIRTHDAY ── */
+    .bday-item{background:#fff;border:1px solid #E5E5E5;border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:14px;margin-bottom:8px;}
+    .bday-box{background:#FFF200;border-radius:10px;padding:6px 10px;text-align:center;min-width:52px;}
+    .bday-d{font-size:1.3rem;font-weight:900;line-height:1;}
+    .bday-m{font-size:.65rem;font-weight:700;}
+    .bday-today{border:2px solid #FFF200;}
+
+    /* ── ANALYTICS ── */
+    .chart-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+    .chart-lbl{font-size:.78rem;color:#444;min-width:110px;text-align:right;}
+    .chart-bar-bg{flex:1;background:#F0F0F0;border-radius:20px;height:20px;overflow:hidden;}
+    .chart-bar-fill{height:100%;background:#FFF200;border-radius:20px;display:flex;align-items:center;padding-right:8px;font-size:.68rem;font-weight:700;color:#000;transition:width .5s;}
+    .chart-cnt{font-size:.75rem;color:#666;min-width:24px;}
+    .analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .analytics-card{background:#fff;border:1px solid #E5E5E5;border-radius:12px;padding:14px;}
+    .analytics-title{font-size:.78rem;font-weight:700;color:#666;margin-bottom:12px;text-transform:uppercase;letter-spacing:.04em;}
+
+    /* ── SIDE PANEL ── */
+    .side-empty{background:#fff;border:1.5px dashed #E5E5E5;border-radius:16px;padding:40px 20px;text-align:center;color:#bbb;}
+    .side-empty .ico{font-size:2rem;margin-bottom:8px;}
+    .profile-card{background:#fff;border-radius:16px;border:1px solid #E5E5E5;overflow:hidden;position:sticky;top:72px;}
+    .profile-top{background:#000;padding:20px;display:flex;align-items:center;gap:14px;}
+    .profile-avatar{width:52px;height:52px;background:#FFF200;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:900;color:#000;flex-shrink:0;}
+    .profile-name{color:#fff;font-weight:800;font-size:1rem;line-height:1.2;}
+    .profile-school{color:#888;font-size:.75rem;margin-top:2px;}
+    .profile-body{padding:16px;}
+    .profile-section{margin-bottom:16px;}
+    .profile-section-title{font-size:.68rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+    .profile-section-title::before{content:'';width:3px;height:12px;background:#FFF200;border-radius:2px;display:inline-block;}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+    .info-item .lbl{font-size:.67rem;color:#aaa;margin-bottom:1px;}
+    .info-item .val{font-size:.82rem;color:#111;font-weight:500;}
+    .btn-monday{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;background:#000;color:#fff;font-size:.75rem;font-weight:700;text-decoration:none;transition:background .15s;}
+    .btn-monday:hover{background:#333;}
+    .maan-card{background:#F7F7F7;border-radius:10px;padding:10px 12px;margin-bottom:6px;}
+    .maan-name{font-size:.82rem;font-weight:700;color:#111;margin-bottom:2px;}
+    .maan-cat{font-size:.68rem;color:#888;}
+    .maan-link{font-size:.72rem;color:#000;font-weight:600;text-decoration:none;border-bottom:1px solid #FFF200;}
+    .maan-link:hover{color:#555;}
+    .empty-txt{text-align:center;color:#bbb;font-size:.85rem;padding:24px 0;}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      .content{flex-direction:column;}
+      .side-panel{width:100%;}
+      .kpi-row{grid-template-columns:repeat(3,1fr);}
+      .grad-row-main{grid-template-columns:1fr 100px 28px;}
+      .grad-row-main .grad-next{display:none;}
+    }
+    @media(max-width:500px){
+      .kpi-row{grid-template-columns:repeat(2,1fr);}
+      .grad-row-main{grid-template-columns:1fr 28px;}
+      .grad-row-main .grad-phone{display:none;}
     }
   </style>
 </head>
 <body>
 
 <!-- HEADER -->
-<header class="bg-black text-white px-5 py-3 flex items-center justify-between sticky top-0 z-50">
-  <div class="flex items-center gap-3">
-    <span style="color:#FFF200;font-weight:900;font-size:1.15rem;letter-spacing:-0.5px">הופה</span>
-    <span style="color:#fff;opacity:0.2">|</span>
-    <span style="font-weight:600;font-size:0.9rem">בוגרים מוצקין</span>
+<header class="hdr">
+  <div style="display:flex;align-items:center;">
+    <span class="hdr-logo">הופה</span>
+    <span class="hdr-sep">|</span>
+    <span class="hdr-title">בוגרים מוצקין</span>
   </div>
-  <div class="flex items-center gap-3">
-    <div id="spinner" class="spinner hidden"></div>
-    <span id="lastUpdated" style="font-size:0.72rem;color:#888">טרם נטען</span>
-    <button class="btn-yellow" onclick="loadData()">⟳ רענן</button>
+  <div class="hdr-right">
+    <div class="spinner" id="spinner"></div>
+    <span class="last-upd" id="lastUpd">טרם נטען</span>
+    <button class="btn-refresh" onclick="loadAll()">⟳ רענן</button>
   </div>
 </header>
 
 <!-- SEARCH HERO -->
-<div class="search-hero">
-  <div style="color:#fff;font-size:0.78rem;opacity:0.6;margin-bottom:12px">חיפוש בוגר</div>
-  <div class="search-box">
-    <span class="search-icon">🔍</span>
-    <input type="text" id="searchInput" placeholder="שם, טלפון, עיר..." oninput="applyFilters()" autocomplete="off" />
-    <span id="searchCount" style="font-size:0.75rem;color:#aaa;white-space:nowrap"></span>
+<div class="hero">
+  <div class="hero-label">לוח בקרה — בוגרים מוצקין</div>
+  <div class="hero-title">שלום, <span>צוות הופה</span> 👋</div>
+  <div class="search-wrap">
+    <span class="ico">🔍</span>
+    <input type="text" id="searchInput" placeholder="חיפוש לפי שם, טלפון, עיר..." oninput="applyFilters()"/>
+    <span class="search-count" id="searchCount"></span>
   </div>
 </div>
 
-<main style="max-width:900px;margin:0 auto;padding:20px 16px;display:flex;flex-direction:column;gap:20px;">
+<div class="content">
 
-  <!-- KPIs -->
-  <section>
-    <div class="kpi-grid">
-      <div class="kpi-card kpi-accent">
-        <div class="kpi-num" id="kpi-total">—</div>
-        <div class="kpi-lbl">סה"כ בוגרים</div>
-      </div>
-      <div class="kpi-card kpi-accent">
-        <div class="kpi-num" id="kpi-touched">—</div>
-        <div class="kpi-lbl">יש לנו מידע</div>
-      </div>
-      <div class="kpi-card kpi-accent">
-        <div class="kpi-num" id="kpi-working">—</div>
-        <div class="kpi-lbl">עובדים</div>
-      </div>
-      <div class="kpi-card kpi-accent">
-        <div class="kpi-num" id="kpi-army">—</div>
-        <div class="kpi-lbl">בצבא</div>
-      </div>
-      <div class="kpi-card kpi-accent">
-        <div class="kpi-num" id="kpi-callback">—</div>
-        <div class="kpi-lbl">לחזור אליהם</div>
-      </div>
-      <div class="kpi-card kpi-accent">
-        <div class="kpi-num" id="kpi-thisweek">—</div>
-        <div class="kpi-lbl">שיחה השבוע</div>
-      </div>
-    </div>
-  </section>
+  <!-- MAIN COLUMN -->
+  <div class="main-col">
 
-  <!-- TABS -->
-  <section style="background:#fff;border-radius:16px;border:1px solid #E5E5E5;overflow:hidden;">
-    <div style="padding:16px 20px 0;">
-      <div class="tabs" id="tabs">
-        <div class="tab active" onclick="switchTab('graduates',this)">📋 כל הבוגרים</div>
-        <div class="tab" onclick="switchTab('priority',this)">⚡ דחופים</div>
-        <div class="tab" onclick="switchTab('birthdays',this)">🎂 ימי הולדת</div>
-      </div>
+    <!-- KPIs -->
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-n" id="k-total">—</div><div class="kpi-l">סה"כ בוגרים</div></div>
+      <div class="kpi"><div class="kpi-n" id="k-touch">—</div><div class="kpi-l">יש לנו מידע</div></div>
+      <div class="kpi"><div class="kpi-n" id="k-work">—</div><div class="kpi-l">עובדים</div></div>
+      <div class="kpi"><div class="kpi-n" id="k-army">—</div><div class="kpi-l">בצבא</div></div>
+      <div class="kpi"><div class="kpi-n" id="k-cb">—</div><div class="kpi-l">לחזור אליהם</div></div>
+      <div class="kpi"><div class="kpi-n" id="k-week">—</div><div class="kpi-l">שיחה השבוע</div></div>
     </div>
 
-    <!-- TAB: GRADUATES -->
-    <div id="tab-graduates" style="padding:16px 20px;">
-
-      <!-- Filter chips -->
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;align-items:center;">
-        <span style="font-size:0.75rem;color:#888">מה עושה:</span>
-        <div class="chip active" onclick="setFilter('what','',this)">הכל</div>
-        <div class="chip" onclick="setFilter('what','חייל',this)">חייל/ת</div>
-        <div class="chip" onclick="setFilter('what','עובד',this)">עובד/ת</div>
-        <div class="chip" onclick="setFilter('what','לימודים',this)">לימודים</div>
-        <div class="chip" onclick="setFilter('what','לא עובד',this)">לא עובד</div>
-        <div class="chip" onclick="setFilter('what','מכינה',this)">מכינה</div>
-        <div id="resCount" style="margin-right:auto;font-size:0.75rem;color:#999"></div>
+    <!-- TABS -->
+    <div class="tabs-bar">
+      <div class="tabs-nav">
+        <button class="tab-btn on" onclick="switchTab('list',this)">📋 כל הבוגרים</button>
+        <button class="tab-btn" onclick="switchTab('priority',this)">⚡ דחופים</button>
+        <button class="tab-btn" onclick="switchTab('bday',this)">🎂 ימי הולדת</button>
+        <button class="tab-btn" onclick="switchTab('analytics',this)">📊 נתונים</button>
       </div>
 
-      <!-- List -->
-      <div id="gradList">
-        <div class="empty-txt">טוען נתונים מ-Monday.com...</div>
+      <!-- TAB: LIST -->
+      <div class="tab-body tab-pane on" id="tab-list">
+        <div class="chips">
+          <span class="filter-label">מה עושה:</span>
+          <div class="chip on" onclick="setF('what','',this)">הכל</div>
+          <div class="chip" onclick="setF('what','חייל',this)">חייל/ת</div>
+          <div class="chip" onclick="setF('what','עובד',this)">עובד/ת</div>
+          <div class="chip" onclick="setF('what','לימודים',this)">לימודים</div>
+          <div class="chip" onclick="setF('what','מכינה',this)">מכינה</div>
+          <div class="chip" onclick="setF('what','לא עובד',this)">לא עובד</div>
+          <span id="resCount" style="margin-right:auto;font-size:.72rem;color:#aaa;"></span>
+        </div>
+        <div class="grad-list" id="gradList"><div class="empty-txt">טוען נתונים מ-Monday.com...</div></div>
+        <div class="pg" id="pgWrap">
+          <button class="pg-btn" id="prevBtn" onclick="changePg(-1)" disabled>→ הקודם</button>
+          <div class="pg-pages" id="pgPages"></div>
+          <button class="pg-btn" id="nextBtn" onclick="changePg(1)">הבא ←</button>
+        </div>
       </div>
 
-      <!-- Pagination -->
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;" id="paginationWrap">
-        <button class="page-btn" id="prevBtn" onclick="changePage(-1)" disabled>→ הקודם</button>
-        <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;" id="pageButtons"></div>
-        <button class="page-btn" id="nextBtn" onclick="changePage(1)">הבא ←</button>
+      <!-- TAB: PRIORITY -->
+      <div class="tab-body tab-pane" id="tab-priority">
+        <div id="priorityList"><div class="empty-txt">טוען...</div></div>
+      </div>
+
+      <!-- TAB: BIRTHDAY -->
+      <div class="tab-body tab-pane" id="tab-bday">
+        <div id="bdayList"><div class="empty-txt">טוען...</div></div>
+      </div>
+
+      <!-- TAB: ANALYTICS -->
+      <div class="tab-body tab-pane" id="tab-analytics">
+        <div class="analytics-grid" id="analyticsGrid"><div class="empty-txt" style="grid-column:1/-1">טוען...</div></div>
       </div>
     </div>
 
-    <!-- TAB: PRIORITY -->
-    <div id="tab-priority" style="padding:16px 20px;display:none;">
-      <div id="priorityList"><div class="empty-txt">טוען...</div></div>
+  </div><!-- /main-col -->
+
+  <!-- SIDE PANEL -->
+  <div class="side-panel">
+    <div class="side-empty" id="sideEmpty">
+      <div class="ico">👆</div>
+      <div style="font-weight:600;color:#999;margin-bottom:4px;">בחר בוגר מהרשימה</div>
+      <div style="font-size:.78rem;">לחץ על כל בוגר כדי לראות את הפרטים המלאים והמענים המתאימים לו</div>
     </div>
+    <div class="profile-card" id="profileCard" style="display:none;"></div>
+  </div>
 
-    <!-- TAB: BIRTHDAYS -->
-    <div id="tab-birthdays" style="padding:16px 20px;display:none;">
-      <div id="birthdayList"><div class="empty-txt">טוען...</div></div>
-    </div>
-
-  </section>
-
-</main>
+</div><!-- /content -->
 
 <script>
+/* ══════════════════════════════════════════
+   CONFIG
+══════════════════════════════════════════ */
 const MONDAY_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjU1MTE3ODY0MCwiYWFpIjoxMSwidWlkIjo3OTYwODg1MSwiaWFkIjoiMjAyNS0wOC0xN1QxNDoyMjowMS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MzA3Mjc0MDAsInJnbiI6ImV1YzEifQ.v08TgFNEtd9pBcws4lpRs-8TVxAW3YBAuOOPP3IYo4Q';
-const BOARD_ID = '5090710409';
-const API_URL  = 'https://api.monday.com/v2';
+const BOARD_ID  = '5090710409';
+const MONDAY_URL= 'https://api.monday.com/v2';
 
-// Column IDs — Motzkin specific
+const SUPABASE_URL = 'https://vhmwijzcrqjjquxomccq.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZobXdpanpjcnFqanF1eG9tY2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1Nzk0MDgsImV4cCI6MjA4OTE1NTQwOH0.rMnAcdMiPddUAoap63tMiqeQQanJoF-HDmzra7P-5Cc';
+
 const C = {
-  lastName:   'text_mkvbye47',
-  phone:      'phone_mkvb5qwz',
-  phoneText:  'text_mm0vv7rt',
-  gender:     'text_mkvwa8nb',
-  year:       'color_mm0mssvc',
-  city:       'text_mkvwnmm4',
-  major:      'color_mm0mjsj8',
-  service:    'color_mkw0rdsg',
-  whatToday:  'color_mkw4et1p',
-  impact:     'color_mkvwbt7y',
-  notes:      'dropdown_mm0p4kps',
-  hopaNotes:  'long_text_mkw0p90p',
-  lastTalk:   'date_mkvw1gnh',
-  nextTalk:   'date_mkvw7ytx',
-  answeredQ:  'color_mm0p98aw',
-  birthday:   'date_mkbday000',  // ← עדכן ל-ID האמיתי של עמודת יום הולדת
+  lastName:'text_mkvbye47', phone:'phone_mkvb5qwz', phoneText:'text_mm0vv7rt',
+  gender:'text_mkvwa8nb', year:'color_mm0mssvc', city:'text_mkvwnmm4',
+  major:'color_mm0mjsj8', service:'color_mkw0rdsg', whatToday:'color_mkw4et1p',
+  impact:'color_mkvwbt7y', notes:'dropdown_mm0p4kps', hopaNotes:'long_text_mkw0p90p',
+  lastTalk:'date_mkvw1gnh', nextTalk:'date_mkvw7ytx', formSent:'color_mkvx5qmw',
+  answeredQ:'color_mm0p98aw', birthday:'date_mkbday000',
 };
 
-let ALL = [];
-let FILTERED = [];
-let PAGE = 1;
-const PER_PAGE = 25;
-const FILTERS = { what: '' };
+const HE_MONTHS = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
 
-// ─── Helpers ─────────────────────────────────────────────
-function colText(item, id) {
-  const c = (item.column_values||[]).find(x=>x.id===id);
-  if (!c) return '';
-  if (c.text) return c.text.trim();
-  try {
-    const v = JSON.parse(c.value||'{}');
-    if (v && v.chosenValues) return v.chosenValues.map(x=>x.name).join(', ');
-  } catch(e){}
-  return '';
+/* ══ STATE ══ */
+let ALL=[], FILTERED=[], PROGRAMS=[], PAGE=1, PER=20;
+const F={what:''};
+let selectedId = null;
+
+/* ══════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════ */
+function ct(item,id){
+  const c=(item.column_values||[]).find(x=>x.id===id);
+  if(!c)return'';
+  if(c.text)return c.text.trim();
+  try{const v=JSON.parse(c.value||'{}');if(v&&v.chosenValues)return v.chosenValues.map(x=>x.name).join(', ');}catch(e){}
+  return'';
 }
+function cd(item,id){const c=(item.column_values||[]).find(x=>x.id===id);return c&&c.text?c.text.trim():'';}
+function pd(s){if(!s)return null;const m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);return m?new Date(+m[1],+m[2]-1,+m[3]):null;}
+function fd(s){const d=pd(s);return d?d.toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function mondayUrl(id){return`https://hopa-org.monday.com/boards/${BOARD_ID}/pulses/${id}`;}
 
-function colDate(item, id) {
-  const c = (item.column_values||[]).find(x=>x.id===id);
-  return c&&c.text ? c.text.trim() : '';
-}
-
-function parseDate(str) {
-  if (!str) return null;
-  const m = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  return m ? new Date(+m[1], +m[2]-1, +m[3]) : null;
-}
-
-function fmtDate(str) {
-  const d = parseDate(str);
-  return d ? d.toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'}) : '—';
-}
-
-function esc(s) {
-  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function mondayLink(id) {
-  return `https://hopa-org.monday.com/boards/${BOARD_ID}/pulses/${id}`;
-}
-
-function parseItem(item) {
-  const phone = colText(item,C.phone)||colText(item,C.phoneText);
-  return {
-    id: item.id,
-    name: item.name||'',
-    lastName: colText(item,C.lastName),
-    fullName: [item.name, colText(item,C.lastName)].filter(Boolean).join(' ')||'—',
-    phone,
-    gender: colText(item,C.gender),
-    year: colText(item,C.year),
-    city: colText(item,C.city),
-    major: colText(item,C.major),
-    service: colText(item,C.service),
-    whatToday: colText(item,C.whatToday),
-    impact: colText(item,C.impact),
-    notes: colText(item,C.notes),
-    hopaNotes: colText(item,C.hopaNotes),
-    lastTalk: colDate(item,C.lastTalk),
-    nextTalk: colDate(item,C.nextTalk),
-    birthday: colDate(item,C.birthday),
+function parseItem(item){
+  const phone=ct(item,C.phone)||ct(item,C.phoneText);
+  return{
+    id:item.id, name:item.name||'', lastName:ct(item,C.lastName),
+    fullName:[item.name,ct(item,C.lastName)].filter(Boolean).join(' ')||'—',
+    phone, gender:ct(item,C.gender), year:ct(item,C.year), city:ct(item,C.city),
+    major:ct(item,C.major), service:ct(item,C.service), whatToday:ct(item,C.whatToday),
+    impact:ct(item,C.impact), notes:ct(item,C.notes), hopaNotes:ct(item,C.hopaNotes),
+    lastTalk:cd(item,C.lastTalk), nextTalk:cd(item,C.nextTalk),
+    formSent:ct(item,C.formSent), answeredQ:ct(item,C.answeredQ),
+    birthday:cd(item,C.birthday),
   };
 }
 
-function isTouched(g) {
-  return !!(g.whatToday||g.notes||g.impact||g.lastTalk||g.hopaNotes);
+function isTouched(g){return!!(g.whatToday||g.notes||g.impact||g.lastTalk||g.hopaNotes);}
+function isWorking(g){const w=(g.whatToday||'').toLowerCase();return w.includes('עובד')||w.includes('עבודה')||w.includes('בעל עסק');}
+function isArmy(g){return(g.whatToday||'').includes('חייל')||(g.whatToday||'').includes('חיילת')||(g.service||'').includes('מ"ל');}
+
+function whatBadge(w){
+  if(!w)return'';
+  if(w.includes('חייל')||w.includes('חיילת'))return`<span class="badge b-blue">${esc(w)}</span>`;
+  if(w.includes('עובד')||w.includes('עבודה')||w.includes('בעל עסק'))return`<span class="badge b-green">${esc(w)}</span>`;
+  if(w.includes('לימוד')||w.includes('מכינה'))return`<span class="badge b-orange">${esc(w)}</span>`;
+  if(w.includes('לא עובד'))return`<span class="badge b-red">${esc(w)}</span>`;
+  return`<span class="badge b-gray">${esc(w)}</span>`;
 }
 
-function isWorking(g) {
-  const w=(g.whatToday||'').toLowerCase();
-  return w.includes('עובד')||w.includes('עבודה')||w.includes('בעל עסק');
+/* ══════════════════════════════════════════
+   API — MONDAY
+══════════════════════════════════════════ */
+async function fetchMondayPage(cursor){
+  const cp=cursor?`, cursor: "${cursor}"`:'';
+  const ids=Object.values(C).map(id=>`"${id}"`).join(',');
+  const q=`{boards(ids:[${BOARD_ID}]){items_page(limit:500${cp}){cursor items{id name column_values(ids:[${ids}]){id text value}}}}}`;
+  const r=await fetch(MONDAY_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':MONDAY_TOKEN,'API-Version':'2024-10'},body:JSON.stringify({query:q})});
+  if(!r.ok)throw new Error(`HTTP ${r.status}`);
+  const d=await r.json();
+  if(d.errors)throw new Error(d.errors[0].message);
+  const pg=d.data.boards[0].items_page;
+  return{items:pg.items,cursor:pg.cursor};
 }
 
-function isArmy(g) {
-  return (g.whatToday||'').includes('חייל')||(g.service||'').includes('מ"ל');
+/* ══════════════════════════════════════════
+   API — SUPABASE PROGRAMS
+══════════════════════════════════════════ */
+async function fetchPrograms(){
+  try{
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/programs?select=id,name,category,subcategory,age_track,description,url&limit=500`,{
+      headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json'}
+    });
+    if(!r.ok)return[];
+    return await r.json();
+  }catch(e){return[];}
 }
 
-// ─── Status badge ─────────────────────────────────────────
-function whatBadge(w) {
-  if (!w) return '';
-  if (w.includes('חייל')||w.includes('צבא')) return `<span class="badge badge-blue">${esc(w)}</span>`;
-  if (isWorking({whatToday:w})) return `<span class="badge badge-green">${esc(w)}</span>`;
-  if (w.includes('לימוד')||w.includes('מכינה')) return `<span class="badge badge-orange">${esc(w)}</span>`;
-  return `<span class="badge badge-gray">${esc(w)}</span>`;
+/* ══════════════════════════════════════════
+   LOAD ALL
+══════════════════════════════════════════ */
+async function loadAll(){
+  document.getElementById('spinner').style.display='block';
+  document.getElementById('gradList').innerHTML='<div class="empty-txt">טוען מ-Monday.com...</div>';
+  try{
+    let items=[],cursor=null;
+    do{const r=await fetchMondayPage(cursor);items=items.concat(r.items);cursor=r.cursor;}while(cursor);
+    ALL=items.map(parseItem);
+    PROGRAMS=await fetchPrograms();
+    FILTERED=[...ALL];PAGE=1;
+    updateKPIs();applyFilters();renderPriority();renderBirthdays();renderAnalytics();
+    const now=new Date();
+    document.getElementById('lastUpd').textContent='עודכן '+now.toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+  }catch(e){
+    document.getElementById('gradList').innerHTML=`<div class="empty-txt" style="color:#e00">שגיאה: ${esc(e.message)}</div>`;
+  }finally{document.getElementById('spinner').style.display='none';}
 }
 
-// ─── API ──────────────────────────────────────────────────
-async function fetchPage(cursor) {
-  const cp = cursor ? `, cursor: "${cursor}"` : '';
-  const ids = Object.values(C).map(id=>`"${id}"`).join(',');
-  const q = `{
-    boards(ids:[${BOARD_ID}]) {
-      items_page(limit:500${cp}) {
-        cursor
-        items { id name column_values(ids:[${ids}]) { id text value } }
-      }
-    }
-  }`;
-  const r = await fetch(API_URL,{
-    method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':MONDAY_TOKEN,'API-Version':'2024-10'},
-    body:JSON.stringify({query:q}),
-  });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  const d = await r.json();
-  if (d.errors) throw new Error(d.errors[0].message);
-  const pg = d.data.boards[0].items_page;
-  return {items:pg.items, cursor:pg.cursor};
+/* ══════════════════════════════════════════
+   KPIs
+══════════════════════════════════════════ */
+function updateKPIs(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const w7=new Date(today);w7.setDate(w7.getDate()+7);
+  const cb=ALL.filter(g=>{const d=pd(g.nextTalk);return(g.notes||'').includes('לחזור')||(d&&d>=today);}).length;
+  document.getElementById('k-total').textContent=ALL.length;
+  document.getElementById('k-touch').textContent=ALL.filter(isTouched).length;
+  document.getElementById('k-work').textContent=ALL.filter(isWorking).length;
+  document.getElementById('k-army').textContent=ALL.filter(isArmy).length;
+  document.getElementById('k-cb').textContent=cb;
+  document.getElementById('k-week').textContent=ALL.filter(g=>{const d=pd(g.nextTalk);return d&&d>=today&&d<=w7;}).length;
 }
 
-async function loadData() {
-  document.getElementById('spinner').classList.remove('hidden');
-  document.getElementById('gradList').innerHTML = '<div class="empty-txt">טוען...</div>';
-  try {
-    let items=[], cursor=null;
-    do {
-      const r = await fetchPage(cursor);
-      items = items.concat(r.items);
-      cursor = r.cursor;
-    } while(cursor);
-
-    ALL = items.map(parseItem);
-    FILTERED = [...ALL];
-    PAGE = 1;
-
-    updateKPIs();
-    applyFilters();
-    renderPriority();
-    renderBirthdays();
-
-    const now = new Date();
-    document.getElementById('lastUpdated').textContent =
-      'עודכן ' + now.toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
-  } catch(e) {
-    document.getElementById('gradList').innerHTML =
-      `<div class="empty-txt" style="color:#e00">שגיאה: ${esc(e.message)}</div>`;
-  } finally {
-    document.getElementById('spinner').classList.add('hidden');
-  }
+/* ══════════════════════════════════════════
+   FILTERS
+══════════════════════════════════════════ */
+function setF(type,val,btn){
+  F[type]=val;
+  btn.parentElement.querySelectorAll('.chip').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');PAGE=1;applyFilters();
 }
 
-// ─── KPIs ─────────────────────────────────────────────────
-function updateKPIs() {
-  const today = new Date(); today.setHours(0,0,0,0);
-  const w7 = new Date(today); w7.setDate(w7.getDate()+7);
-
-  const callback = ALL.filter(g => {
-    const d = parseDate(g.nextTalk);
-    return (g.notes||'').includes('לחזור') || (d && d >= today);
-  }).length;
-
-  document.getElementById('kpi-total').textContent = ALL.length;
-  document.getElementById('kpi-touched').textContent = ALL.filter(isTouched).length;
-  document.getElementById('kpi-working').textContent = ALL.filter(isWorking).length;
-  document.getElementById('kpi-army').textContent = ALL.filter(isArmy).length;
-  document.getElementById('kpi-callback').textContent = callback;
-  document.getElementById('kpi-thisweek').textContent = ALL.filter(g=>{
-    const d = parseDate(g.nextTalk);
-    return d && d>=today && d<=w7;
-  }).length;
-}
-
-// ─── Filters ──────────────────────────────────────────────
-function setFilter(type, val, btn) {
-  FILTERS[type] = val;
-  btn.closest('.tabs, div').querySelectorAll('.chip').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  PAGE = 1;
-  applyFilters();
-}
-
-function applyFilters() {
-  const search = (document.getElementById('searchInput').value||'').trim().toLowerCase();
-  FILTERED = ALL.filter(g => {
-    if (search) {
-      const hay = (g.fullName+' '+g.phone+' '+g.city).toLowerCase();
-      if (!hay.includes(search)) return false;
-    }
-    if (FILTERS.what && !(g.whatToday||'').includes(FILTERS.what)) return false;
+function applyFilters(){
+  const search=(document.getElementById('searchInput').value||'').trim().toLowerCase();
+  FILTERED=ALL.filter(g=>{
+    if(search){const h=(g.fullName+' '+g.phone+' '+g.city).toLowerCase();if(!h.includes(search))return false;}
+    if(F.what&&!(g.whatToday||'').includes(F.what))return false;
     return true;
   });
-  PAGE = 1;
-  renderList();
-  document.getElementById('searchCount').textContent =
-    search||FILTERS.what ? `${FILTERED.length} תוצאות` : '';
-  document.getElementById('resCount').textContent =
-    FILTERED.length < ALL.length ? `${FILTERED.length} מתוך ${ALL.length}` : `${ALL.length} בוגרים`;
+  PAGE=1;renderList();
+  const sc=document.getElementById('searchCount');
+  sc.textContent=(search||F.what)?`${FILTERED.length} תוצאות`:'';
+  document.getElementById('resCount').textContent=FILTERED.length<ALL.length?`${FILTERED.length} מתוך ${ALL.length}`:`${ALL.length} בוגרים`;
 }
 
-// ─── Graduate list ────────────────────────────────────────
-function renderList() {
-  const today = new Date(); today.setHours(0,0,0,0);
-  const start = (PAGE-1)*PER_PAGE;
-  const slice = FILTERED.slice(start, start+PER_PAGE);
-  const container = document.getElementById('gradList');
+/* ══════════════════════════════════════════
+   GRADUATE LIST
+══════════════════════════════════════════ */
+function renderList(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const w7=new Date(today);w7.setDate(w7.getDate()+7);
+  const slice=FILTERED.slice((PAGE-1)*PER,PAGE*PER);
+  const c=document.getElementById('gradList');
+  if(!slice.length){c.innerHTML='<div class="empty-txt">לא נמצאו בוגרים</div>';renderPg();return;}
 
-  if (!slice.length) {
-    container.innerHTML = '<div class="empty-txt">לא נמצאו בוגרים</div>';
-    renderPagination();
-    return;
-  }
-
-  container.innerHTML = slice.map((g,i) => {
-    const overdue = parseDate(g.nextTalk) && parseDate(g.nextTalk) < today;
-    const borderColor = overdue ? 'border-color:#FFE8E8;' : '';
-
-    const noteBadge = g.notes ? `<span class="badge badge-gray">${esc(g.notes.split(',')[0].trim())}</span>` : '';
-    const impactBadge = g.impact ? `<span class="badge badge-green">${esc(g.impact)}</span>` : '';
-
-    return `<div class="grad-row" id="row-${start+i}" style="${borderColor}">
-      <div class="grad-header" onclick="toggleRow(${start+i})">
+  c.innerHTML=slice.map((g,i)=>{
+    const idx=(PAGE-1)*PER+i;
+    const nd=pd(g.nextTalk);
+    const overdue=nd&&nd<today;
+    const soon=nd&&nd>=today&&nd<=w7;
+    const noteTag=g.notes?`<span class="badge b-gray" style="font-size:.65rem">${esc(g.notes.split(',')[0].trim())}</span>`:'';
+    const impTag=g.impact?`<span class="badge b-green" style="font-size:.65rem">${esc(g.impact)}</span>`:'';
+    const nextStr=g.nextTalk?`<span style="${overdue?'color:#c00;font-weight:700':soon?'color:#b45309;font-weight:600':''}">${overdue?'⚠ ':''}${fd(g.nextTalk)}</span>`:'<span style="color:#ccc">אין תאריך</span>';
+    const sel=selectedId===g.id?' selected':'';
+    return`<div class="grad-card${sel}" id="gc-${idx}" onclick="selectGrad(${idx},this)">
+      <div class="grad-row-main">
         <div>
           <div class="grad-name">${esc(g.fullName)}</div>
-          ${noteBadge||impactBadge ? `<div style="margin-top:3px">${noteBadge}${impactBadge?` ${impactBadge}`:''}</div>` : ''}
+          <div class="grad-sub">${noteTag}${impTag?` ${impTag}`:''}</div>
         </div>
         <div class="grad-phone">${esc(g.phone)||'—'}</div>
-        <div style="font-size:0.8rem">${whatBadge(g.whatToday)}</div>
-        <div style="font-size:0.75rem;color:#888">
-          ${g.nextTalk ? `<span style="${overdue?'color:#c00;font-weight:700':''}">שיחה: ${fmtDate(g.nextTalk)}</span>` : g.lastTalk ? `אחרונה: ${fmtDate(g.lastTalk)}` : ''}
+        <div class="grad-next" style="font-size:.75rem;">
+          ${whatBadge(g.whatToday)}
+          <div style="margin-top:3px;color:#888;">${nextStr}</div>
         </div>
-        <div style="font-size:1rem;color:#bbb;text-align:center">▾</div>
-      </div>
-      <div class="grad-details" id="details-${start+i}">
-        ${detailGrid(g)}
+        <div class="toggle-ico">▾</div>
       </div>
     </div>`;
   }).join('');
 
-  renderPagination();
+  renderPg();
 }
 
-function detailGrid(g) {
-  const rows = [
-    ['שנת סיום', g.year],
-    ['עיר', g.city],
-    ['מגמה', g.major],
-    ['שירות', g.service],
-    ['שיחה אחרונה', fmtDate(g.lastTalk)],
-    ['שיחה הבאה', fmtDate(g.nextTalk)],
-    ['ענה לשאלון', g.answeredQ||'—'],
-    ['הערות', g.hopaNotes],
-  ].filter(r=>r[1]);
+function selectGrad(idx,cardEl){
+  // deselect all
+  document.querySelectorAll('.grad-card').forEach(c=>{c.classList.remove('selected');});
+  cardEl.classList.add('selected');
+  const g=FILTERED[(PAGE-1)*PER+idx-(PAGE-1)*PER];
+  // fix: get from full index
+  const fullIdx=(PAGE-1)*PER+idx;
+  // Actually idx is already offset from page start; let me recalc
+  const g2=FILTERED[idx + (PAGE-1)*PER - (PAGE-1)*PER];
+  // Simplest: store data on element
+  const realIdx=parseInt(cardEl.id.replace('gc-',''));
+  showProfile(FILTERED[realIdx]);
+}
 
-  const fields = rows.map(([lbl,val])=>`
-    <div class="detail-item">
-      <div class="detail-label">${lbl}</div>
-      <div class="detail-value">${esc(val)}</div>
+// We'll store the real index properly:
+function renderList2(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const w7=new Date(today);w7.setDate(w7.getDate()+7);
+  const start=(PAGE-1)*PER;
+  const slice=FILTERED.slice(start,start+PER);
+  const c=document.getElementById('gradList');
+  if(!slice.length){c.innerHTML='<div class="empty-txt">לא נמצאו בוגרים</div>';renderPg();return;}
+
+  c.innerHTML=slice.map((g,localI)=>{
+    const nd=pd(g.nextTalk);
+    const overdue=nd&&nd<today;
+    const soon=nd&&nd>=today&&nd<=w7;
+    const noteTag=g.notes?`<span class="badge b-gray" style="font-size:.65rem">${esc(g.notes.split(',')[0].trim())}</span>`:'';
+    const impTag=g.impact?`<span class="badge b-green" style="font-size:.65rem">${esc(g.impact)}</span>`:'';
+    const nextStr=g.nextTalk
+      ?`<span style="${overdue?'color:#c00;font-weight:700':soon?'color:#b45309;font-weight:600':''}">${overdue?'⚠ ':''}${fd(g.nextTalk)}</span>`
+      :'<span style="color:#ccc">אין תאריך</span>';
+    const sel=selectedId===g.id?' selected':'';
+    return`<div class="grad-card${sel}" data-gi="${start+localI}" onclick="selectByIdx(${start+localI},this)">
+      <div class="grad-row-main">
+        <div>
+          <div class="grad-name">${esc(g.fullName)}</div>
+          <div class="grad-sub" style="margin-top:3px;">${noteTag}${impTag?` ${impTag}`:''}</div>
+        </div>
+        <div class="grad-phone">${esc(g.phone)||'—'}</div>
+        <div class="grad-next">
+          ${whatBadge(g.whatToday)}
+          <div style="margin-top:3px;">${nextStr}</div>
+        </div>
+        <div class="toggle-ico">▾</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  renderPg();
+}
+
+// Override renderList with renderList2
+Object.defineProperty(window,'renderList',{value:renderList2,writable:true,configurable:true});
+
+function selectByIdx(idx, cardEl){
+  document.querySelectorAll('.grad-card').forEach(c=>c.classList.remove('selected'));
+  cardEl.classList.add('selected');
+  selectedId=FILTERED[idx].id;
+  showProfile(FILTERED[idx]);
+}
+
+/* ══════════════════════════════════════════
+   PROFILE PANEL
+══════════════════════════════════════════ */
+function showProfile(g){
+  document.getElementById('sideEmpty').style.display='none';
+  const pc=document.getElementById('profileCard');
+  pc.style.display='block';
+
+  const initials=(g.name||'?')[0]+(g.lastName||'?')[0]||'?';
+  const matched=matchPrograms(g);
+
+  pc.innerHTML=`
+    <div class="profile-top">
+      <div class="profile-avatar">${esc(initials)}</div>
+      <div>
+        <div class="profile-name">${esc(g.fullName)}</div>
+        <div class="profile-school">מוצקין · ${esc(g.year||'שנה לא ידועה')}</div>
+        <div style="margin-top:6px;">${whatBadge(g.whatToday)}</div>
+      </div>
+    </div>
+    <div class="profile-body">
+
+      <div class="profile-section">
+        <div class="profile-section-title">פרטים אישיים</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="lbl">טלפון</div><div class="val" style="direction:ltr;unicode-bidi:isolate;">${esc(g.phone)||'—'}</div></div>
+          <div class="info-item"><div class="lbl">עיר</div><div class="val">${esc(g.city)||'—'}</div></div>
+          <div class="info-item"><div class="lbl">מגדר</div><div class="val">${esc(g.gender)||'—'}</div></div>
+          <div class="info-item"><div class="lbl">מגמה</div><div class="val">${esc(g.major)||'—'}</div></div>
+          <div class="info-item"><div class="lbl">שנת סיום</div><div class="val">${esc(g.year)||'—'}</div></div>
+          <div class="info-item"><div class="lbl">שירות</div><div class="val">${esc(g.service)||'—'}</div></div>
+        </div>
+      </div>
+
+      <div class="profile-section">
+        <div class="profile-section-title">מעקב ופגישות</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="lbl">שיחה אחרונה</div><div class="val">${fd(g.lastTalk)}</div></div>
+          <div class="info-item"><div class="lbl">שיחה הבאה</div><div class="val">${fd(g.nextTalk)}</div></div>
+          <div class="info-item"><div class="lbl">ענה לשאלון</div><div class="val">${esc(g.answeredQ)||'—'}</div></div>
+          <div class="info-item"><div class="lbl">טופס נשלח</div><div class="val">${esc(g.formSent)||'—'}</div></div>
+        </div>
+        ${g.notes?`<div style="margin-top:8px;"><div class="lbl" style="font-size:.68rem;color:#aaa;margin-bottom:4px;">הערות</div><div style="background:#F7F7F7;border-radius:8px;padding:8px 10px;font-size:.8rem;">${esc(g.notes)}</div></div>`:''}
+        ${g.hopaNotes?`<div style="margin-top:8px;"><div class="lbl" style="font-size:.68rem;color:#aaa;margin-bottom:4px;">הערות הופה</div><div style="background:#F7F7F7;border-radius:8px;padding:8px 10px;font-size:.8rem;">${esc(g.hopaNotes)}</div></div>`:''}
+        ${g.impact?`<div style="margin-top:8px;"><div class="lbl" style="font-size:.68rem;color:#aaa;margin-bottom:4px;">אימפקט</div><span class="badge b-green">${esc(g.impact)}</span></div>`:''}
+      </div>
+
+      <div class="profile-section">
+        <div class="profile-section-title">מענים מתאימים (${matched.length})</div>
+        ${matched.length
+          ? matched.slice(0,5).map(p=>`
+            <div class="maan-card">
+              <div class="maan-name">${esc(p.name)}</div>
+              <div class="maan-cat">${esc(p.category||'')}${p.subcategory?' · '+p.subcategory:''}</div>
+              ${p.url?`<a href="${esc(p.url)}" target="_blank" class="maan-link" style="display:inline-block;margin-top:4px;">צפה במענה ↗</a>`:''}
+            </div>`).join('')
+          : '<div style="color:#bbb;font-size:.8rem;padding:8px 0;">לא נמצאו מענים תואמים</div>'
+        }
+      </div>
+
+      <a href="${mondayUrl(g.id)}" target="_blank" class="btn-monday">פתח ב-Monday.com ↗</a>
+    </div>`;
+}
+
+/* ══════════════════════════════════════════
+   PROGRAMS MATCHING
+══════════════════════════════════════════ */
+function matchPrograms(g){
+  if(!PROGRAMS.length)return[];
+  const notes=(g.notes||'').toLowerCase();
+  const what=(g.whatToday||'').toLowerCase();
+  const impact=(g.impact||'').toLowerCase();
+  const all=notes+' '+what+' '+impact;
+
+  return PROGRAMS.filter(p=>{
+    const cat=(p.category||'').toLowerCase();
+    const name=(p.name||'').toLowerCase();
+    // Employment
+    if((all.includes('עבודה')||all.includes('מחפש')||what.includes('לא עובד'))&&(cat.includes('תעסוקה')||name.includes('תעסוקה')||name.includes('עבודה')))return true;
+    // Scholarship
+    if((all.includes('מלגה')||all.includes('לימוד'))&&(cat.includes('מלגה')||name.includes('מלגה')))return true;
+    // Army
+    if((isArmy(g))&&(cat.includes('צבא')||cat.includes('חייל')||name.includes('חייל')))return true;
+    // Vocational
+    if(all.includes('הכשרה')&&(cat.includes('הכשרה')||name.includes('הכשרה')))return true;
+    // Matriculation
+    if(all.includes('בגרויות')&&(cat.includes('בגרות')||name.includes('בגרות')))return true;
+    // Financial
+    if((all.includes('כלכלי')||all.includes('ביטוח לאומי')||all.includes('עזרה כלכלית'))&&(cat.includes('כלכלי')||cat.includes('רווחה')))return true;
+    // General assistance
+    if(all.includes('מסתדר')&&cat.includes('כללי'))return true;
+    return false;
+  });
+}
+
+/* ══════════════════════════════════════════
+   PAGINATION
+══════════════════════════════════════════ */
+function renderPg(){
+  const total=Math.ceil(FILTERED.length/PER);
+  document.getElementById('prevBtn').disabled=PAGE<=1;
+  document.getElementById('nextBtn').disabled=PAGE>=total;
+  const pp=document.getElementById('pgPages');pp.innerHTML='';
+  for(let i=1;i<=total;i++){
+    if(i===1||i===total||Math.abs(i-PAGE)<=1){
+      const b=document.createElement('button');b.textContent=i;b.className='pg-btn'+(i===PAGE?' curr':'');
+      b.onclick=()=>{PAGE=i;renderList2();};pp.appendChild(b);
+    }else if(pp.lastChild&&pp.lastChild.textContent!=='...'){
+      const s=document.createElement('span');s.textContent='...';s.style.cssText='padding:0 4px;color:#aaa;font-size:.8rem;';pp.appendChild(s);
+    }
+  }
+  document.getElementById('pgWrap').style.display=total<=1?'none':'flex';
+}
+
+function changePg(dir){
+  PAGE=Math.max(1,Math.min(Math.ceil(FILTERED.length/PER),PAGE+dir));
+  renderList2();
+}
+
+/* ══════════════════════════════════════════
+   PRIORITY TAB
+══════════════════════════════════════════ */
+function renderPriority(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const list=ALL.filter(g=>{
+    const d=pd(g.nextTalk);
+    return(d&&d<today)||((g.notes||'').includes('לחזור')&&!g.nextTalk);
+  }).slice(0,15);
+  const c=document.getElementById('priorityList');
+  if(!list.length){c.innerHTML='<div class="empty-txt">אין פעולות דחופות כרגע 👍</div>';return;}
+  c.innerHTML=`<div style="font-size:.72rem;color:#aaa;font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em;">בוגרים שמחכים לחזרה</div>`
+    +list.map(g=>{
+      const d=pd(g.nextTalk);const overdue=d&&d<today;
+      return`<div class="pri-item">
+        <div class="pri-name">${esc(g.fullName)}</div>
+        <div style="font-size:.75rem;color:${overdue?'#c00':'#666'};white-space:nowrap">${g.nextTalk?fd(g.nextTalk):'—'}</div>
+        ${overdue?'<span class="badge b-red">פגה תוקף</span>':'<span class="badge b-yellow">לחזור</span>'}
+        <a href="${mondayUrl(g.id)}" target="_blank" class="btn-monday" style="padding:5px 10px;font-size:.72rem;">↗</a>
+      </div>`;
+    }).join('');
+}
+
+/* ══════════════════════════════════════════
+   BIRTHDAY TAB
+══════════════════════════════════════════ */
+function renderBirthdays(){
+  const container=document.getElementById('bdayList');
+  const today=new Date();today.setHours(0,0,0,0);
+  const withBday=ALL.filter(g=>g.birthday&&pd(g.birthday));
+
+  if(!withBday.length){
+    container.innerHTML=`<div style="text-align:center;padding:32px 16px;">
+      <div style="font-size:2.5rem;margin-bottom:10px;">🎂</div>
+      <div style="font-weight:700;color:#555;margin-bottom:6px;">עמודת יום הולדת לא מוגדרת</div>
+      <div style="font-size:.8rem;color:#aaa;line-height:1.6;">יש להוסיף עמודת תאריך בשם "יום הולדת" בלוח Monday.com<br>ולעדכן את מזהה העמודה בקוד (<code>C.birthday</code>)</div>
+    </div>`;
+    return;
+  }
+
+  const upcoming=[];
+  withBday.forEach(g=>{
+    const b=pd(g.birthday);if(!b)return;
+    let target=new Date(today.getFullYear(),b.getMonth(),b.getDate());
+    if(target<today)target=new Date(today.getFullYear()+1,b.getMonth(),b.getDate());
+    const days=Math.round((target-today)/86400000);
+    if(days<=90)upcoming.push({...g,bdayDate:target,daysLeft:days});
+  });
+  upcoming.sort((a,b)=>a.daysLeft-b.daysLeft);
+
+  if(!upcoming.length){container.innerHTML='<div class="empty-txt">אין ימי הולדת ב-90 הימים הקרובים</div>';return;}
+
+  container.innerHTML=`
+    <div style="font-size:.72rem;color:#aaa;font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:.06em;">ימי הולדת קרובים — 90 ימים</div>
+    ${upcoming.map(g=>{
+      const isToday=g.daysLeft===0;
+      const isSoon=g.daysLeft<=7;
+      return`<div class="bday-item${isToday?' bday-today':''}">
+        <div class="bday-box">
+          <div class="bday-d">${g.bdayDate.getDate()}</div>
+          <div class="bday-m">${HE_MONTHS[g.bdayDate.getMonth()]}</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:.88rem;">${esc(g.fullName)}</div>
+          <div style="font-size:.74rem;color:#888;margin-top:2px;">
+            ${isToday?'🎉 היום!':isSoon?`בעוד ${g.daysLeft} ימים`:`בעוד ${g.daysLeft} ימים`}
+            ${g.phone?` · ${esc(g.phone)}`:''}
+          </div>
+          ${whatBadge(g.whatToday)?`<div style="margin-top:4px;">${whatBadge(g.whatToday)}</div>`:''}
+        </div>
+        ${isToday?'<span class="badge b-yellow">🎂 היום!</span>':''}
+        ${isSoon&&!isToday?'<span class="badge b-orange">השבוע</span>':''}
+        <a href="${mondayUrl(g.id)}" target="_blank" class="btn-monday" style="padding:5px 10px;font-size:.72rem;">↗</a>
+      </div>`;
+    }).join('')}`;
+}
+
+/* ══════════════════════════════════════════
+   ANALYTICS TAB
+══════════════════════════════════════════ */
+function renderAnalytics(){
+  const grid=document.getElementById('analyticsGrid');
+
+  function countMap(arr,key,split){
+    const m={};
+    arr.forEach(g=>{
+      const v=(g[key]||'');
+      if(!v){m['לא ידוע']=(m['לא ידוע']||0)+1;return;}
+      if(split){v.split(',').forEach(x=>{const k=x.trim();if(k)m[k]=(m[k]||0)+1;});}
+      else{m[v]=(m[v]||0)+1;}
+    });
+    return m;
+  }
+
+  function barChart(map,limit=8){
+    const sorted=Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,limit);
+    const max=sorted[0]?.[1]||1;
+    return sorted.map(([lbl,cnt])=>`
+      <div class="chart-row">
+        <div class="chart-lbl">${esc(lbl)}</div>
+        <div class="chart-bar-bg"><div class="chart-bar-fill" style="width:${Math.max(4,Math.round(cnt/max*100))}%">${cnt}</div></div>
+        <div class="chart-cnt">${cnt}</div>
+      </div>`).join('');
+  }
+
+  const charts=[
+    {title:'מה עושים היום',map:countMap(ALL,'whatToday',false)},
+    {title:'הערות ומעקב',map:countMap(ALL,'notes',true)},
+    {title:'אימפקט',map:countMap(ALL,'impact',false)},
+    {title:'שנת סיום',map:countMap(ALL,'year',false)},
+    {title:'סטטוס שירות',map:countMap(ALL,'service',false)},
+    {title:'מגמה',map:countMap(ALL,'major',false)},
+  ];
+
+  grid.innerHTML=charts.map(ch=>`
+    <div class="analytics-card">
+      <div class="analytics-title">${esc(ch.title)}</div>
+      ${barChart(ch.map)}
     </div>`).join('');
-
-  return `${fields}
-    <div class="detail-item" style="grid-column:1/-1;margin-top:4px;">
-      <a href="${mondayLink(g.id)}" target="_blank" class="btn-monday">פתח ב-Monday ↗</a>
-    </div>`;
 }
 
-function toggleRow(idx) {
-  const d = document.getElementById(`details-${idx}`);
-  d.classList.toggle('open');
+/* ══════════════════════════════════════════
+   TABS
+══════════════════════════════════════════ */
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('on'));
+  document.getElementById('tab-'+name).classList.add('on');
 }
 
-// ─── Pagination ───────────────────────────────────────────
-function renderPagination() {
-  const total = Math.ceil(FILTERED.length / PER_PAGE);
-  document.getElementById('prevBtn').disabled = PAGE<=1;
-  document.getElementById('nextBtn').disabled = PAGE>=total;
-
-  const pb = document.getElementById('pageButtons');
-  pb.innerHTML = '';
-  for (let i=1;i<=total;i++) {
-    if (i===1||i===total||Math.abs(i-PAGE)<=1) {
-      const b = document.createElement('button');
-      b.textContent = i;
-      b.className = 'page-btn'+(i===PAGE?' curr':'');
-      b.onclick = ()=>{PAGE=i;renderList();};
-      pb.appendChild(b);
-    } else if (pb.lastChild&&pb.lastChild.textContent!=='...') {
-      const s=document.createElement('span');
-      s.textContent='...'; s.style.cssText='padding:4px 4px;color:#aaa;font-size:0.8rem;';
-      pb.appendChild(s);
-    }
-  }
-
-  document.getElementById('paginationWrap').style.display = total<=1 ? 'none' : 'flex';
-}
-
-function changePage(dir) {
-  const total = Math.ceil(FILTERED.length / PER_PAGE);
-  PAGE = Math.max(1, Math.min(total, PAGE+dir));
-  renderList();
-}
-
-// ─── Priority tab ─────────────────────────────────────────
-function renderPriority() {
-  const today = new Date(); today.setHours(0,0,0,0);
-  const list = ALL.filter(g=>{
-    const d = parseDate(g.nextTalk);
-    return (d && d < today) || ((g.notes||'').includes('לחזור') && !g.nextTalk);
-  }).slice(0,12);
-
-  const c = document.getElementById('priorityList');
-  if (!list.length) {
-    c.innerHTML = '<div class="empty-txt">אין פעולות דחופות כרגע 👍</div>';
-    return;
-  }
-  c.innerHTML = `<div class="section-label">בוגרים שמחכים לחזרה</div>
-    <div style="display:flex;flex-direction:column;gap:6px;">
-    ${list.map(g=>{
-      const d = parseDate(g.nextTalk);
-      const overdue = d && d < today;
-      return `<div class="priority-item">
-        <div style="flex:1">
-          <div style="font-weight:700;font-size:0.88rem">${esc(g.fullName)}</div>
-          ${g.notes ? `<div style="font-size:0.75rem;color:#888;margin-top:1px">${esc(g.notes)}</div>` : ''}
-        </div>
-        <div style="font-size:0.75rem;color:${overdue?'#c00':'#666'};white-space:nowrap">
-          ${g.nextTalk ? fmtDate(g.nextTalk) : 'אין תאריך'}
-        </div>
-        ${overdue ? '<span class="badge badge-red">פגה תוקף</span>' : '<span class="badge badge-yellow">לחזור</span>'}
-        <a href="${mondayLink(g.id)}" target="_blank" class="btn-monday">↗</a>
-      </div>`;
-    }).join('')}
-    </div>`;
-}
-
-// ─── Birthdays tab ────────────────────────────────────────
-const HE_MONTHS = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
-
-function renderBirthdays() {
-  const container = document.getElementById('birthdayList');
-  const today = new Date(); today.setHours(0,0,0,0);
-
-  // Filter graduates with birthday data
-  const withBday = ALL.filter(g => g.birthday);
-
-  if (!withBday.length) {
-    container.innerHTML = `
-      <div class="empty-txt" style="padding:40px 16px;">
-        <div style="font-size:2rem;margin-bottom:8px">🎂</div>
-        <div style="font-weight:600;color:#555;margin-bottom:6px">לא נמצאה עמודת ימי הולדת</div>
-        <div style="font-size:0.8rem;color:#aaa">יש להוסיף עמודת תאריך של יום הולדת בלוח Monday.com<br>ולעדכן את ה-ID בקוד (C.birthday)</div>
-      </div>`;
-    return;
-  }
-
-  // Upcoming 60 days
-  const d60 = new Date(today); d60.setDate(d60.getDate()+60);
-  const upcoming = [];
-  const past = [];
-
-  withBday.forEach(g => {
-    const bday = parseDate(g.birthday);
-    if (!bday) return;
-    // Compare month+day
-    const thisYear = new Date(today.getFullYear(), bday.getMonth(), bday.getDate());
-    if (thisYear >= today && thisYear <= d60) {
-      upcoming.push({...g, bdayDate: thisYear, daysLeft: Math.round((thisYear-today)/(86400000))});
-    } else {
-      // Try next year
-      const nextYear = new Date(today.getFullYear()+1, bday.getMonth(), bday.getDate());
-      if (nextYear >= today && nextYear <= new Date(d60.getTime()+365*86400000)) {
-        upcoming.push({...g, bdayDate: nextYear, daysLeft: Math.round((nextYear-today)/(86400000))});
-      } else {
-        past.push({...g, bdayDate: thisYear});
-      }
-    }
-  });
-
-  upcoming.sort((a,b) => a.daysLeft - b.daysLeft);
-
-  let html = `<div class="section-label">ימי הולדת קרובים (60 יום הקרובים)</div>`;
-  if (!upcoming.length) {
-    html += '<div style="color:#aaa;font-size:0.85rem;margin-bottom:20px">אין ימי הולדת בחודשיים הקרובים</div>';
-  } else {
-    html += `<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
-      ${upcoming.map(g=>{
-        const isToday = g.daysLeft === 0;
-        const isSoon = g.daysLeft <= 7;
-        return `<div class="bday-card" style="${isToday?'border-color:#FFF200;':''}">
-          <div class="bday-date-box">
-            <div class="bday-day">${g.bdayDate.getDate()}</div>
-            <div class="bday-month">${HE_MONTHS[g.bdayDate.getMonth()]}</div>
-          </div>
-          <div style="flex:1">
-            <div style="font-weight:700;font-size:0.9rem">${esc(g.fullName)}</div>
-            <div style="font-size:0.75rem;color:#888;margin-top:2px">
-              ${isToday ? '🎉 היום!' : isSoon ? `בעוד ${g.daysLeft} ימים` : `בעוד ${g.daysLeft} ימים`}
-              ${g.phone ? ` · ${esc(g.phone)}` : ''}
-            </div>
-          </div>
-          ${isToday ? '<span class="badge badge-yellow">היום!</span>' : ''}
-          ${isSoon&&!isToday ? '<span class="badge badge-orange">השבוע</span>' : ''}
-          <a href="${mondayLink(g.id)}" target="_blank" class="btn-monday">↗</a>
-        </div>`;
-      }).join('')}
-    </div>`;
-  }
-
-  container.innerHTML = html;
-}
-
-// ─── Tabs ─────────────────────────────────────────────────
-function switchTab(name, btn) {
-  document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  ['graduates','priority','birthdays'].forEach(t=>{
-    document.getElementById('tab-'+t).style.display = t===name ? 'block' : 'none';
-  });
-}
-
-// ─── Init ─────────────────────────────────────────────────
-loadData();
+/* ══ INIT ══ */
+loadAll();
 </script>
 </body>
 </html>
