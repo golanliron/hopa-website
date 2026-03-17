@@ -488,10 +488,13 @@
             <h1 class="text-2xl font-bold">נתוני מחקר ומדיניות</h1>
             <p class="text-sm text-[#999] mt-1">נתונים אמיתיים ומאומתים מ-2022–2025 לתמיכה בבקשות מענקים</p>
           </div>
-          <button onclick="copyAllStats()" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900] flex items-center gap-2">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-            העתק הכל לבקשה
-          </button>
+          <div class="flex gap-2">
+            <button onclick="openResearchModal()" class="border border-[#E5E5E5] bg-white font-medium px-4 py-2 rounded-xl text-sm hover:bg-[#F7F7F7]">+ הוסף מחקר</button>
+            <button onclick="copyAllStats()" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900] flex items-center gap-2">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              העתק הכל לבקשה
+            </button>
+          </div>
         </div>
 
         <!-- Notice -->
@@ -502,6 +505,17 @@
 
         <!-- Research cards grid -->
         <div id="research-grid" class="space-y-6"></div>
+
+        <!-- User-added research -->
+        <div id="user-research-section" class="hidden mt-6">
+          <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden">
+            <div class="px-5 py-4 border-b border-[#E5E5E5] flex items-center gap-3">
+              <span class="text-xl">📎</span>
+              <h2 class="font-bold">מחקרים שהוספתי</h2>
+            </div>
+            <div id="user-research-list" class="divide-y divide-[#F5F5F5]"></div>
+          </div>
+        </div>
       </div>
 
     </main>
@@ -733,6 +747,39 @@
   </div>
 </div>
 
+<!-- Research Modal -->
+<div id="research-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
+  <div class="modal-box bg-white rounded-2xl w-full max-w-md shadow-2xl">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-[#E5E5E5]">
+      <h2 class="font-bold text-lg">הוספת מחקר / נתון סטטיסטי</h2>
+      <button onclick="closeResearchModal()" class="text-[#999] hover:text-[#111] text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
+    </div>
+    <div class="p-6 space-y-4">
+      <div><label class="lbl">הנתון / הממצא *</label><textarea id="res-stat" rows="3" class="inp resize-none" placeholder='למשל: "כ-30% מהצעירים נושרים מהמערכת עד גיל 18"'></textarea></div>
+      <div class="grid grid-cols-2 gap-3">
+        <div><label class="lbl">מקור *</label><input id="res-source" type="text" class="inp" placeholder="הלמ"ס, מאיירס-ג'וינט..."/></div>
+        <div><label class="lbl">שנה</label><input id="res-year" type="number" class="inp" placeholder="2024" min="2000" max="2030"/></div>
+      </div>
+      <div><label class="lbl">קישור למחקר / PDF</label><input id="res-url" type="url" dir="ltr" class="inp" placeholder="https://..."/></div>
+      <div>
+        <label class="lbl">קטגוריה</label>
+        <select id="res-category" class="inp">
+          <option value="נשירה">נשירה</option>
+          <option value="תעסוקה">תעסוקה</option>
+          <option value="בריאות נפשית">בריאות נפשית</option>
+          <option value="עוני ומצוקה">עוני ומצוקה</option>
+          <option value="צבא ושירות">צבא ושירות</option>
+          <option value="כללי">כללי</option>
+        </select>
+      </div>
+    </div>
+    <div class="px-6 py-4 border-t border-[#E5E5E5] flex justify-end gap-3">
+      <button onclick="closeResearchModal()" class="border border-[#E5E5E5] px-4 py-2 rounded-xl text-sm">ביטול</button>
+      <button onclick="saveResearch()" class="bg-[#FFF200] text-black font-bold px-6 py-2 rounded-xl text-sm hover:bg-[#E6D900]">שמור</button>
+    </div>
+  </div>
+</div>
+
 <!-- Document Modal -->
 <div id="doc-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
   <div class="modal-box bg-white rounded-2xl w-full max-w-md shadow-2xl">
@@ -900,7 +947,7 @@ function showView(name) {
   if (name === 'projects') loadProjects();
   if (name === 'sources') loadSources();
   if (name === 'documents') loadDocuments();
-  if (name === 'research') renderResearch();
+  if (name === 'research') { renderResearch(); loadUserResearch(); }
 }
 
 // ── DATA ─────────────────────────────────────────────────
@@ -1983,6 +2030,65 @@ async function loadSources() {
       </div>
     </div>`;
   }).join('');
+}
+
+// ── USER RESEARCH ─────────────────────────────────────────
+function openResearchModal() {
+  ['res-stat','res-source','res-url'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('res-year').value = new Date().getFullYear();
+  document.getElementById('res-category').value = 'נשירה';
+  document.getElementById('research-modal').classList.remove('hidden');
+}
+function closeResearchModal() { document.getElementById('research-modal').classList.add('hidden'); }
+
+async function saveResearch() {
+  const stat   = document.getElementById('res-stat').value.trim();
+  const source = document.getElementById('res-source').value.trim();
+  if (!stat || !source) { toast('נתון ומקור הם שדות חובה', 'error'); return; }
+  const payload = {
+    stat, source,
+    year:     parseInt(document.getElementById('res-year').value) || null,
+    url:      document.getElementById('res-url').value.trim() || null,
+    category: document.getElementById('res-category').value,
+  };
+  const { error } = await sb.from('hopa_research').insert([payload]);
+  if (error) { toast('שגיאה: ' + error.message, 'error'); return; }
+  toast('✓ מחקר נשמר!', 'success');
+  closeResearchModal();
+  loadUserResearch();
+}
+
+async function loadUserResearch() {
+  const { data } = await sb.from('hopa_research').select('*').eq('is_active', true).order('created_at', { ascending: false });
+  const section = document.getElementById('user-research-section');
+  const list    = document.getElementById('user-research-list');
+  if (!data || !data.length) { section.classList.add('hidden'); return; }
+  section.classList.remove('hidden');
+  list.innerHTML = data.map(item => `
+    <div class="px-5 py-3.5 flex items-start gap-4 hover:bg-[#FAFAFA] group">
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-medium text-[#111] mb-0.5">${esc(item.stat)}</p>
+        <p class="text-xs text-[#999]">
+          ${item.url ? `<a href="${esc(item.url)}" target="_blank" class="hover:underline text-blue-500">${esc(item.source)}</a>` : esc(item.source)}
+          ${item.year ? `<span class="mx-1">·</span>${item.year}` : ''}
+          <span class="mx-1">·</span><span class="bg-[#F0F0F0] px-1.5 py-0.5 rounded text-[#666]">${esc(item.category)}</span>
+        </p>
+      </div>
+      <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+        <button onclick="copyCitation(this, \`${item.stat.replace(/`/g,"'")} (${item.source}${item.year?', '+item.year:''})\`)"
+          class="text-xs border border-[#E5E5E5] px-2 py-1.5 rounded-lg hover:bg-[#F7F7F7] whitespace-nowrap">העתק</button>
+        <button onclick="deleteResearch(${item.id})" class="text-[#CCC] hover:text-red-400 px-2 py-1.5">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+        </button>
+      </div>
+    </div>`).join('');
+}
+
+async function deleteResearch(id) {
+  if (!confirm('למחוק נתון זה?')) return;
+  await sb.from('hopa_research').update({ is_active: false }).eq('id', id);
+  toast('נמחק', 'success');
+  loadUserResearch();
 }
 
 // ── DOCUMENTS ────────────────────────────────────────────
