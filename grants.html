@@ -508,14 +508,26 @@
       <div id="view-documents" class="view fade-in">
         <div class="flex items-center justify-between mb-5">
           <div>
-            <h1 class="text-2xl font-bold">מסמכי הגשה</h1>
-            <p class="text-sm text-[#999] mt-1">כל המסמכים הקבועים — להורדה ולצירוף לכל בקשה</p>
+            <h1 class="text-2xl font-bold">מסמכי הופה</h1>
+            <p class="text-sm text-[#999] mt-1">תיקיית Google Drive — כל מסמכי הארגון</p>
           </div>
-          <button onclick="openDocModal()" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900]">+ הוסף מסמך</button>
+          <a href="https://drive.google.com/drive/folders/1RG7T_ZvBDmhIKVIMHyGZUe-Ok2G3YSb6" target="_blank" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900] flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8H0c0 1.55.4 3.1 1.2 4.5z" fill="#0066DA"/><path d="M43.65 25L29.9 1.2C28.55 2 27.4 3.1 26.6 4.5L1.2 48.5c-.8 1.4-1.2 2.95-1.2 4.5h27.5z" fill="#00AC47"/><path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5H60.1l5.85 11.5z" fill="#EA4335"/><path d="M43.65 25L57.4 1.2C56.05.4 54.5 0 52.9 0H34.4c-1.6 0-3.1.45-4.5 1.2z" fill="#00832D"/><path d="M60.1 53H27.5L13.75 76.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.1-.45 4.5-1.2z" fill="#2684FC"/><path d="M73.4 26.5l-12.65-21.9c-.8-1.4-1.95-2.5-3.3-3.3L43.65 25 60.1 53h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#FFBA00"/></svg>
+            פתח בדרייב (העלאה / מחיקה)
+          </a>
         </div>
 
-        <div id="docs-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-          <div class="col-span-full text-center py-10 text-[#999] text-sm">טוען מסמכים...</div>
+        <!-- Drive iframe -->
+        <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden" style="height:620px;">
+          <div class="flex items-center justify-between px-4 py-2.5 border-b border-[#F3F3F3] bg-[#F7F7F7]">
+            <span class="text-xs font-medium text-[#444]">📁 מסמכי הופה — Google Drive</span>
+            <span class="text-xs text-[#999]">להעלאה / מחיקה — לחץ על הכפתור הצהוב למעלה</span>
+          </div>
+          <iframe
+            src="https://drive.google.com/embeddedfolderview?id=1RG7T_ZvBDmhIKVIMHyGZUe-Ok2G3YSb6#list"
+            style="width:100%;height:572px;border:none;"
+            title="מסמכי הופה — Google Drive">
+          </iframe>
         </div>
       </div>
 
@@ -905,6 +917,16 @@
         </div>
         <p class="text-xs text-[#999] mt-1">PIN נוכחי: <span id="current-emp-pin" class="font-mono"></span></p>
       </div>
+      <!-- Claude API Key -->
+      <div class="border-t border-[#E5E5E5] pt-4">
+        <p class="text-sm font-semibold mb-1">Claude API Key (לניתוח קולות קוראים)</p>
+        <p class="text-xs text-[#999] mb-2">אם הניתוח לא עובד — עדכן את המפתח מ-<a href="https://console.anthropic.com/settings/keys" target="_blank" class="underline">console.anthropic.com</a></p>
+        <div class="flex gap-2">
+          <input id="claude-key-input" type="password" class="inp flex-1" placeholder="sk-ant-api03-..." dir="ltr"/>
+          <button onclick="saveClaudeKey()" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900] whitespace-nowrap">שמור</button>
+        </div>
+        <p class="text-xs text-[#999] mt-1">מפתח נוכחי: <span id="current-claude-key" class="font-mono"></span></p>
+      </div>
     </div>
     <div class="px-6 py-4 border-t border-[#E5E5E5] flex justify-end">
       <button onclick="closeSetupModal(); loadGrants();" class="bg-[#FFF200] text-black font-bold px-6 py-2 rounded-xl text-sm hover:bg-[#E6D900]">סגור</button>
@@ -919,7 +941,7 @@
 // ── CONFIG ───────────────────────────────────────────────
 const SUPABASE_URL  = 'https://vhmwijzcrqjjquxomccq.supabase.co';
 const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZobXdpanpjcnFqanF1eG9tY2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1Nzk0MDgsImV4cCI6MjA4OTE1NTQwOH0.rMnAcdMiPddUAoap63tMiqeQQanJoF-HDmzra7P-5Cc';
-const CLAUDE_KEY    = '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';
+let CLAUDE_KEY = localStorage.getItem('grants_claude_key') || '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';
 const ADMIN_PIN     = '0502671012';
 
 const SETUP_SQL = `CREATE TABLE IF NOT EXISTS grants (
@@ -1006,6 +1028,16 @@ function saveEmpPin() {
   localStorage.setItem('hopa_emp_pin', pin);
   document.getElementById('current-emp-pin').textContent = pin;
   toast('PIN נשמר', 'success');
+}
+
+function saveClaudeKey() {
+  const key = document.getElementById('claude-key-input').value.trim();
+  if (!key) { toast('הכנס API Key', 'error'); return; }
+  localStorage.setItem('grants_claude_key', key);
+  CLAUDE_KEY = key;
+  const disp = key.slice(0,12) + '...' + key.slice(-4);
+  document.getElementById('current-claude-key').textContent = disp;
+  toast('API Key נשמר', 'success');
 }
 
 // ── NAVIGATION ───────────────────────────────────────────
@@ -1584,6 +1616,8 @@ function openSetupModal() {
   const saved = localStorage.getItem('hopa_emp_pin')||'';
   document.getElementById('emp-pin-input').value = saved;
   document.getElementById('current-emp-pin').textContent = saved ? '••••' : 'לא הוגדר';
+  const ck = localStorage.getItem('grants_claude_key');
+  document.getElementById('current-claude-key').textContent = ck ? ck.slice(0,12)+'...'+ck.slice(-4) : 'ברירת מחדל';
   document.getElementById('setup-modal').classList.remove('hidden');
 }
 function closeSetupModal() { document.getElementById('setup-modal').classList.add('hidden'); }
