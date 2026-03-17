@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>הופה — גיוס משאבים</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>if(typeof pdfjsLib!=='undefined') pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+  <style>
+    * { font-family: 'Rubik', sans-serif; }
+    .sidebar-btn.active { background: #FFF200; color: #000 !important; }
+    .sidebar-btn.active svg { stroke: #000; }
+    .sidebar-btn:not(.active):hover { background: rgba(255,255,255,0.08); }
+    @keyframes modalIn { from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeIn { from{opacity:0}to{opacity:1} }
+    @keyframes toastIn { from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)} }
+    .modal-box { animation: modalIn .2s ease; }
+    .fade-in { animation: fadeIn .15s ease; }
+    .toast-item { animation: toastIn .25s ease; }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: #111 !important; box-shadow: 0 0 0 3px rgba(0,0,0,.07); }
+    tr:hover > td { background: #FAFAFA; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-thumb { background: #D1D1D1; border-radius: 99px; }
+    .lc1 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+    .lc2 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .view { display: none; }
+    .view.active { display: block; }
+    .drop-zone { border: 2px dashed #E5E5E5; transition: all .15s; }
+    .drop-zone.dragging { border-color: #111 !important; background: #F0F0F0; }
+    .inp { width: 100%; border: 1px solid #E5E5E5; border-radius: 0.75rem; padding: 0.625rem 0.75rem; font-size: 0.875rem; }
+    .lbl { display: block; font-size: 0.7rem; font-weight: 600; color: #666; margin-bottom: 0.375rem; }
+  </style>
+</head>
+<body class="bg-[#F7F7F7] text-[#111] min-h-screen">
+
+<!-- ══ LOGIN ══ -->
+<div id="login-screen" class="fixed inset-0 bg-black flex items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden">
+    <div class="bg-[#FFF200] px-8 py-8 text-center">
+      <span class="text-4xl font-black text-black">הופה</span>
+      <p class="text-black/50 text-sm font-medium mt-1">גיוס משאבים</p>
+    </div>
+    <div class="p-8 space-y-5">
+      <form onsubmit="doPinLogin(event)">
+        <p class="text-sm text-[#999] text-center mb-4">הכנס קוד כניסה</p>
+        <input id="pin-input" type="password" inputmode="numeric"
+          class="w-full text-center text-2xl font-bold tracking-widest border-2 border-[#E5E5E5] rounded-2xl py-4 mb-3 focus:border-black focus:outline-none"
+          placeholder="••••••••" autocomplete="off"/>
+        <div id="pin-err" class="hidden bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3 text-center mb-3">קוד שגוי</div>
+        <button type="submit" class="w-full bg-[#FFF200] text-black font-bold py-3.5 rounded-xl hover:bg-[#E6D900] text-sm">כניסה</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app" class="hidden min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-black text-white h-14 flex items-center px-5 sticky top-0 z-40">
+    <div class="flex items-center gap-3 flex-1">
+      <span class="bg-[#FFF200] text-black font-black text-base px-3 py-0.5 rounded-lg">הופה</span>
+      <span class="text-[#777] text-sm hidden sm:block">גיוס משאבים</span>
+      <span id="role-badge" class="text-xs px-2 py-0.5 rounded-full bg-[#1a1a1a] text-[#999]"></span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span id="deadline-alert" class="hidden items-center gap-1.5 bg-red-900/50 border border-red-700/50 text-red-400 text-xs px-3 py-1.5 rounded-full cursor-pointer" onclick="showView('dashboard')">
+        ⚠️ <span id="deadline-alert-txt"></span>
+      </span>
+      <a href="admin.html" class="text-xs border border-[#333] text-[#999] hover:text-white px-3 py-1.5 rounded-lg hidden sm:block">מערכת ניהול</a>
+      <button onclick="doSignOut()" class="text-xs border border-[#333] text-[#999] hover:text-white px-3 py-1.5 rounded-lg">יציאה</button>
+    </div>
+  </header>
+
+  <div class="flex min-h-[calc(100vh-3.5rem)]">
+
+    <!-- Sidebar -->
+    <aside class="w-52 bg-black text-white flex-shrink-0 flex flex-col sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto">
+      <nav class="flex-1 py-4 px-2 space-y-0.5">
+        <button onclick="showView('dashboard')" data-view="dashboard" class="sidebar-btn active w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white text-right">
+          <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          לוח בקרה
+        </button>
+        <button onclick="showView('grants')" data-view="grants" class="sidebar-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white text-right">
+          <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+          <span class="flex-1">קולות קוראים</span>
+          <span id="sb-grants-badge" class="text-xs bg-white/15 px-2 py-0.5 rounded-full"></span>
+        </button>
+        <button onclick="showView('watchlist')" data-view="watchlist" class="sidebar-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white text-right">
+          <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span class="flex-1">אתרי קרנות</span>
+          <span id="sb-watch-badge" class="text-xs bg-white/15 px-2 py-0.5 rounded-full"></span>
+        </button>
+        <button onclick="showView('analyze')" data-view="analyze" class="sidebar-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white text-right">
+          <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+          <span class="flex-1">ניתוח קול קורא</span>
+        </button>
+        <button onclick="showView('projects')" data-view="projects" class="sidebar-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white text-right">
+          <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path d="M3 7l9 6 9-6"/></svg>
+          <span class="flex-1">פרויקטי הופה</span>
+        </button>
+        <button onclick="showView('sources')" data-view="sources" class="sidebar-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white text-right">
+          <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="flex-1">מקורות</span>
+        </button>
+        <button onclick="showView('research')" data-view="research" class="sidebar-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white text-right">
+          <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          <span class="flex-1">נתוני מחקר</span>
+        </button>
+        <div class="border-t border-white/10 my-2 mx-3"></div>
+        <div id="admin-nav">
+          <button onclick="openSetupModal()" class="sidebar-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white text-right">
+            <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            הגדרות
+          </button>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 p-5 md:p-6 overflow-auto min-w-0">
+
+      <!-- ══ DASHBOARD ══ -->
+      <div id="view-dashboard" class="view active fade-in">
+        <div class="flex items-center justify-between mb-5">
+          <h1 class="text-2xl font-bold">לוח בקרה</h1>
+          <button id="btn-new-grant" onclick="openGrantModal()" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900]">+ קול קורא חדש</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-5">
+          <div class="bg-white rounded-2xl p-4 border border-[#E5E5E5]">
+            <p class="text-xs text-[#999] mb-1">סה"כ פעיל</p>
+            <p id="st-total" class="text-3xl font-black">—</p>
+          </div>
+          <div class="bg-red-50 rounded-2xl p-4 border border-red-100">
+            <p class="text-xs text-red-400 mb-1">דדליין בשבוע</p>
+            <p id="st-week" class="text-3xl font-black text-red-600">—</p>
+          </div>
+          <div class="bg-amber-50 rounded-2xl p-4 border border-amber-100">
+            <p class="text-xs text-amber-500 mb-1">בכתיבה / ממתין</p>
+            <p id="st-inprog" class="text-3xl font-black text-amber-600">—</p>
+          </div>
+          <div class="bg-blue-50 rounded-2xl p-4 border border-blue-100">
+            <p class="text-xs text-blue-400 mb-1">הוגש</p>
+            <p id="st-submitted" class="text-3xl font-black text-blue-600">—</p>
+          </div>
+          <div class="bg-[#FFF200] rounded-2xl p-4 border border-[#E6D900]">
+            <p class="text-xs text-black/40 mb-1">אושר ✓</p>
+            <p id="st-approved" class="text-3xl font-black">—</p>
+          </div>
+        </div>
+
+        <!-- Pipeline kanban-style -->
+        <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden mb-5">
+          <div class="px-5 py-4 border-b border-[#E5E5E5] flex items-center justify-between">
+            <h2 class="font-bold">פייפליין</h2>
+            <span class="text-xs text-[#999]">לחץ על סטטוס לסינון</span>
+          </div>
+          <div id="pipeline-grid" class="p-4 grid grid-cols-3 md:grid-cols-7 gap-2"></div>
+        </div>
+
+        <!-- Upcoming deadlines -->
+        <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden mb-5">
+          <div class="px-5 py-4 border-b border-[#E5E5E5] flex items-center justify-between">
+            <h2 class="font-bold">דדליינים קרובים</h2>
+            <span class="text-xs text-[#999]">60 הימים הבאים</span>
+          </div>
+          <div id="upcoming-list"></div>
+        </div>
+
+        <!-- Recent activity -->
+        <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden">
+          <div class="px-5 py-4 border-b border-[#E5E5E5]">
+            <h2 class="font-bold">הוגשו לאחרונה</h2>
+          </div>
+          <div id="submitted-list"></div>
+        </div>
+      </div>
+
+      <!-- ══ GRANTS ══ -->
+      <div id="view-grants" class="view fade-in">
+        <div class="flex items-center justify-between mb-5">
+          <h1 class="text-2xl font-bold">קולות קוראים ומענקים</h1>
+          <div class="flex gap-2">
+            <button id="btn-import" onclick="openImportModal()" class="border border-[#E5E5E5] bg-white font-medium px-3 py-2 rounded-xl text-sm hover:bg-[#F7F7F7]">ייבוא Excel</button>
+            <button id="btn-add-grant" onclick="openGrantModal()" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900]">+ הוספה</button>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white rounded-2xl border border-[#E5E5E5] p-3 mb-4 flex flex-wrap gap-2 items-center">
+          <input id="f-search" type="text" placeholder="חיפוש..." class="inp flex-1 min-w-[150px]" oninput="applyFilters()"/>
+          <select id="f-status" onchange="applyFilters()" class="inp w-auto">
+            <option value="">כל הסטטוסים</option>
+            <option value="open">פתוח</option>
+            <option value="research">מחקר</option>
+            <option value="writing">בכתיבה</option>
+            <option value="submitted">הוגש</option>
+            <option value="pending">ממתין</option>
+            <option value="approved">אושר</option>
+            <option value="rejected">נדחה</option>
+            <option value="closed">סגור</option>
+          </select>
+          <select id="f-priority" onchange="applyFilters()" class="inp w-auto">
+            <option value="">כל עדיפות</option>
+            <option value="high">גבוהה</option>
+            <option value="medium">בינונית</option>
+            <option value="low">נמוכה</option>
+          </select>
+          <select id="f-source" onchange="applyFilters()" class="inp w-auto">
+            <option value="">כל מקורות</option>
+            <option value="atlas">Atlas</option>
+            <option value="thunderbit">Thunderbit</option>
+            <option value="manual">ידני</option>
+          </select>
+          <button onclick="clearFilters()" class="text-xs text-[#999] hover:text-[#111] px-2 py-1">נקה</button>
+          <span id="filter-count" class="text-xs text-[#999]"></span>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-[#F3F3F3]">
+                  <th class="text-right px-4 py-3 text-xs text-[#999] font-medium w-[180px]">קרן</th>
+                  <th class="text-right px-4 py-3 text-xs text-[#999] font-medium">כותרת</th>
+                  <th class="text-right px-4 py-3 text-xs text-[#999] font-medium w-[130px]">דדליין</th>
+                  <th class="text-right px-4 py-3 text-xs text-[#999] font-medium w-[110px]">סכום</th>
+                  <th class="text-right px-4 py-3 text-xs text-[#999] font-medium w-[90px]">סטטוס</th>
+                  <th class="text-right px-4 py-3 text-xs text-[#999] font-medium w-[80px]">עדיפות</th>
+                  <th class="w-10"></th>
+                </tr>
+              </thead>
+              <tbody id="grants-tbody">
+                <tr><td colspan="7" class="text-center py-12 text-[#999]">טוען...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="grants-empty" class="hidden px-5 py-12 text-center text-[#999]">
+            <p class="text-4xl mb-3">📋</p>
+            <p class="font-medium mb-1">אין קולות קוראים</p>
+            <p class="text-xs">הוסף ידנית או ייבא מ-Atlas / Thunderbit</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ WATCHLIST ══ -->
+      <div id="view-watchlist" class="view fade-in">
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <h1 class="text-2xl font-bold">אתרי קרנות למעקב</h1>
+            <p class="text-sm text-[#999] mt-1">השתמש ב-Thunderbit לסרוק ולייצא Excel</p>
+          </div>
+          <button onclick="openWatchModal()" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900]">+ הוסף קרן</button>
+        </div>
+
+        <!-- Thunderbit guide -->
+        <div class="bg-[#111] text-white rounded-2xl p-5 mb-5">
+          <h3 class="font-bold mb-3 flex items-center gap-2 text-[#FFF200]">⚡ זרימת עבודה עם Thunderbit</h3>
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-3 text-xs text-white/70">
+            <div class="bg-white/5 rounded-xl p-3">
+              <p class="text-white font-semibold mb-1">1. בחר אתר</p>
+              <p>בחר קרן מהרשימה למטה ולחץ "פתח"</p>
+            </div>
+            <div class="bg-white/5 rounded-xl p-3">
+              <p class="text-white font-semibold mb-1">2. הפעל Thunderbit</p>
+              <p>לחץ על תוסף Thunderbit בדפדפן</p>
+            </div>
+            <div class="bg-white/5 rounded-xl p-3">
+              <p class="text-white font-semibold mb-1">3. סרוק</p>
+              <p>בחר "Scrape this page" — Thunderbit יאסוף את הנתונים</p>
+            </div>
+            <div class="bg-white/5 rounded-xl p-3">
+              <p class="text-white font-semibold mb-1">4. ייצא Excel</p>
+              <p>ייצא את התוצאות ל-Excel</p>
+            </div>
+            <div class="bg-white/5 rounded-xl p-3">
+              <p class="text-white font-semibold mb-1">5. ייבא כאן</p>
+              <p>קולות קוראים → "ייבוא Excel"</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Also: Atlas link -->
+        <div class="bg-blue-50 border border-blue-100 rounded-2xl p-4 mb-5 flex items-center justify-between">
+          <div>
+            <p class="font-semibold text-sm text-blue-800">Atlas Grants — מאגר קרנות</p>
+            <p class="text-xs text-blue-600 mt-0.5">ייצאי רשימת קולות קוראים מ-Atlas וייבאי כאן</p>
+          </div>
+          <a href="https://atlas-grants.com/he/" target="_blank" class="bg-blue-600 text-white text-xs px-4 py-2 rounded-xl hover:bg-blue-700">פתח Atlas</a>
+        </div>
+
+        <!-- Watchlist grid -->
+        <div id="watchlist-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </div>
+
+      <!-- ══ ANALYZE ══ -->
+      <div id="view-analyze" class="view fade-in">
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <h1 class="text-2xl font-bold">ניתוח קול קורא</h1>
+            <p class="text-sm text-[#999] mt-1">Claude ינתח את הקול הקורא ויגיד אם כדאי להגיש</p>
+          </div>
+        </div>
+
+        <!-- Input Tabs -->
+        <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden mb-4">
+          <div class="flex border-b border-[#E5E5E5]">
+            <button onclick="setAnalyzeTab('url')" id="atab-url" class="flex-1 py-3 text-sm font-medium text-center border-b-2 border-[#111]">🔗 קישור</button>
+            <button onclick="setAnalyzeTab('pdf')" id="atab-pdf" class="flex-1 py-3 text-sm font-medium text-center border-b-2 border-transparent text-[#999]">📄 PDF</button>
+            <button onclick="setAnalyzeTab('text')" id="atab-text" class="flex-1 py-3 text-sm font-medium text-center border-b-2 border-transparent text-[#999]">📝 טקסט חופשי</button>
+          </div>
+          <div class="p-5">
+            <!-- URL -->
+            <div id="atab-content-url">
+              <label class="lbl">קישור לקול קורא</label>
+              <div class="flex gap-2 mb-2">
+                <input id="analyze-url" type="url" class="inp flex-1" placeholder="https://..."/>
+                <button onclick="analyzeFromUrl()" class="bg-black text-white font-bold px-5 py-2.5 rounded-xl text-sm hover:bg-[#333] whitespace-nowrap">ניתח ←</button>
+              </div>
+              <p class="text-xs text-[#999]">אם האתר חסום — העתק את הטקסט ועבור ללשונית "טקסט חופשי"</p>
+            </div>
+            <!-- PDF -->
+            <div id="atab-content-pdf" class="hidden">
+              <div id="pdf-dropzone" class="drop-zone rounded-2xl p-8 text-center cursor-pointer"
+                onclick="document.getElementById('analyze-pdf-input').click()"
+                ondragover="handlePdfDragOver(event)" ondragleave="handlePdfDragLeave()" ondrop="handlePdfDrop(event)">
+                <p class="text-4xl mb-2">📄</p>
+                <p class="font-semibold text-sm mb-1">גרור PDF לכאן</p>
+                <p class="text-xs text-[#999]">או לחץ לבחירה (.pdf)</p>
+                <input id="analyze-pdf-input" type="file" accept=".pdf" class="hidden" onchange="analyzeFromPDFInput(event)"/>
+              </div>
+            </div>
+            <!-- Text -->
+            <div id="atab-content-text" class="hidden">
+              <label class="lbl">הדבק את טקסט הקול קורא</label>
+              <textarea id="analyze-text" rows="8" class="inp resize-y" placeholder="הדבק כאן את תוכן הקול הקורא — מהאתר, ממייל, מ-PDF..."></textarea>
+              <div class="flex justify-end mt-2">
+                <button onclick="analyzeFromText()" class="bg-black text-white font-bold px-5 py-2.5 rounded-xl text-sm hover:bg-[#333]">ניתח ←</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="analyze-loading" class="hidden bg-white rounded-2xl border border-[#E5E5E5] p-8 text-center mb-4">
+          <div class="inline-flex items-center gap-3 text-[#666]">
+            <div class="w-5 h-5 border-2 border-[#111] border-t-transparent rounded-full animate-spin"></div>
+            <span class="text-sm">Claude מנתח את הקול הקורא...</span>
+          </div>
+        </div>
+
+        <!-- Result -->
+        <div id="analyze-result" class="hidden">
+          <!-- Score banner -->
+          <div id="analyze-score-banner" class="rounded-2xl p-5 mb-4 flex items-center gap-4">
+            <div id="analyze-score-circle" class="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0">
+              <span id="analyze-score-num" class="text-2xl font-black"></span>
+            </div>
+            <div class="flex-1">
+              <p id="analyze-recommendation" class="font-bold text-lg"></p>
+              <p id="analyze-fit-notes" class="text-sm mt-0.5 text-[#555]"></p>
+            </div>
+          </div>
+          <!-- Fields -->
+          <div class="bg-white rounded-2xl border border-[#E5E5E5] p-5 mb-4">
+            <h3 class="font-bold mb-4">פרטים שחולצו — ניתן לערוך לפני שמירה</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="lbl">שם הקרן / מפרסם</label>
+                <input id="ar-foundation" type="text" class="inp"/>
+              </div>
+              <div>
+                <label class="lbl">כותרת הקול קורא</label>
+                <input id="ar-title" type="text" class="inp"/>
+              </div>
+              <div>
+                <label class="lbl">תאריך אחרון להגשה</label>
+                <input id="ar-deadline" type="date" class="inp"/>
+              </div>
+              <div>
+                <label class="lbl">סכום מבוקש (₪)</label>
+                <input id="ar-amount" type="text" class="inp" placeholder="למשל: 80000"/>
+              </div>
+              <div class="md:col-span-2">
+                <label class="lbl">תיאור</label>
+                <textarea id="ar-description" rows="3" class="inp resize-none"></textarea>
+              </div>
+              <div class="md:col-span-2">
+                <label class="lbl">קישור מקור</label>
+                <input id="ar-url" type="text" class="inp"/>
+              </div>
+              <div class="md:col-span-2">
+                <label class="lbl">ניתוח התאמה להופה (Claude)</label>
+                <textarea id="ar-relevance" rows="3" class="inp resize-none bg-[#FAFAFA] text-[#555]" readonly></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <button onclick="clearAnalyze()" class="border border-[#E5E5E5] px-4 py-2 rounded-xl text-sm hover:bg-[#F7F7F7]">ניתוח חדש</button>
+            <button onclick="saveAnalyzed()" class="bg-[#FFF200] text-black font-bold px-6 py-2 rounded-xl text-sm hover:bg-[#E6D900]">שמור לקולות קוראים ✓</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ PROJECTS ══ -->
+      <div id="view-projects" class="view fade-in">
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <h1 class="text-2xl font-bold">פרויקטי הופה</h1>
+            <p class="text-sm text-[#999] mt-1">התוכניות והפרויקטים הפעילים — בסיס לכתיבת בקשות מענק</p>
+          </div>
+        </div>
+        <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div class="col-span-full text-center py-10 text-[#999] text-sm">טוען פרויקטים...</div>
+        </div>
+      </div>
+
+      <!-- ══ SOURCES ══ -->
+      <div id="view-sources" class="view fade-in">
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <h1 class="text-2xl font-bold">מקורות קולות קוראים</h1>
+            <p class="text-sm text-[#999] mt-1">מאיפה מגיעים הקולות הקוראים במערכת</p>
+          </div>
+          <button onclick="loadSources()" class="border border-[#E5E5E5] px-4 py-2 rounded-xl text-sm hover:bg-white flex items-center gap-2">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+            רענן
+          </button>
+        </div>
+
+        <!-- Source cards -->
+        <div id="sources-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          <div class="col-span-full text-center py-10 text-[#999] text-sm">טוען נתונים...</div>
+        </div>
+
+        <!-- How to add more sources -->
+        <div class="bg-white rounded-2xl border border-[#E5E5E5] p-5">
+          <h3 class="font-bold mb-3 text-sm">איך להוסיף קולות קוראים?</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm text-[#555]">
+            <div class="bg-[#F7F7F7] rounded-xl p-3">
+              <p class="font-semibold text-[#111] mb-1">📧 תמיר שרעבי</p>
+              <p>רואה חשבון שמשלח עדכונים שבועיים על קולות קוראים. עבור ל"קולות קוראים" וייבא מהמייל.</p>
+            </div>
+            <div class="bg-[#F7F7F7] rounded-xl p-3">
+              <p class="font-semibold text-[#111] mb-1">🔗 ניתוח קישור / PDF</p>
+              <p>גלית קישור לקול קורא רלוונטי? עבור ל"ניתוח קול קורא" והדבק אותו — Claude יחלץ הכל.</p>
+            </div>
+            <div class="bg-[#F7F7F7] rounded-xl p-3">
+              <p class="font-semibold text-[#111] mb-1">🏛️ פורטלים ממשלתיים</p>
+              <p>tmichot.mof.gov.il ואתרי קרנות (ראה "אתרי קרנות"). סרוק ידנית אחת לשבועיים.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ RESEARCH ══ -->
+      <div id="view-research" class="view fade-in">
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <h1 class="text-2xl font-bold">נתוני מחקר ומדיניות</h1>
+            <p class="text-sm text-[#999] mt-1">נתונים אמיתיים ומאומתים מ-2022–2025 לתמיכה בבקשות מענקים</p>
+          </div>
+          <button onclick="copyAllStats()" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900] flex items-center gap-2">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            העתק הכל לבקשה
+          </button>
+        </div>
+
+        <!-- Notice -->
+        <div class="bg-amber-50 border border-amber-100 rounded-2xl p-4 mb-5 flex gap-3">
+          <span class="text-lg flex-shrink-0">⚠️</span>
+          <p class="text-sm text-amber-800">הנתונים מבוססים על מחקרים ודוחות מפורסמים. מומלץ לאמת ולצטט את המקור המקורי בכל בקשה. לחץ "העתק ציטוט" ליד כל נתון.</p>
+        </div>
+
+        <!-- Research cards grid -->
+        <div id="research-grid" class="space-y-6"></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ══ MODALS ══ -->
+
+<!-- Grant Modal -->
+<div id="grant-modal" class="fixed inset-0 bg-black/60 z-50 items-start justify-center p-4 pt-8 overflow-y-auto hidden" style="display:none">
+  <div class="modal-box bg-white rounded-2xl w-full max-w-2xl shadow-2xl mx-auto">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-[#E5E5E5]">
+      <h2 id="gm-title" class="font-bold text-lg">קול קורא חדש</h2>
+      <button onclick="closeGrantModal()" class="text-[#999] hover:text-[#111] text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
+    </div>
+    <div class="p-6 space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="lbl">שם הקרן *</label>
+          <input id="g-foundation" type="text" class="inp" placeholder="קרן רוטשילד, מנחת, JDC..."/>
+        </div>
+        <div>
+          <label class="lbl">כותרת / שם המענק</label>
+          <input id="g-title" type="text" class="inp" placeholder="תמיכה בתוכניות נוער בסיכון"/>
+        </div>
+      </div>
+      <div>
+        <label class="lbl">קישור לדף הקרן / קול קורא</label>
+        <input id="g-url" type="url" dir="ltr" class="inp" placeholder="https://"/>
+      </div>
+      <div>
+        <label class="lbl">תיאור ודרישות</label>
+        <textarea id="g-description" rows="3" class="inp resize-none" placeholder="מה הקרן מחפשת, מי זכאי, מה התנאים..."></textarea>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div>
+          <label class="lbl">תאריך הגשה</label>
+          <input id="g-deadline" type="date" class="inp"/>
+        </div>
+        <div>
+          <label class="lbl">סכום מינ׳ (₪)</label>
+          <input id="g-amin" type="number" class="inp" placeholder="0"/>
+        </div>
+        <div>
+          <label class="lbl">סכום מקס׳ (₪)</label>
+          <input id="g-amax" type="number" class="inp" placeholder="100000"/>
+        </div>
+        <div>
+          <label class="lbl">גיאוגרפיה</label>
+          <select id="g-geo" class="inp bg-white">
+            <option value="israel">ישראל</option>
+            <option value="world">בינלאומי</option>
+            <option value="both">שניהם</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid grid-cols-3 gap-3">
+        <div>
+          <label class="lbl">סטטוס</label>
+          <select id="g-status" class="inp bg-white">
+            <option value="open">פתוח</option>
+            <option value="research">מחקר</option>
+            <option value="writing">בכתיבה</option>
+            <option value="submitted">הוגש</option>
+            <option value="pending">ממתין</option>
+            <option value="approved">אושר ✓</option>
+            <option value="rejected">נדחה ✗</option>
+            <option value="closed">סגור</option>
+          </select>
+        </div>
+        <div>
+          <label class="lbl">עדיפות</label>
+          <select id="g-priority" class="inp bg-white">
+            <option value="high">🔴 גבוהה</option>
+            <option value="medium" selected>🟡 בינונית</option>
+            <option value="low">⚪ נמוכה</option>
+          </select>
+        </div>
+        <div>
+          <label class="lbl">מקור</label>
+          <select id="g-source" class="inp bg-white">
+            <option value="manual">ידני</option>
+            <option value="atlas">Atlas</option>
+            <option value="thunderbit">Thunderbit</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="lbl">הערות פנימיות</label>
+        <textarea id="g-notes" rows="2" class="inp resize-none" placeholder="אנשי קשר, עיצות, מה חשוב לציין..."></textarea>
+      </div>
+      <!-- Draft section -->
+      <div>
+        <div class="flex items-center justify-between mb-1.5">
+          <label class="lbl mb-0">טיוטת בקשה</label>
+          <button id="btn-draft" onclick="openDraftModal()" class="text-xs bg-black text-white px-3 py-1.5 rounded-lg hover:bg-[#333] flex items-center gap-1.5">
+            <svg width="11" height="11" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            צור עם Claude
+          </button>
+        </div>
+        <textarea id="g-draft" rows="7" class="inp resize-y" placeholder="טיוטת מכתב הבקשה תופיע כאן לאחר יצירה עם Claude, או ניתן לכתוב ידנית..."></textarea>
+      </div>
+    </div>
+    <div class="px-6 py-4 border-t border-[#E5E5E5] flex items-center justify-between">
+      <button id="g-delete-btn" onclick="deleteGrant()" class="text-red-500 text-sm hover:text-red-700 hidden">מחיקה</button>
+      <div class="flex gap-3 mr-auto">
+        <button onclick="closeGrantModal()" class="border border-[#E5E5E5] px-4 py-2 rounded-xl text-sm hover:bg-[#F7F7F7]">ביטול</button>
+        <button onclick="saveGrant()" class="bg-[#FFF200] text-black font-bold px-6 py-2 rounded-xl text-sm hover:bg-[#E6D900]">שמירה</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Draft Modal -->
+<div id="draft-modal" class="fixed inset-0 bg-black/60 z-[60] items-start justify-center p-4 pt-12 overflow-y-auto hidden" style="display:none">
+  <div class="modal-box bg-white rounded-2xl w-full max-w-xl shadow-2xl mx-auto">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-[#E5E5E5]">
+      <h2 class="font-bold text-lg">✍️ כתיבה עם Claude</h2>
+      <button onclick="closeDraftModal()" class="text-[#999] hover:text-[#111] text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
+    </div>
+    <div class="p-6 space-y-4">
+      <div>
+        <label class="lbl">מה הקרן מחפשת / מה חשוב להדגיש</label>
+        <textarea id="d-focus" rows="3" class="inp resize-none" placeholder="למשל: הקרן מתמקדת בצעירים מוחלשים, מעדיפה תוכניות עם מדידה כמותית, דוגלת בשיתופי פעולה..."></textarea>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="lbl">סכום מבוקש</label>
+          <input id="d-amount" type="text" class="inp" placeholder="₪80,000"/>
+        </div>
+        <div>
+          <label class="lbl">סוג המסמך</label>
+          <select id="d-type" class="inp bg-white">
+            <option value="letter">מכתב בקשה (1–2 עמ׳)</option>
+            <option value="proposal">הצעה מלאה (3–5 עמ׳)</option>
+            <option value="summary">תקציר מנהלים</option>
+            <option value="email">מייל ראשוני לקרן</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="lbl">הוראות נוספות (לא חובה)</label>
+        <textarea id="d-extra" rows="2" class="inp resize-none" placeholder="דגשים ספציפיים, שאלות שהקרן מבקשת לענות עליהן..."></textarea>
+      </div>
+
+      <div id="d-loading" class="hidden text-center py-6">
+        <div class="inline-flex items-center gap-3 text-[#666]">
+          <div class="w-5 h-5 border-2 border-[#111] border-t-transparent rounded-full animate-spin"></div>
+          <span class="text-sm">Claude כותב את הבקשה...</span>
+        </div>
+      </div>
+
+      <div id="d-result" class="hidden">
+        <label class="lbl">הטיוטה שנוצרה</label>
+        <textarea id="d-output" rows="14" class="inp resize-y text-xs leading-relaxed"></textarea>
+      </div>
+    </div>
+    <div class="px-6 py-4 border-t border-[#E5E5E5] flex justify-between items-center">
+      <button id="d-copy-btn" onclick="copyDraft()" class="hidden text-sm border border-[#E5E5E5] px-4 py-2 rounded-xl hover:bg-[#F7F7F7]">העתק</button>
+      <div class="flex gap-2 mr-auto">
+        <button onclick="closeDraftModal()" class="border border-[#E5E5E5] px-4 py-2 rounded-xl text-sm hover:bg-[#F7F7F7]">סגור</button>
+        <button id="d-use-btn" onclick="useDraft()" class="hidden bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900]">השתמש בטיוטה →</button>
+        <button id="d-gen-btn" onclick="generateDraft()" class="bg-black text-white font-bold px-6 py-2 rounded-xl text-sm hover:bg-[#333]">צור בקשה</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Import Modal -->
+<div id="import-modal" class="fixed inset-0 bg-black/60 z-50 items-start justify-center p-4 pt-8 hidden" style="display:none">
+  <div class="modal-box bg-white rounded-2xl w-full max-w-2xl shadow-2xl mx-auto max-h-[85vh] flex flex-col">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-[#E5E5E5] flex-shrink-0">
+      <h2 class="font-bold text-lg">ייבוא מ-Excel</h2>
+      <button onclick="closeImportModal()" class="text-[#999] hover:text-[#111] text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
+    </div>
+    <div class="p-6 overflow-y-auto flex-1">
+      <div id="imp-s1">
+        <div id="drop-zone" class="drop-zone rounded-2xl p-10 text-center cursor-pointer mb-4"
+          onclick="document.getElementById('excel-file').click()"
+          ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+          <p class="text-5xl mb-3">📊</p>
+          <p class="font-semibold text-sm mb-1">גרור קובץ Excel לכאן</p>
+          <p class="text-xs text-[#999]">או לחץ לבחירה — .xlsx / .xls / .csv</p>
+          <input id="excel-file" type="file" accept=".xlsx,.xls,.csv" class="hidden" onchange="onExcelFile(event)"/>
+        </div>
+        <div class="bg-[#F7F7F7] rounded-xl p-4 text-xs text-[#666]">
+          <p class="font-semibold text-[#444] mb-1">עמודות שמוכרות אוטומטית מ-Atlas:</p>
+          <p>שם קרן, שם מענק, תאריך הגשה, סכום, תיאור, קישור</p>
+        </div>
+      </div>
+      <div id="imp-s2" class="hidden">
+        <p class="text-sm text-[#666] mb-4">התאמת עמודות — <span id="imp-row-count" class="font-semibold text-[#111]"></span></p>
+        <div id="col-mapper" class="space-y-2"></div>
+      </div>
+      <div id="imp-s3" class="hidden">
+        <div id="imp-preview"></div>
+      </div>
+    </div>
+    <div class="px-6 py-4 border-t border-[#E5E5E5] flex-shrink-0 flex justify-between">
+      <button onclick="closeImportModal()" class="border border-[#E5E5E5] px-4 py-2 rounded-xl text-sm hover:bg-[#F7F7F7]">ביטול</button>
+      <div class="flex gap-2">
+        <button id="imp-back" onclick="impBack()" class="hidden border border-[#E5E5E5] px-4 py-2 rounded-xl text-sm hover:bg-[#F7F7F7]">חזרה</button>
+        <button id="imp-next" onclick="impNext()" class="hidden bg-[#FFF200] text-black font-bold px-6 py-2 rounded-xl text-sm hover:bg-[#E6D900]">המשך →</button>
+        <button id="imp-confirm" onclick="confirmImport()" class="hidden bg-black text-white font-bold px-6 py-2 rounded-xl text-sm hover:bg-[#333]">ייבוא</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Watchlist Modal -->
+<div id="watch-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
+  <div class="modal-box bg-white rounded-2xl w-full max-w-md shadow-2xl">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-[#E5E5E5]">
+      <h2 class="font-bold text-lg">הוספת קרן לרשימה</h2>
+      <button onclick="closeWatchModal()" class="text-[#999] hover:text-[#111] text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
+    </div>
+    <div class="p-6 space-y-4">
+      <div><label class="lbl">שם הקרן *</label><input id="w-name" type="text" class="inp" placeholder="קרן רוטשילד"/></div>
+      <div><label class="lbl">כתובת האתר *</label><input id="w-url" type="url" dir="ltr" class="inp" placeholder="https://"/></div>
+      <div><label class="lbl">קטגוריה</label><input id="w-cat" type="text" class="inp" placeholder="חינוך, נוער, תעסוקה..."/></div>
+      <div><label class="lbl">הערות</label><input id="w-notes" type="text" class="inp" placeholder="תדירות קולות קוראים, סכומים רגילים..."/></div>
+    </div>
+    <div class="px-6 py-4 border-t border-[#E5E5E5] flex justify-end gap-3">
+      <button onclick="closeWatchModal()" class="border border-[#E5E5E5] px-4 py-2 rounded-xl text-sm">ביטול</button>
+      <button onclick="saveWatchItem()" class="bg-[#FFF200] text-black font-bold px-6 py-2 rounded-xl text-sm hover:bg-[#E6D900]">הוספה</button>
+    </div>
+  </div>
+</div>
+
+<!-- Setup Modal -->
+<div id="setup-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
+  <div class="modal-box bg-white rounded-2xl w-full max-w-xl shadow-2xl">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-[#E5E5E5]">
+      <h2 class="font-bold text-lg">הגדרות</h2>
+      <button onclick="closeSetupModal()" class="text-[#999] hover:text-[#111] text-2xl leading-none w-8 h-8 flex items-center justify-center">×</button>
+    </div>
+    <div class="p-6 space-y-5">
+      <!-- SQL -->
+      <div>
+        <p class="text-sm font-semibold mb-2">יצירת טבלת מסד נתונים (הרץ פעם אחת ב-Supabase → SQL Editor):</p>
+        <div id="setup-sql" class="bg-[#111] text-[#4ade80] rounded-xl p-4 text-xs font-mono overflow-x-auto whitespace-pre leading-relaxed"></div>
+        <button onclick="copySQL()" class="mt-2 text-xs border border-[#E5E5E5] px-3 py-1.5 rounded-lg hover:bg-[#F7F7F7]">העתק SQL</button>
+      </div>
+      <!-- Employee PIN -->
+      <div class="border-t border-[#E5E5E5] pt-4">
+        <p class="text-sm font-semibold mb-2">PIN לעובדת גיוס משאבים (קריאה + עדכון סטטוס)</p>
+        <div class="flex gap-2">
+          <input id="emp-pin-input" type="text" class="inp" placeholder="הכנס PIN לעובדת" dir="ltr"/>
+          <button onclick="saveEmpPin()" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900] whitespace-nowrap">שמור</button>
+        </div>
+        <p class="text-xs text-[#999] mt-1">PIN נוכחי: <span id="current-emp-pin" class="font-mono"></span></p>
+      </div>
+    </div>
+    <div class="px-6 py-4 border-t border-[#E5E5E5] flex justify-end">
+      <button onclick="closeSetupModal(); loadGrants();" class="bg-[#FFF200] text-black font-bold px-6 py-2 rounded-xl text-sm hover:bg-[#E6D900]">סגור</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toasts -->
+<div id="toasts" class="fixed bottom-5 left-5 z-[100] space-y-2 pointer-events-none"></div>
+
+<script>
+// ── CONFIG ───────────────────────────────────────────────
+const SUPABASE_URL  = 'https://vhmwijzcrqjjquxomccq.supabase.co';
+const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZobXdpanpjcnFqanF1eG9tY2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1Nzk0MDgsImV4cCI6MjA4OTE1NTQwOH0.rMnAcdMiPddUAoap63tMiqeQQanJoF-HDmzra7P-5Cc';
+const CLAUDE_KEY    = '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';
+const ADMIN_PIN     = '0502671012';
+
+const SETUP_SQL = `CREATE TABLE IF NOT EXISTS grants (
+  id               uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  foundation_name  text NOT NULL,
+  title            text,
+  description      text,
+  url              text,
+  amount_min       numeric,
+  amount_max       numeric,
+  deadline         date,
+  geo              text DEFAULT 'israel',
+  status           text DEFAULT 'open',
+  priority         text DEFAULT 'medium',
+  notes            text,
+  draft_application text,
+  source           text DEFAULT 'manual',
+  assigned_to      text,
+  created_at       timestamptz DEFAULT now(),
+  updated_at       timestamptz DEFAULT now()
+);
+
+ALTER TABLE grants ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY IF NOT EXISTS "grants_open"
+  ON grants FOR ALL USING (true) WITH CHECK (true);`;
+
+document.getElementById('setup-sql').textContent = SETUP_SQL;
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── STATE ────────────────────────────────────────────────
+let grants = [];
+let currentGrant = null;
+let userRole = 'admin'; // 'admin' | 'employee'
+let impStep = 1, impHeaders = [], impRows = [], impMapping = {};
+let watchlist = [];
+
+// ── AUTH ─────────────────────────────────────────────────
+function doPinLogin(e) {
+  e.preventDefault();
+  const pin = document.getElementById('pin-input').value.trim();
+  const empPin = localStorage.getItem('hopa_emp_pin');
+
+  if (pin === ADMIN_PIN) {
+    userRole = 'admin';
+    startApp();
+  } else if (empPin && pin === empPin) {
+    userRole = 'employee';
+    startApp();
+  } else {
+    document.getElementById('pin-err').classList.remove('hidden');
+    setTimeout(() => document.getElementById('pin-err').classList.add('hidden'), 3000);
+  }
+}
+
+function startApp() {
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  document.getElementById('role-badge').textContent = userRole === 'admin' ? 'מנהל' : 'עובדת גיוס';
+
+  // Hide admin-only elements for employee
+  if (userRole === 'employee') {
+    document.getElementById('admin-nav').style.display = 'none';
+    document.getElementById('btn-new-grant')?.remove();
+    document.getElementById('btn-import')?.setAttribute('disabled', true);
+    document.getElementById('btn-add-grant')?.remove();
+  }
+
+  loadGrants();
+  loadWatchlist();
+}
+
+function doSignOut() {
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.getElementById('pin-input').value = '';
+  grants = [];
+}
+
+function saveEmpPin() {
+  const pin = document.getElementById('emp-pin-input').value.trim();
+  if (!pin) { toast('הכנס PIN', 'error'); return; }
+  localStorage.setItem('hopa_emp_pin', pin);
+  document.getElementById('current-emp-pin').textContent = pin;
+  toast('PIN נשמר', 'success');
+}
+
+// ── NAVIGATION ───────────────────────────────────────────
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => {
+    v.classList.remove('active', 'fade-in');
+  });
+  document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+  const v = document.getElementById('view-' + name);
+  if (v) { v.classList.add('active', 'fade-in'); }
+  const btn = document.querySelector(`[data-view="${name}"]`);
+  if (btn) btn.classList.add('active');
+  if (name === 'projects') loadProjects();
+  if (name === 'sources') loadSources();
+}
+
+// ── DATA ─────────────────────────────────────────────────
+async function loadGrants() {
+  const { data, error } = await sb.from('grants').select('*').order('deadline', { ascending: true, nullsFirst: false });
+  if (error) {
+    if (error.code === '42P01') toast('⚠️ טבלת grants לא קיימת — פתח הגדרות', 'error');
+    else toast('שגיאה: ' + error.message, 'error');
+    grants = [];
+  } else {
+    grants = data || [];
+  }
+  renderDashboard();
+  renderGrants();
+  updateBadges();
+  checkDeadlines();
+}
+
+async function saveGrant() {
+  const foundation = document.getElementById('g-foundation').value.trim();
+  if (!foundation) { toast('שם הקרן חובה', 'error'); return; }
+
+  const payload = {
+    foundation_name:   foundation,
+    title:             document.getElementById('g-title').value.trim() || null,
+    url:               document.getElementById('g-url').value.trim() || null,
+    description:       document.getElementById('g-description').value.trim() || null,
+    deadline:          document.getElementById('g-deadline').value || null,
+    amount_min:        parseFloat(document.getElementById('g-amin').value) || null,
+    amount_max:        parseFloat(document.getElementById('g-amax').value) || null,
+    geo:               document.getElementById('g-geo').value,
+    status:            document.getElementById('g-status').value,
+    priority:          document.getElementById('g-priority').value,
+    source:            document.getElementById('g-source').value,
+    notes:             document.getElementById('g-notes').value.trim() || null,
+    draft_application: document.getElementById('g-draft').value.trim() || null,
+    updated_at:        new Date().toISOString()
+  };
+
+  let error;
+  if (currentGrant) {
+    ({ error } = await sb.from('grants').update(payload).eq('id', currentGrant.id));
+  } else {
+    ({ error } = await sb.from('grants').insert(payload));
+  }
+
+  if (error) { toast('שגיאה: ' + error.message, 'error'); return; }
+  toast(currentGrant ? 'עודכן ✓' : 'נוסף ✓', 'success');
+  closeGrantModal();
+  loadGrants();
+}
+
+async function deleteGrant() {
+  if (!currentGrant || userRole !== 'admin') return;
+  if (!confirm('למחוק קול קורא זה?')) return;
+  const { error } = await sb.from('grants').delete().eq('id', currentGrant.id);
+  if (error) { toast('שגיאה', 'error'); return; }
+  toast('נמחק', 'success');
+  closeGrantModal();
+  loadGrants();
+}
+
+// ── RENDER HELPERS ───────────────────────────────────────
+const SM = {
+  open:      { l: 'פתוח',    c: 'bg-blue-50 text-blue-700' },
+  research:  { l: 'מחקר',    c: 'bg-purple-50 text-purple-700' },
+  writing:   { l: 'בכתיבה', c: 'bg-yellow-50 text-yellow-700' },
+  submitted: { l: 'הוגש',    c: 'bg-indigo-50 text-indigo-700' },
+  pending:   { l: 'ממתין',   c: 'bg-orange-50 text-orange-700' },
+  approved:  { l: 'אושר ✓',  c: 'bg-green-50 text-green-700' },
+  rejected:  { l: 'נדחה',    c: 'bg-red-50 text-red-600' },
+  closed:    { l: 'סגור',    c: 'bg-gray-50 text-gray-400' }
+};
+const PM = {
+  high:   { l: 'גבוהה', d: 'bg-red-500' },
+  medium: { l: 'בינונית', d: 'bg-amber-400' },
+  low:    { l: 'נמוכה', d: 'bg-gray-300' }
+};
+
+function dlInfo(dl) {
+  if (!dl) return { t: '—', c: 'text-[#CCC]', days: null };
+  const d = new Date(dl), now = new Date();
+  now.setHours(0,0,0,0); d.setHours(0,0,0,0);
+  const days = Math.round((d - now) / 86400000);
+  const ds = d.toLocaleDateString('he-IL', { day:'numeric', month:'short' });
+  if (days < 0)  return { t: ds + ' (עבר)', c: 'text-gray-400', days };
+  if (days === 0) return { t: 'היום ⚠️', c: 'text-red-600 font-bold', days };
+  if (days <= 7)  return { t: `${ds} (${days}י)`, c: 'text-red-600 font-semibold', days };
+  if (days <= 30) return { t: `${ds} (${days}י)`, c: 'text-amber-600', days };
+  return { t: ds, c: 'text-[#666]', days };
+}
+
+function fmtAmt(mn, mx) {
+  if (!mn && !mx) return '—';
+  const f = n => n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? Math.round(n/1000)+'K' : n;
+  if (mn && mx) return '₪'+f(mn)+'–'+f(mx);
+  return (mx ? 'עד ' : '') + '₪' + f(mx || mn);
+}
+
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── RENDER DASHBOARD ─────────────────────────────────────
+function renderDashboard() {
+  const now = new Date(); now.setHours(0,0,0,0);
+  const in7  = new Date(now); in7.setDate(in7.getDate()+7);
+  const in60 = new Date(now); in60.setDate(in60.getDate()+60);
+
+  const active    = grants.filter(g => !['closed','rejected'].includes(g.status));
+  const week      = active.filter(g => g.deadline && new Date(g.deadline) <= in7 && new Date(g.deadline) >= now);
+  const inprog    = grants.filter(g => ['writing','research'].includes(g.status));
+  const submitted = grants.filter(g => ['submitted','pending'].includes(g.status));
+  const approved  = grants.filter(g => g.status === 'approved');
+
+  document.getElementById('st-total').textContent     = active.length;
+  document.getElementById('st-week').textContent      = week.length;
+  document.getElementById('st-inprog').textContent    = inprog.length;
+  document.getElementById('st-submitted').textContent = submitted.length;
+  document.getElementById('st-approved').textContent  = approved.length;
+
+  // Pipeline
+  const statuses = ['open','research','writing','submitted','pending','approved','rejected'];
+  const counts = {};
+  grants.forEach(g => counts[g.status] = (counts[g.status]||0)+1);
+  document.getElementById('pipeline-grid').innerHTML = statuses.map(s => {
+    const m = SM[s]; const c = counts[s]||0;
+    return `<div class="text-center p-3 rounded-xl bg-[#F7F7F7] hover:bg-[#EFEFEF] cursor-pointer transition-colors" onclick="filterByStatus('${s}')">
+      <p class="text-2xl font-black ${c>0?'':'text-[#CCC]'}">${c}</p>
+      <p class="text-[10px] text-[#999] mt-0.5 leading-tight">${m.l}</p>
+    </div>`;
+  }).join('');
+
+  // Upcoming deadlines
+  const upcoming = grants
+    .filter(g => g.deadline && new Date(g.deadline) >= now && new Date(g.deadline) <= in60 && !['closed','rejected'].includes(g.status))
+    .sort((a,b) => new Date(a.deadline)-new Date(b.deadline));
+
+  const ul = document.getElementById('upcoming-list');
+  if (!upcoming.length) {
+    ul.innerHTML = '<div class="px-5 py-8 text-center text-[#999] text-sm">אין דדליינים ב-60 הימים הקרובים</div>';
+  } else {
+    ul.innerHTML = upcoming.map(g => {
+      const dl = dlInfo(g.deadline);
+      const st = SM[g.status]||SM.open;
+      const pr = PM[g.priority]||PM.medium;
+      return `<div class="flex items-center px-5 py-3 gap-3 hover:bg-[#FAFAFA] cursor-pointer border-b border-[#F5F5F5] last:border-0" onclick="openGrantModal('${g.id}')">
+        <span class="w-2 h-2 rounded-full ${pr.d} flex-shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="font-medium text-sm lc1">${esc(g.foundation_name)}${g.title?' — '+esc(g.title):''}</p>
+          ${g.notes?`<p class="text-xs text-[#999] lc1">${esc(g.notes)}</p>`:''}
+        </div>
+        <span class="text-xs whitespace-nowrap ${dl.c}">${dl.t}</span>
+        <span class="text-xs px-2 py-0.5 rounded-full ${st.c} whitespace-nowrap">${st.l}</span>
+      </div>`;
+    }).join('');
+  }
+
+  // Submitted / pending
+  const subs = grants.filter(g => ['submitted','pending','approved','rejected'].includes(g.status))
+    .sort((a,b) => new Date(b.updated_at||b.created_at) - new Date(a.updated_at||a.created_at))
+    .slice(0,8);
+
+  const sl = document.getElementById('submitted-list');
+  if (!subs.length) {
+    sl.innerHTML = '<div class="px-5 py-8 text-center text-[#999] text-sm">לא הוגשה עדיין אף בקשה</div>';
+  } else {
+    sl.innerHTML = subs.map(g => {
+      const st = SM[g.status]||SM.open;
+      const dl = dlInfo(g.deadline);
+      return `<div class="flex items-center px-5 py-3 gap-3 hover:bg-[#FAFAFA] cursor-pointer border-b border-[#F5F5F5] last:border-0" onclick="openGrantModal('${g.id}')">
+        <div class="flex-1 min-w-0">
+          <p class="font-medium text-sm lc1">${esc(g.foundation_name)}${g.title?' — '+esc(g.title):''}</p>
+          ${g.amount_max?`<p class="text-xs text-[#999]">${fmtAmt(g.amount_min,g.amount_max)}</p>`:''}
+        </div>
+        <span class="text-xs text-[#999] whitespace-nowrap">${dl.days!==null && dl.days<0 ? 'הוגש '+dl.t.replace(' (עבר)','') : ''}</span>
+        <span class="text-xs px-2 py-0.5 rounded-full ${st.c} whitespace-nowrap">${st.l}</span>
+      </div>`;
+    }).join('');
+  }
+}
+
+// ── RENDER GRANTS TABLE ──────────────────────────────────
+function renderGrants(list) {
+  const rows = list !== undefined ? list : grants;
+  const tbody = document.getElementById('grants-tbody');
+  const empty = document.getElementById('grants-empty');
+
+  if (!rows.length) {
+    tbody.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  tbody.innerHTML = rows.map(g => {
+    const dl = dlInfo(g.deadline);
+    const st = SM[g.status]||SM.open;
+    const pr = PM[g.priority]||PM.medium;
+    const srcBadge = g.source==='atlas' ? '<span class="text-[9px] bg-blue-50 text-blue-500 px-1 py-0.5 rounded">Atlas</span>'
+                   : g.source==='thunderbit' ? '<span class="text-[9px] bg-purple-50 text-purple-500 px-1 py-0.5 rounded">TB</span>' : '';
+    const hasDraft = g.draft_application ? '✍️ ' : '';
+    return `<tr class="border-b border-[#F3F3F3] cursor-pointer" onclick="openGrantModal('${g.id}')">
+      <td class="px-4 py-3">
+        <div class="flex items-center gap-1.5">
+          <span class="font-medium text-sm lc1">${esc(g.foundation_name)}</span>${srcBadge}
+        </div>
+      </td>
+      <td class="px-4 py-3 text-sm text-[#666] lc1 max-w-[200px]">${hasDraft}${g.title?esc(g.title):'<span class="text-[#DDD]">—</span>'}</td>
+      <td class="px-4 py-3 text-xs ${dl.c} whitespace-nowrap">${dl.t}</td>
+      <td class="px-4 py-3 text-xs text-[#666] whitespace-nowrap">${fmtAmt(g.amount_min,g.amount_max)}</td>
+      <td class="px-4 py-3"><span class="text-xs px-2 py-1 rounded-full ${st.c}">${st.l}</span></td>
+      <td class="px-4 py-3"><span class="inline-flex items-center gap-1 text-xs text-[#666]"><span class="w-2 h-2 rounded-full ${pr.d}"></span>${pr.l}</span></td>
+      <td class="px-4 py-2 text-left">
+        <button onclick="event.stopPropagation();openGrantModal('${g.id}')" class="text-xs border border-[#E5E5E5] px-2 py-1 rounded-lg hover:bg-[#F7F7F7]">עריכה</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function updateBadges() {
+  const active = grants.filter(g => !['closed','rejected'].includes(g.status)).length;
+  document.getElementById('sb-grants-badge').textContent = active || '';
+}
+
+// ── FILTERS ──────────────────────────────────────────────
+function applyFilters() {
+  const s = document.getElementById('f-search').value.toLowerCase();
+  const st = document.getElementById('f-status').value;
+  const pr = document.getElementById('f-priority').value;
+  const src = document.getElementById('f-source').value;
+  let r = grants;
+  if (s)   r = r.filter(g => g.foundation_name.toLowerCase().includes(s) || (g.title&&g.title.toLowerCase().includes(s)));
+  if (st)  r = r.filter(g => g.status===st);
+  if (pr)  r = r.filter(g => g.priority===pr);
+  if (src) r = r.filter(g => g.source===src);
+  renderGrants(r);
+  document.getElementById('filter-count').textContent = r.length !== grants.length ? `${r.length} מתוך ${grants.length}` : '';
+}
+
+function clearFilters() {
+  ['f-search','f-status','f-priority','f-source'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  renderGrants();
+  document.getElementById('filter-count').textContent = '';
+}
+
+function filterByStatus(status) {
+  showView('grants');
+  document.getElementById('f-status').value = status;
+  applyFilters();
+}
+
+// ── GRANT MODAL ──────────────────────────────────────────
+function openGrantModal(id) {
+  currentGrant = id ? grants.find(g => g.id===id) : null;
+  document.getElementById('gm-title').textContent = currentGrant ? 'עריכת קול קורא' : 'קול קורא חדש';
+  document.getElementById('g-delete-btn').classList.toggle('hidden', !currentGrant || userRole!=='admin');
+  document.getElementById('btn-draft').style.display = userRole==='employee' ? 'none' : '';
+
+  const g = currentGrant || {};
+  document.getElementById('g-foundation').value  = g.foundation_name || '';
+  document.getElementById('g-title').value        = g.title || '';
+  document.getElementById('g-url').value          = g.url || '';
+  document.getElementById('g-description').value  = g.description || '';
+  document.getElementById('g-deadline').value     = g.deadline || '';
+  document.getElementById('g-amin').value          = g.amount_min || '';
+  document.getElementById('g-amax').value          = g.amount_max || '';
+  document.getElementById('g-geo').value          = g.geo || 'israel';
+  document.getElementById('g-status').value       = g.status || 'open';
+  document.getElementById('g-priority').value     = g.priority || 'medium';
+  document.getElementById('g-source').value       = g.source || 'manual';
+  document.getElementById('g-notes').value        = g.notes || '';
+  document.getElementById('g-draft').value        = g.draft_application || '';
+
+  // Employee can only update status and notes
+  const readOnly = userRole === 'employee';
+  ['g-foundation','g-title','g-url','g-description','g-deadline','g-amin','g-amax','g-geo','g-source']
+    .forEach(id => { document.getElementById(id).disabled = readOnly; });
+
+  document.getElementById('grant-modal').style.display = 'flex';
+}
+
+function closeGrantModal() {
+  document.getElementById('grant-modal').style.display = 'none';
+  currentGrant = null;
+}
+
+// ── DRAFT MODAL ──────────────────────────────────────────
+function openDraftModal() {
+  document.getElementById('d-result').classList.add('hidden');
+  document.getElementById('d-loading').classList.add('hidden');
+  document.getElementById('d-gen-btn').classList.remove('hidden');
+  document.getElementById('d-copy-btn').classList.add('hidden');
+  document.getElementById('d-use-btn').classList.add('hidden');
+  document.getElementById('d-focus').value = '';
+  document.getElementById('d-extra').value = '';
+  const mx = document.getElementById('g-amax').value;
+  document.getElementById('d-amount').value = mx ? '₪' + Number(mx).toLocaleString('he-IL') : '';
+  document.getElementById('draft-modal').style.display = 'flex';
+}
+
+function closeDraftModal() {
+  document.getElementById('draft-modal').style.display = 'none';
+}
+
+async function generateDraft() {
+  const foundation = document.getElementById('g-foundation').value.trim() || 'הקרן';
+  const title      = document.getElementById('g-title').value.trim();
+  const desc       = document.getElementById('g-description').value.trim();
+  const focus      = document.getElementById('d-focus').value.trim();
+  const amount     = document.getElementById('d-amount').value.trim();
+  const docType    = document.getElementById('d-type').value;
+  const extra      = document.getElementById('d-extra').value.trim();
+
+  const docNames = { letter:'מכתב בקשה', proposal:'הצעה מלאה', summary:'תקציר מנהלים', email:'מייל ראשוני' };
+
+  const userMsg = [
+    `כתוב ${docNames[docType]} לקרן "${foundation}"${title?' — '+title:''}.`,
+    desc && `\nתיאור הקול הקורא:\n${desc}`,
+    focus && `\nמה חשוב להדגיש / מה הקרן מחפשת:\n${focus}`,
+    amount && `\nסכום מבוקש: ${amount}`,
+    extra && `\nהוראות נוספות: ${extra}`,
+    '\n\nכתוב את הבקשה המלאה בעברית, בשפת הופה.'
+  ].filter(Boolean).join('');
+
+  document.getElementById('d-gen-btn').classList.add('hidden');
+  document.getElementById('d-loading').classList.remove('hidden');
+  document.getElementById('d-result').classList.add('hidden');
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': CLAUDE_KEY,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 3000,
+        system: HOPA_PROMPT,
+        messages: [{ role: 'user', content: userMsg }]
+      })
+    });
+
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || res.status); }
+    const data = await res.json();
+    document.getElementById('d-output').value = data.content[0].text;
+    document.getElementById('d-result').classList.remove('hidden');
+    document.getElementById('d-copy-btn').classList.remove('hidden');
+    document.getElementById('d-use-btn').classList.remove('hidden');
+  } catch(err) {
+    toast('שגיאה ביצירת הטיוטה: ' + err.message, 'error');
+    document.getElementById('d-gen-btn').classList.remove('hidden');
+  } finally {
+    document.getElementById('d-loading').classList.add('hidden');
+  }
+}
+
+function copyDraft() {
+  navigator.clipboard.writeText(document.getElementById('d-output').value)
+    .then(() => toast('הועתק ✓', 'success'));
+}
+
+function useDraft() {
+  document.getElementById('g-draft').value = document.getElementById('d-output').value;
+  closeDraftModal();
+  toast('הטיוטה הועברה לשדה הבקשה', 'success');
+}
+
+// ── IMPORT EXCEL ─────────────────────────────────────────
+function openImportModal() {
+  impStep=1; impHeaders=[]; impRows=[]; impMapping={};
+  setImpStep(1);
+  document.getElementById('import-modal').style.display = 'flex';
+}
+function closeImportModal() {
+  document.getElementById('import-modal').style.display = 'none';
+  document.getElementById('excel-file').value = '';
+}
+function setImpStep(n) {
+  impStep = n;
+  ['imp-s1','imp-s2','imp-s3'].forEach((id,i) => {
+    document.getElementById(id).classList.toggle('hidden', i+1!==n);
+  });
+  document.getElementById('imp-back').classList.toggle('hidden', n<=1);
+  document.getElementById('imp-next').classList.toggle('hidden', n!==2);
+  document.getElementById('imp-confirm').classList.toggle('hidden', n!==3);
+}
+function handleDragOver(e) { e.preventDefault(); document.getElementById('drop-zone').classList.add('dragging'); }
+function handleDragLeave() { document.getElementById('drop-zone').classList.remove('dragging'); }
+function handleDrop(e) { e.preventDefault(); handleDragLeave(); const f=e.dataTransfer.files[0]; if(f) processExcel(f); }
+function onExcelFile(e) { const f=e.target.files[0]; if(f) processExcel(f); }
+
+function processExcel(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const wb = XLSX.read(e.target.result, { type:'array' });
+      const rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { header:1, defval:'' });
+      if (rows.length < 2) { toast('קובץ ריק', 'error'); return; }
+      impHeaders = rows[0].map(h => String(h).trim());
+      impRows    = rows.slice(1).filter(r => r.some(c => c!==''));
+      renderMapper();
+      setImpStep(2);
+    } catch { toast('שגיאה בקריאת הקובץ', 'error'); }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+const FIELDS = [
+  {v:'', l:'— לא ממפה —'},
+  {v:'foundation_name', l:'שם הקרן'},
+  {v:'title', l:'כותרת'},
+  {v:'description', l:'תיאור'},
+  {v:'url', l:'קישור'},
+  {v:'deadline', l:'תאריך הגשה'},
+  {v:'amount_max', l:'סכום מקסימלי'},
+  {v:'amount_min', l:'סכום מינימלי'},
+  {v:'notes', l:'הערות'}
+];
+
+function autoDetect(h) {
+  const l = h.toLowerCase();
+  if (l.match(/קרן|foundation|funder|grantmaker/)) return 'foundation_name';
+  if (l.match(/כותרת|שם מענק|title|grant name|תוכנית/)) return 'title';
+  if (l.match(/תיאור|description|about/)) return 'description';
+  if (l.match(/קישור|url|link|אתר|website/)) return 'url';
+  if (l.match(/תאריך|deadline|הגשה|סגירה|due/)) return 'deadline';
+  if (l.match(/סכום|amount|תקציב|budget|מקסימל/)) return 'amount_max';
+  return '';
+}
+
+function renderMapper() {
+  document.getElementById('imp-row-count').textContent = `${impRows.length} שורות`;
+  document.getElementById('col-mapper').innerHTML = impHeaders.map((h,i) => {
+    const auto = autoDetect(h);
+    const sample = impRows.slice(0,2).map(r=>r[i]).filter(Boolean).join(' / ');
+    return `<div class="flex items-center gap-2">
+      <div class="flex-1 bg-[#F7F7F7] rounded-xl px-3 py-2 min-w-0">
+        <p class="text-xs font-semibold text-[#444] lc1">${esc(h)}</p>
+        <p class="text-[10px] text-[#999] lc1">${esc(sample)||'—'}</p>
+      </div>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#CCC" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      <select id="mp-${i}" class="inp w-36 text-xs bg-white">
+        ${FIELDS.map(f=>`<option value="${f.v}" ${auto===f.v?'selected':''}>${f.l}</option>`).join('')}
+      </select>
+    </div>`;
+  }).join('');
+}
+
+function impBack() { setImpStep(impStep-1); }
+
+function impNext() {
+  impMapping = {};
+  impHeaders.forEach((_,i) => {
+    const v = document.getElementById('mp-'+i)?.value;
+    if (v) impMapping[i] = v;
+  });
+  if (!Object.values(impMapping).includes('foundation_name')) {
+    toast('חובה לבחור שדה "שם הקרן"', 'error'); return;
+  }
+  const preview = impRows.slice(0,4).map(row => {
+    const o = {};
+    Object.entries(impMapping).forEach(([i,f]) => { o[f] = String(row[i]||'').trim(); });
+    return o;
+  });
+  document.getElementById('imp-preview').innerHTML = `
+    <p class="font-semibold text-sm mb-3">${impRows.length} רשומות לייבוא — תצוגה מקדימה:</p>
+    <div class="space-y-2">
+      ${preview.map(p => `<div class="bg-[#F7F7F7] rounded-xl px-4 py-3">
+        <p class="font-medium text-sm">${esc(p.foundation_name||'—')}</p>
+        ${p.title?`<p class="text-xs text-[#666]">${esc(p.title)}</p>`:''}
+        ${p.deadline?`<p class="text-xs text-[#999]">דדליין: ${p.deadline}</p>`:''}
+      </div>`).join('')}
+      ${impRows.length>4 ? `<p class="text-xs text-center text-[#999]">+ עוד ${impRows.length-4}</p>` : ''}
+    </div>`;
+  setImpStep(3);
+}
+
+async function confirmImport() {
+  const rows = impRows.map(row => {
+    const o = { source:'atlas', status:'open', priority:'medium' };
+    Object.entries(impMapping).forEach(([i,field]) => {
+      let v = String(row[i]||'').trim();
+      if (!v) return;
+      if (field==='deadline') { const d=new Date(v); if(!isNaN(d)) v=d.toISOString().split('T')[0]; else return; }
+      if (['amount_max','amount_min'].includes(field)) { v=parseFloat(v.replace(/[^\d.]/g,'')); if(isNaN(v)) return; }
+      o[field] = v;
+    });
+    return o.foundation_name ? o : null;
+  }).filter(Boolean);
+
+  if (!rows.length) { toast('לא נמצאו שורות תקינות', 'error'); return; }
+  const { error } = await sb.from('grants').insert(rows);
+  if (error) { toast('שגיאה: '+error.message, 'error'); return; }
+  toast(`יובאו ${rows.length} קולות קוראים ✓`, 'success');
+  closeImportModal();
+  loadGrants();
+}
+
+// ── WATCHLIST ────────────────────────────────────────────
+function loadWatchlist() {
+  try { watchlist = JSON.parse(localStorage.getItem('hopa_watchlist')||'[]'); }
+  catch { watchlist = []; }
+  renderWatchlist();
+}
+function renderWatchlist() {
+  document.getElementById('sb-watch-badge').textContent = watchlist.length || '';
+  const c = document.getElementById('watchlist-grid');
+  if (!watchlist.length) {
+    c.innerHTML = '<div class="text-center text-[#999] py-8 col-span-full"><p class="text-3xl mb-2">🔍</p><p>אין קרנות ברשימה עדיין</p></div>';
+    return;
+  }
+  c.innerHTML = watchlist.map((w,i) => `
+    <div class="bg-white rounded-2xl border border-[#E5E5E5] p-4">
+      <div class="flex items-start justify-between gap-2 mb-1">
+        <p class="font-semibold text-sm">${esc(w.name)}</p>
+        <button onclick="removeWatch(${i})" class="text-[#CCC] hover:text-red-500 text-lg leading-none flex-shrink-0">×</button>
+      </div>
+      ${w.cat?`<p class="text-xs text-[#999] mb-1">${esc(w.cat)}</p>`:''}
+      ${w.notes?`<p class="text-xs text-[#666] mb-3">${esc(w.notes)}</p>`:''}
+      <div class="flex gap-2 mt-3">
+        <a href="${esc(w.url)}" target="_blank" class="text-xs border border-[#E5E5E5] px-3 py-1.5 rounded-lg hover:bg-[#F7F7F7]">פתח ↗</a>
+        <button onclick="navigator.clipboard.writeText('${esc(w.url)}').then(()=>toast('הועתק','success'))" class="text-xs border border-[#E5E5E5] px-3 py-1.5 rounded-lg hover:bg-[#F7F7F7]">העתק URL</button>
+      </div>
+    </div>`).join('');
+}
+function openWatchModal() {
+  ['w-name','w-url','w-cat','w-notes'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('watch-modal').classList.remove('hidden');
+}
+function closeWatchModal() { document.getElementById('watch-modal').classList.add('hidden'); }
+function saveWatchItem() {
+  const name=document.getElementById('w-name').value.trim(), url=document.getElementById('w-url').value.trim();
+  if (!name||!url) { toast('שם וURL חובה', 'error'); return; }
+  watchlist.push({ name, url, cat:document.getElementById('w-cat').value.trim(), notes:document.getElementById('w-notes').value.trim() });
+  localStorage.setItem('hopa_watchlist', JSON.stringify(watchlist));
+  renderWatchlist();
+  closeWatchModal();
+  toast('נוסף ✓', 'success');
+}
+function removeWatch(i) {
+  watchlist.splice(i,1);
+  localStorage.setItem('hopa_watchlist', JSON.stringify(watchlist));
+  renderWatchlist();
+}
+
+// ── SETUP ────────────────────────────────────────────────
+function openSetupModal() {
+  const saved = localStorage.getItem('hopa_emp_pin')||'';
+  document.getElementById('emp-pin-input').value = saved;
+  document.getElementById('current-emp-pin').textContent = saved ? '••••' : 'לא הוגדר';
+  document.getElementById('setup-modal').classList.remove('hidden');
+}
+function closeSetupModal() { document.getElementById('setup-modal').classList.add('hidden'); }
+function copySQL() {
+  navigator.clipboard.writeText(SETUP_SQL).then(() => toast('SQL הועתק ✓', 'success'));
+}
+
+// ── DEADLINE ALERTS ──────────────────────────────────────
+function checkDeadlines() {
+  const now = new Date(); now.setHours(0,0,0,0);
+  const in7 = new Date(now); in7.setDate(in7.getDate()+7);
+  const urgent = grants.filter(g =>
+    g.deadline && !['closed','rejected','approved'].includes(g.status) &&
+    new Date(g.deadline) >= now && new Date(g.deadline) <= in7
+  );
+  const el = document.getElementById('deadline-alert');
+  if (urgent.length) {
+    el.classList.remove('hidden');
+    el.classList.add('flex');
+    document.getElementById('deadline-alert-txt').textContent = `${urgent.length} דדליין השבוע`;
+  } else {
+    el.classList.add('hidden');
+    el.classList.remove('flex');
+  }
+}
+
+// ── TOAST ────────────────────────────────────────────────
+function toast(msg, type='success') {
+  const colors = { success:'bg-[#111] text-white', error:'bg-red-600 text-white', warning:'bg-amber-500 text-white' };
+  const el = document.createElement('div');
+  el.className = `toast-item ${colors[type]||colors.success} px-4 py-3 rounded-xl text-sm font-medium shadow-lg pointer-events-auto`;
+  el.textContent = msg;
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(() => el.remove(), 4000);
+}
+
+// ── CLAUDE SYSTEM PROMPT ─────────────────────────────────
+const HOPA_PROMPT = `אתה כותב בקשות מענקים ותמיכה עבור עמותת הופה. אתה מכיר לעומק את הופה.
+
+## מי היא הופה
+הופה היא עמותה הפועלת ליצירת רצף ליווי לבני נוער וצעירים בגילאי 14 עד 26.
+היא פועלת בשני צירים: מניעת נשירה בתוך בתי ספר, וליווי בוגרים לאחר סיום הלימודים.
+הייחוד: רצף ליווי (לא מענה חד פעמי), חיבור בין בית הספר לחיים הבוגרים, שילוב ליווי אנושי עם תשתית טכנולוגית.
+
+## מודל הרדאר
+4 שלבים: שידור וקליטה → ניתוח (מודל רמזור) → חישוב והתאמת מענים → החזרת גלים (פעולה יזומה).
+
+## קהלי יעד
+בני נוער 14–18 בסיכון לנשירה; צעירים 18–26 בשלבי מעבר (צבא, תעסוקה, לימודים, עצמאות).
+
+## פרויקטי הופה הפעילים
+1. **מניעת נשירה בבתי ספר** — קהל: תלמידים 14–18 בסיכון. כלי דיגיטלי לזיהוי מוקדם + ליווי צוותי חינוך.
+2. **ליווי צעירים 18–26** — קהל: בוגרים בשלבי מעבר. שמירת קשר, הכוונה, חיבור להזדמנויות.
+3. **מודל הרדאר הטכנולוגי** — פיתוח תשתית דאטה + AI לזיהוי צרכים, מיפוי מענים, מעקב לאורך זמן.
+4. **נוער אתיופי-ישראלי** — ליווי ממוקד לצעירים ממשפחות אתיופיות, תוך התאמה תרבותית.
+5. **נשים צעירות בסיכון** — ליווי אישי לנשות 18–26 שנמצאות בחוסר תעסוקה, בידוד או משבר.
+6. **חיילים בודדים** — חיבור לסל זכויות, לינת חירום, מלגות ותמיכה רגשית.
+7. **יוצאי החברה החרדית** — ליווי בתהליך יציאה, אינטגרציה לשוק העבודה, לימודים ועצמאות.
+8. **מרכזי צעירים קהילתיים** — שיתופי פעולה עם מרכזי צעירים להרחבת פגיעה גיאוגרפית.
+
+## שפת הופה
+כתוב: אנושי, חם, ברור, מקצועי, מדויק, מחובר למציאות.
+הימנע: "מהפכה", "פורץ דרך", "הוליסטי" ריק, שפה שיווקית מנופחת, נתונים מומצאים.
+כן: "רצף", "ליווי", "זיהוי מוקדם", "מענה מותאם", "שייכות", "הזדמנות", "מעברים".
+
+## מבנה בקשה טובה
+1. הבעיה (נשירה, הפער אחרי בית הספר)
+2. הפתרון של הופה (המודל, הייחוד)
+3. הפעילות (מה ייעשה עם הכסף)
+4. קהל היעד (מי, כמה, מה הסיכון)
+5. תוצאות ומדידה
+6. תקציב (סכום והגיון)
+7. סגירה וקריאה לפעולה
+
+כתוב תמיד בעברית. כתוב את המסמך המלא — לא תבנית. שמור על פסקאות קצרות וטון אנושי לאורך כל הדרך.`;
+
+// ── ANALYZE GRANT ────────────────────────────────────────
+let analyzedData = null;
+
+function setAnalyzeTab(tab) {
+  ['url','pdf','text'].forEach(t => {
+    const btn = document.getElementById('atab-'+t);
+    const content = document.getElementById('atab-content-'+t);
+    const active = t === tab;
+    btn.className = `flex-1 py-3 text-sm font-medium text-center border-b-2 ${active ? 'border-[#111]' : 'border-transparent text-[#999]'}`;
+    content.classList.toggle('hidden', !active);
+  });
+}
+
+function handlePdfDragOver(e) { e.preventDefault(); document.getElementById('pdf-dropzone').classList.add('dragging'); }
+function handlePdfDragLeave() { document.getElementById('pdf-dropzone').classList.remove('dragging'); }
+function handlePdfDrop(e) { e.preventDefault(); handlePdfDragLeave(); const f=e.dataTransfer.files[0]; if(f) processPDFFile(f); }
+function analyzeFromPDFInput(e) { const f=e.target.files[0]; if(f) processPDFFile(f); }
+
+async function analyzeFromUrl() {
+  const url = document.getElementById('analyze-url').value.trim();
+  if (!url) { toast('הכנס קישור', 'error'); return; }
+  showAnalyzeLoading();
+  try {
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(12000) });
+    const data = await res.json();
+    const html = data.contents || '';
+    const text = html
+      .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+      .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ').trim().slice(0, 8000);
+    if (!text) throw new Error('ריק');
+    await runAnalysis(text, url);
+  } catch {
+    hideAnalyzeLoading();
+    toast('לא ניתן לגשת לקישור — הדבק את הטקסט ידנית', 'warning');
+    setAnalyzeTab('text');
+  }
+}
+
+async function processPDFFile(file) {
+  showAnalyzeLoading();
+  try {
+    if (typeof pdfjsLib === 'undefined') throw new Error('PDF.js לא נטען');
+    const ab = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+    let text = '';
+    for (let i = 1; i <= Math.min(pdf.numPages, 12); i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      text += content.items.map(item => item.str).join(' ') + '\n';
+    }
+    text = text.trim().slice(0, 8000);
+    if (!text) throw new Error('לא ניתן לחלץ טקסט מה-PDF');
+    await runAnalysis(text, '');
+  } catch(err) {
+    hideAnalyzeLoading();
+    toast('שגיאה ב-PDF: ' + err.message, 'error');
+  }
+}
+
+function analyzeFromText() {
+  const text = document.getElementById('analyze-text').value.trim();
+  if (!text) { toast('הדבק טקסט', 'error'); return; }
+  showAnalyzeLoading();
+  runAnalysis(text, '');
+}
+
+async function runAnalysis(text, sourceUrl) {
+  const prompt = `נתח את הקול הקורא הבא והחזר JSON בלבד (ללא markdown, ללא הסבר).
+
+קול הקורא:
+---
+${text}
+---
+
+החזר JSON בפורמט הזה בדיוק:
+{
+  "foundation_name": "שם הקרן / הגוף המפרסם",
+  "title": "כותרת הקול הקורא",
+  "description": "תיאור מה מחפשים (2-3 משפטים)",
+  "deadline": "YYYY-MM-DD או null",
+  "amount_max": מספר ב-₪ או null,
+  "url": "${sourceUrl || ''}",
+  "relevance_score": מספר 1-10 (10 = מאוד רלוונטי להופה),
+  "recommendation": "להגיש" או "לשקול" או "לא רלוונטי",
+  "relevance_reason": "למה רלוונטי או לא — ציין ספציפית",
+  "fit_notes": "מה להדגיש בבקשה אם מגישים"
+}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': CLAUDE_KEY,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1200,
+        system: HOPA_PROMPT,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || res.status); }
+    const data = await res.json();
+    const raw = data.content[0].text.trim()
+      .replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
+    analyzedData = JSON.parse(raw);
+    if (!analyzedData.url && sourceUrl) analyzedData.url = sourceUrl;
+    hideAnalyzeLoading();
+    showAnalysisResult(analyzedData);
+  } catch(err) {
+    hideAnalyzeLoading();
+    toast('שגיאה בניתוח: ' + err.message, 'error');
+  }
+}
+
+function showAnalyzeLoading() {
+  document.getElementById('analyze-loading').classList.remove('hidden');
+  document.getElementById('analyze-result').classList.add('hidden');
+}
+function hideAnalyzeLoading() {
+  document.getElementById('analyze-loading').classList.add('hidden');
+}
+
+function showAnalysisResult(d) {
+  const score = d.relevance_score || 0;
+  const banner = document.getElementById('analyze-score-banner');
+  const circle = document.getElementById('analyze-score-circle');
+  if (score >= 7) {
+    banner.className = 'rounded-2xl p-5 mb-4 flex items-center gap-4 bg-green-50 border border-green-100';
+    circle.className = 'w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 bg-green-500 text-white';
+  } else if (score >= 4) {
+    banner.className = 'rounded-2xl p-5 mb-4 flex items-center gap-4 bg-amber-50 border border-amber-100';
+    circle.className = 'w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 bg-amber-500 text-white';
+  } else {
+    banner.className = 'rounded-2xl p-5 mb-4 flex items-center gap-4 bg-red-50 border border-red-100';
+    circle.className = 'w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 bg-red-400 text-white';
+  }
+  document.getElementById('analyze-score-num').textContent = score + '/10';
+  document.getElementById('analyze-recommendation').textContent = d.recommendation || '';
+  document.getElementById('analyze-fit-notes').textContent = d.fit_notes || '';
+  document.getElementById('ar-foundation').value = d.foundation_name || '';
+  document.getElementById('ar-title').value = d.title || '';
+  document.getElementById('ar-deadline').value = d.deadline || '';
+  document.getElementById('ar-amount').value = d.amount_max || '';
+  document.getElementById('ar-description').value = d.description || '';
+  document.getElementById('ar-url').value = d.url || '';
+  document.getElementById('ar-relevance').value = `ציון: ${score}/10 — ${d.relevance_reason || ''}`;
+  document.getElementById('analyze-result').classList.remove('hidden');
+  document.getElementById('analyze-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+async function saveAnalyzed() {
+  if (!analyzedData) return;
+  const score = analyzedData.relevance_score || 0;
+  const payload = {
+    foundation_name: document.getElementById('ar-foundation').value.trim() || 'לא ידוע',
+    title:           document.getElementById('ar-title').value.trim() || null,
+    description:     document.getElementById('ar-description').value.trim() || null,
+    url:             document.getElementById('ar-url').value.trim() || null,
+    deadline:        document.getElementById('ar-deadline').value || null,
+    amount_max:      parseFloat(String(document.getElementById('ar-amount').value).replace(/[^\d.]/g,'')) || null,
+    notes:           `ניתוח Claude — ציון: ${score}/10. ${analyzedData.relevance_reason||''}`,
+    priority:        score >= 7 ? 'high' : score >= 4 ? 'medium' : 'low',
+    status:          'research',
+    source:          'scan'
+  };
+  const { error } = await sb.from('grants').insert([payload]);
+  if (error) { toast('שגיאה: ' + error.message, 'error'); return; }
+  toast('✓ נשמר לקולות קוראים!', 'success');
+  await loadGrants();
+  clearAnalyze();
+  showView('grants');
+}
+
+function clearAnalyze() {
+  analyzedData = null;
+  document.getElementById('analyze-url').value = '';
+  document.getElementById('analyze-text').value = '';
+  document.getElementById('analyze-result').classList.add('hidden');
+  document.getElementById('analyze-loading').classList.add('hidden');
+}
+
+// ── PROJECTS ──────────────────────────────────────────────
+const PROJECT_CATEGORY_ICONS = {
+  'נשירה': '🏫', 'בוגרים': '🎓', 'טכנולוגיה': '💻',
+  'אתיופים': '🌍', 'נשים': '👩', 'חרדים': '📖',
+  'חיילים': '🪖', 'קהילה': '🏘️'
+};
+
+async function loadProjects() {
+  const grid = document.getElementById('projects-grid');
+  grid.innerHTML = '<div class="col-span-full text-center py-10 text-[#999] text-sm">טוען פרויקטים...</div>';
+  const { data, error } = await sb.from('hopa_projects').select('*').eq('is_active', true).order('id');
+  if (error || !data) {
+    grid.innerHTML = '<div class="col-span-full text-center py-10 text-red-400 text-sm">שגיאה בטעינה</div>';
+    return;
+  }
+  if (!data.length) {
+    grid.innerHTML = '<div class="col-span-full text-center py-10 text-[#999] text-sm">אין פרויקטים</div>';
+    return;
+  }
+  grid.innerHTML = data.map(p => {
+    const icon = PROJECT_CATEGORY_ICONS[p.category] || '📋';
+    return `<div class="bg-white rounded-2xl border border-[#E5E5E5] p-5 hover:shadow-md transition-shadow">
+      <div class="flex items-start gap-3 mb-3">
+        <span class="text-2xl">${icon}</span>
+        <div class="flex-1 min-w-0">
+          <h3 class="font-bold text-sm leading-snug">${p.name}</h3>
+          ${p.category ? `<span class="text-xs text-[#999]">${p.category}</span>` : ''}
+        </div>
+      </div>
+      ${p.description ? `<p class="text-xs text-[#555] mb-3 leading-relaxed lc2">${p.description}</p>` : ''}
+      ${p.audience ? `<div class="mb-2"><span class="text-xs font-semibold text-[#666]">קהל יעד: </span><span class="text-xs text-[#555]">${p.audience}</span></div>` : ''}
+      ${p.highlights ? `<div class="mb-2"><span class="text-xs font-semibold text-[#666]">נקודות מפתח: </span><span class="text-xs text-[#555]">${p.highlights}</span></div>` : ''}
+      ${p.budget_note ? `<div class="bg-[#FFF200]/30 rounded-lg px-3 py-1.5 mt-2"><span class="text-xs font-semibold">תקציב: </span><span class="text-xs">${p.budget_note}</span></div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+// ── SOURCES ───────────────────────────────────────────────
+const SOURCE_META = {
+  'manual':       { label: 'הוספה ידנית',      icon: '✏️', desc: 'נוסף ידנית על ידי צוות הופה' },
+  'scan':         { label: 'ניתוח Claude',       icon: '🤖', desc: 'יובא דרך ניתוח קישור/PDF/טקסט' },
+  'tamir-weekly': { label: 'תמיר שרעבי',         icon: '📧', desc: 'עדכון שבועי ממייל רוה"ח תמיר' },
+  'portal':       { label: 'פורטל ממשלתי',       icon: '🏛️', desc: 'tmichot.mof.gov.il ואתרים ממשלתיים' },
+  'atlas':        { label: 'Atlas',             icon: '🗺️', desc: 'יוצא ידנית מ-Atlas (מנוי נדרש)' },
+  'thunderbit':   { label: 'Thunderbit',         icon: '⚡', desc: 'גירוד אוטומטי' },
+};
+
+async function loadSources() {
+  const grid = document.getElementById('sources-grid');
+  grid.innerHTML = '<div class="col-span-full text-center py-10 text-[#999] text-sm">טוען...</div>';
+  const { data, error } = await sb.from('grants').select('source, status');
+  if (error) {
+    grid.innerHTML = '<div class="col-span-full text-center py-10 text-red-400 text-sm">שגיאה</div>';
+    return;
+  }
+  // Count by source
+  const counts = {};
+  const openCounts = {};
+  (data || []).forEach(r => {
+    const s = r.source || 'manual';
+    counts[s] = (counts[s] || 0) + 1;
+    if (r.status !== 'closed' && r.status !== 'rejected') openCounts[s] = (openCounts[s] || 0) + 1;
+  });
+  const total = data ? data.length : 0;
+  // Build all known sources + any unknown
+  const allSources = [...new Set([...Object.keys(SOURCE_META), ...Object.keys(counts)])];
+  grid.innerHTML = allSources.map(src => {
+    const meta = SOURCE_META[src] || { label: src, icon: '📌', desc: '' };
+    const count = counts[src] || 0;
+    const open = openCounts[src] || 0;
+    const pct = total > 0 ? Math.round(count / total * 100) : 0;
+    return `<div class="bg-white rounded-2xl border border-[#E5E5E5] p-5">
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">${meta.icon}</span>
+          <span class="font-bold text-sm">${meta.label}</span>
+        </div>
+        <span class="text-2xl font-black ${count > 0 ? 'text-[#111]' : 'text-[#CCC]'}">${count}</span>
+      </div>
+      <p class="text-xs text-[#999] mb-3">${meta.desc}</p>
+      <div class="w-full bg-[#F0F0F0] rounded-full h-1.5 mb-2">
+        <div class="bg-[#FFF200] h-1.5 rounded-full" style="width:${pct}%"></div>
+      </div>
+      <div class="flex justify-between text-xs text-[#999]">
+        <span>${pct}% מהסה"כ</span>
+        ${open > 0 ? `<span class="text-green-600 font-medium">${open} פתוחים</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── INIT ─────────────────────────────────────────────────
+document.getElementById('pin-input').focus();
+</script>
+</body>
+</html>
