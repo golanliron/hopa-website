@@ -1238,7 +1238,10 @@ function renderGrants(list) {
       <td class="px-4 py-3"><span class="text-xs px-2 py-1 rounded-full ${st.c}">${st.l}</span></td>
       <td class="px-4 py-3"><span class="inline-flex items-center gap-1 text-xs text-[#666]"><span class="w-2 h-2 rounded-full ${pr.d}"></span>${pr.l}</span></td>
       <td class="px-4 py-2 text-left">
-        <button onclick="event.stopPropagation();openGrantModal('${g.id}')" class="text-xs border border-[#E5E5E5] px-2 py-1 rounded-lg hover:bg-[#F7F7F7]">עריכה</button>
+        <div class="flex items-center gap-1.5 justify-end">
+          ${g.url?`<a href="${esc(g.url)}" target="_blank" onclick="event.stopPropagation()" class="text-[#999] hover:text-black p-1 rounded-lg hover:bg-[#F7F7F7]" title="פתח קול קורא"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`:''}
+          <button onclick="event.stopPropagation();openGrantModal('${g.id}')" class="text-xs border border-[#E5E5E5] px-2 py-1 rounded-lg hover:bg-[#F7F7F7]">עריכה</button>
+        </div>
       </td>
     </tr>`;
   }).join('');
