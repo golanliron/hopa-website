@@ -1,294 +1,295 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>בוגרים מוצקין | הופה</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'Rubik',sans-serif;background:#F7F7F7;color:#111;direction:rtl;min-height:100vh;}
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>בוגרים מוצקין | הופה</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Rubik',sans-serif;background:#F7F7F7;color:#111;direction:rtl;display:flex;flex-direction:column;}
 
-    /* ── HEADER ── */
-    .hdr{background:#000;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:100;}
-    .hdr-logo{background:#FFF200;color:#000;font-weight:900;font-size:1rem;padding:3px 12px;border-radius:8px;letter-spacing:-.3px;}
-    .hdr-title{color:#fff;font-weight:600;font-size:.88rem;margin-right:12px;}
-    .hdr-sep{color:#fff;opacity:.2;margin:0 4px;}
-    .hdr-right{display:flex;align-items:center;gap:10px;}
-    .btn-refresh{background:#FFF200;color:#000;border:none;border-radius:8px;padding:6px 14px;font-weight:700;cursor:pointer;font-size:.8rem;font-family:'Rubik',sans-serif;}
-    .btn-refresh:hover{background:#E6D900;}
-    .last-upd{color:#555;font-size:.72rem;}
-    .spinner{width:18px;height:18px;border:2.5px solid #333;border-top-color:#FFF200;border-radius:50%;animation:spin .7s linear infinite;display:none;}
-    @keyframes spin{to{transform:rotate(360deg)}}
+/* ─── HEADER ─── */
+.hdr{background:#000;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;z-index:200;}
+.hdr-left{display:flex;align-items:center;gap:12px;}
+.logo{background:#FFF200;color:#000;font-weight:900;font-size:.9rem;padding:3px 10px;border-radius:7px;}
+.hdr-title{color:#fff;font-weight:600;font-size:.85rem;}
+.hdr-sep{color:#ffffff30;font-size:1.2rem;}
+.hdr-right{display:flex;align-items:center;gap:8px;}
+.spin{width:16px;height:16px;border:2px solid #333;border-top-color:#FFF200;border-radius:50%;animation:sp .7s linear infinite;display:none;}
+@keyframes sp{to{transform:rotate(360deg)}}
+.upd-txt{color:#555;font-size:.7rem;}
+.btn-sm{background:#fff;color:#111;border:1px solid #333;border-radius:7px;padding:5px 12px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:'Rubik',sans-serif;transition:all .15s;}
+.btn-sm:hover{background:#FFF200;border-color:#FFF200;}
+.btn-yellow{background:#FFF200;color:#000;border:none;border-radius:7px;padding:5px 14px;font-size:.75rem;font-weight:700;cursor:pointer;font-family:'Rubik',sans-serif;}
+.btn-yellow:hover{background:#E6D900;}
 
-    /* ── SEARCH HERO ── */
-    .hero{background:#000;padding:28px 24px 36px;position:relative;overflow:hidden;}
-    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(255,242,0,.08) 0%,transparent 60%);}
-    .hero-label{color:#FFF200;font-size:.7rem;font-weight:700;letter-spacing:.14em;margin-bottom:10px;opacity:.9;}
-    .hero-title{color:#fff;font-size:1.7rem;font-weight:900;margin-bottom:18px;line-height:1.2;}
-    .hero-title span{color:#FFF200;}
-    .search-wrap{background:#fff;border-radius:14px;display:flex;align-items:center;gap:10px;padding:10px 16px;max-width:540px;box-shadow:0 4px 24px rgba(0,0,0,.3);}
-    .search-wrap input{border:none;outline:none;font-size:.95rem;flex:1;font-family:'Rubik',sans-serif;direction:rtl;}
-    .search-wrap .ico{color:#999;font-size:1.1rem;}
-    .search-count{font-size:.72rem;color:#aaa;white-space:nowrap;}
+/* ─── TOOLBAR ─── */
+.toolbar{background:#fff;border-bottom:1px solid #E5E5E5;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex-shrink:0;}
+.search-box{display:flex;align-items:center;gap:7px;background:#F7F7F7;border:1px solid #E5E5E5;border-radius:9px;padding:6px 12px;flex:1;min-width:160px;max-width:300px;}
+.search-box input{border:none;outline:none;background:transparent;font-size:.83rem;font-family:'Rubik',sans-serif;width:100%;}
+.divider{width:1px;height:20px;background:#E5E5E5;}
+.chip{padding:4px 12px;border-radius:20px;font-size:.74rem;font-weight:500;border:1px solid #E5E5E5;background:#fff;cursor:pointer;color:#555;white-space:nowrap;transition:all .12s;font-family:'Rubik',sans-serif;}
+.chip.on{background:#000;border-color:#000;color:#fff;font-weight:700;}
+.chip:hover:not(.on){border-color:#999;background:#F7F7F7;}
+.filter-group{display:flex;gap:4px;align-items:center;}
+.filter-label{font-size:.72rem;color:#aaa;font-weight:500;white-space:nowrap;}
+.kpi-pills{display:flex;gap:6px;margin-right:auto;}
+.kpi-pill{background:#F7F7F7;border:1px solid #E5E5E5;border-radius:8px;padding:4px 10px;text-align:center;}
+.kpi-pill .n{font-size:.95rem;font-weight:800;line-height:1;}
+.kpi-pill .l{font-size:.6rem;color:#888;}
 
-    /* ── LAYOUT ── */
-    .content{max-width:1100px;margin:0 auto;padding:20px 16px;display:flex;gap:20px;}
-    .main-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:16px;}
-    .side-panel{width:380px;flex-shrink:0;}
+/* ─── TABS ─── */
+.tabs{background:#fff;border-bottom:1px solid #E5E5E5;display:flex;padding:0 20px;gap:2px;flex-shrink:0;}
+.tab{padding:10px 16px;font-size:.8rem;font-weight:600;cursor:pointer;color:#888;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:'Rubik',sans-serif;}
+.tab.on{color:#111;border-bottom-color:#FFF200;}
 
-    /* ── KPI ── */
-    .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-    .kpi{background:#fff;border-radius:14px;border:1px solid #E5E5E5;padding:14px 16px;border-top:3px solid #FFF200;}
-    .kpi-n{font-size:1.8rem;font-weight:900;line-height:1;}
-    .kpi-l{font-size:.71rem;color:#666;margin-top:3px;}
+/* ─── BODY AREA ─── */
+.body-area{display:flex;flex:1;overflow:hidden;}
 
-    /* ── TABS ── */
-    .tabs-bar{background:#fff;border-radius:14px;border:1px solid #E5E5E5;overflow:hidden;}
-    .tabs-nav{display:flex;border-bottom:1px solid #E5E5E5;padding:0 4px;}
-    .tab-btn{padding:12px 16px;font-size:.82rem;font-weight:600;cursor:pointer;color:#888;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap;font-family:'Rubik',sans-serif;background:none;border-top:none;border-left:none;border-right:none;}
-    .tab-btn.on{color:#111;border-bottom-color:#FFF200;}
-    .tab-btn:hover:not(.on){color:#444;}
-    .tab-body{padding:16px;}
-    .tab-pane{display:none;}
-    .tab-pane.on{display:block;}
+/* ─── TABLE AREA ─── */
+.table-area{flex:1;overflow:auto;min-width:0;}
+.table-pane{display:none;height:100%;}
+.table-pane.on{display:flex;flex-direction:column;}
 
-    /* ── FILTERS ── */
-    .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;align-items:center;}
-    .chip{padding:5px 13px;border-radius:20px;font-size:.76rem;border:1px solid #E5E5E5;background:#fff;cursor:pointer;color:#555;transition:all .15s;font-family:'Rubik',sans-serif;}
-    .chip.on{background:#FFF200;border-color:#FFF200;color:#000;font-weight:700;}
-    .chip:hover:not(.on){border-color:#999;}
-    .filter-label{font-size:.72rem;color:#aaa;font-weight:500;}
+/* ─── TABLE ─── */
+.tbl-wrap{flex:1;overflow:auto;}
+table{width:100%;border-collapse:collapse;font-size:.78rem;}
+thead th{background:#111;color:#fff;padding:9px 10px;text-align:right;font-weight:600;white-space:nowrap;position:sticky;top:0;z-index:10;font-size:.74rem;}
+thead th:first-child{position:sticky;right:0;z-index:11;background:#111;}
+tbody tr{border-bottom:1px solid #F0F0F0;transition:background .1s;cursor:pointer;}
+tbody tr:hover{background:#FFFDE7;}
+tbody tr.selected{background:#FFF9C4;border-right:3px solid #FFF200;}
+tbody td{padding:8px 10px;vertical-align:middle;color:#111;}
+tbody td:first-child{position:sticky;right:0;background:inherit;font-weight:700;white-space:nowrap;}
+tbody tr.selected td:first-child{background:#FFF9C4;}
+tbody tr:hover td:first-child{background:#FFFDE7;}
+.no-data{color:#ccc;font-style:italic;}
+.overdue-row td{background:#FFF8F8!important;}
+.overdue-row:hover td{background:#FFF0F0!important;}
+.overdue-row.selected td{background:#FFE8E8!important;}
 
-    /* ── GRADUATE LIST ── */
-    .grad-list{display:flex;flex-direction:column;gap:6px;}
-    .grad-card{background:#fff;border:1.5px solid #E5E5E5;border-radius:12px;cursor:pointer;transition:all .15s;overflow:hidden;}
-    .grad-card:hover{border-color:#ccc;box-shadow:0 2px 12px rgba(0,0,0,.06);}
-    .grad-card.selected{border-color:#FFF200;box-shadow:0 0 0 2px #FFF20033;}
-    .grad-row-main{display:grid;grid-template-columns:1fr 120px 140px 32px;align-items:center;gap:8px;padding:12px 14px;}
-    .grad-name{font-weight:700;font-size:.9rem;}
-    .grad-sub{font-size:.74rem;color:#888;margin-top:2px;}
-    .grad-phone{font-size:.78rem;color:#555;direction:ltr;unicode-bidi:isolate;}
-    .grad-next{font-size:.74rem;}
-    .toggle-ico{color:#bbb;font-size:.85rem;text-align:center;transition:transform .2s;}
-    .grad-card.open .toggle-ico{transform:rotate(180deg);}
+/* ─── BADGES ─── */
+.b{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.66rem;font-weight:600;white-space:nowrap;}
+.b-green{background:#E6F9EE;color:#1a7a3c;}
+.b-blue{background:#EEF3FF;color:#2244bb;}
+.b-orange{background:#FFF3E0;color:#b45309;}
+.b-red{background:#FFE8E8;color:#c00;}
+.b-yellow{background:#FFF200;color:#000;}
+.b-gray{background:#F0F0F0;color:#555;}
+.b-purple{background:#F3E8FF;color:#7c3aed;}
 
-    /* expand details */
-    .grad-details{display:none;border-top:1px solid #F0F0F0;padding:12px 14px 14px;}
-    .grad-card.open .grad-details{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;}
-    .det-item .det-lbl{font-size:.68rem;color:#aaa;margin-bottom:1px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
-    .det-item .det-val{font-size:.82rem;color:#111;font-weight:500;}
-    .det-full{grid-column:1/-1;}
+/* ─── PAGINATION ─── */
+.pg-bar{background:#fff;border-top:1px solid #E5E5E5;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.pg-btn{border:1px solid #E5E5E5;background:#fff;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:.75rem;color:#333;font-family:'Rubik',sans-serif;}
+.pg-btn:hover:not(:disabled){background:#FFF200;border-color:#FFF200;}
+.pg-btn:disabled{opacity:.3;cursor:not-allowed;}
+.pg-btn.curr{background:#000;color:#fff;border-color:#000;}
+.pg-info{font-size:.74rem;color:#888;}
 
-    /* ── BADGES ── */
-    .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.68rem;font-weight:600;}
-    .b-yellow{background:#FFF200;color:#000;}
-    .b-gray{background:#F0F0F0;color:#555;}
-    .b-green{background:#E6F9EE;color:#1a7a3c;}
-    .b-red{background:#FFE8E8;color:#c00;}
-    .b-blue{background:#EEF3FF;color:#2244bb;}
-    .b-orange{background:#FFF3E0;color:#b45309;}
-    .b-purple{background:#F3E8FF;color:#7c3aed;}
+/* ─── SIDE PANEL ─── */
+.side{width:360px;flex-shrink:0;background:#fff;border-right:1px solid #E5E5E5;overflow-y:auto;display:flex;flex-direction:column;}
+.side-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;color:#ccc;text-align:center;padding:32px;}
+.side-empty .ico{font-size:2.5rem;margin-bottom:10px;}
+.side-head{background:#000;padding:18px 16px;flex-shrink:0;}
+.avatar{width:44px;height:44px;background:#FFF200;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem;color:#000;flex-shrink:0;}
+.grad-name-big{color:#fff;font-weight:800;font-size:.95rem;line-height:1.25;}
+.grad-sub{color:#666;font-size:.72rem;margin-top:2px;}
+.side-body{padding:14px 16px;flex:1;}
+.sec{margin-bottom:16px;}
+.sec-title{font-size:.65rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;display:flex;align-items:center;gap:5px;}
+.sec-title::before{content:'';width:3px;height:10px;background:#FFF200;border-radius:2px;display:inline-block;}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ii .lbl{font-size:.64rem;color:#aaa;margin-bottom:1px;font-weight:600;}
+.ii .val{font-size:.8rem;font-weight:500;color:#111;}
+.notes-box{background:#F7F7F7;border-radius:8px;padding:8px 10px;font-size:.78rem;color:#333;line-height:1.5;margin-top:4px;}
+.maan-item{background:#F7F7F7;border-radius:9px;padding:9px 11px;margin-bottom:5px;}
+.maan-nm{font-size:.8rem;font-weight:700;}
+.maan-cat{font-size:.66rem;color:#888;margin-top:1px;}
+.maan-a{font-size:.7rem;font-weight:600;color:#000;text-decoration:none;border-bottom:1px solid #FFF200;display:inline-block;margin-top:4px;}
+.btn-monday{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;background:#000;color:#fff;font-size:.75rem;font-weight:700;text-decoration:none;margin-top:10px;transition:background .15s;}
+.btn-monday:hover{background:#333;}
+.close-side{background:none;border:none;cursor:pointer;color:#fff;font-size:1.2rem;opacity:.5;}
+.close-side:hover{opacity:1;}
 
-    /* ── PAGINATION ── */
-    .pg{display:flex;align-items:center;justify-content:space-between;margin-top:12px;}
-    .pg-btn{border:1px solid #E5E5E5;background:#fff;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:.78rem;color:#333;font-family:'Rubik',sans-serif;}
-    .pg-btn:hover:not(:disabled){background:#FFF200;border-color:#FFF200;}
-    .pg-btn:disabled{opacity:.3;cursor:not-allowed;}
-    .pg-btn.curr{background:#000;color:#fff;border-color:#000;}
-    .pg-pages{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;}
+/* ─── BIRTHDAY ─── */
+.bday-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;padding:16px;}
+.bday-card{background:#fff;border:1px solid #E5E5E5;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s;}
+.bday-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.08);border-color:#ccc;}
+.bday-card.today{border-color:#FFF200;box-shadow:0 0 0 2px #FFF20066;}
+.bday-box{background:#FFF200;border-radius:9px;padding:6px 9px;text-align:center;min-width:46px;flex-shrink:0;}
+.bday-d{font-size:1.25rem;font-weight:900;line-height:1;}
+.bday-m{font-size:.6rem;font-weight:700;}
+.bday-info .nm{font-weight:700;font-size:.82rem;}
+.bday-info .days{font-size:.7rem;color:#888;margin-top:2px;}
 
-    /* ── PRIORITY ── */
-    .pri-item{background:#fff;border:1px solid #E5E5E5;border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:.82rem;margin-bottom:6px;}
-    .pri-name{font-weight:700;flex:1;}
+/* ─── ANALYTICS ─── */
+.analytics-pane{padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;overflow-y:auto;}
+.acrd{background:#fff;border:1px solid #E5E5E5;border-radius:12px;padding:14px;}
+.acrd-title{font-size:.7rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;}
+.bar-row{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.bar-lbl{font-size:.75rem;color:#444;min-width:100px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-bg{flex:1;background:#F0F0F0;border-radius:20px;height:18px;overflow:hidden;}
+.bar-fill{height:100%;background:#FFF200;border-radius:20px;display:flex;align-items:center;padding-right:6px;font-size:.64rem;font-weight:700;color:#000;transition:width .5s ease;min-width:20px;}
+.bar-cnt{font-size:.7rem;color:#888;min-width:22px;}
 
-    /* ── BIRTHDAY ── */
-    .bday-item{background:#fff;border:1px solid #E5E5E5;border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:14px;margin-bottom:8px;}
-    .bday-box{background:#FFF200;border-radius:10px;padding:6px 10px;text-align:center;min-width:52px;}
-    .bday-d{font-size:1.3rem;font-weight:900;line-height:1;}
-    .bday-m{font-size:.65rem;font-weight:700;}
-    .bday-today{border:2px solid #FFF200;}
+/* ─── PRIORITY ─── */
+.priority-pane{padding:16px;overflow-y:auto;}
+.pri-item{background:#fff;border:1px solid #E5E5E5;border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:6px;cursor:pointer;transition:all .12s;}
+.pri-item:hover{box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.pri-name{font-weight:700;font-size:.85rem;flex:1;}
 
-    /* ── ANALYTICS ── */
-    .chart-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
-    .chart-lbl{font-size:.78rem;color:#444;min-width:110px;text-align:right;}
-    .chart-bar-bg{flex:1;background:#F0F0F0;border-radius:20px;height:20px;overflow:hidden;}
-    .chart-bar-fill{height:100%;background:#FFF200;border-radius:20px;display:flex;align-items:center;padding-right:8px;font-size:.68rem;font-weight:700;color:#000;transition:width .5s;}
-    .chart-cnt{font-size:.75rem;color:#666;min-width:24px;}
-    .analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-    .analytics-card{background:#fff;border:1px solid #E5E5E5;border-radius:12px;padding:14px;}
-    .analytics-title{font-size:.78rem;font-weight:700;color:#666;margin-bottom:12px;text-transform:uppercase;letter-spacing:.04em;}
-
-    /* ── SIDE PANEL ── */
-    .side-empty{background:#fff;border:1.5px dashed #E5E5E5;border-radius:16px;padding:40px 20px;text-align:center;color:#bbb;}
-    .side-empty .ico{font-size:2rem;margin-bottom:8px;}
-    .profile-card{background:#fff;border-radius:16px;border:1px solid #E5E5E5;overflow:hidden;position:sticky;top:72px;}
-    .profile-top{background:#000;padding:20px;display:flex;align-items:center;gap:14px;}
-    .profile-avatar{width:52px;height:52px;background:#FFF200;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:900;color:#000;flex-shrink:0;}
-    .profile-name{color:#fff;font-weight:800;font-size:1rem;line-height:1.2;}
-    .profile-school{color:#888;font-size:.75rem;margin-top:2px;}
-    .profile-body{padding:16px;}
-    .profile-section{margin-bottom:16px;}
-    .profile-section-title{font-size:.68rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
-    .profile-section-title::before{content:'';width:3px;height:12px;background:#FFF200;border-radius:2px;display:inline-block;}
-    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-    .info-item .lbl{font-size:.67rem;color:#aaa;margin-bottom:1px;}
-    .info-item .val{font-size:.82rem;color:#111;font-weight:500;}
-    .btn-monday{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;background:#000;color:#fff;font-size:.75rem;font-weight:700;text-decoration:none;transition:background .15s;}
-    .btn-monday:hover{background:#333;}
-    .maan-card{background:#F7F7F7;border-radius:10px;padding:10px 12px;margin-bottom:6px;}
-    .maan-name{font-size:.82rem;font-weight:700;color:#111;margin-bottom:2px;}
-    .maan-cat{font-size:.68rem;color:#888;}
-    .maan-link{font-size:.72rem;color:#000;font-weight:600;text-decoration:none;border-bottom:1px solid #FFF200;}
-    .maan-link:hover{color:#555;}
-    .empty-txt{text-align:center;color:#bbb;font-size:.85rem;padding:24px 0;}
-
-    /* ── RESPONSIVE ── */
-    @media(max-width:900px){
-      .content{flex-direction:column;}
-      .side-panel{width:100%;}
-      .kpi-row{grid-template-columns:repeat(3,1fr);}
-      .grad-row-main{grid-template-columns:1fr 100px 28px;}
-      .grad-row-main .grad-next{display:none;}
-    }
-    @media(max-width:500px){
-      .kpi-row{grid-template-columns:repeat(2,1fr);}
-      .grad-row-main{grid-template-columns:1fr 28px;}
-      .grad-row-main .grad-phone{display:none;}
-    }
-  </style>
+/* ─── EMPTY ─── */
+.empty{text-align:center;color:#bbb;padding:40px;font-size:.85rem;}
+</style>
 </head>
 <body>
 
 <!-- HEADER -->
-<header class="hdr">
-  <div style="display:flex;align-items:center;">
-    <span class="hdr-logo">הופה</span>
+<div class="hdr">
+  <div class="hdr-left">
+    <span class="logo">הופה</span>
     <span class="hdr-sep">|</span>
-    <span class="hdr-title">בוגרים מוצקין</span>
+    <span class="hdr-title">לוח בקרה בוגרים — מוצקין</span>
   </div>
   <div class="hdr-right">
-    <div class="spinner" id="spinner"></div>
-    <span class="last-upd" id="lastUpd">טרם נטען</span>
-    <button class="btn-refresh" onclick="loadAll()">⟳ רענן</button>
-  </div>
-</header>
-
-<!-- SEARCH HERO -->
-<div class="hero">
-  <div class="hero-label">לוח בקרה — בוגרים מוצקין</div>
-  <div class="hero-title">שלום, <span>צוות הופה</span> 👋</div>
-  <div class="search-wrap">
-    <span class="ico">🔍</span>
-    <input type="text" id="searchInput" placeholder="חיפוש לפי שם, טלפון, עיר..." oninput="applyFilters()"/>
-    <span class="search-count" id="searchCount"></span>
+    <div class="spin" id="spin"></div>
+    <span class="upd-txt" id="updTxt">טרם נטען</span>
+    <button class="btn-yellow" onclick="loadAll()">⟳ רענן</button>
   </div>
 </div>
 
-<div class="content">
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="search-box">
+    <span style="color:#aaa">🔍</span>
+    <input type="text" id="srch" placeholder="חיפוש שם / טלפון / עיר..." oninput="doFilter()"/>
+  </div>
+  <div class="divider"></div>
+  <div class="filter-group">
+    <span class="filter-label">מה עושה:</span>
+    <div class="chip on" onclick="setF('what','',this)">הכל</div>
+    <div class="chip" onclick="setF('what','חייל',this)">חייל/ת</div>
+    <div class="chip" onclick="setF('what','עובד',this)">עובד/ת</div>
+    <div class="chip" onclick="setF('what','לימודים',this)">לימודים</div>
+    <div class="chip" onclick="setF('what','לא עובד',this)">לא עובד</div>
+  </div>
+  <div class="divider"></div>
+  <div class="filter-group">
+    <span class="filter-label">מידע:</span>
+    <div class="chip on" onclick="setF('info','',this)">הכל</div>
+    <div class="chip" onclick="setF('info','yes',this)">יש מידע</div>
+    <div class="chip" onclick="setF('info','no',this)">אין מידע</div>
+  </div>
+  <div class="kpi-pills" id="kpiPills">
+    <div class="kpi-pill"><div class="n" id="kTotal">—</div><div class="l">סה"כ</div></div>
+    <div class="kpi-pill"><div class="n" id="kTouch">—</div><div class="l">יש מידע</div></div>
+    <div class="kpi-pill"><div class="n" id="kWork">—</div><div class="l">עובדים</div></div>
+    <div class="kpi-pill"><div class="n" id="kArmy">—</div><div class="l">צבא</div></div>
+    <div class="kpi-pill"><div class="n" id="kCb">—</div><div class="l">לחזור</div></div>
+    <div class="kpi-pill"><div class="n" id="kWk">—</div><div class="l">השבוע</div></div>
+  </div>
+</div>
 
-  <!-- MAIN COLUMN -->
-  <div class="main-col">
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab on" onclick="switchTab('list',this)">📋 כל הבוגרים</button>
+  <button class="tab" onclick="switchTab('priority',this)">⚡ דחוף לטיפול</button>
+  <button class="tab" onclick="switchTab('bday',this)">🎂 ימי הולדת</button>
+  <button class="tab" onclick="switchTab('analytics',this)">📊 נתונים</button>
+  <span id="resInfo" style="margin-right:auto;font-size:.72rem;color:#aaa;align-self:center;padding-left:12px;"></span>
+</div>
 
-    <!-- KPIs -->
-    <div class="kpi-row">
-      <div class="kpi"><div class="kpi-n" id="k-total">—</div><div class="kpi-l">סה"כ בוגרים</div></div>
-      <div class="kpi"><div class="kpi-n" id="k-touch">—</div><div class="kpi-l">יש לנו מידע</div></div>
-      <div class="kpi"><div class="kpi-n" id="k-work">—</div><div class="kpi-l">עובדים</div></div>
-      <div class="kpi"><div class="kpi-n" id="k-army">—</div><div class="kpi-l">בצבא</div></div>
-      <div class="kpi"><div class="kpi-n" id="k-cb">—</div><div class="kpi-l">לחזור אליהם</div></div>
-      <div class="kpi"><div class="kpi-n" id="k-week">—</div><div class="kpi-l">שיחה השבוע</div></div>
-    </div>
-
-    <!-- TABS -->
-    <div class="tabs-bar">
-      <div class="tabs-nav">
-        <button class="tab-btn on" onclick="switchTab('list',this)">📋 כל הבוגרים</button>
-        <button class="tab-btn" onclick="switchTab('priority',this)">⚡ דחופים</button>
-        <button class="tab-btn" onclick="switchTab('bday',this)">🎂 ימי הולדת</button>
-        <button class="tab-btn" onclick="switchTab('analytics',this)">📊 נתונים</button>
-      </div>
-
-      <!-- TAB: LIST -->
-      <div class="tab-body tab-pane on" id="tab-list">
-        <div class="chips">
-          <span class="filter-label">מה עושה:</span>
-          <div class="chip on" onclick="setF('what','',this)">הכל</div>
-          <div class="chip" onclick="setF('what','חייל',this)">חייל/ת</div>
-          <div class="chip" onclick="setF('what','עובד',this)">עובד/ת</div>
-          <div class="chip" onclick="setF('what','לימודים',this)">לימודים</div>
-          <div class="chip" onclick="setF('what','מכינה',this)">מכינה</div>
-          <div class="chip" onclick="setF('what','לא עובד',this)">לא עובד</div>
-          <span id="resCount" style="margin-right:auto;font-size:.72rem;color:#aaa;"></span>
-        </div>
-        <div class="grad-list" id="gradList"><div class="empty-txt">טוען נתונים מ-Monday.com...</div></div>
-        <div class="pg" id="pgWrap">
-          <button class="pg-btn" id="prevBtn" onclick="changePg(-1)" disabled>→ הקודם</button>
-          <div class="pg-pages" id="pgPages"></div>
-          <button class="pg-btn" id="nextBtn" onclick="changePg(1)">הבא ←</button>
-        </div>
-      </div>
-
-      <!-- TAB: PRIORITY -->
-      <div class="tab-body tab-pane" id="tab-priority">
-        <div id="priorityList"><div class="empty-txt">טוען...</div></div>
-      </div>
-
-      <!-- TAB: BIRTHDAY -->
-      <div class="tab-body tab-pane" id="tab-bday">
-        <div id="bdayList"><div class="empty-txt">טוען...</div></div>
-      </div>
-
-      <!-- TAB: ANALYTICS -->
-      <div class="tab-body tab-pane" id="tab-analytics">
-        <div class="analytics-grid" id="analyticsGrid"><div class="empty-txt" style="grid-column:1/-1">טוען...</div></div>
-      </div>
-    </div>
-
-  </div><!-- /main-col -->
+<!-- BODY -->
+<div class="body-area">
 
   <!-- SIDE PANEL -->
-  <div class="side-panel">
+  <div class="side" id="sidePanel">
     <div class="side-empty" id="sideEmpty">
       <div class="ico">👆</div>
-      <div style="font-weight:600;color:#999;margin-bottom:4px;">בחר בוגר מהרשימה</div>
-      <div style="font-size:.78rem;">לחץ על כל בוגר כדי לראות את הפרטים המלאים והמענים המתאימים לו</div>
+      <div style="font-weight:600;color:#999;margin-bottom:4px;">בחר בוגר</div>
+      <div style="font-size:.76rem;color:#ccc;">לחץ על שורה לפרטים מלאים ומענים מתאימים</div>
     </div>
-    <div class="profile-card" id="profileCard" style="display:none;"></div>
+    <div id="sideContent" style="display:none;flex-direction:column;flex:1;overflow-y:auto;"></div>
   </div>
 
-</div><!-- /content -->
+  <!-- MAIN CONTENT -->
+  <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-width:0;">
+
+    <!-- TAB: LIST -->
+    <div class="table-pane on" id="tab-list">
+      <div class="tbl-wrap">
+        <table id="mainTable">
+          <thead>
+            <tr>
+              <th style="min-width:130px;">שם מלא</th>
+              <th style="min-width:105px;">טלפון</th>
+              <th style="min-width:90px;">מה עושה</th>
+              <th style="min-width:130px;">הערות</th>
+              <th style="min-width:110px;">אימפקט</th>
+              <th style="min-width:90px;">שיחה אחרונה</th>
+              <th style="min-width:90px;">שיחה הבאה</th>
+              <th style="min-width:60px;">שנה</th>
+              <th style="min-width:80px;">מגמה</th>
+              <th style="min-width:80px;">עיר</th>
+              <th style="min-width:70px;">שירות</th>
+              <th style="min-width:80px;">שאלון</th>
+              <th style="min-width:50px;text-align:center;">↗</th>
+            </tr>
+          </thead>
+          <tbody id="tBody"><tr><td colspan="13" class="empty">טוען מ-Monday.com...</td></tr></tbody>
+        </table>
+      </div>
+      <div class="pg-bar">
+        <button class="pg-btn" id="prevBtn" onclick="changePg(-1)" disabled>→ הקודם</button>
+        <div style="display:flex;gap:3px;" id="pgNums"></div>
+        <span class="pg-info" id="pgInfo"></span>
+        <button class="pg-btn" id="nextBtn" onclick="changePg(1)">הבא ←</button>
+      </div>
+    </div>
+
+    <!-- TAB: PRIORITY -->
+    <div class="table-pane priority-pane" id="tab-priority">
+      <div id="priList"><div class="empty">טוען...</div></div>
+    </div>
+
+    <!-- TAB: BIRTHDAY -->
+    <div class="table-pane" id="tab-bday" style="overflow-y:auto;">
+      <div id="bdayContent"><div class="empty">טוען...</div></div>
+    </div>
+
+    <!-- TAB: ANALYTICS -->
+    <div class="table-pane analytics-pane" id="tab-analytics">
+      <div class="empty" style="grid-column:1/-1">טוען...</div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /body-area -->
 
 <script>
-/* ══════════════════════════════════════════
-   CONFIG
-══════════════════════════════════════════ */
-const MONDAY_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjU1MTE3ODY0MCwiYWFpIjoxMSwidWlkIjo3OTYwODg1MSwiaWFkIjoiMjAyNS0wOC0xN1QxNDoyMjowMS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MzA3Mjc0MDAsInJnbiI6ImV1YzEifQ.v08TgFNEtd9pBcws4lpRs-8TVxAW3YBAuOOPP3IYo4Q';
-const BOARD_ID  = '5090710409';
-const MONDAY_URL= 'https://api.monday.com/v2';
+/* ══ CONFIG ══ */
+const MON_TOKEN='eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjU1MTE3ODY0MCwiYWFpIjoxMSwidWlkIjo3OTYwODg1MSwiaWFkIjoiMjAyNS0wOC0xN1QxNDoyMjowMS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MzA3Mjc0MDAsInJnbiI6ImV1YzEifQ.v08TgFNEtd9pBcws4lpRs-8TVxAW3YBAuOOPP3IYo4Q';
+const BOARD='5090710409';
+const MON_URL='https://api.monday.com/v2';
+const SUP_URL='https://vhmwijzcrqjjquxomccq.supabase.co';
+const SUP_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZobXdpanpjcnFqanF1eG9tY2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1Nzk0MDgsImV4cCI6MjA4OTE1NTQwOH0.rMnAcdMiPddUAoap63tMiqeQQanJoF-HDmzra7P-5Cc';
 
-const SUPABASE_URL = 'https://vhmwijzcrqjjquxomccq.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZobXdpanpjcnFqanF1eG9tY2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1Nzk0MDgsImV4cCI6MjA4OTE1NTQwOH0.rMnAcdMiPddUAoap63tMiqeQQanJoF-HDmzra7P-5Cc';
-
-const C = {
-  lastName:'text_mkvbye47', phone:'phone_mkvb5qwz', phoneText:'text_mm0vv7rt',
-  gender:'text_mkvwa8nb', year:'color_mm0mssvc', city:'text_mkvwnmm4',
-  major:'color_mm0mjsj8', service:'color_mkw0rdsg', whatToday:'color_mkw4et1p',
-  impact:'color_mkvwbt7y', notes:'dropdown_mm0p4kps', hopaNotes:'long_text_mkw0p90p',
-  lastTalk:'date_mkvw1gnh', nextTalk:'date_mkvw7ytx', formSent:'color_mkvx5qmw',
-  answeredQ:'color_mm0p98aw', birthday:'date_mkbday000',
+const C={
+  lastName:'text_mkvbye47',phone:'phone_mkvb5qwz',phoneText:'text_mm0vv7rt',
+  gender:'text_mkvwa8nb',year:'color_mm0mssvc',city:'text_mkvwnmm4',
+  major:'color_mm0mjsj8',service:'color_mkw0rdsg',whatToday:'color_mkw4et1p',
+  impact:'color_mkvwbt7y',notes:'dropdown_mm0p4kps',hopaNotes:'long_text_mkw0p90p',
+  lastTalk:'date_mkvw1gnh',nextTalk:'date_mkvw7ytx',
+  formSent:'color_mkvx5qmw',answeredQ:'color_mm0p98aw',
+  birthday:'date_mkbday000',
 };
+const HEM=['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
 
-const HE_MONTHS = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
+let ALL=[],FILT=[],PROGS=[],PAGE=1,PER=40,SEL=null;
+const F={what:'',info:''};
 
-/* ══ STATE ══ */
-let ALL=[], FILTERED=[], PROGRAMS=[], PAGE=1, PER=20;
-const F={what:''};
-let selectedId = null;
-
-/* ══════════════════════════════════════════
-   HELPERS
-══════════════════════════════════════════ */
+/* ── helpers ── */
 function ct(item,id){
   const c=(item.column_values||[]).find(x=>x.id===id);
   if(!c)return'';
@@ -298,45 +299,43 @@ function ct(item,id){
 }
 function cd(item,id){const c=(item.column_values||[]).find(x=>x.id===id);return c&&c.text?c.text.trim():'';}
 function pd(s){if(!s)return null;const m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);return m?new Date(+m[1],+m[2]-1,+m[3]):null;}
-function fd(s){const d=pd(s);return d?d.toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';}
+function fd(s){const d=pd(s);return d?d.toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit',year:'2-digit'}):'—';}
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function mondayUrl(id){return`https://hopa-org.monday.com/boards/${BOARD_ID}/pulses/${id}`;}
+function mUrl(id){return`https://hopa-org.monday.com/boards/${BOARD}/pulses/${id}`;}
+function isTouched(g){return!!(g.whatToday||g.notes||g.impact||g.lastTalk||g.hopaNotes);}
+function isWork(g){const w=(g.whatToday||'').toLowerCase();return w.includes('עובד')||w.includes('עבודה')||w.includes('בעל עסק');}
+function isArmy(g){return(g.whatToday||'').includes('חייל')||(g.whatToday||'').includes('חיילת');}
 
-function parseItem(item){
-  const phone=ct(item,C.phone)||ct(item,C.phoneText);
+function parse(item){
+  const ph=ct(item,C.phone)||ct(item,C.phoneText);
   return{
-    id:item.id, name:item.name||'', lastName:ct(item,C.lastName),
+    id:item.id,name:item.name||'',
+    lastName:ct(item,C.lastName),
     fullName:[item.name,ct(item,C.lastName)].filter(Boolean).join(' ')||'—',
-    phone, gender:ct(item,C.gender), year:ct(item,C.year), city:ct(item,C.city),
-    major:ct(item,C.major), service:ct(item,C.service), whatToday:ct(item,C.whatToday),
-    impact:ct(item,C.impact), notes:ct(item,C.notes), hopaNotes:ct(item,C.hopaNotes),
-    lastTalk:cd(item,C.lastTalk), nextTalk:cd(item,C.nextTalk),
-    formSent:ct(item,C.formSent), answeredQ:ct(item,C.answeredQ),
+    phone:ph,gender:ct(item,C.gender),year:ct(item,C.year),city:ct(item,C.city),
+    major:ct(item,C.major),service:ct(item,C.service),whatToday:ct(item,C.whatToday),
+    impact:ct(item,C.impact),notes:ct(item,C.notes),hopaNotes:ct(item,C.hopaNotes),
+    lastTalk:cd(item,C.lastTalk),nextTalk:cd(item,C.nextTalk),
+    formSent:ct(item,C.formSent),answeredQ:ct(item,C.answeredQ),
     birthday:cd(item,C.birthday),
   };
 }
 
-function isTouched(g){return!!(g.whatToday||g.notes||g.impact||g.lastTalk||g.hopaNotes);}
-function isWorking(g){const w=(g.whatToday||'').toLowerCase();return w.includes('עובד')||w.includes('עבודה')||w.includes('בעל עסק');}
-function isArmy(g){return(g.whatToday||'').includes('חייל')||(g.whatToday||'').includes('חיילת')||(g.service||'').includes('מ"ל');}
-
 function whatBadge(w){
-  if(!w)return'';
-  if(w.includes('חייל')||w.includes('חיילת'))return`<span class="badge b-blue">${esc(w)}</span>`;
-  if(w.includes('עובד')||w.includes('עבודה')||w.includes('בעל עסק'))return`<span class="badge b-green">${esc(w)}</span>`;
-  if(w.includes('לימוד')||w.includes('מכינה'))return`<span class="badge b-orange">${esc(w)}</span>`;
-  if(w.includes('לא עובד'))return`<span class="badge b-red">${esc(w)}</span>`;
-  return`<span class="badge b-gray">${esc(w)}</span>`;
+  if(!w)return`<span class="b b-gray">לא ידוע</span>`;
+  if(w.includes('חייל')||w.includes('חיילת'))return`<span class="b b-blue">${esc(w)}</span>`;
+  if(isWork({whatToday:w}))return`<span class="b b-green">${esc(w)}</span>`;
+  if(w.includes('לימוד')||w.includes('מכינה'))return`<span class="b b-orange">${esc(w)}</span>`;
+  if(w.includes('לא עובד')||w.includes('מחפש'))return`<span class="b b-red">${esc(w)}</span>`;
+  return`<span class="b b-gray">${esc(w)}</span>`;
 }
 
-/* ══════════════════════════════════════════
-   API — MONDAY
-══════════════════════════════════════════ */
-async function fetchMondayPage(cursor){
-  const cp=cursor?`, cursor: "${cursor}"`:'';
+/* ══ FETCH ══ */
+async function fetchMon(cursor){
+  const cp=cursor?`, cursor:"${cursor}"`:'';
   const ids=Object.values(C).map(id=>`"${id}"`).join(',');
-  const q=`{boards(ids:[${BOARD_ID}]){items_page(limit:500${cp}){cursor items{id name column_values(ids:[${ids}]){id text value}}}}}`;
-  const r=await fetch(MONDAY_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':MONDAY_TOKEN,'API-Version':'2024-10'},body:JSON.stringify({query:q})});
+  const q=`{boards(ids:[${BOARD}]){items_page(limit:500${cp}){cursor items{id name column_values(ids:[${ids}]){id text value}}}}}`;
+  const r=await fetch(MON_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':MON_TOKEN,'API-Version':'2024-10'},body:JSON.stringify({query:q})});
   if(!r.ok)throw new Error(`HTTP ${r.status}`);
   const d=await r.json();
   if(d.errors)throw new Error(d.errors[0].message);
@@ -344,427 +343,358 @@ async function fetchMondayPage(cursor){
   return{items:pg.items,cursor:pg.cursor};
 }
 
-/* ══════════════════════════════════════════
-   API — SUPABASE PROGRAMS
-══════════════════════════════════════════ */
-async function fetchPrograms(){
+async function fetchProgs(){
   try{
-    const r=await fetch(`${SUPABASE_URL}/rest/v1/programs?select=id,name,category,subcategory,age_track,description,url&limit=500`,{
-      headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json'}
-    });
-    if(!r.ok)return[];
-    return await r.json();
-  }catch(e){return[];}
+    const r=await fetch(`${SUP_URL}/rest/v1/programs?select=id,name,category,subcategory,description,url&limit=500`,
+      {headers:{apikey:SUP_KEY,Authorization:`Bearer ${SUP_KEY}`}});
+    return r.ok?await r.json():[];
+  }catch{return[];}
 }
 
-/* ══════════════════════════════════════════
-   LOAD ALL
-══════════════════════════════════════════ */
 async function loadAll(){
-  document.getElementById('spinner').style.display='block';
-  document.getElementById('gradList').innerHTML='<div class="empty-txt">טוען מ-Monday.com...</div>';
+  document.getElementById('spin').style.display='block';
+  document.getElementById('tBody').innerHTML='<tr><td colspan="13" class="empty">טוען מ-Monday.com...</td></tr>';
   try{
-    let items=[],cursor=null;
-    do{const r=await fetchMondayPage(cursor);items=items.concat(r.items);cursor=r.cursor;}while(cursor);
-    ALL=items.map(parseItem);
-    PROGRAMS=await fetchPrograms();
-    FILTERED=[...ALL];PAGE=1;
-    updateKPIs();applyFilters();renderPriority();renderBirthdays();renderAnalytics();
-    const now=new Date();
-    document.getElementById('lastUpd').textContent='עודכן '+now.toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+    let items=[],cur=null;
+    do{const r=await fetchMon(cur);items=items.concat(r.items);cur=r.cursor;}while(cur);
+    ALL=items.map(parse);
+    PROGS=await fetchProgs();
+    FILT=[...ALL];PAGE=1;
+    updateKPIs();renderTable();renderPriority();renderBday();renderAnalytics();
+    const t=new Date();
+    document.getElementById('updTxt').textContent='עודכן '+t.toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
   }catch(e){
-    document.getElementById('gradList').innerHTML=`<div class="empty-txt" style="color:#e00">שגיאה: ${esc(e.message)}</div>`;
-  }finally{document.getElementById('spinner').style.display='none';}
+    document.getElementById('tBody').innerHTML=`<tr><td colspan="13" class="empty" style="color:#e00">שגיאה: ${esc(e.message)}</td></tr>`;
+  }finally{document.getElementById('spin').style.display='none';}
 }
 
-/* ══════════════════════════════════════════
-   KPIs
-══════════════════════════════════════════ */
+/* ══ KPIs ══ */
 function updateKPIs(){
   const today=new Date();today.setHours(0,0,0,0);
   const w7=new Date(today);w7.setDate(w7.getDate()+7);
-  const cb=ALL.filter(g=>{const d=pd(g.nextTalk);return(g.notes||'').includes('לחזור')||(d&&d>=today);}).length;
-  document.getElementById('k-total').textContent=ALL.length;
-  document.getElementById('k-touch').textContent=ALL.filter(isTouched).length;
-  document.getElementById('k-work').textContent=ALL.filter(isWorking).length;
-  document.getElementById('k-army').textContent=ALL.filter(isArmy).length;
-  document.getElementById('k-cb').textContent=cb;
-  document.getElementById('k-week').textContent=ALL.filter(g=>{const d=pd(g.nextTalk);return d&&d>=today&&d<=w7;}).length;
+  document.getElementById('kTotal').textContent=ALL.length;
+  document.getElementById('kTouch').textContent=ALL.filter(isTouched).length;
+  document.getElementById('kWork').textContent=ALL.filter(isWork).length;
+  document.getElementById('kArmy').textContent=ALL.filter(isArmy).length;
+  document.getElementById('kCb').textContent=ALL.filter(g=>{const d=pd(g.nextTalk);return(g.notes||'').includes('לחזור')||(d&&d>=today);}).length;
+  document.getElementById('kWk').textContent=ALL.filter(g=>{const d=pd(g.nextTalk);return d&&d>=today&&d<=w7;}).length;
 }
 
-/* ══════════════════════════════════════════
-   FILTERS
-══════════════════════════════════════════ */
-function setF(type,val,btn){
-  F[type]=val;
+/* ══ FILTER ══ */
+function setF(k,v,btn){
+  F[k]=v;
   btn.parentElement.querySelectorAll('.chip').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');PAGE=1;applyFilters();
+  btn.classList.add('on');PAGE=1;doFilter();
 }
 
-function applyFilters(){
-  const search=(document.getElementById('searchInput').value||'').trim().toLowerCase();
-  FILTERED=ALL.filter(g=>{
-    if(search){const h=(g.fullName+' '+g.phone+' '+g.city).toLowerCase();if(!h.includes(search))return false;}
+function doFilter(){
+  const s=(document.getElementById('srch').value||'').toLowerCase().trim();
+  FILT=ALL.filter(g=>{
+    if(s&&!([g.fullName,g.phone,g.city].join(' ')).toLowerCase().includes(s))return false;
     if(F.what&&!(g.whatToday||'').includes(F.what))return false;
+    if(F.info==='yes'&&!isTouched(g))return false;
+    if(F.info==='no'&&isTouched(g))return false;
     return true;
   });
-  PAGE=1;renderList();
-  const sc=document.getElementById('searchCount');
-  sc.textContent=(search||F.what)?`${FILTERED.length} תוצאות`:'';
-  document.getElementById('resCount').textContent=FILTERED.length<ALL.length?`${FILTERED.length} מתוך ${ALL.length}`:`${ALL.length} בוגרים`;
+  PAGE=1;renderTable();
 }
 
-/* ══════════════════════════════════════════
-   GRADUATE LIST
-══════════════════════════════════════════ */
-function renderList(){
-  const today=new Date();today.setHours(0,0,0,0);
-  const w7=new Date(today);w7.setDate(w7.getDate()+7);
-  const slice=FILTERED.slice((PAGE-1)*PER,PAGE*PER);
-  const c=document.getElementById('gradList');
-  if(!slice.length){c.innerHTML='<div class="empty-txt">לא נמצאו בוגרים</div>';renderPg();return;}
-
-  c.innerHTML=slice.map((g,i)=>{
-    const idx=(PAGE-1)*PER+i;
-    const nd=pd(g.nextTalk);
-    const overdue=nd&&nd<today;
-    const soon=nd&&nd>=today&&nd<=w7;
-    const noteTag=g.notes?`<span class="badge b-gray" style="font-size:.65rem">${esc(g.notes.split(',')[0].trim())}</span>`:'';
-    const impTag=g.impact?`<span class="badge b-green" style="font-size:.65rem">${esc(g.impact)}</span>`:'';
-    const nextStr=g.nextTalk?`<span style="${overdue?'color:#c00;font-weight:700':soon?'color:#b45309;font-weight:600':''}">${overdue?'⚠ ':''}${fd(g.nextTalk)}</span>`:'<span style="color:#ccc">אין תאריך</span>';
-    const sel=selectedId===g.id?' selected':'';
-    return`<div class="grad-card${sel}" id="gc-${idx}" onclick="selectGrad(${idx},this)">
-      <div class="grad-row-main">
-        <div>
-          <div class="grad-name">${esc(g.fullName)}</div>
-          <div class="grad-sub">${noteTag}${impTag?` ${impTag}`:''}</div>
-        </div>
-        <div class="grad-phone">${esc(g.phone)||'—'}</div>
-        <div class="grad-next" style="font-size:.75rem;">
-          ${whatBadge(g.whatToday)}
-          <div style="margin-top:3px;color:#888;">${nextStr}</div>
-        </div>
-        <div class="toggle-ico">▾</div>
-      </div>
-    </div>`;
-  }).join('');
-
-  renderPg();
-}
-
-function selectGrad(idx,cardEl){
-  // deselect all
-  document.querySelectorAll('.grad-card').forEach(c=>{c.classList.remove('selected');});
-  cardEl.classList.add('selected');
-  const g=FILTERED[(PAGE-1)*PER+idx-(PAGE-1)*PER];
-  // fix: get from full index
-  const fullIdx=(PAGE-1)*PER+idx;
-  // Actually idx is already offset from page start; let me recalc
-  const g2=FILTERED[idx + (PAGE-1)*PER - (PAGE-1)*PER];
-  // Simplest: store data on element
-  const realIdx=parseInt(cardEl.id.replace('gc-',''));
-  showProfile(FILTERED[realIdx]);
-}
-
-// We'll store the real index properly:
-function renderList2(){
+/* ══ TABLE ══ */
+function renderTable(){
   const today=new Date();today.setHours(0,0,0,0);
   const w7=new Date(today);w7.setDate(w7.getDate()+7);
   const start=(PAGE-1)*PER;
-  const slice=FILTERED.slice(start,start+PER);
-  const c=document.getElementById('gradList');
-  if(!slice.length){c.innerHTML='<div class="empty-txt">לא נמצאו בוגרים</div>';renderPg();return;}
+  const slice=FILT.slice(start,start+PER);
+  const tb=document.getElementById('tBody');
 
-  c.innerHTML=slice.map((g,localI)=>{
+  document.getElementById('resInfo').textContent=
+    FILT.length<ALL.length?`${FILT.length} מתוך ${ALL.length} בוגרים`:`${ALL.length} בוגרים`;
+
+  if(!slice.length){tb.innerHTML='<tr><td colspan="13" class="empty">לא נמצאו תוצאות</td></tr>';renderPg();return;}
+
+  tb.innerHTML=slice.map((g,i)=>{
+    const gi=start+i;
     const nd=pd(g.nextTalk);
     const overdue=nd&&nd<today;
     const soon=nd&&nd>=today&&nd<=w7;
-    const noteTag=g.notes?`<span class="badge b-gray" style="font-size:.65rem">${esc(g.notes.split(',')[0].trim())}</span>`:'';
-    const impTag=g.impact?`<span class="badge b-green" style="font-size:.65rem">${esc(g.impact)}</span>`:'';
-    const nextStr=g.nextTalk
+    const isSel=SEL&&SEL.id===g.id;
+    const cls=(overdue?'overdue-row':'')+(isSel?' selected':'');
+
+    const nextTd=g.nextTalk
       ?`<span style="${overdue?'color:#c00;font-weight:700':soon?'color:#b45309;font-weight:600':''}">${overdue?'⚠ ':''}${fd(g.nextTalk)}</span>`
-      :'<span style="color:#ccc">אין תאריך</span>';
-    const sel=selectedId===g.id?' selected':'';
-    return`<div class="grad-card${sel}" data-gi="${start+localI}" onclick="selectByIdx(${start+localI},this)">
-      <div class="grad-row-main">
-        <div>
-          <div class="grad-name">${esc(g.fullName)}</div>
-          <div class="grad-sub" style="margin-top:3px;">${noteTag}${impTag?` ${impTag}`:''}</div>
-        </div>
-        <div class="grad-phone">${esc(g.phone)||'—'}</div>
-        <div class="grad-next">
-          ${whatBadge(g.whatToday)}
-          <div style="margin-top:3px;">${nextStr}</div>
-        </div>
-        <div class="toggle-ico">▾</div>
-      </div>
-    </div>`;
+      :`<span class="no-data">—</span>`;
+
+    return`<tr class="${cls}" onclick="selectRow(${gi},this)">
+      <td>${esc(g.fullName)}</td>
+      <td><span style="direction:ltr;unicode-bidi:isolate;font-size:.76rem;">${esc(g.phone)||'<span class=no-data>—</span>'}</span></td>
+      <td>${whatBadge(g.whatToday)}</td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${g.notes?`<span class="b b-gray">${esc(g.notes.split(',')[0].trim())}</span>`:'<span class="no-data">—</span>'}</td>
+      <td>${g.impact?`<span class="b b-green">${esc(g.impact)}</span>`:'<span class="no-data">—</span>'}</td>
+      <td>${g.lastTalk?fd(g.lastTalk):'<span class="no-data">—</span>'}</td>
+      <td>${nextTd}</td>
+      <td>${esc(g.year)||'<span class="no-data">—</span>'}</td>
+      <td style="max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(g.major)||'<span class="no-data">—</span>'}</td>
+      <td>${esc(g.city)||'<span class="no-data">—</span>'}</td>
+      <td style="max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(g.service)||'<span class="no-data">—</span>'}</td>
+      <td>${g.answeredQ?`<span class="b b-${g.answeredQ==='כן'?'green':'gray'}">${esc(g.answeredQ)}</span>`:'<span class="no-data">—</span>'}</td>
+      <td style="text-align:center;"><a href="${mUrl(g.id)}" target="_blank" onclick="event.stopPropagation()" style="color:#555;font-size:.85rem;text-decoration:none;" title="פתח ב-Monday">↗</a></td>
+    </tr>`;
   }).join('');
 
   renderPg();
 }
 
-// Override renderList with renderList2
-Object.defineProperty(window,'renderList',{value:renderList2,writable:true,configurable:true});
-
-function selectByIdx(idx, cardEl){
-  document.querySelectorAll('.grad-card').forEach(c=>c.classList.remove('selected'));
-  cardEl.classList.add('selected');
-  selectedId=FILTERED[idx].id;
-  showProfile(FILTERED[idx]);
+function selectRow(gi,rowEl){
+  document.querySelectorAll('#tBody tr').forEach(r=>r.classList.remove('selected'));
+  rowEl.classList.add('selected');
+  SEL=FILT[gi];
+  showProfile(FILT[gi]);
 }
 
-/* ══════════════════════════════════════════
-   PROFILE PANEL
-══════════════════════════════════════════ */
-function showProfile(g){
-  document.getElementById('sideEmpty').style.display='none';
-  const pc=document.getElementById('profileCard');
-  pc.style.display='block';
-
-  const initials=(g.name||'?')[0]+(g.lastName||'?')[0]||'?';
-  const matched=matchPrograms(g);
-
-  pc.innerHTML=`
-    <div class="profile-top">
-      <div class="profile-avatar">${esc(initials)}</div>
-      <div>
-        <div class="profile-name">${esc(g.fullName)}</div>
-        <div class="profile-school">מוצקין · ${esc(g.year||'שנה לא ידועה')}</div>
-        <div style="margin-top:6px;">${whatBadge(g.whatToday)}</div>
-      </div>
-    </div>
-    <div class="profile-body">
-
-      <div class="profile-section">
-        <div class="profile-section-title">פרטים אישיים</div>
-        <div class="info-grid">
-          <div class="info-item"><div class="lbl">טלפון</div><div class="val" style="direction:ltr;unicode-bidi:isolate;">${esc(g.phone)||'—'}</div></div>
-          <div class="info-item"><div class="lbl">עיר</div><div class="val">${esc(g.city)||'—'}</div></div>
-          <div class="info-item"><div class="lbl">מגדר</div><div class="val">${esc(g.gender)||'—'}</div></div>
-          <div class="info-item"><div class="lbl">מגמה</div><div class="val">${esc(g.major)||'—'}</div></div>
-          <div class="info-item"><div class="lbl">שנת סיום</div><div class="val">${esc(g.year)||'—'}</div></div>
-          <div class="info-item"><div class="lbl">שירות</div><div class="val">${esc(g.service)||'—'}</div></div>
-        </div>
-      </div>
-
-      <div class="profile-section">
-        <div class="profile-section-title">מעקב ופגישות</div>
-        <div class="info-grid">
-          <div class="info-item"><div class="lbl">שיחה אחרונה</div><div class="val">${fd(g.lastTalk)}</div></div>
-          <div class="info-item"><div class="lbl">שיחה הבאה</div><div class="val">${fd(g.nextTalk)}</div></div>
-          <div class="info-item"><div class="lbl">ענה לשאלון</div><div class="val">${esc(g.answeredQ)||'—'}</div></div>
-          <div class="info-item"><div class="lbl">טופס נשלח</div><div class="val">${esc(g.formSent)||'—'}</div></div>
-        </div>
-        ${g.notes?`<div style="margin-top:8px;"><div class="lbl" style="font-size:.68rem;color:#aaa;margin-bottom:4px;">הערות</div><div style="background:#F7F7F7;border-radius:8px;padding:8px 10px;font-size:.8rem;">${esc(g.notes)}</div></div>`:''}
-        ${g.hopaNotes?`<div style="margin-top:8px;"><div class="lbl" style="font-size:.68rem;color:#aaa;margin-bottom:4px;">הערות הופה</div><div style="background:#F7F7F7;border-radius:8px;padding:8px 10px;font-size:.8rem;">${esc(g.hopaNotes)}</div></div>`:''}
-        ${g.impact?`<div style="margin-top:8px;"><div class="lbl" style="font-size:.68rem;color:#aaa;margin-bottom:4px;">אימפקט</div><span class="badge b-green">${esc(g.impact)}</span></div>`:''}
-      </div>
-
-      <div class="profile-section">
-        <div class="profile-section-title">מענים מתאימים (${matched.length})</div>
-        ${matched.length
-          ? matched.slice(0,5).map(p=>`
-            <div class="maan-card">
-              <div class="maan-name">${esc(p.name)}</div>
-              <div class="maan-cat">${esc(p.category||'')}${p.subcategory?' · '+p.subcategory:''}</div>
-              ${p.url?`<a href="${esc(p.url)}" target="_blank" class="maan-link" style="display:inline-block;margin-top:4px;">צפה במענה ↗</a>`:''}
-            </div>`).join('')
-          : '<div style="color:#bbb;font-size:.8rem;padding:8px 0;">לא נמצאו מענים תואמים</div>'
-        }
-      </div>
-
-      <a href="${mondayUrl(g.id)}" target="_blank" class="btn-monday">פתח ב-Monday.com ↗</a>
-    </div>`;
-}
-
-/* ══════════════════════════════════════════
-   PROGRAMS MATCHING
-══════════════════════════════════════════ */
-function matchPrograms(g){
-  if(!PROGRAMS.length)return[];
-  const notes=(g.notes||'').toLowerCase();
-  const what=(g.whatToday||'').toLowerCase();
-  const impact=(g.impact||'').toLowerCase();
-  const all=notes+' '+what+' '+impact;
-
-  return PROGRAMS.filter(p=>{
-    const cat=(p.category||'').toLowerCase();
-    const name=(p.name||'').toLowerCase();
-    // Employment
-    if((all.includes('עבודה')||all.includes('מחפש')||what.includes('לא עובד'))&&(cat.includes('תעסוקה')||name.includes('תעסוקה')||name.includes('עבודה')))return true;
-    // Scholarship
-    if((all.includes('מלגה')||all.includes('לימוד'))&&(cat.includes('מלגה')||name.includes('מלגה')))return true;
-    // Army
-    if((isArmy(g))&&(cat.includes('צבא')||cat.includes('חייל')||name.includes('חייל')))return true;
-    // Vocational
-    if(all.includes('הכשרה')&&(cat.includes('הכשרה')||name.includes('הכשרה')))return true;
-    // Matriculation
-    if(all.includes('בגרויות')&&(cat.includes('בגרות')||name.includes('בגרות')))return true;
-    // Financial
-    if((all.includes('כלכלי')||all.includes('ביטוח לאומי')||all.includes('עזרה כלכלית'))&&(cat.includes('כלכלי')||cat.includes('רווחה')))return true;
-    // General assistance
-    if(all.includes('מסתדר')&&cat.includes('כללי'))return true;
-    return false;
-  });
-}
-
-/* ══════════════════════════════════════════
-   PAGINATION
-══════════════════════════════════════════ */
+/* ══ PAGINATION ══ */
 function renderPg(){
-  const total=Math.ceil(FILTERED.length/PER);
+  const total=Math.ceil(FILT.length/PER);
   document.getElementById('prevBtn').disabled=PAGE<=1;
   document.getElementById('nextBtn').disabled=PAGE>=total;
-  const pp=document.getElementById('pgPages');pp.innerHTML='';
+  document.getElementById('pgInfo').textContent=`עמוד ${PAGE} מתוך ${total}`;
+  const pn=document.getElementById('pgNums');pn.innerHTML='';
   for(let i=1;i<=total;i++){
     if(i===1||i===total||Math.abs(i-PAGE)<=1){
       const b=document.createElement('button');b.textContent=i;b.className='pg-btn'+(i===PAGE?' curr':'');
-      b.onclick=()=>{PAGE=i;renderList2();};pp.appendChild(b);
-    }else if(pp.lastChild&&pp.lastChild.textContent!=='...'){
-      const s=document.createElement('span');s.textContent='...';s.style.cssText='padding:0 4px;color:#aaa;font-size:.8rem;';pp.appendChild(s);
+      b.onclick=()=>{PAGE=i;renderTable();};pn.appendChild(b);
+    }else if(pn.lastChild&&pn.lastChild.textContent!=='...'){
+      const s=document.createElement('span');s.textContent='...';s.style.cssText='padding:0 3px;color:#aaa;font-size:.75rem;';pn.appendChild(s);
     }
   }
-  document.getElementById('pgWrap').style.display=total<=1?'none':'flex';
+}
+function changePg(d){PAGE=Math.max(1,Math.min(Math.ceil(FILT.length/PER),PAGE+d));renderTable();}
+
+/* ══ PROFILE PANEL ══ */
+function matchProgs(g){
+  if(!PROGS.length)return[];
+  const all=[(g.notes||''),(g.whatToday||''),(g.impact||'')].join(' ').toLowerCase();
+  return PROGS.filter(p=>{
+    const c=(p.category||'').toLowerCase(),n=(p.name||'').toLowerCase();
+    if((all.includes('עבודה')||all.includes('מחפש')||(g.whatToday||'').includes('לא עובד'))&&(c.includes('תעסוקה')||n.includes('עבודה')||n.includes('תעסוקה')))return true;
+    if((all.includes('מלגה')||all.includes('לימוד'))&&(c.includes('מלגה')||n.includes('מלגה')))return true;
+    if(isArmy(g)&&(c.includes('צבא')||c.includes('חייל')||n.includes('חייל')))return true;
+    if(all.includes('הכשרה')&&(c.includes('הכשרה')||n.includes('הכשרה')))return true;
+    if(all.includes('בגרויות')&&(c.includes('בגרות')||n.includes('בגרות')))return true;
+    if((all.includes('כלכלי')||all.includes('ביטוח'))&&(c.includes('כלכלי')||c.includes('רווחה')))return true;
+    return false;
+  }).slice(0,6);
 }
 
-function changePg(dir){
-  PAGE=Math.max(1,Math.min(Math.ceil(FILTERED.length/PER),PAGE+dir));
-  renderList2();
+function showProfile(g){
+  document.getElementById('sideEmpty').style.display='none';
+  const sc=document.getElementById('sideContent');
+  sc.style.display='flex';sc.style.flexDirection='column';
+  const init=((g.name||'?')[0]+(g.lastName||'?')[0]).toUpperCase();
+  const matched=matchProgs(g);
+  const today=new Date();today.setHours(0,0,0,0);
+  const nd=pd(g.nextTalk);const overdue=nd&&nd<today;
+
+  sc.innerHTML=`
+    <div class="side-head">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="avatar">${esc(init)}</div>
+          <div>
+            <div class="grad-name-big">${esc(g.fullName)}</div>
+            <div class="grad-sub">מוצקין${g.year?' · '+esc(g.year):''}</div>
+          </div>
+        </div>
+        <button class="close-side" onclick="closeProfile()">✕</button>
+      </div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;">
+        ${whatBadge(g.whatToday)}
+        ${g.impact?`<span class="b b-green">${esc(g.impact)}</span>`:''}
+        ${overdue?`<span class="b b-red">⚠ שיחה פגה</span>`:''}
+      </div>
+    </div>
+    <div class="side-body" style="overflow-y:auto;flex:1;">
+
+      <div class="sec">
+        <div class="sec-title">פרטים אישיים</div>
+        <div class="info-grid">
+          <div class="ii"><div class="lbl">טלפון</div><div class="val" style="direction:ltr;unicode-bidi:isolate;">${esc(g.phone)||'—'}</div></div>
+          <div class="ii"><div class="lbl">עיר</div><div class="val">${esc(g.city)||'—'}</div></div>
+          <div class="ii"><div class="lbl">מגדר</div><div class="val">${esc(g.gender)||'—'}</div></div>
+          <div class="ii"><div class="lbl">שנת סיום</div><div class="val">${esc(g.year)||'—'}</div></div>
+          <div class="ii"><div class="lbl">מגמה</div><div class="val">${esc(g.major)||'—'}</div></div>
+          <div class="ii"><div class="lbl">שירות</div><div class="val">${esc(g.service)||'—'}</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-title">מעקב ושיחות</div>
+        <div class="info-grid">
+          <div class="ii"><div class="lbl">שיחה אחרונה</div><div class="val">${fd(g.lastTalk)}</div></div>
+          <div class="ii"><div class="lbl">שיחה הבאה</div><div class="val" style="${overdue?'color:#c00;font-weight:700':''}">${fd(g.nextTalk)}</div></div>
+          <div class="ii"><div class="lbl">ענה לשאלון</div><div class="val">${esc(g.answeredQ)||'—'}</div></div>
+          <div class="ii"><div class="lbl">טופס נשלח</div><div class="val">${esc(g.formSent)||'—'}</div></div>
+        </div>
+        ${g.notes?`<div style="margin-top:8px;"><div class="lbl" style="font-size:.63rem;color:#aaa;margin-bottom:4px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;">הערות</div><div class="notes-box">${esc(g.notes)}</div></div>`:''}
+        ${g.hopaNotes?`<div style="margin-top:6px;"><div class="lbl" style="font-size:.63rem;color:#aaa;margin-bottom:4px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;">הערות הופה</div><div class="notes-box">${esc(g.hopaNotes)}</div></div>`:''}
+      </div>
+
+      <div class="sec">
+        <div class="sec-title">מענים מתאימים <span style="font-weight:400;color:#bbb;font-size:.6rem;">(${matched.length})</span></div>
+        ${matched.length
+          ?matched.map(p=>`<div class="maan-item">
+              <div class="maan-nm">${esc(p.name)}</div>
+              <div class="maan-cat">${esc(p.category||'')}${p.subcategory?' · '+esc(p.subcategory):''}</div>
+              ${p.url?`<a href="${esc(p.url)}" target="_blank" class="maan-a">צפה במענה ↗</a>`:''}
+            </div>`).join('')
+          :`<div style="color:#bbb;font-size:.78rem;padding:6px 0;">לא נמצאו מענים תואמים</div>`
+        }
+      </div>
+
+      <a href="${mUrl(g.id)}" target="_blank" class="btn-monday">פתח ב-Monday.com ↗</a>
+    </div>`;
 }
 
-/* ══════════════════════════════════════════
-   PRIORITY TAB
-══════════════════════════════════════════ */
+function closeProfile(){
+  document.getElementById('sideEmpty').style.display='flex';
+  document.getElementById('sideContent').style.display='none';
+  document.querySelectorAll('#tBody tr').forEach(r=>r.classList.remove('selected'));
+  SEL=null;
+}
+
+/* ══ PRIORITY ══ */
 function renderPriority(){
   const today=new Date();today.setHours(0,0,0,0);
   const list=ALL.filter(g=>{
     const d=pd(g.nextTalk);
     return(d&&d<today)||((g.notes||'').includes('לחזור')&&!g.nextTalk);
-  }).slice(0,15);
-  const c=document.getElementById('priorityList');
-  if(!list.length){c.innerHTML='<div class="empty-txt">אין פעולות דחופות כרגע 👍</div>';return;}
-  c.innerHTML=`<div style="font-size:.72rem;color:#aaa;font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em;">בוגרים שמחכים לחזרה</div>`
-    +list.map(g=>{
-      const d=pd(g.nextTalk);const overdue=d&&d<today;
-      return`<div class="pri-item">
+  }).sort((a,b)=>{
+    const da=pd(a.nextTalk)||new Date(9999,0,1);
+    const db=pd(b.nextTalk)||new Date(9999,0,1);
+    return da-db;
+  });
+  const c=document.getElementById('priList');
+  if(!list.length){c.innerHTML='<div class="empty">אין פעולות דחופות כרגע 👍</div>';return;}
+  c.innerHTML=`<div style="font-size:.68rem;color:#aaa;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;padding:0 4px;">${list.length} בוגרים ממתינים לחזרה</div>`
+    +list.map((g,i)=>{
+      const d=pd(g.nextTalk);const today2=new Date();today2.setHours(0,0,0,0);
+      const overdue=d&&d<today2;
+      return`<div class="pri-item" onclick="selectFromPri('${g.id}')">
+        <div style="min-width:22px;text-align:center;font-weight:800;color:#aaa;font-size:.75rem;">${i+1}</div>
         <div class="pri-name">${esc(g.fullName)}</div>
-        <div style="font-size:.75rem;color:${overdue?'#c00':'#666'};white-space:nowrap">${g.nextTalk?fd(g.nextTalk):'—'}</div>
-        ${overdue?'<span class="badge b-red">פגה תוקף</span>':'<span class="badge b-yellow">לחזור</span>'}
-        <a href="${mondayUrl(g.id)}" target="_blank" class="btn-monday" style="padding:5px 10px;font-size:.72rem;">↗</a>
+        <div style="font-size:.74rem;color:${overdue?'#c00':'#888'};white-space:nowrap;">${g.nextTalk?fd(g.nextTalk):'אין תאריך'}</div>
+        ${overdue?'<span class="b b-red">פגה</span>':'<span class="b b-yellow">לחזור</span>'}
+        <a href="${mUrl(g.id)}" target="_blank" onclick="event.stopPropagation()" style="color:#555;text-decoration:none;font-size:.85rem;">↗</a>
       </div>`;
     }).join('');
 }
 
-/* ══════════════════════════════════════════
-   BIRTHDAY TAB
-══════════════════════════════════════════ */
-function renderBirthdays(){
-  const container=document.getElementById('bdayList');
-  const today=new Date();today.setHours(0,0,0,0);
-  const withBday=ALL.filter(g=>g.birthday&&pd(g.birthday));
+function selectFromPri(id){
+  const g=ALL.find(x=>x.id===id);
+  if(g){SEL=g;showProfile(g);switchTab('list',document.querySelector('.tab'));renderTable();}
+}
 
-  if(!withBday.length){
-    container.innerHTML=`<div style="text-align:center;padding:32px 16px;">
-      <div style="font-size:2.5rem;margin-bottom:10px;">🎂</div>
-      <div style="font-weight:700;color:#555;margin-bottom:6px;">עמודת יום הולדת לא מוגדרת</div>
-      <div style="font-size:.8rem;color:#aaa;line-height:1.6;">יש להוסיף עמודת תאריך בשם "יום הולדת" בלוח Monday.com<br>ולעדכן את מזהה העמודה בקוד (<code>C.birthday</code>)</div>
-    </div>`;
-    return;
+/* ══ BIRTHDAYS ══ */
+function renderBday(){
+  const container=document.getElementById('bdayContent');
+  const today=new Date();today.setHours(0,0,0,0);
+  const withB=ALL.filter(g=>g.birthday&&pd(g.birthday));
+
+  if(!withB.length){
+    container.innerHTML=`<div style="text-align:center;padding:48px 24px;">
+      <div style="font-size:3rem;margin-bottom:12px;">🎂</div>
+      <div style="font-weight:700;font-size:1rem;color:#555;margin-bottom:8px;">עמודת יום הולדת לא מוגדרת</div>
+      <div style="font-size:.82rem;color:#aaa;line-height:1.7;">הוסף עמודת תאריך בשם "יום הולדת" ב-Monday.com<br>ועדכן את <code style="background:#F0F0F0;padding:1px 5px;border-radius:4px;">C.birthday</code> בקוד לאחר מכן</div>
+    </div>`;return;
   }
 
   const upcoming=[];
-  withBday.forEach(g=>{
+  withB.forEach(g=>{
     const b=pd(g.birthday);if(!b)return;
-    let target=new Date(today.getFullYear(),b.getMonth(),b.getDate());
-    if(target<today)target=new Date(today.getFullYear()+1,b.getMonth(),b.getDate());
-    const days=Math.round((target-today)/86400000);
-    if(days<=90)upcoming.push({...g,bdayDate:target,daysLeft:days});
+    let t=new Date(today.getFullYear(),b.getMonth(),b.getDate());
+    if(t<today)t=new Date(today.getFullYear()+1,b.getMonth(),b.getDate());
+    const days=Math.round((t-today)/86400000);
+    if(days<=120)upcoming.push({...g,bDate:t,days});
   });
-  upcoming.sort((a,b)=>a.daysLeft-b.daysLeft);
+  upcoming.sort((a,b)=>a.days-b.days);
 
-  if(!upcoming.length){container.innerHTML='<div class="empty-txt">אין ימי הולדת ב-90 הימים הקרובים</div>';return;}
+  if(!upcoming.length){container.innerHTML='<div class="empty">אין ימי הולדת ב-4 החודשים הקרובים</div>';return;}
 
-  container.innerHTML=`
-    <div style="font-size:.72rem;color:#aaa;font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:.06em;">ימי הולדת קרובים — 90 ימים</div>
-    ${upcoming.map(g=>{
-      const isToday=g.daysLeft===0;
-      const isSoon=g.daysLeft<=7;
-      return`<div class="bday-item${isToday?' bday-today':''}">
-        <div class="bday-box">
-          <div class="bday-d">${g.bdayDate.getDate()}</div>
-          <div class="bday-m">${HE_MONTHS[g.bdayDate.getMonth()]}</div>
+  const groups={};
+  upcoming.forEach(g=>{
+    const k=HEM[g.bDate.getMonth()]+' '+g.bDate.getFullYear();
+    (groups[k]=groups[k]||[]).push(g);
+  });
+
+  container.innerHTML=`<div style="padding:16px;">
+    ${Object.entries(groups).map(([month,grads])=>`
+      <div style="margin-bottom:20px;">
+        <div style="font-size:.68rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;border-bottom:1px solid #E5E5E5;padding-bottom:6px;">${month}</div>
+        <div class="bday-grid" style="padding:0;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));">
+          ${grads.map(g=>{
+            const isToday=g.days===0;const isSoon=g.days<=7;
+            return`<div class="bday-card${isToday?' today':''}" onclick="showProfile(ALL.find(x=>x.id==='${g.id}'))">
+              <div class="bday-box"><div class="bday-d">${g.bDate.getDate()}</div><div class="bday-m">${HEM[g.bDate.getMonth()].slice(0,3)}</div></div>
+              <div class="bday-info">
+                <div class="nm">${esc(g.fullName)}</div>
+                <div class="days">${isToday?'🎉 היום!':isSoon?`בעוד ${g.days} ימים`:`${g.days} ימים`}</div>
+                ${whatBadge(g.whatToday)}
+              </div>
+            </div>`;
+          }).join('')}
         </div>
-        <div style="flex:1;">
-          <div style="font-weight:700;font-size:.88rem;">${esc(g.fullName)}</div>
-          <div style="font-size:.74rem;color:#888;margin-top:2px;">
-            ${isToday?'🎉 היום!':isSoon?`בעוד ${g.daysLeft} ימים`:`בעוד ${g.daysLeft} ימים`}
-            ${g.phone?` · ${esc(g.phone)}`:''}
-          </div>
-          ${whatBadge(g.whatToday)?`<div style="margin-top:4px;">${whatBadge(g.whatToday)}</div>`:''}
-        </div>
-        ${isToday?'<span class="badge b-yellow">🎂 היום!</span>':''}
-        ${isSoon&&!isToday?'<span class="badge b-orange">השבוע</span>':''}
-        <a href="${mondayUrl(g.id)}" target="_blank" class="btn-monday" style="padding:5px 10px;font-size:.72rem;">↗</a>
-      </div>`;
-    }).join('')}`;
+      </div>`).join('')}
+  </div>`;
 }
 
-/* ══════════════════════════════════════════
-   ANALYTICS TAB
-══════════════════════════════════════════ */
+/* ══ ANALYTICS ══ */
 function renderAnalytics(){
-  const grid=document.getElementById('analyticsGrid');
-
-  function countMap(arr,key,split){
+  function cntMap(key,split){
     const m={};
-    arr.forEach(g=>{
-      const v=(g[key]||'');
+    ALL.forEach(g=>{
+      const v=g[key]||'';
       if(!v){m['לא ידוע']=(m['לא ידוע']||0)+1;return;}
-      if(split){v.split(',').forEach(x=>{const k=x.trim();if(k)m[k]=(m[k]||0)+1;});}
-      else{m[v]=(m[v]||0)+1;}
+      if(split)v.split(',').forEach(x=>{const k=x.trim();if(k)m[k]=(m[k]||0)+1;});
+      else m[v]=(m[v]||0)+1;
     });
     return m;
   }
-
-  function barChart(map,limit=8){
-    const sorted=Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,limit);
-    const max=sorted[0]?.[1]||1;
-    return sorted.map(([lbl,cnt])=>`
-      <div class="chart-row">
-        <div class="chart-lbl">${esc(lbl)}</div>
-        <div class="chart-bar-bg"><div class="chart-bar-fill" style="width:${Math.max(4,Math.round(cnt/max*100))}%">${cnt}</div></div>
-        <div class="chart-cnt">${cnt}</div>
-      </div>`).join('');
+  function bars(map,lim=10){
+    const s=Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,lim);
+    const mx=s[0]?.[1]||1;
+    return s.map(([l,n])=>`<div class="bar-row">
+      <div class="bar-lbl" title="${esc(l)}">${esc(l)}</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:${Math.max(8,Math.round(n/mx*100))}%">${n}</div></div>
+      <div class="bar-cnt">${n}</div>
+    </div>`).join('');
   }
 
   const charts=[
-    {title:'מה עושים היום',map:countMap(ALL,'whatToday',false)},
-    {title:'הערות ומעקב',map:countMap(ALL,'notes',true)},
-    {title:'אימפקט',map:countMap(ALL,'impact',false)},
-    {title:'שנת סיום',map:countMap(ALL,'year',false)},
-    {title:'סטטוס שירות',map:countMap(ALL,'service',false)},
-    {title:'מגמה',map:countMap(ALL,'major',false)},
+    {t:'מה עושים היום',m:cntMap('whatToday',false)},
+    {t:'הערות ומעקב',m:cntMap('notes',true)},
+    {t:'אימפקט',m:cntMap('impact',false)},
+    {t:'שנת סיום',m:cntMap('year',false)},
+    {t:'מגמה',m:cntMap('major',false)},
+    {t:'סטטוס שירות',m:cntMap('service',false)},
+    {t:'עיר מגורים',m:cntMap('city',false)},
+    {t:'ענה לשאלון',m:cntMap('answeredQ',false)},
   ];
 
-  grid.innerHTML=charts.map(ch=>`
-    <div class="analytics-card">
-      <div class="analytics-title">${esc(ch.title)}</div>
-      ${barChart(ch.map)}
+  const container=document.getElementById('tab-analytics');
+  container.innerHTML=charts.map(ch=>`
+    <div class="acrd">
+      <div class="acrd-title">${esc(ch.t)}</div>
+      ${bars(ch.m)}
     </div>`).join('');
 }
 
-/* ══════════════════════════════════════════
-   TABS
-══════════════════════════════════════════ */
+/* ══ TABS ══ */
 function switchTab(name,btn){
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  document.querySelectorAll('.table-pane').forEach(p=>p.classList.remove('on'));
   document.getElementById('tab-'+name).classList.add('on');
 }
 
-/* ══ INIT ══ */
 loadAll();
 </script>
 </body>
