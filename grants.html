@@ -40,23 +40,60 @@
 <body class="bg-[#F7F7F7] text-[#111] min-h-screen">
 
 <!-- ══ LOGIN ══ -->
-<div id="login-screen" class="fixed inset-0 bg-black flex items-center justify-center z-50 p-4">
-  <div class="bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden">
-    <div class="bg-[#FFF200] px-8 py-8 text-center">
-      <span class="text-4xl font-black text-black">הופה</span>
-      <p class="text-black/50 text-sm font-medium mt-1">גיוס משאבים</p>
+<div id="login-screen" class="fixed inset-0 z-50 flex" style="background:#000;">
+
+  <!-- Panel שמאל — hero -->
+  <div class="hidden md:flex flex-col justify-between flex-1 p-12" style="background:#111;border-left:1px solid #222;">
+    <div>
+      <span style="background:#FFF200;color:#000;font-weight:900;font-size:1.1rem;padding:4px 14px;border-radius:10px;letter-spacing:-0.5px;">הופה</span>
     </div>
-    <div class="p-8 space-y-5">
-      <form onsubmit="doPinLogin(event)">
-        <p class="text-sm text-[#999] text-center mb-4">הכנס קוד כניסה</p>
-        <input id="pin-input" type="password" inputmode="numeric"
-          class="w-full text-center text-2xl font-bold tracking-widest border-2 border-[#E5E5E5] rounded-2xl py-4 mb-3 focus:border-black focus:outline-none"
-          placeholder="••••••••" autocomplete="off"/>
-        <div id="pin-err" class="hidden bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3 text-center mb-3">קוד שגוי</div>
-        <button type="submit" class="w-full bg-[#FFF200] text-black font-bold py-3.5 rounded-xl hover:bg-[#E6D900] text-sm">כניסה</button>
-      </form>
+    <div>
+      <div style="color:#FFF200;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;margin-bottom:18px;opacity:0.8;">מערכת גיוס משאבים</div>
+      <h1 style="color:#fff;font-size:2.8rem;font-weight:900;line-height:1.15;margin-bottom:20px;">
+        שלום,<br><span style="color:#FFF200;">צוות הופה</span> 👋
+      </h1>
+      <p style="color:#777;font-size:1rem;line-height:1.7;max-width:360px;">
+        מערכת גיוס המשאבים שלכם —<br>כל קול קורא, כל מועד, כל הזדמנות,<br>במקום אחד.
+      </p>
+      <div style="margin-top:40px;display:flex;align-items:center;gap:14px;">
+        <div style="width:4px;height:50px;background:#FFF200;border-radius:3px;flex-shrink:0;"></div>
+        <p style="color:#fff;font-size:1.6rem;font-weight:900;line-height:1.2;">בואו נשנה<br>את העולם!</p>
+      </div>
+    </div>
+    <div style="color:#333;font-size:0.7rem;">הופה — עמותה למניעת נשירה וליווי צעירים</div>
+  </div>
+
+  <!-- Panel ימין — login -->
+  <div class="flex items-center justify-center w-full md:w-96 flex-shrink-0 p-6" style="background:#000;">
+    <div style="width:100%;max-width:320px;">
+      <div class="md:hidden text-center" style="margin-bottom:32px;">
+        <span style="background:#FFF200;color:#000;font-weight:900;font-size:1.4rem;padding:5px 18px;border-radius:12px;">הופה</span>
+        <p style="color:#555;font-size:0.82rem;margin-top:10px;">מערכת גיוס משאבים</p>
+      </div>
+      <div style="background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 8px 48px rgba(0,0,0,0.6);">
+        <div style="background:#FFF200;padding:22px 24px;text-align:center;">
+          <p style="font-weight:800;font-size:1rem;color:#000;">כניסה למערכת</p>
+          <p style="color:#0007;font-size:0.76rem;margin-top:3px;">הכנסי קוד כניסה</p>
+        </div>
+        <div style="padding:28px 24px;">
+          <form onsubmit="doPinLogin(event)">
+            <input id="pin-input" type="password" inputmode="numeric"
+              style="width:100%;text-align:center;font-size:1.9rem;font-weight:700;letter-spacing:0.22em;border:2px solid #E5E5E5;border-radius:14px;padding:14px 8px;margin-bottom:12px;outline:none;transition:border .15s;display:block;"
+              placeholder="• • • • • •" autocomplete="off"
+              onfocus="this.style.borderColor='#000'" onblur="this.style.borderColor='#E5E5E5'"/>
+            <div id="pin-err" class="hidden" style="background:#FFF5F5;border:1px solid #FFCCCC;color:#C00;font-size:0.8rem;border-radius:10px;padding:10px;text-align:center;margin-bottom:10px;">קוד שגוי, נסי שנית</div>
+            <button type="submit"
+              style="width:100%;background:#FFF200;color:#000;font-weight:800;padding:14px;border-radius:14px;border:none;cursor:pointer;font-size:0.95rem;transition:background .15s;"
+              onmouseover="this.style.background='#E6D900'" onmouseout="this.style.background='#FFF200'">
+              כניסה →
+            </button>
+          </form>
+        </div>
+      </div>
+      <p style="color:#333;font-size:0.7rem;text-align:center;margin-top:18px;">גישה לצוות הופה בלבד</p>
     </div>
   </div>
+
 </div>
 
 <!-- ══ APP ══ -->
