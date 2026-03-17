@@ -3,197 +3,291 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>בוגרים מוצקין — לוח מנהל | הופה</title>
+  <title>בוגרים מוצקין | הופה</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: #F7F7F7; direction: rtl; }
-    .hopa-yellow { background-color: #FFF200; }
-    .hopa-yellow-dark { background-color: #E6D900; }
-    .text-hopa { color: #111111; }
-    .kpi-card { background: #fff; border: 1px solid #E5E5E5; border-radius: 12px; padding: 20px 24px; min-width: 140px; flex: 1; }
-    .kpi-number { font-size: 2rem; font-weight: 800; color: #111; line-height: 1; }
-    .kpi-label { font-size: 0.78rem; color: #666; margin-top: 4px; }
+    * { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #F7F7F7; direction: rtl; color: #111; }
+
+    /* ---- SEARCH ---- */
+    .search-hero { background: #000; padding: 28px 24px 32px; }
+    .search-box {
+      background: #fff;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      max-width: 580px;
+      width: 100%;
+    }
+    .search-box input {
+      border: none; outline: none; font-size: 1rem;
+      flex: 1; background: transparent; direction: rtl;
+    }
+    .search-box .search-icon { color: #999; font-size: 1.1rem; }
+
+    /* ---- KPI ---- */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+    .kpi-card {
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid #E5E5E5;
+      padding: 16px 18px;
+    }
+    .kpi-num { font-size: 1.9rem; font-weight: 800; line-height: 1; color: #111; }
+    .kpi-lbl { font-size: 0.74rem; color: #666; margin-top: 4px; }
     .kpi-accent { border-top: 3px solid #FFF200; }
-    .table-row-overdue { background-color: #fff0f0; }
-    .table-row-thisweek { background-color: #fffde0; }
-    .table-row-impact { background-color: #f0fff4; }
-    .priority-row { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 8px; background: #fff; border: 1px solid #E5E5E5; margin-bottom: 6px; font-size: 0.85rem; }
-    .tag { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
-    .tag-yellow { background: #FFF200; color: #000; }
-    .tag-gray { background: #E5E5E5; color: #444; }
-    .tag-red { background: #ffe0e0; color: #c00; }
-    .tag-green { background: #e0f7e9; color: #1a7a3c; }
-    .btn-monday { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 6px; background: #000; color: #fff; font-size: 0.72rem; font-weight: 600; text-decoration: none; transition: background 0.15s; cursor: pointer; border: none; }
+
+    /* ---- TABS ---- */
+    .tabs { display: flex; gap: 0; border-bottom: 2px solid #E5E5E5; }
+    .tab {
+      padding: 10px 20px; font-size: 0.88rem; font-weight: 600;
+      cursor: pointer; color: #666; border-bottom: 3px solid transparent;
+      margin-bottom: -2px; transition: all 0.15s; white-space: nowrap;
+    }
+    .tab.active { color: #111; border-bottom-color: #FFF200; }
+    .tab:hover:not(.active) { color: #333; }
+
+    /* ---- FILTERS ---- */
+    .chip {
+      display: inline-flex; align-items: center;
+      padding: 5px 14px; border-radius: 20px; font-size: 0.78rem;
+      border: 1px solid #E5E5E5; background: #fff; cursor: pointer;
+      color: #444; transition: all 0.15s; white-space: nowrap;
+    }
+    .chip.active { background: #FFF200; border-color: #FFF200; color: #000; font-weight: 700; }
+    .chip:hover:not(.active) { border-color: #999; }
+
+    /* ---- GRADUATE LIST ---- */
+    .grad-row {
+      background: #fff;
+      border: 1px solid #E5E5E5;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      transition: box-shadow 0.15s;
+    }
+    .grad-row:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+    .grad-header {
+      display: grid;
+      grid-template-columns: 1fr 120px 130px 130px 40px;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      cursor: pointer;
+    }
+    .grad-name { font-weight: 700; font-size: 0.92rem; }
+    .grad-phone { font-size: 0.8rem; color: #555; direction: ltr; unicode-bidi: isolate; }
+    .grad-details {
+      display: none;
+      padding: 0 16px 14px;
+      border-top: 1px solid #F0F0F0;
+      margin-top: 0;
+    }
+    .grad-details.open { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; }
+    .detail-item { font-size: 0.8rem; }
+    .detail-label { color: #888; margin-bottom: 1px; }
+    .detail-value { color: #111; font-weight: 500; }
+
+    /* ---- BADGES ---- */
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 20px;
+      font-size: 0.71rem;
+      font-weight: 600;
+    }
+    .badge-yellow { background: #FFF200; color: #000; }
+    .badge-gray   { background: #F0F0F0; color: #444; }
+    .badge-red    { background: #FFE8E8; color: #C00; }
+    .badge-green  { background: #E6F9EE; color: #1a7a3c; }
+    .badge-blue   { background: #E8F0FF; color: #1a3ca0; }
+    .badge-orange { background: #FFF3E0; color: #b45309; }
+
+    /* ---- BIRTHDAY ---- */
+    .bday-card {
+      background: #fff;
+      border: 1px solid #E5E5E5;
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .bday-date-box {
+      background: #FFF200;
+      border-radius: 10px;
+      padding: 6px 12px;
+      text-align: center;
+      min-width: 56px;
+    }
+    .bday-day { font-size: 1.4rem; font-weight: 800; line-height: 1; }
+    .bday-month { font-size: 0.7rem; font-weight: 600; }
+
+    /* ---- PRIORITY ---- */
+    .priority-item {
+      background: #fff;
+      border: 1px solid #E5E5E5;
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.83rem;
+    }
+
+    /* ---- MISC ---- */
+    .btn-monday {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 5px 12px; border-radius: 8px;
+      background: #000; color: #fff; font-size: 0.74rem; font-weight: 600;
+      text-decoration: none; transition: background 0.15s; white-space: nowrap;
+    }
     .btn-monday:hover { background: #333; }
-    .btn-refresh { background: #FFF200; color: #000; border: none; border-radius: 8px; padding: 6px 16px; font-weight: 700; cursor: pointer; font-size: 0.85rem; transition: background 0.15s; }
-    .btn-refresh:hover { background: #E6D900; }
-    .filter-btn { background: #fff; border: 1px solid #E5E5E5; border-radius: 20px; padding: 4px 14px; font-size: 0.78rem; cursor: pointer; color: #444; transition: all 0.15s; white-space: nowrap; }
-    .filter-btn.active { background: #FFF200; border-color: #FFF200; color: #000; font-weight: 700; }
-    .filter-btn:hover:not(.active) { border-color: #999; }
-    .search-input { border: 1px solid #E5E5E5; border-radius: 8px; padding: 6px 12px; font-size: 0.85rem; background: #fff; outline: none; min-width: 180px; }
-    .search-input:focus { border-color: #FFF200; box-shadow: 0 0 0 2px rgba(255,242,0,0.3); }
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-    thead th { background: #000; color: #fff; padding: 9px 10px; text-align: right; font-weight: 600; position: sticky; top: 0; z-index: 2; }
-    thead th:first-child { border-radius: 0 8px 0 0; }
-    thead th:last-child { border-radius: 8px 0 0 0; }
-    tbody tr { border-bottom: 1px solid #E5E5E5; transition: background 0.1s; }
-    tbody tr:hover { background: #f5f5f5 !important; cursor: pointer; }
-    tbody td { padding: 8px 10px; color: #111; vertical-align: middle; }
-    .no-data { color: #aaa; font-style: italic; }
-    .spinner { border: 3px solid #E5E5E5; border-top: 3px solid #FFF200; border-radius: 50%; width: 22px; height: 22px; animation: spin 0.8s linear infinite; display: inline-block; vertical-align: middle; }
+    .btn-yellow {
+      background: #FFF200; color: #000; border: none;
+      border-radius: 8px; padding: 7px 18px; font-weight: 700;
+      cursor: pointer; font-size: 0.85rem; transition: background 0.15s;
+    }
+    .btn-yellow:hover { background: #E6D900; }
+    .empty-txt { text-align: center; color: #aaa; font-size: 0.88rem; padding: 32px 0; }
+    .spinner {
+      border: 3px solid #E5E5E5; border-top: 3px solid #FFF200;
+      border-radius: 50%; width: 20px; height: 20px;
+      animation: spin 0.8s linear infinite; display: inline-block; vertical-align: middle;
+    }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .chart-bar-wrap { background: #F7F7F7; border-radius: 8px; overflow: hidden; }
-    .chart-bar { height: 22px; background: #FFF200; border-radius: 0 4px 4px 0; transition: width 0.5s; display: flex; align-items: center; padding-right: 8px; font-size: 0.72rem; font-weight: 700; color: #000; white-space: nowrap; min-width: 24px; }
-    .chart-label { font-size: 0.78rem; color: #444; min-width: 120px; }
-    .chart-count { font-size: 0.78rem; color: #666; min-width: 28px; text-align: left; }
-    .section-title { font-size: 1rem; font-weight: 800; color: #111; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-    .section-title::before { content: ''; display: inline-block; width: 4px; height: 18px; background: #FFF200; border-radius: 2px; }
-    .pagination-btn { border: 1px solid #E5E5E5; background: #fff; border-radius: 6px; padding: 4px 12px; cursor: pointer; font-size: 0.8rem; color: #333; }
-    .pagination-btn:hover:not(:disabled) { background: #FFF200; border-color: #FFF200; }
-    .pagination-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .pagination-btn.current-page { background: #000; color: #fff; border-color: #000; }
-    .priority-section { background: #fffde0; border: 1px solid #e6d900; border-radius: 12px; padding: 16px; }
-    .empty-state { text-align: center; padding: 32px; color: #999; font-size: 0.9rem; }
+    .section-label {
+      font-size: 0.72rem; font-weight: 700; color: #888;
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;
+    }
+
+    /* ---- PAGINATION ---- */
+    .page-btn {
+      border: 1px solid #E5E5E5; background: #fff;
+      border-radius: 6px; padding: 4px 11px;
+      cursor: pointer; font-size: 0.8rem; color: #333;
+    }
+    .page-btn:hover:not(:disabled) { background: #FFF200; border-color: #FFF200; }
+    .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .page-btn.curr { background: #000; color: #fff; border-color: #000; }
+
+    @media (max-width: 640px) {
+      .grad-header { grid-template-columns: 1fr 100px 36px; }
+      .grad-header .grad-phone,
+      .grad-header .grad-what { display: none; }
+      .grad-details.open { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
-<body class="min-h-screen">
+<body>
 
 <!-- HEADER -->
-<header class="sticky top-0 z-50 bg-black text-white px-6 py-3 flex items-center justify-between shadow-lg">
+<header class="bg-black text-white px-5 py-3 flex items-center justify-between sticky top-0 z-50">
   <div class="flex items-center gap-3">
-    <span class="text-lg font-black tracking-tight" style="color:#FFF200;">הופה</span>
-    <span class="text-white opacity-30 text-lg">|</span>
-    <span class="font-bold text-base">בוגרים מוצקין — לוח מנהל</span>
+    <span style="color:#FFF200;font-weight:900;font-size:1.15rem;letter-spacing:-0.5px">הופה</span>
+    <span style="color:#fff;opacity:0.2">|</span>
+    <span style="font-weight:600;font-size:0.9rem">בוגרים מוצקין</span>
   </div>
-  <div class="flex items-center gap-4">
+  <div class="flex items-center gap-3">
     <div id="spinner" class="spinner hidden"></div>
-    <span id="lastUpdated" class="text-xs opacity-50">טרם נטען</span>
-    <button class="btn-refresh" onclick="loadData()">⟳ רענן</button>
+    <span id="lastUpdated" style="font-size:0.72rem;color:#888">טרם נטען</span>
+    <button class="btn-yellow" onclick="loadData()">⟳ רענן</button>
   </div>
 </header>
 
-<main class="max-w-screen-xl mx-auto px-4 py-6 space-y-6">
+<!-- SEARCH HERO -->
+<div class="search-hero">
+  <div style="color:#fff;font-size:0.78rem;opacity:0.6;margin-bottom:12px">חיפוש בוגר</div>
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="שם, טלפון, עיר..." oninput="applyFilters()" autocomplete="off" />
+    <span id="searchCount" style="font-size:0.75rem;color:#aaa;white-space:nowrap"></span>
+  </div>
+</div>
 
-  <!-- KPI ROW -->
+<main style="max-width:900px;margin:0 auto;padding:20px 16px;display:flex;flex-direction:column;gap:20px;">
+
+  <!-- KPIs -->
   <section>
-    <div class="flex gap-3 flex-wrap">
+    <div class="kpi-grid">
       <div class="kpi-card kpi-accent">
-        <div class="kpi-number" id="kpi-total">—</div>
-        <div class="kpi-label">סה"כ בוגרים</div>
+        <div class="kpi-num" id="kpi-total">—</div>
+        <div class="kpi-lbl">סה"כ בוגרים</div>
       </div>
       <div class="kpi-card kpi-accent">
-        <div class="kpi-number" id="kpi-answered">—</div>
-        <div class="kpi-label">ענו לשאלון</div>
+        <div class="kpi-num" id="kpi-touched">—</div>
+        <div class="kpi-lbl">יש לנו מידע</div>
       </div>
       <div class="kpi-card kpi-accent">
-        <div class="kpi-number" id="kpi-hasinfo">—</div>
-        <div class="kpi-label">יש לנו מידע</div>
+        <div class="kpi-num" id="kpi-working">—</div>
+        <div class="kpi-lbl">עובדים</div>
       </div>
       <div class="kpi-card kpi-accent">
-        <div class="kpi-number" id="kpi-callback">—</div>
-        <div class="kpi-label">לחזור אליהם</div>
+        <div class="kpi-num" id="kpi-army">—</div>
+        <div class="kpi-lbl">בצבא</div>
       </div>
       <div class="kpi-card kpi-accent">
-        <div class="kpi-number" id="kpi-active">—</div>
-        <div class="kpi-label">בטיפול פעיל</div>
+        <div class="kpi-num" id="kpi-callback">—</div>
+        <div class="kpi-lbl">לחזור אליהם</div>
       </div>
       <div class="kpi-card kpi-accent">
-        <div class="kpi-number" id="kpi-thisweek">—</div>
-        <div class="kpi-label">שיחה הבאה השבוע</div>
+        <div class="kpi-num" id="kpi-thisweek">—</div>
+        <div class="kpi-lbl">שיחה השבוע</div>
       </div>
     </div>
   </section>
 
-  <!-- PRIORITY LIST -->
-  <section>
-    <div class="priority-section">
-      <div class="section-title">עדיפות לפעולה</div>
-      <div id="priorityList">
-        <div class="empty-state">טוען נתונים...</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MAIN TABLE -->
-  <section class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-    <div class="p-4 border-b border-gray-100">
-      <div class="section-title mb-3">טבלת כל הבוגרים</div>
-      <!-- Filters -->
-      <div class="flex flex-wrap gap-2 items-center">
-        <input type="text" id="searchInput" class="search-input" placeholder="🔍 חיפוש לפי שם..." oninput="applyFilters()" />
-
-        <div class="flex gap-1 flex-wrap items-center">
-          <span class="text-xs text-gray-400 ml-1">מה עושה:</span>
-          <button class="filter-btn active" onclick="setFilter('whatToday','',this)">הכל</button>
-          <button class="filter-btn" onclick="setFilter('whatToday','חייל',this)">חייל</button>
-          <button class="filter-btn" onclick="setFilter('whatToday','עובד',this)">עובד</button>
-          <button class="filter-btn" onclick="setFilter('whatToday','לא עובד',this)">לא עובד</button>
-          <button class="filter-btn" onclick="setFilter('whatToday','לימודים',this)">לימודים</button>
-          <button class="filter-btn" onclick="setFilter('whatToday','מכינה',this)">מכינה</button>
-        </div>
-
-        <div class="flex gap-1 flex-wrap items-center">
-          <span class="text-xs text-gray-400 ml-1">הערות:</span>
-          <button class="filter-btn active" onclick="setFilter('notes','',this)">הכל</button>
-          <button class="filter-btn" onclick="setFilter('notes','מחפש עבודה',this)">מחפש עבודה</button>
-          <button class="filter-btn" onclick="setFilter('notes','מלגה',this)">מלגה</button>
-          <button class="filter-btn" onclick="setFilter('notes','בגרויות',this)">בגרויות</button>
-          <button class="filter-btn" onclick="setFilter('notes','מסתדר',this)">מסתדר</button>
-          <button class="filter-btn" onclick="setFilter('notes','לחזור',this)">לחזור</button>
-        </div>
-
-        <div class="flex gap-1 flex-wrap items-center">
-          <span class="text-xs text-gray-400 ml-1">מידע:</span>
-          <button class="filter-btn active" onclick="setFilter('hasInfo','',this)">הכל</button>
-          <button class="filter-btn" onclick="setFilter('hasInfo','yes',this)">יש מידע</button>
-          <button class="filter-btn" onclick="setFilter('hasInfo','no',this)">אין מידע</button>
-        </div>
-
-        <span class="text-xs text-gray-400 mr-auto" id="resultsCount"></span>
+  <!-- TABS -->
+  <section style="background:#fff;border-radius:16px;border:1px solid #E5E5E5;overflow:hidden;">
+    <div style="padding:16px 20px 0;">
+      <div class="tabs" id="tabs">
+        <div class="tab active" onclick="switchTab('graduates',this)">📋 כל הבוגרים</div>
+        <div class="tab" onclick="switchTab('priority',this)">⚡ דחופים</div>
+        <div class="tab" onclick="switchTab('birthdays',this)">🎂 ימי הולדת</div>
       </div>
     </div>
 
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th style="min-width:120px">שם מלא</th>
-            <th style="min-width:110px">טלפון</th>
-            <th style="min-width:80px">מה עושה</th>
-            <th style="min-width:140px">הערות / צרכים</th>
-            <th style="min-width:95px">שיחה אחרונה</th>
-            <th style="min-width:95px">שיחה הבאה</th>
-            <th style="min-width:120px">אימפקט</th>
-            <th style="min-width:70px">פעולה</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody">
-          <tr><td colspan="8" class="empty-state">טוען נתונים מ-Monday.com...</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <!-- TAB: GRADUATES -->
+    <div id="tab-graduates" style="padding:16px 20px;">
 
-    <!-- Pagination -->
-    <div class="p-4 border-t border-gray-100 flex items-center justify-between">
-      <button class="pagination-btn" id="prevBtn" onclick="changePage(-1)" disabled>→ הקודם</button>
-      <div class="flex gap-1 flex-wrap justify-center" id="pageButtons"></div>
-      <button class="pagination-btn" id="nextBtn" onclick="changePage(1)">הבא ←</button>
-    </div>
-  </section>
-
-  <!-- CHARTS -->
-  <section>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
-        <div class="section-title">מה עושים</div>
-        <div id="chartWhatToday" class="space-y-2"></div>
+      <!-- Filter chips -->
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;align-items:center;">
+        <span style="font-size:0.75rem;color:#888">מה עושה:</span>
+        <div class="chip active" onclick="setFilter('what','',this)">הכל</div>
+        <div class="chip" onclick="setFilter('what','חייל',this)">חייל/ת</div>
+        <div class="chip" onclick="setFilter('what','עובד',this)">עובד/ת</div>
+        <div class="chip" onclick="setFilter('what','לימודים',this)">לימודים</div>
+        <div class="chip" onclick="setFilter('what','לא עובד',this)">לא עובד</div>
+        <div class="chip" onclick="setFilter('what','מכינה',this)">מכינה</div>
+        <div id="resCount" style="margin-right:auto;font-size:0.75rem;color:#999"></div>
       </div>
-      <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
-        <div class="section-title">הערות ומעקב</div>
-        <div id="chartNotes" class="space-y-2"></div>
+
+      <!-- List -->
+      <div id="gradList">
+        <div class="empty-txt">טוען נתונים מ-Monday.com...</div>
+      </div>
+
+      <!-- Pagination -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;" id="paginationWrap">
+        <button class="page-btn" id="prevBtn" onclick="changePage(-1)" disabled>→ הקודם</button>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;" id="pageButtons"></div>
+        <button class="page-btn" id="nextBtn" onclick="changePage(1)">הבא ←</button>
       </div>
     </div>
+
+    <!-- TAB: PRIORITY -->
+    <div id="tab-priority" style="padding:16px 20px;display:none;">
+      <div id="priorityList"><div class="empty-txt">טוען...</div></div>
+    </div>
+
+    <!-- TAB: BIRTHDAYS -->
+    <div id="tab-birthdays" style="padding:16px 20px;display:none;">
+      <div id="birthdayList"><div class="empty-txt">טוען...</div></div>
+    </div>
+
   </section>
 
 </main>
@@ -201,443 +295,439 @@
 <script>
 const MONDAY_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjU1MTE3ODY0MCwiYWFpIjoxMSwidWlkIjo3OTYwODg1MSwiaWFkIjoiMjAyNS0wOC0xN1QxNDoyMjowMS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MzA3Mjc0MDAsInJnbiI6ImV1YzEifQ.v08TgFNEtd9pBcws4lpRs-8TVxAW3YBAuOOPP3IYo4Q';
 const BOARD_ID = '5090710409';
-const MONDAY_URL = 'https://api.monday.com/v2';
+const API_URL  = 'https://api.monday.com/v2';
 
-const COLS = {
-  lastName:      'text_mkvbye47',
-  phone:         'phone_mkvb5qwz',
-  phoneText:     'text_mm0vv7rt',
-  gender:        'text_mkvwa8nb',
-  year:          'color_mm0mssvc',
-  city:          'text_mkvwnmm4',
-  major:         'color_mm0mjsj8',
-  service:       'color_mkw0rdsg',
-  whatToday:     'color_mkw4et1p',
-  impact:        'color_mkvwbt7y',
-  notes:         'dropdown_mm0p4kps',
-  hopaNotesText: 'long_text_mkw0p90p',
-  lastTalk:      'date_mkvw1gnh',
-  nextTalk:      'date_mkvw7ytx',
-  formSent:      'color_mkvx5qmw',
-  msgSent:       'color_mkw4mej6',
-  answeredQ:     'color_mm0p98aw',
-  draftDate:     'date_mkvbrabr',
-  releaseDate:   'date_mkvw8jcj',
+// Column IDs — Motzkin specific
+const C = {
+  lastName:   'text_mkvbye47',
+  phone:      'phone_mkvb5qwz',
+  phoneText:  'text_mm0vv7rt',
+  gender:     'text_mkvwa8nb',
+  year:       'color_mm0mssvc',
+  city:       'text_mkvwnmm4',
+  major:      'color_mm0mjsj8',
+  service:    'color_mkw0rdsg',
+  whatToday:  'color_mkw4et1p',
+  impact:     'color_mkvwbt7y',
+  notes:      'dropdown_mm0p4kps',
+  hopaNotes:  'long_text_mkw0p90p',
+  lastTalk:   'date_mkvw1gnh',
+  nextTalk:   'date_mkvw7ytx',
+  answeredQ:  'color_mm0p98aw',
+  birthday:   'date_mkbday000',  // ← עדכן ל-ID האמיתי של עמודת יום הולדת
 };
 
-let allGraduates = [];
-let filteredGraduates = [];
-let currentPage = 1;
-const PAGE_SIZE = 30;
+let ALL = [];
+let FILTERED = [];
+let PAGE = 1;
+const PER_PAGE = 25;
+const FILTERS = { what: '' };
 
-// Active filters state
-const activeFilters = { whatToday: '', notes: '', hasInfo: '' };
-// Track filter button groups
-const filterGroups = { whatToday: null, notes: null, hasInfo: null };
-
-function setFilter(type, value, btn) {
-  activeFilters[type] = value;
-  // Update button states for this group
-  const groupKey = type;
-  const allBtns = btn.parentElement.querySelectorAll('.filter-btn');
-  allBtns.forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  currentPage = 1;
-  applyFilters();
-}
-
-function getColValue(item, colId) {
-  if (!item.column_values) return '';
-  const col = item.column_values.find(c => c.id === colId);
-  if (!col) return '';
-  // For color/status columns, use text
-  if (col.text !== undefined && col.text !== null) return col.text.trim();
-  return '';
-}
-
-function getDropdownValue(item, colId) {
-  if (!item.column_values) return '';
-  const col = item.column_values.find(c => c.id === colId);
-  if (!col) return '';
-  // dropdown: value is JSON with "chosenValues" or text
-  if (col.text) return col.text.trim();
+// ─── Helpers ─────────────────────────────────────────────
+function colText(item, id) {
+  const c = (item.column_values||[]).find(x=>x.id===id);
+  if (!c) return '';
+  if (c.text) return c.text.trim();
   try {
-    const v = JSON.parse(col.value);
-    if (v && v.chosenValues) return v.chosenValues.map(x => x.name).join(', ');
-  } catch(e) {}
+    const v = JSON.parse(c.value||'{}');
+    if (v && v.chosenValues) return v.chosenValues.map(x=>x.name).join(', ');
+  } catch(e){}
   return '';
 }
 
-function getDateValue(item, colId) {
-  if (!item.column_values) return '';
-  const col = item.column_values.find(c => c.id === colId);
-  if (!col || !col.text) return '';
-  // Monday returns YYYY-MM-DD
-  return col.text.trim();
+function colDate(item, id) {
+  const c = (item.column_values||[]).find(x=>x.id===id);
+  return c&&c.text ? c.text.trim() : '';
 }
 
 function parseDate(str) {
   if (!str) return null;
-  // YYYY-MM-DD
   const m = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if (m) return new Date(parseInt(m[1]), parseInt(m[2])-1, parseInt(m[3]));
-  return null;
+  return m ? new Date(+m[1], +m[2]-1, +m[3]) : null;
 }
 
-function formatDate(str) {
-  if (!str) return '—';
+function fmtDate(str) {
   const d = parseDate(str);
-  if (!d) return '—';
-  return d.toLocaleDateString('he-IL', { day:'2-digit', month:'2-digit', year:'numeric' });
+  return d ? d.toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'}) : '—';
 }
 
-function parseItem(item) {
-  const phone = getColValue(item, COLS.phone) || getColValue(item, COLS.phoneText);
-  return {
-    id: item.id,
-    name: item.name || '',
-    lastName: getColValue(item, COLS.lastName),
-    phone: phone,
-    gender: getColValue(item, COLS.gender),
-    year: getColValue(item, COLS.year),
-    city: getColValue(item, COLS.city),
-    major: getColValue(item, COLS.major),
-    service: getColValue(item, COLS.service),
-    whatToday: getColValue(item, COLS.whatToday),
-    impact: getColValue(item, COLS.impact),
-    notes: getDropdownValue(item, COLS.notes),
-    hopaNotes: getColValue(item, COLS.hopaNotesText),
-    lastTalk: getDateValue(item, COLS.lastTalk),
-    nextTalk: getDateValue(item, COLS.nextTalk),
-    formSent: getColValue(item, COLS.formSent),
-    answeredQ: getColValue(item, COLS.answeredQ),
-  };
+function esc(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-function hasInfo(g) {
-  return !!(g.whatToday || g.notes || g.impact || g.lastTalk || g.hopaNotes);
-}
-
-function mondayUrl(id) {
+function mondayLink(id) {
   return `https://hopa-org.monday.com/boards/${BOARD_ID}/pulses/${id}`;
 }
 
+function parseItem(item) {
+  const phone = colText(item,C.phone)||colText(item,C.phoneText);
+  return {
+    id: item.id,
+    name: item.name||'',
+    lastName: colText(item,C.lastName),
+    fullName: [item.name, colText(item,C.lastName)].filter(Boolean).join(' ')||'—',
+    phone,
+    gender: colText(item,C.gender),
+    year: colText(item,C.year),
+    city: colText(item,C.city),
+    major: colText(item,C.major),
+    service: colText(item,C.service),
+    whatToday: colText(item,C.whatToday),
+    impact: colText(item,C.impact),
+    notes: colText(item,C.notes),
+    hopaNotes: colText(item,C.hopaNotes),
+    lastTalk: colDate(item,C.lastTalk),
+    nextTalk: colDate(item,C.nextTalk),
+    birthday: colDate(item,C.birthday),
+  };
+}
+
+function isTouched(g) {
+  return !!(g.whatToday||g.notes||g.impact||g.lastTalk||g.hopaNotes);
+}
+
+function isWorking(g) {
+  const w=(g.whatToday||'').toLowerCase();
+  return w.includes('עובד')||w.includes('עבודה')||w.includes('בעל עסק');
+}
+
+function isArmy(g) {
+  return (g.whatToday||'').includes('חייל')||(g.service||'').includes('מ"ל');
+}
+
+// ─── Status badge ─────────────────────────────────────────
+function whatBadge(w) {
+  if (!w) return '';
+  if (w.includes('חייל')||w.includes('צבא')) return `<span class="badge badge-blue">${esc(w)}</span>`;
+  if (isWorking({whatToday:w})) return `<span class="badge badge-green">${esc(w)}</span>`;
+  if (w.includes('לימוד')||w.includes('מכינה')) return `<span class="badge badge-orange">${esc(w)}</span>`;
+  return `<span class="badge badge-gray">${esc(w)}</span>`;
+}
+
+// ─── API ──────────────────────────────────────────────────
 async function fetchPage(cursor) {
-  const cursorPart = cursor ? `, cursor: "${cursor}"` : '';
-  const query = `{
-    boards(ids: [${BOARD_ID}]) {
-      items_page(limit: 500${cursorPart}) {
+  const cp = cursor ? `, cursor: "${cursor}"` : '';
+  const ids = Object.values(C).map(id=>`"${id}"`).join(',');
+  const q = `{
+    boards(ids:[${BOARD_ID}]) {
+      items_page(limit:500${cp}) {
         cursor
-        items {
-          id
-          name
-          column_values(ids: [
-            "${COLS.lastName}",
-            "${COLS.phone}",
-            "${COLS.phoneText}",
-            "${COLS.gender}",
-            "${COLS.year}",
-            "${COLS.city}",
-            "${COLS.major}",
-            "${COLS.service}",
-            "${COLS.whatToday}",
-            "${COLS.impact}",
-            "${COLS.notes}",
-            "${COLS.hopaNotesText}",
-            "${COLS.lastTalk}",
-            "${COLS.nextTalk}",
-            "${COLS.formSent}",
-            "${COLS.answeredQ}"
-          ]) {
-            id
-            text
-            value
-          }
-        }
+        items { id name column_values(ids:[${ids}]) { id text value } }
       }
     }
   }`;
-
-  const resp = await fetch(MONDAY_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': MONDAY_TOKEN,
-      'API-Version': '2024-10',
-    },
-    body: JSON.stringify({ query }),
+  const r = await fetch(API_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':MONDAY_TOKEN,'API-Version':'2024-10'},
+    body:JSON.stringify({query:q}),
   });
-  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-  const data = await resp.json();
-  if (data.errors) throw new Error(data.errors[0].message);
-  const page = data.data.boards[0].items_page;
-  return { items: page.items, cursor: page.cursor };
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  const d = await r.json();
+  if (d.errors) throw new Error(d.errors[0].message);
+  const pg = d.data.boards[0].items_page;
+  return {items:pg.items, cursor:pg.cursor};
 }
 
 async function loadData() {
-  const spinner = document.getElementById('spinner');
-  spinner.classList.remove('hidden');
-  document.getElementById('tableBody').innerHTML = '<tr><td colspan="8" class="empty-state">טוען נתונים מ-Monday.com...</td></tr>';
-  document.getElementById('priorityList').innerHTML = '<div class="empty-state">טוען...</div>';
-
+  document.getElementById('spinner').classList.remove('hidden');
+  document.getElementById('gradList').innerHTML = '<div class="empty-txt">טוען...</div>';
   try {
-    let all = [];
-    let cursor = null;
+    let items=[], cursor=null;
     do {
-      const { items, cursor: newCursor } = await fetchPage(cursor);
-      all = all.concat(items);
-      cursor = newCursor;
-    } while (cursor);
+      const r = await fetchPage(cursor);
+      items = items.concat(r.items);
+      cursor = r.cursor;
+    } while(cursor);
 
-    allGraduates = all.map(parseItem);
-    filteredGraduates = [...allGraduates];
-    currentPage = 1;
+    ALL = items.map(parseItem);
+    FILTERED = [...ALL];
+    PAGE = 1;
 
     updateKPIs();
-    renderPriority();
     applyFilters();
-    renderCharts();
+    renderPriority();
+    renderBirthdays();
 
     const now = new Date();
     document.getElementById('lastUpdated').textContent =
-      'עודכן: ' + now.toLocaleTimeString('he-IL', { hour:'2-digit', minute:'2-digit' });
+      'עודכן ' + now.toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
   } catch(e) {
-    document.getElementById('tableBody').innerHTML =
-      `<tr><td colspan="8" class="empty-state text-red-400">שגיאה בטעינה: ${e.message}</td></tr>`;
-    document.getElementById('priorityList').innerHTML =
-      `<div class="empty-state text-red-400">שגיאה: ${e.message}</div>`;
-    console.error(e);
+    document.getElementById('gradList').innerHTML =
+      `<div class="empty-txt" style="color:#e00">שגיאה: ${esc(e.message)}</div>`;
   } finally {
-    spinner.classList.add('hidden');
+    document.getElementById('spinner').classList.add('hidden');
   }
 }
 
+// ─── KPIs ─────────────────────────────────────────────────
 function updateKPIs() {
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  const weekAhead = new Date(today); weekAhead.setDate(weekAhead.getDate() + 7);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const w7 = new Date(today); w7.setDate(w7.getDate()+7);
 
-  const total = allGraduates.length;
-  const answered = allGraduates.filter(g => g.answeredQ === 'כן').length;
-  const withInfo = allGraduates.filter(hasInfo).length;
-  const callback = allGraduates.filter(g => {
-    const notes = (g.notes || '').toLowerCase();
-    const hasCallback = notes.includes('לחזור');
-    const nextDate = parseDate(g.nextTalk);
-    return hasCallback || (nextDate && nextDate >= today);
-  }).length;
-  const activeImpact = allGraduates.filter(g => g.impact === 'בתהליך טיפול').length;
-  const thisWeek = allGraduates.filter(g => {
+  const callback = ALL.filter(g => {
     const d = parseDate(g.nextTalk);
-    return d && d >= today && d <= weekAhead;
+    return (g.notes||'').includes('לחזור') || (d && d >= today);
   }).length;
 
-  document.getElementById('kpi-total').textContent = total;
-  document.getElementById('kpi-answered').textContent = answered;
-  document.getElementById('kpi-hasinfo').textContent = withInfo;
+  document.getElementById('kpi-total').textContent = ALL.length;
+  document.getElementById('kpi-touched').textContent = ALL.filter(isTouched).length;
+  document.getElementById('kpi-working').textContent = ALL.filter(isWorking).length;
+  document.getElementById('kpi-army').textContent = ALL.filter(isArmy).length;
   document.getElementById('kpi-callback').textContent = callback;
-  document.getElementById('kpi-active').textContent = activeImpact;
-  document.getElementById('kpi-thisweek').textContent = thisWeek;
+  document.getElementById('kpi-thisweek').textContent = ALL.filter(g=>{
+    const d = parseDate(g.nextTalk);
+    return d && d>=today && d<=w7;
+  }).length;
 }
 
-function renderPriority() {
-  const today = new Date();
-  today.setHours(0,0,0,0);
-
-  const priority = allGraduates.filter(g => {
-    const nextDate = parseDate(g.nextTalk);
-    const overdue = nextDate && nextDate < today;
-    const needsCallback = (g.notes || '').includes('לחזור') && !g.nextTalk;
-    return overdue || needsCallback;
-  }).slice(0, 8);
-
-  const container = document.getElementById('priorityList');
-  if (priority.length === 0) {
-    container.innerHTML = '<div class="empty-state" style="color:#666;">אין פעולות דחופות כרגע 👍</div>';
-    return;
-  }
-
-  container.innerHTML = priority.map(g => {
-    const nextDate = parseDate(g.nextTalk);
-    const today2 = new Date(); today2.setHours(0,0,0,0);
-    const overdue = nextDate && nextDate < today2;
-    const fullName = [g.name, g.lastName].filter(Boolean).join(' ') || '—';
-    const phone = g.phone || '—';
-    const noteTag = g.notes ? `<span class="tag tag-gray">${escHtml(g.notes)}</span>` : '';
-    const overdueTag = overdue ? `<span class="tag tag-red">פגה תוקף</span>` : `<span class="tag tag-yellow">לחזור</span>`;
-    const nextStr = g.nextTalk ? formatDate(g.nextTalk) : '—';
-
-    return `<div class="priority-row">
-      <span style="font-weight:700;min-width:120px">${escHtml(fullName)}</span>
-      <span style="color:#666;font-size:0.8rem;min-width:105px;direction:ltr;unicode-bidi:isolate">${escHtml(phone)}</span>
-      <span style="min-width:120px">${noteTag}</span>
-      <span style="min-width:90px;color:#555;">${nextStr}</span>
-      ${overdueTag}
-      <a href="${mondayUrl(g.id)}" target="_blank" class="btn-monday mr-auto">פתח ב-Monday ↗</a>
-    </div>`;
-  }).join('');
+// ─── Filters ──────────────────────────────────────────────
+function setFilter(type, val, btn) {
+  FILTERS[type] = val;
+  btn.closest('.tabs, div').querySelectorAll('.chip').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  PAGE = 1;
+  applyFilters();
 }
 
 function applyFilters() {
-  const search = (document.getElementById('searchInput').value || '').trim().toLowerCase();
-  const { whatToday, notes, hasInfo: infoFilter } = activeFilters;
-
-  filteredGraduates = allGraduates.filter(g => {
-    const fullName = ([g.name, g.lastName].filter(Boolean).join(' ')).toLowerCase();
-    if (search && !fullName.includes(search)) return false;
-    if (whatToday && !(g.whatToday || '').includes(whatToday)) return false;
-    if (notes && !(g.notes || '').includes(notes)) return false;
-    if (infoFilter === 'yes' && !hasInfo(g)) return false;
-    if (infoFilter === 'no' && hasInfo(g)) return false;
+  const search = (document.getElementById('searchInput').value||'').trim().toLowerCase();
+  FILTERED = ALL.filter(g => {
+    if (search) {
+      const hay = (g.fullName+' '+g.phone+' '+g.city).toLowerCase();
+      if (!hay.includes(search)) return false;
+    }
+    if (FILTERS.what && !(g.whatToday||'').includes(FILTERS.what)) return false;
     return true;
   });
-
-  currentPage = 1;
-  renderTable();
-  document.getElementById('resultsCount').textContent = `${filteredGraduates.length} מתוך ${allGraduates.length}`;
+  PAGE = 1;
+  renderList();
+  document.getElementById('searchCount').textContent =
+    search||FILTERS.what ? `${FILTERED.length} תוצאות` : '';
+  document.getElementById('resCount').textContent =
+    FILTERED.length < ALL.length ? `${FILTERED.length} מתוך ${ALL.length}` : `${ALL.length} בוגרים`;
 }
 
-function renderTable() {
+// ─── Graduate list ────────────────────────────────────────
+function renderList() {
   const today = new Date(); today.setHours(0,0,0,0);
-  const weekAhead = new Date(today); weekAhead.setDate(weekAhead.getDate() + 7);
+  const start = (PAGE-1)*PER_PAGE;
+  const slice = FILTERED.slice(start, start+PER_PAGE);
+  const container = document.getElementById('gradList');
 
-  const start = (currentPage - 1) * PAGE_SIZE;
-  const page = filteredGraduates.slice(start, start + PAGE_SIZE);
-  const tbody = document.getElementById('tableBody');
-
-  if (page.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="8" class="empty-state">לא נמצאו בוגרים התואמים לסינון</td></tr>';
+  if (!slice.length) {
+    container.innerHTML = '<div class="empty-txt">לא נמצאו בוגרים</div>';
     renderPagination();
     return;
   }
 
-  tbody.innerHTML = page.map(g => {
-    const nextDate = parseDate(g.nextTalk);
-    const overdue = nextDate && nextDate < today;
-    const thisWeek = nextDate && nextDate >= today && nextDate <= weekAhead;
-    const impactFilled = !!g.impact;
+  container.innerHTML = slice.map((g,i) => {
+    const overdue = parseDate(g.nextTalk) && parseDate(g.nextTalk) < today;
+    const borderColor = overdue ? 'border-color:#FFE8E8;' : '';
 
-    let rowClass = '';
-    if (overdue) rowClass = 'table-row-overdue';
-    else if (thisWeek) rowClass = 'table-row-thisweek';
-    else if (impactFilled) rowClass = 'table-row-impact';
+    const noteBadge = g.notes ? `<span class="badge badge-gray">${esc(g.notes.split(',')[0].trim())}</span>` : '';
+    const impactBadge = g.impact ? `<span class="badge badge-green">${esc(g.impact)}</span>` : '';
 
-    const fullName = [g.name, g.lastName].filter(Boolean).join(' ') || '<span class="no-data">—</span>';
-    const phone = g.phone
-      ? `<span style="direction:ltr;unicode-bidi:isolate;font-size:0.8rem">${escHtml(g.phone)}</span>`
-      : '<span class="no-data">—</span>';
-    const whatTodayDisplay = g.whatToday || '<span class="no-data">—</span>';
-    const notesDisplay = g.notes ? `<span class="tag tag-gray" style="white-space:normal;max-width:160px">${escHtml(g.notes)}</span>` : '<span class="no-data">—</span>';
-    const lastTalkDisplay = g.lastTalk ? formatDate(g.lastTalk) : '<span class="no-data">—</span>';
-    const nextTalkDisplay = g.nextTalk
-      ? `<span style="${overdue?'color:#c00;font-weight:700':thisWeek?'color:#7a6a00;font-weight:700':''}">${formatDate(g.nextTalk)}</span>`
-      : '<span class="no-data">—</span>';
-    const impactDisplay = g.impact
-      ? `<span class="tag tag-green">${escHtml(g.impact)}</span>`
-      : '<span class="no-data">—</span>';
-
-    return `<tr class="${rowClass}" onclick="window.open('${mondayUrl(g.id)}','_blank')">
-      <td style="font-weight:600">${fullName}</td>
-      <td>${phone}</td>
-      <td>${escHtml(g.whatToday) || '<span class="no-data">—</span>'}</td>
-      <td>${notesDisplay}</td>
-      <td>${lastTalkDisplay}</td>
-      <td>${nextTalkDisplay}</td>
-      <td>${impactDisplay}</td>
-      <td><a href="${mondayUrl(g.id)}" target="_blank" class="btn-monday" onclick="event.stopPropagation()">↗</a></td>
-    </tr>`;
+    return `<div class="grad-row" id="row-${start+i}" style="${borderColor}">
+      <div class="grad-header" onclick="toggleRow(${start+i})">
+        <div>
+          <div class="grad-name">${esc(g.fullName)}</div>
+          ${noteBadge||impactBadge ? `<div style="margin-top:3px">${noteBadge}${impactBadge?` ${impactBadge}`:''}</div>` : ''}
+        </div>
+        <div class="grad-phone">${esc(g.phone)||'—'}</div>
+        <div style="font-size:0.8rem">${whatBadge(g.whatToday)}</div>
+        <div style="font-size:0.75rem;color:#888">
+          ${g.nextTalk ? `<span style="${overdue?'color:#c00;font-weight:700':''}">שיחה: ${fmtDate(g.nextTalk)}</span>` : g.lastTalk ? `אחרונה: ${fmtDate(g.lastTalk)}` : ''}
+        </div>
+        <div style="font-size:1rem;color:#bbb;text-align:center">▾</div>
+      </div>
+      <div class="grad-details" id="details-${start+i}">
+        ${detailGrid(g)}
+      </div>
+    </div>`;
   }).join('');
 
   renderPagination();
 }
 
-function renderPagination() {
-  const totalPages = Math.ceil(filteredGraduates.length / PAGE_SIZE);
-  const prev = document.getElementById('prevBtn');
-  const next = document.getElementById('nextBtn');
-  prev.disabled = currentPage <= 1;
-  next.disabled = currentPage >= totalPages;
+function detailGrid(g) {
+  const rows = [
+    ['שנת סיום', g.year],
+    ['עיר', g.city],
+    ['מגמה', g.major],
+    ['שירות', g.service],
+    ['שיחה אחרונה', fmtDate(g.lastTalk)],
+    ['שיחה הבאה', fmtDate(g.nextTalk)],
+    ['ענה לשאלון', g.answeredQ||'—'],
+    ['הערות', g.hopaNotes],
+  ].filter(r=>r[1]);
 
-  const pagesContainer = document.getElementById('pageButtons');
-  pagesContainer.innerHTML = '';
-  const range = [];
-  for (let i = 1; i <= totalPages; i++) {
-    if (i === 1 || i === totalPages || Math.abs(i - currentPage) <= 1) range.push(i);
-    else if (range[range.length-1] !== '...') range.push('...');
-  }
-  range.forEach(p => {
-    if (p === '...') {
-      const span = document.createElement('span');
-      span.textContent = '...';
-      span.className = 'text-gray-400 px-1 text-sm';
-      pagesContainer.appendChild(span);
-    } else {
-      const btn = document.createElement('button');
-      btn.textContent = p;
-      btn.className = 'pagination-btn' + (p === currentPage ? ' current-page' : '');
-      btn.onclick = () => { currentPage = p; renderTable(); };
-      pagesContainer.appendChild(btn);
+  const fields = rows.map(([lbl,val])=>`
+    <div class="detail-item">
+      <div class="detail-label">${lbl}</div>
+      <div class="detail-value">${esc(val)}</div>
+    </div>`).join('');
+
+  return `${fields}
+    <div class="detail-item" style="grid-column:1/-1;margin-top:4px;">
+      <a href="${mondayLink(g.id)}" target="_blank" class="btn-monday">פתח ב-Monday ↗</a>
+    </div>`;
+}
+
+function toggleRow(idx) {
+  const d = document.getElementById(`details-${idx}`);
+  d.classList.toggle('open');
+}
+
+// ─── Pagination ───────────────────────────────────────────
+function renderPagination() {
+  const total = Math.ceil(FILTERED.length / PER_PAGE);
+  document.getElementById('prevBtn').disabled = PAGE<=1;
+  document.getElementById('nextBtn').disabled = PAGE>=total;
+
+  const pb = document.getElementById('pageButtons');
+  pb.innerHTML = '';
+  for (let i=1;i<=total;i++) {
+    if (i===1||i===total||Math.abs(i-PAGE)<=1) {
+      const b = document.createElement('button');
+      b.textContent = i;
+      b.className = 'page-btn'+(i===PAGE?' curr':'');
+      b.onclick = ()=>{PAGE=i;renderList();};
+      pb.appendChild(b);
+    } else if (pb.lastChild&&pb.lastChild.textContent!=='...') {
+      const s=document.createElement('span');
+      s.textContent='...'; s.style.cssText='padding:4px 4px;color:#aaa;font-size:0.8rem;';
+      pb.appendChild(s);
     }
-  });
+  }
+
+  document.getElementById('paginationWrap').style.display = total<=1 ? 'none' : 'flex';
 }
 
 function changePage(dir) {
-  const totalPages = Math.ceil(filteredGraduates.length / PAGE_SIZE);
-  currentPage = Math.max(1, Math.min(totalPages, currentPage + dir));
-  renderTable();
+  const total = Math.ceil(FILTERED.length / PER_PAGE);
+  PAGE = Math.max(1, Math.min(total, PAGE+dir));
+  renderList();
 }
 
-function renderCharts() {
-  // whatToday chart
-  const whatMap = {};
-  allGraduates.forEach(g => {
-    const k = g.whatToday || 'לא ידוע';
-    whatMap[k] = (whatMap[k] || 0) + 1;
-  });
-  renderBarChart('chartWhatToday', whatMap);
+// ─── Priority tab ─────────────────────────────────────────
+function renderPriority() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const list = ALL.filter(g=>{
+    const d = parseDate(g.nextTalk);
+    return (d && d < today) || ((g.notes||'').includes('לחזור') && !g.nextTalk);
+  }).slice(0,12);
 
-  // notes chart
-  const notesMap = {};
-  allGraduates.forEach(g => {
-    if (g.notes) {
-      g.notes.split(',').forEach(n => {
-        const k = n.trim();
-        if (k) notesMap[k] = (notesMap[k] || 0) + 1;
-      });
+  const c = document.getElementById('priorityList');
+  if (!list.length) {
+    c.innerHTML = '<div class="empty-txt">אין פעולות דחופות כרגע 👍</div>';
+    return;
+  }
+  c.innerHTML = `<div class="section-label">בוגרים שמחכים לחזרה</div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+    ${list.map(g=>{
+      const d = parseDate(g.nextTalk);
+      const overdue = d && d < today;
+      return `<div class="priority-item">
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:0.88rem">${esc(g.fullName)}</div>
+          ${g.notes ? `<div style="font-size:0.75rem;color:#888;margin-top:1px">${esc(g.notes)}</div>` : ''}
+        </div>
+        <div style="font-size:0.75rem;color:${overdue?'#c00':'#666'};white-space:nowrap">
+          ${g.nextTalk ? fmtDate(g.nextTalk) : 'אין תאריך'}
+        </div>
+        ${overdue ? '<span class="badge badge-red">פגה תוקף</span>' : '<span class="badge badge-yellow">לחזור</span>'}
+        <a href="${mondayLink(g.id)}" target="_blank" class="btn-monday">↗</a>
+      </div>`;
+    }).join('')}
+    </div>`;
+}
+
+// ─── Birthdays tab ────────────────────────────────────────
+const HE_MONTHS = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
+
+function renderBirthdays() {
+  const container = document.getElementById('birthdayList');
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  // Filter graduates with birthday data
+  const withBday = ALL.filter(g => g.birthday);
+
+  if (!withBday.length) {
+    container.innerHTML = `
+      <div class="empty-txt" style="padding:40px 16px;">
+        <div style="font-size:2rem;margin-bottom:8px">🎂</div>
+        <div style="font-weight:600;color:#555;margin-bottom:6px">לא נמצאה עמודת ימי הולדת</div>
+        <div style="font-size:0.8rem;color:#aaa">יש להוסיף עמודת תאריך של יום הולדת בלוח Monday.com<br>ולעדכן את ה-ID בקוד (C.birthday)</div>
+      </div>`;
+    return;
+  }
+
+  // Upcoming 60 days
+  const d60 = new Date(today); d60.setDate(d60.getDate()+60);
+  const upcoming = [];
+  const past = [];
+
+  withBday.forEach(g => {
+    const bday = parseDate(g.birthday);
+    if (!bday) return;
+    // Compare month+day
+    const thisYear = new Date(today.getFullYear(), bday.getMonth(), bday.getDate());
+    if (thisYear >= today && thisYear <= d60) {
+      upcoming.push({...g, bdayDate: thisYear, daysLeft: Math.round((thisYear-today)/(86400000))});
     } else {
-      notesMap['ללא הערה'] = (notesMap['ללא הערה'] || 0) + 1;
+      // Try next year
+      const nextYear = new Date(today.getFullYear()+1, bday.getMonth(), bday.getDate());
+      if (nextYear >= today && nextYear <= new Date(d60.getTime()+365*86400000)) {
+        upcoming.push({...g, bdayDate: nextYear, daysLeft: Math.round((nextYear-today)/(86400000))});
+      } else {
+        past.push({...g, bdayDate: thisYear});
+      }
     }
   });
-  renderBarChart('chartNotes', notesMap);
-}
 
-function renderBarChart(containerId, map) {
-  const container = document.getElementById(containerId);
-  const sorted = Object.entries(map).sort((a,b) => b[1]-a[1]);
-  const maxVal = sorted.length ? sorted[0][1] : 1;
+  upcoming.sort((a,b) => a.daysLeft - b.daysLeft);
 
-  container.innerHTML = sorted.map(([label, count]) => {
-    const pct = Math.max(4, Math.round((count / maxVal) * 100));
-    return `<div class="flex items-center gap-2">
-      <span class="chart-label text-right">${escHtml(label)}</span>
-      <div class="flex-1 chart-bar-wrap">
-        <div class="chart-bar" style="width:${pct}%">${count}</div>
-      </div>
-      <span class="chart-count">${count}</span>
+  let html = `<div class="section-label">ימי הולדת קרובים (60 יום הקרובים)</div>`;
+  if (!upcoming.length) {
+    html += '<div style="color:#aaa;font-size:0.85rem;margin-bottom:20px">אין ימי הולדת בחודשיים הקרובים</div>';
+  } else {
+    html += `<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+      ${upcoming.map(g=>{
+        const isToday = g.daysLeft === 0;
+        const isSoon = g.daysLeft <= 7;
+        return `<div class="bday-card" style="${isToday?'border-color:#FFF200;':''}">
+          <div class="bday-date-box">
+            <div class="bday-day">${g.bdayDate.getDate()}</div>
+            <div class="bday-month">${HE_MONTHS[g.bdayDate.getMonth()]}</div>
+          </div>
+          <div style="flex:1">
+            <div style="font-weight:700;font-size:0.9rem">${esc(g.fullName)}</div>
+            <div style="font-size:0.75rem;color:#888;margin-top:2px">
+              ${isToday ? '🎉 היום!' : isSoon ? `בעוד ${g.daysLeft} ימים` : `בעוד ${g.daysLeft} ימים`}
+              ${g.phone ? ` · ${esc(g.phone)}` : ''}
+            </div>
+          </div>
+          ${isToday ? '<span class="badge badge-yellow">היום!</span>' : ''}
+          ${isSoon&&!isToday ? '<span class="badge badge-orange">השבוע</span>' : ''}
+          <a href="${mondayLink(g.id)}" target="_blank" class="btn-monday">↗</a>
+        </div>`;
+      }).join('')}
     </div>`;
-  }).join('');
+  }
+
+  container.innerHTML = html;
 }
 
-function escHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
+// ─── Tabs ─────────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  ['graduates','priority','birthdays'].forEach(t=>{
+    document.getElementById('tab-'+t).style.display = t===name ? 'block' : 'none';
+  });
 }
 
-// Auto-load on page open
+// ─── Init ─────────────────────────────────────────────────
 loadData();
 </script>
 </body>
