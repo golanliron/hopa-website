@@ -499,6 +499,7 @@
               <option value="research">מחקר</option>
             </select>
             <select id="rf-sort" onchange="filterScannerResults()" class="inp text-sm" style="width:auto;padding:7px 12px;">
+              <option value="match">מיין: % התאמה</option>
               <option value="deadline">מיין: מועד אחרון</option>
               <option value="scraped">מיין: הכי חדש</option>
               <option value="source">מיין: מקור א-ב</option>
@@ -3037,6 +3038,9 @@ function filterScannerResults() {
 
   // Sort
   filtered = [...filtered].sort((a, b) => {
+    if (sort === 'match') {
+      return (b.match_score || 0) - (a.match_score || 0);
+    }
     if (sort === 'deadline') {
       if (!a.deadline && !b.deadline) return 0;
       if (!a.deadline) return 1;
@@ -3080,20 +3084,35 @@ function filterScannerResults() {
       </span>`;
     }
 
-    return `<div class="bg-white rounded-2xl border border-[#EFEFEF] p-5 hover:shadow-md transition-shadow flex flex-col gap-3">
+    // Match score
+    const score = r.match_score || 0;
+    const scoreColor = score >= 70 ? '#16A34A' : score >= 45 ? '#D97706' : '#9CA3AF';
+    const scoreBg    = score >= 70 ? '#F0FFF4' : score >= 45 ? '#FFFBEB' : '#F9FAFB';
+    const cardBorder = score >= 70 ? '2px solid #BBF7D0' : score >= 45 ? '1px solid #FDE68A' : '1px solid #EFEFEF';
+
+    return `<div class="bg-white rounded-2xl p-5 hover:shadow-md transition-shadow flex flex-col gap-3" style="border:${cardBorder};">
       <!-- Header -->
       <div class="flex items-start gap-2">
         <div class="flex-1 min-w-0">
           <p class="font-bold text-[#111] leading-snug lc2">${r.title || '—'}</p>
           <p class="text-xs text-[#999] mt-1 lc1">${r.source || ''}</p>
         </div>
-        <span class="text-xl flex-shrink-0">${flag}</span>
+        <!-- Match score badge -->
+        <div class="flex-shrink-0 text-center px-2.5 py-1.5 rounded-xl" style="background:${scoreBg};min-width:52px;">
+          <p class="text-base font-black leading-none" style="color:${scoreColor};">${score}%</p>
+          <p class="text-[9px] font-bold uppercase tracking-wide mt-0.5" style="color:${scoreColor};opacity:0.75;">התאמה</p>
+        </div>
+      </div>
+      <!-- Match bar -->
+      <div class="w-full rounded-full" style="height:3px;background:#F0F0F0;">
+        <div class="rounded-full" style="height:3px;width:${score}%;background:${scoreColor};"></div>
       </div>
       <!-- Description -->
       ${r.description ? `<p class="text-sm text-[#555] leading-relaxed lc2">${r.description}</p>` : ''}
       <!-- Meta row -->
       <div class="flex flex-wrap items-center gap-2 text-xs">
         <span class="font-semibold px-2 py-1 rounded-full" style="background:${bg};color:${fg};">${label}</span>
+        <span>${flag}</span>
         ${r.grant_amount ? `<span class="font-bold px-2 py-1 rounded-full" style="background:#FFFDE7;color:#B7860B;">💰 ${r.grant_amount}</span>` : ''}
         ${deadlineHtml}
       </div>
