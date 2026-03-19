@@ -14,27 +14,63 @@
   <script>if(typeof pdfjsLib!=='undefined') pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
   <style>
     * { font-family: 'Rubik', sans-serif; }
-    .sidebar-btn.active { background: #FFF200; color: #000 !important; }
-    .sidebar-btn.active svg { stroke: #000; }
-    .sidebar-btn:not(.active):hover { background: rgba(255,255,255,0.08); }
+
+    /* ── Sidebar ── */
+    .sidebar-btn { transition: background .15s, color .15s; border-radius: 10px; }
+    .sidebar-btn.active { background: #FFF200; color: #000 !important; font-weight: 700; }
+    .sidebar-btn.active svg { stroke: #000 !important; }
+    .sidebar-btn:not(.active) { color: rgba(255,255,255,0.7); }
+    .sidebar-btn:not(.active):hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .sidebar-btn:not(.active):hover svg { stroke: #fff !important; }
+
+    /* ── Animations ── */
     @keyframes modalIn { from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)} }
     @keyframes fadeIn { from{opacity:0}to{opacity:1} }
     @keyframes toastIn { from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)} }
     .modal-box { animation: modalIn .2s ease; }
-    .fade-in { animation: fadeIn .15s ease; }
+    .fade-in { animation: fadeIn .18s ease; }
     .toast-item { animation: toastIn .25s ease; }
-    input:focus, textarea:focus, select:focus { outline: none; border-color: #111 !important; box-shadow: 0 0 0 3px rgba(0,0,0,.07); }
+
+    /* ── Inputs ── */
+    input:focus, textarea:focus, select:focus { outline: none; border-color: #111 !important; box-shadow: 0 0 0 3px rgba(255,242,0,0.2); }
+    .inp { width: 100%; border: 1.5px solid #E8E8E8; border-radius: 0.75rem; padding: 0.625rem 0.875rem; font-size: 0.875rem; background: #fff; transition: border-color .15s, box-shadow .15s; }
+    .lbl { display: block; font-size: 0.7rem; font-weight: 700; color: #888; margin-bottom: 0.375rem; text-transform: uppercase; letter-spacing: 0.04em; }
+
+    /* ── Cards ── */
+    .card { background: #fff; border-radius: 1rem; border: 1px solid #EFEFEF; box-shadow: 0 1px 6px rgba(0,0,0,0.05); }
+    .card-flat { background: #fff; border-radius: 1rem; border: 1px solid #EFEFEF; }
+
+    /* ── Table ── */
     tr:hover > td { background: #FAFAFA; }
+    thead th { letter-spacing: 0.03em; }
+
+    /* ── Scrollbar ── */
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-thumb { background: #D1D1D1; border-radius: 99px; }
+
+    /* ── Misc ── */
     .lc1 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
     .lc2 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
     .view { display: none; }
     .view.active { display: block; }
-    .drop-zone { border: 2px dashed #E5E5E5; transition: all .15s; }
-    .drop-zone.dragging { border-color: #111 !important; background: #F0F0F0; }
-    .inp { width: 100%; border: 1px solid #E5E5E5; border-radius: 0.75rem; padding: 0.625rem 0.75rem; font-size: 0.875rem; }
-    .lbl { display: block; font-size: 0.7rem; font-weight: 600; color: #666; margin-bottom: 0.375rem; }
+    .drop-zone { border: 2px dashed #E5E5E5; transition: all .15s; border-radius: 1rem; }
+    .drop-zone.dragging { border-color: #FFF200 !important; background: #FFFEF0; }
+
+    /* ── Buttons ── */
+    .btn-primary { background: #FFF200; color: #000; font-weight: 700; padding: 0.5rem 1.1rem; border-radius: 0.75rem; border: none; cursor: pointer; font-size: 0.875rem; transition: background .15s, transform .1s; }
+    .btn-primary:hover { background: #E6D900; }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-secondary { background: #111; color: #fff; font-weight: 600; padding: 0.5rem 1.1rem; border-radius: 0.75rem; border: none; cursor: pointer; font-size: 0.875rem; transition: background .15s; }
+    .btn-secondary:hover { background: #333; }
+    .btn-ghost { background: transparent; color: #555; font-weight: 500; padding: 0.5rem 1rem; border-radius: 0.75rem; border: 1.5px solid #E5E5E5; cursor: pointer; font-size: 0.875rem; transition: all .15s; }
+    .btn-ghost:hover { border-color: #111; color: #111; background: #F7F7F7; }
+
+    /* ── Stat cards ── */
+    .stat-card { background: #fff; border-radius: 1.1rem; border: 1px solid #EFEFEF; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 1.1rem; transition: box-shadow .15s; }
+    .stat-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+
+    /* ── Section headers ── */
+    .section-title { font-size: 1.5rem; font-weight: 800; color: #111; letter-spacing: -0.02em; }
   </style>
 </head>
 <body class="bg-[#F7F7F7] text-[#111] min-h-screen">
@@ -100,26 +136,26 @@
 <div id="app" class="hidden min-h-screen">
 
   <!-- Header -->
-  <header class="bg-black text-white h-14 flex items-center px-5 sticky top-0 z-40">
+  <header class="text-white h-14 flex items-center px-5 sticky top-0 z-40" style="background:#0a0a0a;border-bottom:1px solid #1a1a1a;">
     <div class="flex items-center gap-3 flex-1">
-      <span class="bg-[#FFF200] text-black font-black text-base px-3 py-0.5 rounded-lg">הופה</span>
-      <span class="text-[#777] text-sm hidden sm:block">גיוס משאבים</span>
-      <span id="role-badge" class="text-xs px-2 py-0.5 rounded-full bg-[#1a1a1a] text-[#999]"></span>
+      <span class="font-black text-base px-3 py-1 rounded-lg" style="background:#FFF200;color:#000;letter-spacing:-0.5px;">הופה</span>
+      <span class="text-[#444] text-sm hidden sm:block font-medium">גיוס משאבים</span>
+      <span id="role-badge" class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:#1c1c1c;color:#666;"></span>
     </div>
     <div class="flex items-center gap-2">
-      <span id="deadline-alert" class="hidden items-center gap-1.5 bg-red-900/50 border border-red-700/50 text-red-400 text-xs px-3 py-1.5 rounded-full cursor-pointer" onclick="showView('dashboard')">
+      <span id="deadline-alert" class="hidden items-center gap-1.5 text-red-400 text-xs px-3 py-1.5 rounded-full cursor-pointer font-semibold" style="background:rgba(220,38,38,0.12);border:1px solid rgba(220,38,38,0.25);" onclick="showView('dashboard')">
         ⚠️ <span id="deadline-alert-txt"></span>
       </span>
-      <a href="admin.html" class="text-xs border border-[#333] text-[#999] hover:text-white px-3 py-1.5 rounded-lg hidden sm:block">מערכת ניהול</a>
-      <button onclick="doSignOut()" class="text-xs border border-[#333] text-[#999] hover:text-white px-3 py-1.5 rounded-lg">יציאה</button>
+      <a href="admin.html" class="text-xs text-[#666] hover:text-white px-3 py-1.5 rounded-lg hidden sm:block font-medium transition-colors" style="border:1px solid #222;">מערכת ניהול</a>
+      <button onclick="doSignOut()" class="text-xs text-[#666] hover:text-white px-3 py-1.5 rounded-lg font-medium transition-colors" style="border:1px solid #222;">יציאה</button>
     </div>
   </header>
 
   <div class="flex min-h-[calc(100vh-3.5rem)]">
 
     <!-- Sidebar -->
-    <aside class="w-52 bg-black text-white flex-shrink-0 flex flex-col sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto">
-      <nav class="flex-1 py-4 px-2 space-y-0.5">
+    <aside class="w-52 text-white flex-shrink-0 flex flex-col sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto" style="background:#0a0a0a;border-left:1px solid #1a1a1a;">
+      <nav class="flex-1 py-3 px-2 space-y-0.5">
         <button onclick="showView('dashboard')" data-view="dashboard" class="sidebar-btn active w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white text-right">
           <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
           לוח בקרה
@@ -154,7 +190,7 @@
           <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
           <span class="flex-1">נתוני מחקר</span>
         </button>
-        <div class="border-t border-white/10 my-2 mx-3"></div>
+        <div class="border-t my-2 mx-2" style="border-color:#1f1f1f;"></div>
         <div id="admin-nav">
           <button onclick="openSetupModal()" class="sidebar-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white text-right">
             <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
@@ -176,50 +212,65 @@
 
         <!-- Stats -->
         <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-5">
-          <div class="bg-white rounded-2xl p-4 border border-[#E5E5E5]">
-            <p class="text-xs text-[#999] mb-1">סה"כ פעיל</p>
-            <p id="st-total" class="text-3xl font-black">—</p>
+          <div class="stat-card">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-xs font-semibold text-[#999] uppercase tracking-wide">פעילים</p>
+              <span class="text-lg">📋</span>
+            </div>
+            <p id="st-total" class="text-3xl font-black text-[#111]">—</p>
           </div>
-          <div class="bg-red-50 rounded-2xl p-4 border border-red-100">
-            <p class="text-xs text-red-400 mb-1">דדליין בשבוע</p>
+          <div class="stat-card" style="border-color:#FFDDDD;box-shadow:0 2px 8px rgba(220,0,0,0.07);">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-xs font-semibold text-red-400 uppercase tracking-wide">דדליין בשבוע</p>
+              <span class="text-lg">⚠️</span>
+            </div>
             <p id="st-week" class="text-3xl font-black text-red-600">—</p>
           </div>
-          <div class="bg-amber-50 rounded-2xl p-4 border border-amber-100">
-            <p class="text-xs text-amber-500 mb-1">בכתיבה / ממתין</p>
+          <div class="stat-card" style="border-color:#FFE8AA;box-shadow:0 2px 8px rgba(200,120,0,0.07);">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-xs font-semibold text-amber-500 uppercase tracking-wide">בתהליך</p>
+              <span class="text-lg">✍️</span>
+            </div>
             <p id="st-inprog" class="text-3xl font-black text-amber-600">—</p>
           </div>
-          <div class="bg-blue-50 rounded-2xl p-4 border border-blue-100">
-            <p class="text-xs text-blue-400 mb-1">הוגש</p>
+          <div class="stat-card" style="border-color:#C7DFF7;box-shadow:0 2px 8px rgba(0,80,200,0.07);">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-xs font-semibold text-blue-400 uppercase tracking-wide">הוגש</p>
+              <span class="text-lg">📤</span>
+            </div>
             <p id="st-submitted" class="text-3xl font-black text-blue-600">—</p>
           </div>
-          <div class="bg-[#FFF200] rounded-2xl p-4 border border-[#E6D900]">
-            <p class="text-xs text-black/40 mb-1">אושר ✓</p>
-            <p id="st-approved" class="text-3xl font-black">—</p>
+          <div class="stat-card" style="background:#FFF200;border-color:#E6D900;box-shadow:0 2px 8px rgba(180,160,0,0.15);">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-xs font-semibold text-black/50 uppercase tracking-wide">אושר</p>
+              <span class="text-lg">✅</span>
+            </div>
+            <p id="st-approved" class="text-3xl font-black text-black">—</p>
           </div>
         </div>
 
         <!-- Pipeline kanban-style -->
-        <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden mb-5">
-          <div class="px-5 py-4 border-b border-[#E5E5E5] flex items-center justify-between">
-            <h2 class="font-bold">פייפליין</h2>
-            <span class="text-xs text-[#999]">לחץ על סטטוס לסינון</span>
+        <div class="card overflow-hidden mb-5">
+          <div class="px-5 py-4 border-b border-[#F0F0F0] flex items-center justify-between">
+            <h2 class="font-bold text-[#111]">פייפליין</h2>
+            <span class="text-xs text-[#AAA]">לחץ על סטטוס לסינון</span>
           </div>
           <div id="pipeline-grid" class="p-4 grid grid-cols-3 md:grid-cols-7 gap-2"></div>
         </div>
 
         <!-- Upcoming deadlines -->
-        <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden mb-5">
-          <div class="px-5 py-4 border-b border-[#E5E5E5] flex items-center justify-between">
-            <h2 class="font-bold">דדליינים קרובים</h2>
-            <span class="text-xs text-[#999]">60 הימים הבאים</span>
+        <div class="card overflow-hidden mb-5">
+          <div class="px-5 py-4 border-b border-[#F0F0F0] flex items-center justify-between">
+            <h2 class="font-bold text-[#111]">דדליינים קרובים</h2>
+            <span class="text-xs text-[#AAA]">60 הימים הבאים</span>
           </div>
           <div id="upcoming-list"></div>
         </div>
 
         <!-- Recent activity -->
-        <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden">
-          <div class="px-5 py-4 border-b border-[#E5E5E5]">
-            <h2 class="font-bold">הוגשו לאחרונה</h2>
+        <div class="card overflow-hidden">
+          <div class="px-5 py-4 border-b border-[#F0F0F0]">
+            <h2 class="font-bold text-[#111]">הוגשו לאחרונה</h2>
           </div>
           <div id="submitted-list"></div>
         </div>
@@ -236,7 +287,7 @@
         </div>
 
         <!-- Filters -->
-        <div class="bg-white rounded-2xl border border-[#E5E5E5] p-3 mb-4 flex flex-wrap gap-2 items-center">
+        <div class="card p-3 mb-4 flex flex-wrap gap-2 items-center">
           <input id="f-search" type="text" placeholder="חיפוש..." class="inp flex-1 min-w-[150px]" oninput="applyFilters()"/>
           <select id="f-status" onchange="applyFilters()" class="inp w-auto">
             <option value="">כל הסטטוסים</option>
@@ -266,7 +317,7 @@
         </div>
 
         <!-- Table -->
-        <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden">
+        <div class="card overflow-hidden">
           <div class="overflow-x-auto">
             <table class="w-full text-sm">
               <thead>
@@ -445,6 +496,28 @@
               </div>
             </div>
           </div>
+          <!-- Draft Application -->
+          <div class="bg-white rounded-2xl border border-[#E5E5E5] p-5 mb-4">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-bold">✍️ בקשת מענק מוכנה להגשה</h3>
+              <div id="draft-loading" class="hidden flex items-center gap-2 text-xs text-[#999]">
+                <div class="w-3.5 h-3.5 border-2 border-[#999] border-t-transparent rounded-full animate-spin"></div>
+                <span>Claude כותב את הבקשה...</span>
+              </div>
+            </div>
+            <textarea id="ar-draft" rows="18" class="inp resize-y font-mono text-sm leading-relaxed" placeholder="הבקשה תיכתב אוטומטית אחרי הניתוח..."></textarea>
+            <div class="flex gap-2 mt-3">
+              <button onclick="copyDraft()" class="border border-[#E5E5E5] px-4 py-2 rounded-xl text-sm hover:bg-[#F7F7F7] flex items-center gap-1.5">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                העתק בקשה
+              </button>
+              <button onclick="regenerateDraft()" class="border border-[#E5E5E5] px-4 py-2 rounded-xl text-sm hover:bg-[#F7F7F7] flex items-center gap-1.5">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                כתוב מחדש
+              </button>
+            </div>
+          </div>
+
           <div class="flex justify-between items-center">
             <button onclick="clearAnalyze()" class="border border-[#E5E5E5] px-4 py-2 rounded-xl text-sm hover:bg-[#F7F7F7]">ניתוח חדש</button>
             <button onclick="saveAnalyzed()" class="bg-[#FFF200] text-black font-bold px-6 py-2 rounded-xl text-sm hover:bg-[#E6D900]">שמור לקולות קוראים ✓</button>
@@ -506,43 +579,13 @@
 
       <!-- ══ DOCUMENTS ══ -->
       <div id="view-documents" class="view fade-in">
-        <div class="flex items-center justify-between mb-5">
-          <div>
-            <h1 class="text-2xl font-bold">מסמכי הופה</h1>
-            <p class="text-sm text-[#999] mt-1">תיקיית Google Drive — כל מסמכי הארגון</p>
-          </div>
-          <div class="flex gap-2">
-            <button onclick="loadDriveFiles()" class="border border-[#E5E5E5] text-sm px-4 py-2 rounded-xl hover:bg-[#F7F7F7] flex items-center gap-1.5">
-              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>רענן
-            </button>
-            <a href="https://drive.google.com/drive/folders/1RG7T_ZvBDmhIKVIMHyGZUe-Ok2G3YSb6" target="_blank" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900] flex items-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8H0c0 1.55.4 3.1 1.2 4.5z" fill="#0066DA"/><path d="M43.65 25L29.9 1.2C28.55 2 27.4 3.1 26.6 4.5L1.2 48.5c-.8 1.4-1.2 2.95-1.2 4.5h27.5z" fill="#00AC47"/><path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5H60.1l5.85 11.5z" fill="#EA4335"/><path d="M43.65 25L57.4 1.2C56.05.4 54.5 0 52.9 0H34.4c-1.6 0-3.1.45-4.5 1.2z" fill="#00832D"/><path d="M60.1 53H27.5L13.75 76.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.1-.45 4.5-1.2z" fill="#2684FC"/><path d="M73.4 26.5l-12.65-21.9c-.8-1.4-1.95-2.5-3.3-3.3L43.65 25 60.1 53h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#FFBA00"/></svg>
-              פתח בדרייב
-            </a>
-          </div>
-        </div>
-
-        <!-- API Key notice -->
-        <div id="drive-key-notice" class="hidden bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-4 flex items-start gap-3">
-          <span class="text-xl">🔑</span>
-          <div class="flex-1">
-            <p class="font-semibold text-sm text-amber-800 mb-1">נדרש Google API Key להצגת הקבצים</p>
-            <p class="text-xs text-amber-700 mb-2">צרי API Key חינמי ב-<a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="underline">Google Cloud Console</a> → Enable Drive API → Create API Key</p>
-            <div class="flex gap-2">
-              <input id="drive-api-key-input" type="text" class="inp flex-1 text-xs" placeholder="AIzaSy..." dir="ltr"/>
-              <button onclick="saveDriveKey()" class="bg-amber-500 text-white font-bold px-4 py-2 rounded-xl text-xs hover:bg-amber-600 whitespace-nowrap">שמור וטען</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Files grid -->
-        <div id="drive-files-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div class="col-span-full text-center py-16 text-[#999]">
-            <p class="text-4xl mb-3">📁</p>
-            <p class="font-medium mb-1">לחץ "רענן" לטעינת הקבצים</p>
-            <p class="text-xs">נדרש Google API Key בפעם הראשונה</p>
-          </div>
-        </div>
+        <h1 class="text-2xl font-bold mb-2">מסמכי הגשה</h1>
+        <p class="text-sm text-[#999] mb-6">כל מסמכי הופה — ניהול בתיקיית Google Drive</p>
+        <a href="https://drive.google.com/drive/folders/1RG7T_ZvBDmhIKVIMHyGZUe-Ok2G3YSb6" target="_blank"
+           class="inline-flex items-center gap-3 bg-[#FFF200] text-black font-bold px-6 py-3 rounded-2xl text-base hover:bg-[#E6D900] transition-colors">
+          <svg width="20" height="20" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8H0c0 1.55.4 3.1 1.2 4.5z" fill="#0066DA"/><path d="M43.65 25L29.9 1.2C28.55 2 27.4 3.1 26.6 4.5L1.2 48.5c-.8 1.4-1.2 2.95-1.2 4.5h27.5z" fill="#00AC47"/><path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5H60.1l5.85 11.5z" fill="#EA4335"/><path d="M43.65 25L57.4 1.2C56.05.4 54.5 0 52.9 0H34.4c-1.6 0-3.1.45-4.5 1.2z" fill="#00832D"/><path d="M60.1 53H27.5L13.75 76.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.1-.45 4.5-1.2z" fill="#2684FC"/><path d="M73.4 26.5l-12.65-21.9c-.8-1.4-1.95-2.5-3.3-3.3L43.65 25 60.1 53h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#FFBA00"/></svg>
+          פתח תיקיית מסמכי הופה ב-Drive
+        </a>
       </div>
 
       <!-- ══ RESEARCH ══ -->
@@ -1671,26 +1714,55 @@ function toast(msg, type='success') {
 // ── CLAUDE SYSTEM PROMPT ─────────────────────────────────
 const HOPA_PROMPT = `אתה כותב בקשות מענקים ותמיכה עבור עמותת הופה. אתה מכיר לעומק את הופה.
 
-## מי היא הופה
-הופה היא עמותה הפועלת ליצירת רצף ליווי לבני נוער וצעירים בגילאי 14 עד 26.
-היא פועלת בשני צירים: מניעת נשירה בתוך בתי ספר, וליווי בוגרים לאחר סיום הלימודים.
-הייחוד: רצף ליווי (לא מענה חד פעמי), חיבור בין בית הספר לחיים הבוגרים, שילוב ליווי אנושי עם תשתית טכנולוגית.
+## חזון הופה
+"אנחנו מאמינים שלכל נער ונערה מגיעה הזדמנות אמיתית להצליח, לחלום, ולבנות לעצמם עתיד טוב יותר. אנחנו לא מחויבים לא להשאיר אף אחד מאחור."
 
-## מודל הרדאר
-4 שלבים: שידור וקליטה → ניתוח (מודל רמזור) → חישוב והתאמת מענים → החזרת גלים (פעולה יזומה).
+## מי היא הופה
+הופה היא עמותה הפועלת ליצירת רצף ליווי לבני נוער וצעירים בגילאי 13 עד 26+.
+פועלת בשני צירים: מניעת נשירה בתוך בתי הספר, וליווי בוגרים מכיתה י"א עד גיל 26+.
+הייחוד: רצף ליווי אמיתי (לא מענה חד-פעמי), שיתוף פעולה הדוק עם בית הספר כשותפה אסטרטגית, ליווי אנושי עם מערכת דיגיטלית למעקב.
+
+## הבעיה — מדוע הופה נחוצה
+בישראל חיים מעל 3.1 מיליון ילדים. **330,000 מהם** מזוהים כילדים ובני נוער במצב סיכון ומצוקה (משרד הרווחה, 2024).
+- **נשירה סמויה:** כ-34% מהתלמידים בישראל דיווחו על ניתוק התנהגותי — היעדרויות ואיחורים תכופים (מאיירס-ג'וינט-ברוקדייל). נשירה גלויה: 1–1.5% בלבד.
+- **חוסר ביטחון תזונתי:** למעלה ממיליון ילדים (34.1%) חיים ללא ביטחון תזונתי, מתוכם 628,000 (19.9%) במצב חמור.
+- **עלייה בצריכת אלכוהול:** 28.3% מבני הנוער דיווחו על צריכת אלכוהול בשנת 2024 — עלייה של כ-50% לעומת השנה הקודמת (כנסת, 2024).
+- **היעדר רצף טיפולי:** אין תיאום בין משרד החינוך למשרד הרווחה — רבים נשארים ללא תמיכה מגיל 18.
+- **מלחמה אוקטובר 2023:** גברה הלחץ על בני נוער בסיכון — משבר כלכלי, טראומה, שינויים משפחתיים עקב גיוסי מילואים.
+
+## מה הייחוד של הופה — לא כיבוי שריפות
+האתגר המרכזי הוא **תזמון ההתערבות**. המערכת הקיימת נכנסת לפעולה רק לאחר הידרדרות — קציני ביקור סדיר, שירותי רווחה. הופה פועלת **לפני** — זיהוי מוקדם כבר בשלבים הראשונים של הסיכון.
+
+## שתי התוכניות המרכזיות
+
+### 1. תוכנית מניעת נשירה (גילאי 13–18, ממכיתה ט')
+**מטרה:** זיהוי מוקדם של תלמידים בסיכון + ליווי רציף + שימור במערכת החינוך עד סיום לימודים.
+
+**מודל הרמזור** — ליבת התוכנית:
+- 🔴 **אדום** — בסיכון גבוה, תמיכה אינטנסיבית + ביקורי בית
+- 🟠 **כתום** — בסיכון בינוני, ליווי מתמשך
+- 🟢 **ירוק** — מעקב שוטף, מניעת הידרדרות
+
+**דרכי פעולה של רכזת מניעת נשירה:**
+- שיחות אישיות יזומות עם תלמידים בסיכון
+- ביקורי בית לתלמידים "אדומים"
+- שיתוף פעולה קהילתי — מנטורים, עזרה לימודית, תמיכה משפחתית ורגשית
+- דיווח שוטף להנהלת בית הספר + זום דו-שבועי עם מנכ"לית העמותה
+- ניהול טבלת מעקב מסודרת
+
+### 2. תוכנית הבוגרים (מכיתה י"א עד גיל 26+)
+**מטרה:** השתלבות מוצלחת בחברה הישראלית — צבא, השכלה גבוהה, תעסוקה, עצמאות.
+
+**שלבי התוכנית:**
+1. **הכנה לצבא** (כיתות י"א–י"ב) — הכנה מנטלית, פיזית, ניהולית; ליווי תהליך מיון ושיבוץ
+2. **תמיכה במהלך השירות** — קבוצות WhatsApp, זום דו-שבועי, מיצוי זכויות חיילים
+3. **ליווי אחרי השחרור** (גילאי 21–26) — נטוורקינג, הכוונה מקצועית, מנטורים, יזמות
+
+**חזון הבוגר:** עצמאי כלכלי, משתלב בהשכלה גבוהה/שוק עבודה, משרת בשירות משמעותי, תורם לחברה.
 
 ## קהלי יעד
-בני נוער 14–18 בסיכון לנשירה; צעירים 18–26 בשלבי מעבר (צבא, תעסוקה, לימודים, עצמאות).
-
-## פרויקטי הופה הפעילים
-1. **מניעת נשירה בבתי ספר** — קהל: תלמידים 14–18 בסיכון. כלי דיגיטלי לזיהוי מוקדם + ליווי צוותי חינוך.
-2. **ליווי צעירים 18–26** — קהל: בוגרים בשלבי מעבר. שמירת קשר, הכוונה, חיבור להזדמנויות.
-3. **מודל הרדאר הטכנולוגי** — פיתוח תשתית דאטה + AI לזיהוי צרכים, מיפוי מענים, מעקב לאורך זמן.
-4. **נוער אתיופי-ישראלי** — ליווי ממוקד לצעירים ממשפחות אתיופיות, תוך התאמה תרבותית.
-5. **נשים צעירות בסיכון** — ליווי אישי לנשות 18–26 שנמצאות בחוסר תעסוקה, בידוד או משבר.
-6. **חיילים בודדים** — חיבור לסל זכויות, לינת חירום, מלגות ותמיכה רגשית.
-7. **יוצאי החברה החרדית** — ליווי בתהליך יציאה, אינטגרציה לשוק העבודה, לימודים ועצמאות.
-8. **מרכזי צעירים קהילתיים** — שיתופי פעולה עם מרכזי צעירים להרחבת פגיעה גיאוגרפית.
+בני נוער 13–18 בסיכון לנשירה (ללא עורף משפחתי יציב, תת-הישגיות); צעירים 18–26+ בשלבי מעבר.
+אוכלוסיות ספציפיות: נוער אתיופי-ישראלי, יוצאי החברה החרדית, חיילים בודדים, נשים צעירות בסיכון, נוער בפריפריה.
 
 ## שפת הופה
 כתוב: אנושי, חם, ברור, מקצועי, מדויק, מחובר למציאות.
@@ -1880,6 +1952,7 @@ function copyAllStats() {
 
 // ── ANALYZE GRANT ────────────────────────────────────────
 let analyzedData = null;
+let analyzedSourceText = '';
 
 function setAnalyzeTab(tab) {
   ['url','pdf','text'].forEach(t => {
@@ -1923,6 +1996,7 @@ async function analyzeFromUrl() {
       .replace(/<[^>]+>/g, ' ')
       .replace(/\s+/g, ' ').trim().slice(0, 8000);
     if (!text) throw new Error('ריק');
+    analyzedSourceText = text;
     await runAnalysis(text, url);
   } catch {
     hideAnalyzeLoading();
@@ -1936,7 +2010,13 @@ async function processPDFFile(file) {
   try {
     // Send PDF directly to Claude API — works for both text-based and scanned PDFs
     const ab = await file.arrayBuffer();
-    const b64 = btoa(String.fromCharCode(...new Uint8Array(ab)));
+    const bytes = new Uint8Array(ab);
+    let binary = '';
+    const chunkSize = 8192;
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+    }
+    const b64 = btoa(binary);
     await runAnalysisPDF(b64);
   } catch(err) {
     hideAnalyzeLoading();
@@ -1990,11 +2070,13 @@ async function runAnalysisPDF(b64) {
   analyzedData = JSON.parse(jsonMatch[0]);
   hideAnalyzeLoading();
   showAnalysisResult(analyzedData);
+  generateDraft();
 }
 
 function analyzeFromText() {
   const text = document.getElementById('analyze-text').value.trim();
   if (!text) { toast('הדבק טקסט', 'error'); return; }
+  analyzedSourceText = text;
   showAnalyzeLoading();
   runAnalysis(text, '');
 }
@@ -2047,6 +2129,7 @@ ${text}
     if (!analyzedData.url && sourceUrl) analyzedData.url = sourceUrl;
     hideAnalyzeLoading();
     showAnalysisResult(analyzedData);
+    generateDraft();
   } catch(err) {
     hideAnalyzeLoading();
     toast('שגיאה בניתוח: ' + err.message, 'error');
@@ -2401,6 +2484,162 @@ async function deleteDoc(id) {
   if (error) { toast('שגיאה', 'error'); return; }
   toast('נמחק', 'success');
   loadDocuments();
+}
+
+// ── GOOGLE DRIVE DOCUMENTS ───────────────────────────────
+const DRIVE_FOLDER_ID = '1RG7T_ZvBDmhIKVIMHyGZUe-Ok2G3YSb6';
+
+function getDriveKey() { return localStorage.getItem('hopa_drive_api_key') || ''; }
+
+function saveDriveKey() {
+  const k = document.getElementById('drive-api-key-input').value.trim();
+  if (!k) { toast('הכנס API Key', 'error'); return; }
+  localStorage.setItem('hopa_drive_api_key', k);
+  document.getElementById('drive-key-notice').classList.add('hidden');
+  loadDocuments();
+}
+
+const MIME_META = {
+  'application/pdf': { icon: '📄', color: 'bg-red-50 text-red-700' },
+  'application/vnd.google-apps.document':     { icon: '📝', color: 'bg-blue-50 text-blue-700' },
+  'application/vnd.google-apps.spreadsheet':  { icon: '📊', color: 'bg-green-50 text-green-700' },
+  'application/vnd.google-apps.presentation': { icon: '📋', color: 'bg-orange-50 text-orange-700' },
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': { icon: '📝', color: 'bg-blue-50 text-blue-700' },
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':       { icon: '📊', color: 'bg-green-50 text-green-700' },
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation': { icon: '📋', color: 'bg-orange-50 text-orange-700' },
+  'image/jpeg': { icon: '🖼️', color: 'bg-purple-50 text-purple-700' },
+  'image/png':  { icon: '🖼️', color: 'bg-purple-50 text-purple-700' },
+};
+
+async function loadDocuments() {
+  const key = getDriveKey();
+  const grid = document.getElementById('drive-files-grid');
+  const notice = document.getElementById('drive-key-notice');
+
+  if (!key) {
+    notice.classList.remove('hidden');
+    grid.innerHTML = '<div class="col-span-full text-center py-10 text-[#999] text-sm">הכנס Google API Key למעלה כדי לטעון קבצים</div>';
+    return;
+  }
+
+  notice.classList.add('hidden');
+  grid.innerHTML = '<div class="col-span-full text-center py-10 text-[#999] text-sm">טוען קבצים...</div>';
+
+  try {
+    const q = encodeURIComponent(`'${DRIVE_FOLDER_ID}' in parents and trashed=false`);
+    const fields = encodeURIComponent('files(id,name,mimeType,size,modifiedTime,webViewLink,webContentLink)');
+    const url = `https://www.googleapis.com/drive/v3/files?q=${q}&fields=${fields}&orderBy=name&pageSize=100&key=${key}`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (!res.ok) {
+      const msg = data.error?.message || res.status;
+      if (res.status === 400 || res.status === 403) {
+        notice.classList.remove('hidden');
+        document.getElementById('drive-api-key-input').value = key;
+        grid.innerHTML = `<div class="col-span-full text-center py-10 text-red-400 text-sm">שגיאת API Key: ${esc(msg)}</div>`;
+        return;
+      }
+      throw new Error(msg);
+    }
+
+    const files = data.files || [];
+    if (!files.length) {
+      grid.innerHTML = '<div class="col-span-full text-center py-10 text-[#999]"><p class="text-3xl mb-2">📂</p><p class="text-sm font-medium">התיקייה ריקה</p><p class="text-xs mt-1">העלה קבצים דרך "פתח בדרייב"</p></div>';
+      return;
+    }
+
+    grid.innerHTML = files.map(f => {
+      const meta = MIME_META[f.mimeType] || { icon: '📁', color: 'bg-gray-50 text-gray-700' };
+      const isGDrive = f.mimeType.startsWith('application/vnd.google-apps.');
+      const openUrl = f.webViewLink || `https://drive.google.com/file/d/${f.id}/view`;
+      const dlUrl   = isGDrive ? null : (f.webContentLink || `https://drive.google.com/uc?export=download&id=${f.id}`);
+      const date    = f.modifiedTime ? new Date(f.modifiedTime).toLocaleDateString('he-IL') : '';
+      const size    = f.size ? (f.size > 1048576 ? (f.size/1048576).toFixed(1)+' MB' : Math.round(f.size/1024)+' KB') : '';
+      return `<div class="bg-white rounded-2xl border border-[#E5E5E5] p-4 flex flex-col gap-3 hover:border-[#CCC] transition-colors">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl ${meta.color} flex items-center justify-center text-xl flex-shrink-0">${meta.icon}</div>
+          <div class="flex-1 min-w-0">
+            <p class="font-medium text-sm leading-snug break-words">${esc(f.name)}</p>
+            <p class="text-xs text-[#999] mt-0.5">${[size, date].filter(Boolean).join(' · ')}</p>
+          </div>
+        </div>
+        <div class="flex gap-2 border-t border-[#F3F3F3] pt-3">
+          <a href="${openUrl}" target="_blank" class="flex-1 text-center text-xs border border-[#E5E5E5] py-1.5 rounded-lg hover:bg-[#F7F7F7]">פתח</a>
+          ${dlUrl ? `<a href="${dlUrl}" target="_blank" class="flex-1 text-center text-xs bg-black text-white py-1.5 rounded-lg hover:bg-[#333]">הורד</a>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+
+  } catch(err) {
+    grid.innerHTML = `<div class="col-span-full text-center py-10 text-red-400 text-sm">שגיאה: ${esc(err.message)}</div>`;
+  }
+}
+
+// ── DRAFT APPLICATION ────────────────────────────────────
+async function generateDraft() {
+  if (!analyzedData) return;
+  const draftEl = document.getElementById('ar-draft');
+  const loadingEl = document.getElementById('draft-loading');
+  draftEl.value = '';
+  loadingEl.classList.remove('hidden');
+
+  const grantInfo = [
+    `קרן: ${analyzedData.foundation_name || ''}`,
+    `כותרת: ${analyzedData.title || ''}`,
+    analyzedData.deadline ? `דדליין: ${analyzedData.deadline}` : '',
+    analyzedData.amount_max ? `סכום מבוקש: ${analyzedData.amount_max.toLocaleString()} ₪` : '',
+    analyzedData.description ? `מה מחפשים: ${analyzedData.description}` : '',
+    analyzedData.fit_notes ? `נקודות דגש: ${analyzedData.fit_notes}` : '',
+    analyzedSourceText ? `\n--- תוכן הקול קורא המקורי ---\n${analyzedSourceText.slice(0, 4000)}` : ''
+  ].filter(Boolean).join('\n');
+
+  const prompt = `בהתבסס על הקול הקורא הבא, כתוב בקשת מענק מלאה ומוכנה להגשה עבור עמותת הופה.
+
+פרטי הקול הקורא:
+${grantInfo}
+
+הנחיות:
+- כתוב בעברית, בשפת הופה (אנושי, חם, מקצועי, מדויק)
+- עקוב אחר מבנה: רקע → הבעיה → הפתרון של הופה → הפעילות המוצעת → קהל יעד → תוצאות ומדידה → תקציב → סיום
+- השתמש בנתוני תקציב אמיתיים של הופה בלבד
+- ציין נתוני מחקר רלוונטיים עם מקורות
+- התאם את ההדגשים לדרישות הספציפיות של הקרן הזו
+- אורך: בקשה מקצועית מלאה (לא קצרה מדי)
+- אל תמציא נתונים שאינם ידועים לך על הופה`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': CLAUDE_KEY,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 4000,
+        system: HOPA_PROMPT,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || res.status); }
+    const data = await res.json();
+    draftEl.value = data.content[0].text.trim();
+  } catch(err) {
+    draftEl.value = `שגיאה בכתיבת הבקשה: ${err.message}\n\nניתן לנסות שוב עם "כתוב מחדש"`;
+  } finally {
+    loadingEl.classList.add('hidden');
+  }
+}
+
+function regenerateDraft() { generateDraft(); }
+
+function copyDraft() {
+  const text = document.getElementById('ar-draft').value;
+  if (!text) { toast('אין בקשה להעתיק', 'error'); return; }
+  navigator.clipboard.writeText(text).then(() => toast('הבקשה הועתקה ✓', 'success'));
 }
 
 // ── INIT ─────────────────────────────────────────────────
