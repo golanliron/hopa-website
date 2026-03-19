@@ -170,6 +170,11 @@
           <span class="flex-1">אתרי קרנות</span>
           <span id="sb-watch-badge" class="text-xs bg-white/15 px-2 py-0.5 rounded-full"></span>
         </button>
+        <button onclick="showView('scanner')" data-view="scanner" class="sidebar-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white text-right">
+          <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          <span class="flex-1">קולות קוראים עכשיו</span>
+          <span id="sb-scanner-badge" class="text-xs bg-white/15 px-2 py-0.5 rounded-full"></span>
+        </button>
         <button onclick="showView('analyze')" data-view="analyze" class="sidebar-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white text-right">
           <svg width="17" height="17" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
           <span class="flex-1">ניתוח קול קורא</span>
@@ -392,6 +397,91 @@
 
         <!-- Watchlist grid -->
         <div id="watchlist-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </div>
+
+      <!-- ══ SCANNER ══ -->
+      <div id="view-scanner" class="view fade-in">
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <h1 class="text-2xl font-bold">קולות קוראים עכשיו</h1>
+            <p class="text-sm text-[#999] mt-1">47 מקורות — ישראל ובינלאומי — סרוק בלחיצה אחת</p>
+          </div>
+          <div class="flex gap-2">
+            <label class="bg-[#111] text-white font-bold px-4 py-2 rounded-xl text-sm cursor-pointer hover:bg-[#333]">
+              📂 טעון תוצאות JSON
+              <input type="file" accept=".json" class="hidden" onchange="loadScannerJson(event)"/>
+            </label>
+            <button onclick="openAllSources()" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900]">⚡ פתח את כולם</button>
+          </div>
+        </div>
+
+        <!-- Stats bar -->
+        <div class="grid grid-cols-3 gap-3 mb-5">
+          <div class="stat-card text-center">
+            <p class="text-3xl font-black text-[#C2185B]">27</p>
+            <p class="text-xs text-[#999] font-semibold uppercase tracking-wide mt-1">מקורות ישראל</p>
+          </div>
+          <div class="stat-card text-center">
+            <p class="text-3xl font-black text-[#1976D2]">20</p>
+            <p class="text-xs text-[#999] font-semibold uppercase tracking-wide mt-1">מקורות בינלאומי</p>
+          </div>
+          <div class="stat-card text-center">
+            <p id="scanner-results-count" class="text-3xl font-black text-[#111]">—</p>
+            <p class="text-xs text-[#999] font-semibold uppercase tracking-wide mt-1">תוצאות נטענו</p>
+          </div>
+        </div>
+
+        <!-- Results table (shown after JSON load) -->
+        <div id="scanner-results-section" class="hidden mb-5">
+          <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden">
+            <div class="flex items-center justify-between px-5 py-4 border-b border-[#F0F0F0]">
+              <h2 class="font-bold">תוצאות סריקה</h2>
+              <div class="flex gap-2">
+                <select id="scanner-filter-region" onchange="filterScannerResults()" class="inp text-xs" style="width:auto;padding:6px 10px;">
+                  <option value="">כל האזורים</option>
+                  <option value="israel">ישראל</option>
+                  <option value="international">בינלאומי</option>
+                </select>
+                <select id="scanner-filter-cat" onchange="filterScannerResults()" class="inp text-xs" style="width:auto;padding:6px 10px;">
+                  <option value="">כל הקטגוריות</option>
+                  <option value="youth_at_risk">נוער בסיכון</option>
+                  <option value="education">חינוך</option>
+                  <option value="social_mobility">מוביליות חברתית</option>
+                  <option value="government">ממשלתי</option>
+                  <option value="innovation">חדשנות</option>
+                  <option value="social">חברה אזרחית</option>
+                  <option value="ngo">עמותות</option>
+                </select>
+                <input id="scanner-search" oninput="filterScannerResults()" placeholder="חיפוש..." class="inp text-xs" style="width:160px;padding:6px 10px;"/>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead style="background:#F7F7F7;">
+                  <tr>
+                    <th class="text-right px-4 py-3 font-semibold text-[#666] text-xs">כותרת</th>
+                    <th class="text-right px-4 py-3 font-semibold text-[#666] text-xs">מקור</th>
+                    <th class="text-right px-4 py-3 font-semibold text-[#666] text-xs">קטגוריה</th>
+                    <th class="text-right px-4 py-3 font-semibold text-[#666] text-xs">דדליין</th>
+                    <th class="text-right px-4 py-3 font-semibold text-[#666] text-xs">אזור</th>
+                    <th class="px-4 py-3"></th>
+                  </tr>
+                </thead>
+                <tbody id="scanner-results-tbody"></tbody>
+              </table>
+            </div>
+            <div id="scanner-results-empty" class="hidden text-center py-10 text-[#999] text-sm">לא נמצאו תוצאות</div>
+          </div>
+        </div>
+
+        <!-- Sources tabs -->
+        <div class="flex gap-2 mb-4">
+          <button onclick="setScannerTab('all')" id="stab-all" class="px-4 py-2 rounded-xl text-sm font-bold bg-[#111] text-white">הכל (47)</button>
+          <button onclick="setScannerTab('israel')" id="stab-israel" class="px-4 py-2 rounded-xl text-sm font-medium text-[#666] hover:bg-[#F0F0F0]">🇮🇱 ישראל (27)</button>
+          <button onclick="setScannerTab('international')" id="stab-international" class="px-4 py-2 rounded-xl text-sm font-medium text-[#666] hover:bg-[#F0F0F0]">🌍 בינלאומי (20)</button>
+        </div>
+
+        <div id="scanner-sources-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
       </div>
 
       <!-- ══ ANALYZE ══ -->
@@ -1111,6 +1201,7 @@ function showView(name) {
   if (name === 'sources') loadSources();
   if (name === 'documents') loadDocuments();
   if (name === 'research') { renderResearch(); loadUserResearch(); }
+  if (name === 'scanner') initScanner();
 }
 
 // ── DATA ─────────────────────────────────────────────────
@@ -2640,6 +2731,198 @@ function copyDraft() {
   const text = document.getElementById('ar-draft').value;
   if (!text) { toast('אין בקשה להעתיק', 'error'); return; }
   navigator.clipboard.writeText(text).then(() => toast('הבקשה הועתקה ✓', 'success'));
+}
+
+// ── SCANNER ──────────────────────────────────────────────
+const SCANNER_SOURCES = [
+  // ── ישראל ──
+  { name:'אתר התמיכות הממשלתי - אוצר', url:'https://tmichot.mof.gov.il/call-for-proposals/', region:'israel', category:'government', emoji:'🏛️' },
+  { name:'משרד הפנים - קולות קוראים', url:'https://www.gov.il/he/Departments/DynamicCollectors/kolkore-list', region:'israel', category:'government', emoji:'🏛️' },
+  { name:'רשות החדשנות - קולות קוראים', url:'https://innovationisrael.org.il/kol_kore/', region:'israel', category:'innovation', emoji:'💡' },
+  { name:'רשות החדשנות - למידה מותאמת', url:'https://innovationisrael.org.il/kol_kore/personalized-education-tech/', region:'israel', category:'innovation', emoji:'💡' },
+  { name:'אטלס - מענקים לרשויות', url:'https://atlas-grants.com/getgrants/', region:'israel', category:'government', emoji:'🗂️' },
+  { name:'משרד החינוך - קולות קוראים', url:'https://pob.education.gov.il/kolotkorim/kolkore/', region:'israel', category:'education', emoji:'📚' },
+  { name:'משרד החינוך - קידום נוער (היל"ה)', url:'https://pob.education.gov.il/municipal-services/main-youth-at-risk/youth-promotion-info/', region:'israel', category:'youth_at_risk', emoji:'🎯' },
+  { name:'המדען הראשי - משרד החינוך', url:'https://chief-scientist.education.gov.il/kol-kore/', region:'israel', category:'education', emoji:'🔬' },
+  { name:'מינהל חדשנות - משרד החינוך', url:'https://edu-tech.education.gov.il/taknot/kol-kore/educaition/', region:'israel', category:'education', emoji:'💻' },
+  { name:'שפ"י - שירות פסיכולוגי ייעוצי', url:'https://shefi.education.gov.il/publication/voices-calling/', region:'israel', category:'youth_at_risk', emoji:'🧠' },
+  { name:'ביטוח לאומי - קרנות שפר', url:'https://www.ezvonot.com/%D7%A7%D7%95%D7%9C%D7%95%D7%AA-%D7%A7%D7%95%D7%A8%D7%90%D7%99%D7%9D-%D7%A7%D7%A8%D7%A0%D7%95%D7%AA-%D7%94%D7%91%D7%99%D7%98%D7%95%D7%97-%D7%94%D7%9C%D7%90%D7%95%D7%9E%D7%99-2/', region:'israel', category:'youth_at_risk', emoji:'🛡️' },
+  { name:'ביטוח לאומי - ילדים ונוער בסיכון', url:'https://www.btl.gov.il/About/news/Pages/ArchiveFolder/kolKoreYeladim.aspx', region:'israel', category:'youth_at_risk', emoji:'🛡️' },
+  { name:'ביטוח לאומי - רב-תחומי 2026', url:'https://www.btl.gov.il/Funds/kolotkorim/kolotKorimList/KKGamishSiud2026-M.pdf', region:'israel', category:'youth_at_risk', emoji:'🛡️' },
+  { name:'הג\'וינט - מוביליות חברתית', url:'https://www.thejoint.org.il/challenges/social_mobility/', region:'israel', category:'social_mobility', emoji:'🤝' },
+  { name:'ג\'וינט-אשלים - נוער בסיכון', url:'https://www.thejoint.org.il/', region:'israel', category:'youth_at_risk', emoji:'🤝' },
+  { name:'קרן גנדיר - חינוך והשכלה גבוהה', url:'https://www.gandyr.com/', region:'israel', category:'education', emoji:'🎓' },
+  { name:'יד הנדיב - חינוך וחברה', url:'https://www.yadhanadiv.org.il/', region:'israel', category:'education', emoji:'🏛️' },
+  { name:'הכוורת - מימון למיזמים חברתיים', url:'https://hackaveret.org/knowledges/fund-raising/', region:'israel', category:'social_mobility', emoji:'🐝' },
+  { name:'התוכנית למובילי לכידות חברתית', url:'https://www.sci.org.il/', region:'israel', category:'social_mobility', emoji:'🌐' },
+  { name:'שתיל - קרנות וקולות קוראים', url:'https://shatil.org.il/%D7%A7%D7%A8%D7%A0%D7%95%D7%AA-%D7%95%D7%A7%D7%95%D7%9C%D7%95%D7%AA-%D7%A7%D7%95%D7%A8%D7%90%D7%99%D7%9D/', region:'israel', category:'social', emoji:'🌱' },
+  { name:'SocialMap - הקול קורה', url:'https://socialmap.org.il/hakol-kore', region:'israel', category:'social', emoji:'🗺️' },
+  { name:'משאבים - מענקים לעמותות', url:'https://mashabim.org/main-page/', region:'israel', category:'ngo', emoji:'📋' },
+  { name:'גיידסטאר - קולות קוראים (3א)', url:'https://www.guidestar.org.il/search-announcements', region:'israel', category:'ngo', emoji:'⭐' },
+  { name:'ערב רב - קולות קוראים', url:'https://www.erev-rav.com/archives/category/%D7%A7%D7%95%D7%9C-%D7%A7%D7%95%D7%A8%D7%90', region:'israel', category:'culture', emoji:'🎭' },
+  { name:'קרן שוסטרמן ישראל', url:'https://www.schusterman.org/', region:'israel', category:'education', emoji:'🌟' },
+  { name:'קרן רבינוביץ לאמנויות', url:'https://www.rabinovichfoundation.org.il/', region:'israel', category:'culture', emoji:'🎨' },
+  { name:'קרן ליוצרים - משרד התרבות', url:'https://www.kerentarbut.co.il/', region:'israel', category:'culture', emoji:'🎭' },
+  // ── בינלאומי ──
+  { name:'OJJDP - Juvenile Justice Funding', url:'https://ojjdp.ojp.gov/funding/current', region:'international', category:'youth_at_risk', emoji:'⚖️' },
+  { name:'CYFAR - Children & Families at Risk (USDA)', url:'https://www.nifa.usda.gov/grants/programs/children-youth-families-risk-cyfar', region:'international', category:'youth_at_risk', emoji:'🌾' },
+  { name:'FYSB - Family & Youth Services (HHS)', url:'https://acf.gov/fysb/grants/funding-opportunities', region:'international', category:'youth_at_risk', emoji:'👨‍👩‍👧' },
+  { name:'National Dropout Prevention Center', url:'https://dropoutprevention.org/grants/', region:'international', category:'education', emoji:'🏫' },
+  { name:'Grants.gov - Youth & Education RSS', url:'https://www.grants.gov/rss/GG_OppModByCategory.xml', region:'international', category:'government', emoji:'🇺🇸' },
+  { name:'Economic Mobility Catalog - Dropout', url:'https://catalog.results4america.org/programs/dropout-prevention-programs', region:'international', category:'education', emoji:'📊' },
+  { name:'Instrumentl - Youth Programs Grants', url:'https://www.instrumentl.com/browse-grants/grants-for-youth-programs', region:'international', category:'youth_at_risk', emoji:'🔧' },
+  { name:'GrantWatch - Youth & Children', url:'https://www.grantwatch.com/grantnews/12-grants-for-youth-and-childrens-programs-you-can-apply-for/', region:'international', category:'youth_at_risk', emoji:'👀' },
+  { name:'Opportunities for Youth', url:'https://opportunitiesforyouth.org/', region:'international', category:'youth_at_risk', emoji:'🚀' },
+  { name:'Urban Awareness USA - Funding', url:'https://urbanawarenessusa.org/blog/', region:'international', category:'social_mobility', emoji:'🏙️' },
+  { name:'fundsforNGOs - Youth & Adolescents', url:'https://www2.fundsforngos.org/category/youth-adolescents/', region:'international', category:'youth_at_risk', emoji:'💰' },
+  { name:'fundsforNGOs - Education', url:'https://www2.fundsforngos.org/category/education/', region:'international', category:'education', emoji:'💰' },
+  { name:'fundsforNGOs - Latest Grants', url:'https://www2.fundsforngos.org/category/latest-funds-for-ngos/', region:'international', category:'ngo', emoji:'💰' },
+  { name:'NIH Funding Opportunities', url:'https://grants.nih.gov/grants/guide/newsfeed/fundingopps.xml', region:'international', category:'research', emoji:'🔬' },
+  { name:'NEA - National Endowment for Arts', url:'https://www.arts.gov/grants', region:'international', category:'culture', emoji:'🎨' },
+  { name:'EU Funding Portal - Education & Youth', url:'https://eufundingportal.eu/tag/education/', region:'international', category:'education', emoji:'🇪🇺' },
+  { name:'Artenda - Social Impact Grants', url:'https://artenda.net/art-open-call-opportunity/project-grant', region:'international', category:'culture', emoji:'✨' },
+  { name:'TransArtists - Funding Worldwide', url:'https://www.transartists.org/en/funding-worldwide', region:'international', category:'culture', emoji:'🌍' },
+];
+
+const CAT_LABELS = {
+  youth_at_risk:'נוער בסיכון', education:'חינוך', social_mobility:'מוביליות חברתית',
+  government:'ממשלתי', innovation:'חדשנות', social:'חברה אזרחית', ngo:'עמותות',
+  culture:'תרבות', research:'מחקר'
+};
+const CAT_COLORS = {
+  youth_at_risk:'#C2185B,#FFF0F5', education:'#1976D2,#EFF6FF',
+  social_mobility:'#388E3C,#F0FFF0', government:'#5D4037,#FFF8F5',
+  innovation:'#F57C00,#FFF8EE', social:'#0288D1,#EFF9FF',
+  ngo:'#7B1FA2,#FAF0FF', culture:'#C2185B,#FFF0F5', research:'#455A64,#F5F5F5'
+};
+
+let scannerTab = 'all';
+let scannerResults = [];
+let scannerInited = false;
+
+function initScanner() {
+  if (scannerInited) return;
+  scannerInited = true;
+  renderScannerGrid();
+}
+
+function setScannerTab(tab) {
+  scannerTab = tab;
+  ['all','israel','international'].forEach(t => {
+    const btn = document.getElementById('stab-' + t);
+    if (!btn) return;
+    if (t === tab) {
+      btn.className = 'px-4 py-2 rounded-xl text-sm font-bold bg-[#111] text-white';
+    } else {
+      btn.className = 'px-4 py-2 rounded-xl text-sm font-medium text-[#666] hover:bg-[#F0F0F0]';
+    }
+  });
+  renderScannerGrid();
+}
+
+function renderScannerGrid() {
+  const grid = document.getElementById('scanner-sources-grid');
+  if (!grid) return;
+  const sources = scannerTab === 'all'
+    ? SCANNER_SOURCES
+    : SCANNER_SOURCES.filter(s => s.region === scannerTab);
+
+  grid.innerHTML = sources.map(s => {
+    const [fg, bg] = (CAT_COLORS[s.category] || '#666,#F5F5F5').split(',');
+    const label = CAT_LABELS[s.category] || s.category;
+    const flag = s.region === 'israel' ? '🇮🇱' : '🌍';
+    return `
+    <div class="bg-white rounded-2xl border border-[#EFEFEF] p-4 hover:shadow-md transition-shadow flex flex-col gap-3">
+      <div class="flex items-start justify-between gap-2">
+        <div class="flex items-center gap-2 flex-1 min-w-0">
+          <span class="text-xl flex-shrink-0">${s.emoji}</span>
+          <p class="font-semibold text-sm text-[#111] leading-tight lc2">${s.name}</p>
+        </div>
+        <span class="text-lg flex-shrink-0">${flag}</span>
+      </div>
+      <div class="flex items-center justify-between gap-2">
+        <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background:${bg};color:${fg};">${label}</span>
+        <a href="${s.url}" target="_blank" class="text-xs font-bold text-[#111] bg-[#F7F7F7] px-3 py-1.5 rounded-lg hover:bg-[#FFF200] transition-colors whitespace-nowrap">פתח ←</a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openAllSources() {
+  const sources = scannerTab === 'all'
+    ? SCANNER_SOURCES
+    : SCANNER_SOURCES.filter(s => s.region === scannerTab);
+  if (sources.length > 5) {
+    if (!confirm(`האם לפתוח ${sources.length} כרטיסיות? הדפדפן עלול לחסום חלקן.`)) return;
+  }
+  sources.forEach(s => window.open(s.url, '_blank'));
+}
+
+function loadScannerJson(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      scannerResults = Array.isArray(data) ? data : [];
+      document.getElementById('scanner-results-count').textContent = scannerResults.length;
+      document.getElementById('sb-scanner-badge').textContent = scannerResults.length;
+      document.getElementById('scanner-results-section').classList.remove('hidden');
+      filterScannerResults();
+      toast(`נטענו ${scannerResults.length} קולות קוראים ✓`, 'success');
+    } catch(err) {
+      toast('שגיאה בקריאת הקובץ: ' + err.message, 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function filterScannerResults() {
+  const region = document.getElementById('scanner-filter-region').value;
+  const cat = document.getElementById('scanner-filter-cat').value;
+  const q = document.getElementById('scanner-search').value.toLowerCase();
+
+  let filtered = scannerResults;
+  if (region) filtered = filtered.filter(r => r.region === region);
+  if (cat) filtered = filtered.filter(r => r.category === cat);
+  if (q) filtered = filtered.filter(r =>
+    (r.title||'').toLowerCase().includes(q) ||
+    (r.source||'').toLowerCase().includes(q) ||
+    (r.description||'').toLowerCase().includes(q)
+  );
+
+  const tbody = document.getElementById('scanner-results-tbody');
+  const empty = document.getElementById('scanner-results-empty');
+
+  if (!filtered.length) {
+    tbody.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  tbody.innerHTML = filtered.map(r => {
+    const [fg, bg] = (CAT_COLORS[r.category] || '#666,#F5F5F5').split(',');
+    const label = CAT_LABELS[r.category] || r.category;
+    const flag = r.region === 'israel' ? '🇮🇱' : '🌍';
+    const deadline = r.deadline ? r.deadline.substring(0,10) : '—';
+    return `<tr>
+      <td class="px-4 py-3 text-sm font-medium max-w-xs">
+        <span class="lc2 block">${r.title || '—'}</span>
+        ${r.description ? `<span class="text-xs text-[#999] lc1 block mt-0.5">${r.description}</span>` : ''}
+      </td>
+      <td class="px-4 py-3 text-xs text-[#666] whitespace-nowrap">${r.source || '—'}</td>
+      <td class="px-4 py-3">
+        <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background:${bg};color:${fg};">${label}</span>
+      </td>
+      <td class="px-4 py-3 text-xs ${deadline !== '—' ? 'text-red-500 font-semibold' : 'text-[#999]'}">${deadline}</td>
+      <td class="px-4 py-3 text-lg">${flag}</td>
+      <td class="px-4 py-3">
+        ${r.url ? `<a href="${r.url}" target="_blank" class="text-xs font-bold text-[#111] bg-[#F7F7F7] px-3 py-1.5 rounded-lg hover:bg-[#FFF200] transition-colors">פתח</a>` : ''}
+      </td>
+    </tr>`;
+  }).join('');
 }
 
 // ── INIT ─────────────────────────────────────────────────
