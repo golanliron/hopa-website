@@ -24,6 +24,7 @@
     .sidebar-btn:not(.active):hover svg { stroke: #fff !important; }
 
     /* ── Animations ── */
+    @keyframes spin { from{transform:rotate(0deg)}to{transform:rotate(360deg)} }
     @keyframes modalIn { from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)} }
     @keyframes fadeIn { from{opacity:0}to{opacity:1} }
     @keyframes toastIn { from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)} }
@@ -409,8 +410,12 @@
             <p class="text-sm text-[#999] mt-1">47 מקורות — ישראל ובינלאומי</p>
           </div>
           <div class="flex gap-2">
-            <label class="bg-[#111] text-white font-bold px-4 py-2 rounded-xl text-sm cursor-pointer hover:bg-[#333] flex items-center gap-2">
-              📂 טעון תוצאות JSON
+            <button id="btn-refresh-calls" onclick="loadCallsFromSupabase()" class="bg-[#111] text-white font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#333] flex items-center gap-2">
+              <svg id="refresh-icon" width="15" height="15" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+              רענן תוצאות
+            </button>
+            <label class="text-[#666] border border-[#E5E5E5] font-medium px-4 py-2 rounded-xl text-sm cursor-pointer hover:bg-[#F7F7F7] flex items-center gap-2">
+              📂 ייבוא JSON
               <input type="file" accept=".json" class="hidden" onchange="loadScannerJson(event)"/>
             </label>
             <button id="btn-open-all" onclick="openAllSources()" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900]">⚡ פתח את כולם</button>
@@ -509,12 +514,11 @@
           <div id="scanner-calls-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
           <div id="scanner-calls-empty" class="hidden text-center py-16 text-[#999] text-sm">לא נמצאו קולות קוראים</div>
 
-          <!-- Empty state (before JSON loaded) -->
+          <!-- Empty state -->
           <div id="scanner-calls-placeholder" class="text-center py-16">
-            <div class="text-5xl mb-4">📂</div>
-            <p class="font-bold text-lg mb-2">טרם נטענו תוצאות</p>
-            <p class="text-[#999] text-sm mb-5">לחץ על "טעון תוצאות JSON" למעלה כדי לטעון תוצאות מהסורק</p>
-            <p class="text-xs text-[#bbb]">הסורק שומר קבצים ב: outputs/calls_YYYYMMDD_HHMMSS.json</p>
+            <div class="text-5xl mb-4">🔄</div>
+            <p class="font-bold text-lg mb-2">טוען קולות קוראים...</p>
+            <p class="text-[#999] text-sm">מביא נתונים מהמאגר</p>
           </div>
         </div>
 
@@ -2841,6 +2845,56 @@ function initScanner() {
   if (scannerInited) return;
   scannerInited = true;
   renderScannerGrid();
+  loadCallsFromSupabase();
+}
+
+async function loadCallsFromSupabase() {
+  // Spin the icon
+  const icon = document.getElementById('refresh-icon');
+  if (icon) icon.style.animation = 'spin 1s linear infinite';
+
+  try {
+    const { data, error } = await sb
+      .from('scanner_calls')
+      .select('*')
+      .order('scraped_at', { ascending: false });
+
+    if (error) throw error;
+
+    scannerResults = data || [];
+    applyCallsToUI();
+  } catch(err) {
+    // No data yet — show empty state
+    scannerResults = [];
+    applyCallsToUI(true);
+    if (err.code !== 'PGRST116') {
+      const ph = document.getElementById('scanner-calls-placeholder');
+      if (ph) { ph.innerHTML = `<div class="text-5xl mb-4">📭</div><p class="font-bold text-lg mb-2">אין קולות קוראים עדיין</p><p class="text-[#999] text-sm">הרץ את scanner.py כדי לאכלס נתונים</p>`; }
+    }
+  } finally {
+    if (icon) icon.style.animation = '';
+  }
+}
+
+function applyCallsToUI(empty = false) {
+  const withDeadline = scannerResults.filter(r => r.deadline).length;
+  const withDesc     = scannerResults.filter(r => r.description).length;
+  document.getElementById('rstat-total').textContent    = scannerResults.length;
+  document.getElementById('rstat-deadline').textContent = withDeadline;
+  document.getElementById('rstat-desc').textContent     = withDesc;
+  document.getElementById('smtab-results-count').textContent = scannerResults.length;
+  document.getElementById('sb-scanner-badge').textContent    = scannerResults.length || '';
+
+  const ph = document.getElementById('scanner-calls-placeholder');
+  if (scannerResults.length === 0) {
+    if (ph && !empty) ph.innerHTML = `<div class="text-5xl mb-4">📭</div><p class="font-bold text-lg mb-2">אין קולות קוראים עדיין</p><p class="text-[#999] text-sm">הרץ את scanner.py כדי לאכלס נתונים, או ייבא JSON</p>`;
+    if (ph) ph.classList.remove('hidden');
+    document.getElementById('scanner-calls-grid').innerHTML = '';
+    document.getElementById('scanner-calls-empty').classList.add('hidden');
+  } else {
+    if (ph) ph.classList.add('hidden');
+    filterScannerResults();
+  }
 }
 
 // ── Main tab switch (מקורות / קולות קוראים) ──
@@ -2921,30 +2975,44 @@ function openAllSources() {
   sources.forEach(s => window.open(s.url, '_blank'));
 }
 
-// ── Load JSON ──
+// ── Import JSON → Supabase ──
 function loadScannerJson(event) {
   const file = event.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = function(e) {
+  reader.onload = async function(e) {
     try {
       const data = JSON.parse(e.target.result);
-      scannerResults = Array.isArray(data) ? data : [];
-      // Update stats
-      const withDeadline = scannerResults.filter(r => r.deadline).length;
-      const withDesc     = scannerResults.filter(r => r.description).length;
-      document.getElementById('rstat-total').textContent    = scannerResults.length;
-      document.getElementById('rstat-deadline').textContent = withDeadline;
-      document.getElementById('rstat-desc').textContent     = withDesc;
-      document.getElementById('smtab-results-count').textContent = scannerResults.length;
-      document.getElementById('sb-scanner-badge').textContent    = scannerResults.length;
-      // Auto-switch to results tab
+      const rows = Array.isArray(data) ? data : [];
+      if (!rows.length) { toast('הקובץ ריק', 'error'); return; }
+
+      toast(`שומר ${rows.length} קולות קוראים...`, 'info');
+
+      // Clear old + insert new in batches of 100
+      await sb.from('scanner_calls').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      const batchSize = 100;
+      for (let i = 0; i < rows.length; i += batchSize) {
+        const batch = rows.slice(i, i + batchSize).map(r => ({
+          title: r.title || null,
+          source: r.source || null,
+          url: r.url || null,
+          category: r.category || null,
+          region: r.region || null,
+          description: r.description || null,
+          deadline: r.deadline || null,
+          grant_amount: r.grant_amount || null,
+          tags: r.tags || [],
+          scraped_at: r.scraped_at || new Date().toISOString(),
+        }));
+        const { error } = await sb.from('scanner_calls').insert(batch);
+        if (error) throw error;
+      }
+
+      await loadCallsFromSupabase();
       setScannerMainTab('results');
-      document.getElementById('scanner-calls-placeholder').classList.add('hidden');
-      filterScannerResults();
-      toast(`נטענו ${scannerResults.length} קולות קוראים ✓`, 'success');
+      toast(`✓ ${rows.length} קולות קוראים נשמרו ונטענו`, 'success');
     } catch(err) {
-      toast('שגיאה בקריאת הקובץ: ' + err.message, 'error');
+      toast('שגיאה: ' + err.message, 'error');
     }
   };
   reader.readAsText(file);
