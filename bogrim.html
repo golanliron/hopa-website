@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>בוגרים הופה — לוח ניהול</title>
+  <meta name="robots" content="noindex, nofollow" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     * { box-sizing: border-box; }
@@ -284,8 +285,10 @@
 </main>
 
 <script>
-const MONDAY_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjU1MTE3ODY0MCwiYWFpIjoxMSwidWlkIjo3OTYwODg1MSwiaWFkIjoiMjAyNS0wOC0xN1QxNDoyMjowMS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MzA3Mjc0MDAsInJnbiI6ImV1YzEifQ.v08TgFNEtd9pBcws4lpRs-8TVxAW3YBAuOOPP3IYo4Q';
-const MONDAY_URL = 'https://api.monday.com/v2';
+// Monday.com token moved to server-side Edge Function
+const SB_PROXY_URL = 'https://vhmwijzcrqjjquxomccq.supabase.co';
+const SB_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZobXdpanpjcnFqanF1eG9tY2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1Nzk0MDgsImV4cCI6MjA4OTE1NTQwOH0.rMnAcdMiPddUAoap63tMiqeQQanJoF-HDmzra7P-5Cc';
+const MONDAY_URL = `${SB_PROXY_URL}/functions/v1/monday-proxy`;
 
 // Per-board config — each board has different column IDs for notes/impact
 const BOARDS = [
@@ -348,10 +351,10 @@ async function fetchBoardItems(boardId, onProgress) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': MONDAY_TOKEN,
-        'API-Version': '2024-10',
+        'Authorization': `Bearer ${SB_ANON_KEY}`,
+        'apikey': SB_ANON_KEY,
       },
-      body: JSON.stringify({ query, variables }),
+      body: JSON.stringify({ query }),
     });
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const json = await resp.json();

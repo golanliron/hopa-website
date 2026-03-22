@@ -4,37 +4,37 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>הופה — מענים לנוער וצעירים</title>
+  <meta name="description" content="הופה מחברת בין צעירים בגיל 14–26 לבין מענים בתחומי שירות, לימודים, תעסוקה, דיור, תמיכה רגשית ועוד — מאות תוכניות ומשאבים במקום אחד." />
+  <meta name="theme-color" content="#000000" />
+
+  <!-- Open Graph — שיתוף ברשתות חברתיות -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="he_IL" />
+  <meta property="og:site_name" content="הופה" />
+  <meta property="og:title" content="הופה — מענים לנוער וצעירים" />
+  <meta property="og:description" content="הופה מחברת בין צעירים בגיל 14–26 לבין מענים בתחומי שירות, לימודים, תעסוקה, דיור, תמיכה רגשית ועוד — מאות תוכניות ומשאבים במקום אחד." />
+  <meta property="og:url" content="https://hopa.org.il" />
+  <meta property="og:image" content="https://hopa.org.il/assets/logo.png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="הופה — מענים לנוער וצעירים" />
+  <meta name="twitter:description" content="הופה מחברת בין צעירים בגיל 14–26 לבין מענים בתחומי שירות, לימודים, תעסוקה, דיור, תמיכה רגשית ועוד." />
+  <meta name="twitter:image" content="https://hopa.org.il/assets/logo.png" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://hopa.org.il" />
+
+  <link rel="manifest" href="/manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { rubik: ['Rubik', 'sans-serif'] },
-          colors: {
-            brand: {
-              yellow:           '#FFF200',
-              'yellow-dark':    '#E6D900',
-              black:            '#000000',
-              'text-dark':      '#111111',
-              white:            '#FFFFFF',
-              'bg-light':       '#F7F7F7',
-              border:           '#E5E5E5',
-              'text-secondary': '#666666',
-            },
-            /* ורוד פוקסיה — ייעודי למסלול 14-18 בלבד */
-            fuchsia: {
-              DEFAULT: '#E8348A',
-              light:   '#FDE8F3',
-              dark:    '#C42A75',
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <link rel="preload" href="/styles.css" as="style" />
+  <link rel="preload" href="/app.js" as="script" />
+  <link rel="dns-prefetch" href="https://vhmwijzcrqjjquxomccq.supabase.co" />
+  <link href="/tailwind-built.css" rel="stylesheet" />
   <style>
     html { scroll-behavior: smooth; }
     body { font-family: 'Rubik', sans-serif; direction: rtl; }
@@ -50,8 +50,49 @@
       border-color: #E8348A;
     }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "הופה",
+    "alternateName": "Hopa",
+    "url": "https://hopa.org.il",
+    "logo": "https://hopa.org.il/assets/logo.png",
+    "description": "הופה מחברת בין צעירים בגיל 14–26 לבין מענים בתחומי שירות, לימודים, תעסוקה, דיור, תמיכה רגשית ועוד",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+972-50-267-1012",
+      "contactType": "customer service",
+      "availableLanguage": "Hebrew"
+    },
+    "sameAs": [
+      "https://www.facebook.com/hopa.org.il",
+      "https://www.instagram.com/hopa.org.il"
+    ]
+  }
+  </script>
+  <!-- Google Tag (gtag.js) — GA4 + Google Ads -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-N8FRR8LHZQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-N8FRR8LHZQ');
+    gtag('config', 'AW-17963430377');
+  </script>
+
+  <noscript>
+    <style>
+      .section-animate { opacity: 1 !important; transform: none !important; }
+      .service-card, .stat-card { opacity: 1 !important; transform: none !important; }
+      #mobile-menu { display: block !important; max-height: none !important; }
+    </style>
+  </noscript>
 </head>
 <body class="bg-white text-brand-text-dark antialiased">
+
+  <!-- Skip to content — נגישות -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:right-2 focus:bg-brand-yellow focus:text-brand-black focus:px-4 focus:py-2 focus:rounded-lg focus:z-[100] focus:font-semibold focus:text-sm">דלג לתוכן הראשי</a>
 
   <!-- ==============================
        HEADER
@@ -61,7 +102,7 @@
       <div class="flex items-center justify-between h-16">
 
         <a href="#" onclick="resetAll()" class="flex items-center gap-2 flex-shrink-0">
-          <img src="https://hopa.org.il/wp-content/uploads/2023/02/nav-logo.png" alt="הופה" class="h-8 w-auto"
+          <img src="https://hopa.org.il/wp-content/uploads/2023/02/nav-logo.png" alt="לוגו הופה — מענים לנוער וצעירים" class="h-8 w-auto"
                onerror="this.classList.add('hidden');document.getElementById('logo-fallback').classList.remove('hidden')">
           <div id="logo-fallback" class="hidden w-8 h-8 bg-brand-yellow rounded-lg flex items-center justify-center">
             <span class="font-black text-brand-black text-base leading-none">ה</span>
@@ -79,6 +120,20 @@
         </nav>
 
         <div class="flex items-center gap-3">
+          <!-- Login / User button -->
+          <button id="header-login-btn" onclick="openLoginModal()" class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 border border-brand-border text-brand-text-secondary hover:text-brand-black hover:border-brand-black text-sm font-medium rounded-lg transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            כניסה
+          </button>
+          <!-- Logged-in user display (hidden by default) -->
+          <div id="header-user-info" class="hidden items-center gap-2">
+            <div class="flex items-center gap-1.5 px-4 py-2 bg-brand-bg-light text-brand-black text-sm font-medium rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span id="header-user-name"></span>
+            </div>
+            <button onclick="logoutUser()" class="text-xs text-brand-text-secondary hover:text-red-500 transition-colors">יציאה</button>
+          </div>
+
           <a href="#age-select" class="hidden sm:inline-flex items-center px-5 py-2 bg-brand-yellow hover:bg-brand-yellow-dark text-brand-black font-semibold text-sm rounded-lg transition-colors">
             מצאו מענה
           </a>
@@ -102,11 +157,16 @@
         <a href="#blog-section" onclick="closeMobileMenu()" class="px-4 py-3 rounded-lg text-sm font-medium hover:bg-brand-bg-light">בלוג הופה</a>
         <a href="#contact-section" onclick="closeMobileMenu()" class="px-4 py-3 rounded-lg text-sm font-medium hover:bg-brand-bg-light">צור קשר</a>
         <a href="#age-select" onclick="closeMobileMenu()" class="mt-2 px-4 py-3 bg-brand-yellow text-brand-black font-semibold text-sm rounded-lg text-center">מצאו מענה</a>
+        <button id="mobile-login-btn" onclick="closeMobileMenu();openLoginModal()" class="mt-1 px-4 py-3 border border-brand-border text-brand-text-secondary font-medium text-sm rounded-lg text-center hover:bg-brand-bg-light transition-all">כניסה למשתמשים רשומים</button>
+        <div id="mobile-user-info" class="hidden mt-1 px-4 py-3 bg-brand-bg-light rounded-lg flex items-center justify-between">
+          <span class="text-sm font-medium" id="mobile-user-name"></span>
+          <button onclick="logoutUser()" class="text-xs text-red-500 font-medium">יציאה</button>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main class="pt-16">
+  <main id="main-content" class="pt-16">
 
     <!-- ==============================
          HERO
@@ -137,6 +197,11 @@
               type="text"
               id="search-input"
               placeholder="חפשו מענה לפי שם, תחום או נושא..."
+              aria-label="חיפוש מענים"
+              aria-controls="search-results"
+              aria-autocomplete="list"
+              role="combobox"
+              aria-expanded="false"
               class="w-full px-5 py-3.5 pr-12 rounded-xl border-2 border-brand-border bg-white text-brand-text-dark placeholder-brand-text-secondary focus:outline-none focus:border-brand-black transition-all text-sm"
               oninput="searchPrograms(this.value)"
               onkeydown="handleSearchKey(event)"
@@ -150,9 +215,9 @@
             </div>
           </div>
           <!-- Search results dropdown -->
-          <div id="search-results" class="hidden absolute top-full right-0 left-0 mt-1 bg-white border border-brand-border rounded-xl shadow-lg z-40 max-h-80 overflow-y-auto text-right">
-            <div id="search-results-list"></div>
-            <div id="search-no-results" class="hidden px-5 py-4 text-sm text-brand-text-secondary text-center">לא נמצאו תוצאות</div>
+          <div id="search-results" class="hidden absolute top-full right-0 left-0 mt-1 bg-white border border-brand-border rounded-xl shadow-lg z-40 max-h-80 overflow-y-auto text-right" role="listbox" aria-label="תוצאות חיפוש">
+            <div id="search-results-list" aria-live="polite"></div>
+            <div id="search-no-results" class="hidden px-5 py-4 text-sm text-brand-text-secondary text-center" aria-live="assertive">לא נמצאו תוצאות. נסו מילת חיפוש אחרת, או <button onclick="clearFilter();document.getElementById('search-input').value='';document.getElementById('search-results').classList.add('hidden')" class="underline font-semibold text-brand-black hover:text-brand-yellow-dark">אפסו את החיפוש</button></div>
           </div>
         </div>
 
@@ -161,7 +226,7 @@
         <div id="age-select" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
 
           <!-- 14-18 -->
-          <button onclick="selectAge('1418')"
+          <button onclick="selectAge('1418')" aria-label="מסלול גיל 14 עד 18 — נוער בבית הספר"
             class="track-btn group flex flex-col items-start p-6 rounded-xl border-2 border-brand-border bg-white hover:border-fuchsia hover:shadow-md text-right w-full">
             <div class="w-10 h-10 rounded-lg bg-fuchsia-light flex items-center justify-center mb-4 group-hover:bg-fuchsia transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-fuchsia group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -170,12 +235,12 @@
               </svg>
             </div>
             <span class="text-xs font-bold text-fuchsia mb-1">גיל 14–18</span>
-            <h2 class="font-black text-lg text-brand-black mb-1">נוער בבית הספר</h2>
+            <span class="font-black text-lg text-brand-black mb-1 block">נוער בבית הספר</span>
             <p class="text-sm text-brand-text-secondary leading-snug">מניעת נשירה, ליווי, זיהוי מוקדם ותמיכה בתוך המסגרת הלימודית</p>
           </button>
 
           <!-- 18-26 -->
-          <button onclick="selectAge('1826')"
+          <button onclick="selectAge('1826')" aria-label="מסלול גיל 18 עד 26 — צעירים אחרי תיכון"
             class="track-btn group flex flex-col items-start p-6 rounded-xl border-2 border-brand-border bg-white hover:border-brand-black hover:shadow-md text-right w-full">
             <div class="w-10 h-10 rounded-lg bg-brand-bg-light flex items-center justify-center mb-4 group-hover:bg-brand-yellow transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -183,7 +248,7 @@
               </svg>
             </div>
             <span class="text-xs font-bold text-brand-text-secondary mb-1">גיל 18–26</span>
-            <h2 class="font-black text-lg text-brand-black mb-1">צעירים ובוגרים</h2>
+            <span class="font-black text-lg text-brand-black mb-1 block">צעירים ובוגרים</span>
             <p class="text-sm text-brand-text-secondary leading-snug">שירות, לימודים, תעסוקה, דיור, סיוע כלכלי ותמיכה רגשית</p>
           </button>
 
@@ -838,8 +903,8 @@
               class="w-full border border-brand-border rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-brand-black transition-all resize-none"></textarea>
           </div>
 
-          <div id="submit-program-error" class="hidden text-red-600 text-xs font-medium py-2"></div>
-          <div id="submit-program-success" class="hidden bg-brand-yellow rounded-lg px-4 py-3 text-sm font-semibold text-brand-black">
+          <div id="submit-program-error" class="hidden text-red-600 text-xs font-medium py-2" role="alert" aria-live="assertive"></div>
+          <div id="submit-program-success" class="hidden bg-brand-yellow rounded-lg px-4 py-3 text-sm font-semibold text-brand-black" role="status" aria-live="polite">
             תודה! הבקשה התקבלה ותיבדק על ידי צוות הופה.
           </div>
           <button type="submit" id="submit-program-btn"
@@ -865,26 +930,26 @@
           <!-- טופס פנייה — Formspree
                לחיבור: להחליף את action ב-https://formspree.io/f/YOUR_FORM_ID
                אחרי זה: למחוק את onsubmit ואת preventDefault, ולהשאיר method="POST" -->
-          <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-4">
+          <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-4" novalidate>
             <div>
               <label class="block text-xs font-semibold text-brand-text-secondary mb-1">שם מלא *</label>
-              <input name="name" type="text" required dir="rtl" placeholder="שם מלא"
+              <input name="name" type="text" required aria-required="true" autocomplete="name" dir="rtl" placeholder="שם מלא"
                 class="w-full border border-brand-border rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:border-brand-black transition-all"/>
             </div>
             <div>
               <label class="block text-xs font-semibold text-brand-text-secondary mb-1">טלפון *</label>
-              <input name="phone" type="tel" required dir="ltr" placeholder="050-0000000"
+              <input name="phone" type="tel" required aria-required="true" autocomplete="tel" dir="ltr" placeholder="050-0000000"
                 class="w-full border border-brand-border rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:border-brand-black transition-all"/>
             </div>
             <div>
               <label class="block text-xs font-semibold text-brand-text-secondary mb-1">מייל</label>
-              <input name="email" type="email" dir="ltr" placeholder="name@example.com"
+              <input name="email" type="email" autocomplete="email" dir="ltr" placeholder="name@example.com"
                 class="w-full border border-brand-border rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:border-brand-black transition-all"/>
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs font-semibold text-brand-text-secondary mb-1">עיר</label>
-                <input name="city" type="text" dir="rtl" placeholder="עיר מגורים"
+                <input name="city" type="text" autocomplete="address-level2" dir="rtl" placeholder="עיר מגורים"
                   class="w-full border border-brand-border rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:border-brand-black transition-all"/>
               </div>
               <div>
@@ -895,11 +960,11 @@
             </div>
             <div>
               <label class="block text-xs font-semibold text-brand-text-secondary mb-1">מה מחפשים? *</label>
-              <textarea name="message" required rows="3" dir="rtl" placeholder="ספרו לנו במה תרצו עזרה..."
+              <textarea name="message" required aria-required="true" rows="3" dir="rtl" placeholder="ספרו לנו במה תרצו עזרה..."
                 class="w-full border border-brand-border rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:border-brand-black transition-all resize-none"></textarea>
             </div>
-            <div id="contact-form-error" class="hidden text-red-600 text-xs font-medium"></div>
-            <div id="contact-form-success" class="hidden bg-brand-yellow rounded-lg px-4 py-3 text-sm font-semibold text-brand-black">
+            <div id="contact-form-error" class="hidden text-red-600 text-xs font-medium" role="alert" aria-live="assertive"></div>
+            <div id="contact-form-success" class="hidden bg-brand-yellow rounded-lg px-4 py-3 text-sm font-semibold text-brand-black" role="status" aria-live="polite">
               תודה! קיבלנו את הפנייה שלך ונחזור אליך בהקדם.
             </div>
             <button type="submit" id="contact-btn"
@@ -962,28 +1027,28 @@
           <!-- אלומות — קישור ידוע -->
           <a href="https://www.alumot.org/" target="_blank" rel="noopener noreferrer"
              class="flex items-center justify-center h-12 w-32 hover:opacity-70 transition-opacity">
-            <img src="https://hopa.org.il/wp-content/uploads/2026/02/3.png"
+            <img src="https://hopa.org.il/wp-content/uploads/2026/02/3.png" loading="lazy"
                  alt="אלומות" class="h-10 max-w-full object-contain grayscale hover:grayscale-0 transition-all"
                  onerror="this.closest('a').replaceWith(Object.assign(document.createElement('div'),{className:'flex items-center justify-center h-12 w-32 border border-brand-border rounded-lg',innerHTML:'<span class=\'text-sm font-semibold text-brand-text-secondary\'>אלומות</span>'}))">
           </a>
 
           <!-- מגאור — ללא URL ידוע -->
           <div class="flex items-center justify-center h-12 w-32 hover:opacity-70 transition-opacity">
-            <img src="https://hopa.org.il/wp-content/uploads/2026/01/logo_megaor.png"
+            <img src="https://hopa.org.il/wp-content/uploads/2026/01/logo_megaor.png" loading="lazy"
                  alt="מגאור" class="h-10 max-w-full object-contain grayscale hover:grayscale-0 transition-all"
                  onerror="this.closest('div').innerHTML='<span class=\'text-sm font-semibold text-brand-text-secondary\'>מגאור</span>'">
           </div>
 
           <!-- שותף — לוגו ללא שם מתועד -->
           <div class="flex items-center justify-center h-12 w-32 hover:opacity-70 transition-opacity">
-            <img src="https://hopa.org.il/wp-content/uploads/2025/02/unnamed-1.jpg"
+            <img src="https://hopa.org.il/wp-content/uploads/2025/02/unnamed-1.jpg" loading="lazy"
                  alt="שותף" class="h-10 max-w-full object-contain grayscale hover:grayscale-0 transition-all"
                  onerror="this.closest('div').style.display='none'">
           </div>
 
           <!-- שותף — לוגו ללא שם מתועד -->
           <div class="flex items-center justify-center h-12 w-32 hover:opacity-70 transition-opacity">
-            <img src="https://hopa.org.il/wp-content/uploads/2025/07/%d7%a2%d7%99%d7%a6%d7%95%d7%99-%d7%9c%d7%9c%d7%90-%d7%a9%d7%9d-1.png"
+            <img src="https://hopa.org.il/wp-content/uploads/2025/07/%d7%a2%d7%99%d7%a6%d7%95%d7%99-%d7%9c%d7%9c%d7%90-%d7%a9%d7%9d-1.png" loading="lazy"
                  alt="שותף" class="h-10 max-w-full object-contain grayscale hover:grayscale-0 transition-all"
                  onerror="this.closest('div').style.display='none'">
           </div>
@@ -1024,15 +1089,17 @@
             <h4 class="text-white font-semibold mb-4 text-sm">צור קשר</h4>
             <ul class="space-y-2">
               <li><a href="https://api.whatsapp.com/send?phone=972502671012" target="_blank" rel="noopener noreferrer" class="text-white/50 hover:text-white text-sm transition-colors">WhatsApp</a></li>
-              <li><a href="https://hopa.org.il" target="_blank" rel="noopener noreferrer" class="text-white/50 hover:text-white text-sm transition-colors">hopa.org.il</a></li>
+              <li><a href="mailto:contact@hopa.org.il" class="text-white/50 hover:text-white text-sm transition-colors">contact@hopa.org.il</a></li>
+              <li><a href="https://www.facebook.com/hopa.org.il" target="_blank" rel="noopener noreferrer" class="text-white/50 hover:text-white text-sm transition-colors">Facebook</a></li>
+              <li><a href="https://www.instagram.com/hopa.org.il" target="_blank" rel="noopener noreferrer" class="text-white/50 hover:text-white text-sm transition-colors">Instagram</a></li>
             </ul>
           </div>
         </div>
         <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p class="text-white/30 text-xs">© 2025 הופה — עמותה רשומה</p>
+          <p class="text-white/30 text-xs">© 2026 הופה — עמותה רשומה</p>
           <div class="flex items-center gap-4">
-            <a href="#" class="text-white/30 hover:text-white/60 text-xs transition-colors">מדיניות פרטיות</a>
-            <a href="#" class="text-white/30 hover:text-white/60 text-xs transition-colors">הצהרת נגישות</a>
+            <a href="https://hopa.org.il/privacy" class="text-white/30 hover:text-white/60 text-xs transition-colors">מדיניות פרטיות</a>
+            <a href="https://hopa.org.il/accessibility" class="text-white/30 hover:text-white/60 text-xs transition-colors">הצהרת נגישות</a>
           </div>
         </div>
       </div>
@@ -1057,7 +1124,7 @@
   </button>
 
   <!-- Chat window -->
-  <div id="chatbot-window"
+  <div id="chatbot-window" role="dialog" aria-modal="false" aria-label="עוזר חיפוש הופה"
     class="hidden fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-brand-border flex flex-col overflow-hidden"
     style="max-height: 520px;">
 
@@ -1080,7 +1147,7 @@
     </div>
 
     <!-- Messages -->
-    <div id="chatbot-messages" class="flex-1 overflow-y-auto px-4 py-3 space-y-3 text-right" dir="rtl" style="min-height: 200px;">
+    <div id="chatbot-messages" class="flex-1 overflow-y-auto px-4 py-3 space-y-3 text-right" dir="rtl" style="min-height: 200px;" aria-live="polite" aria-label="הודעות צ'אט">
     </div>
 
     <!-- Quick-start buttons (shown initially) -->
@@ -1096,10 +1163,10 @@
 
     <!-- Input -->
     <div class="px-4 pb-4 flex gap-2 flex-shrink-0 border-t border-brand-border pt-3">
-      <input id="chatbot-input" type="text" placeholder="כתבו מה אתם מחפשים..." dir="rtl"
+      <input id="chatbot-input" type="text" placeholder="כתבו מה אתם מחפשים..." dir="rtl" aria-label="כתבו הודעה לעוזר הופה"
         class="flex-1 px-3 py-2 text-sm border border-brand-border rounded-lg focus:outline-none focus:border-brand-black transition-all"
-        onkeydown="if(event.key==='Enter') chatSendMessage()"/>
-      <button onclick="chatSendMessage()"
+        onkeydown="if(event.key==='Enter') chatSendMessage(); if(event.key==='Escape') toggleChatbot();"/>
+      <button onclick="chatSendMessage()" aria-label="שליחת הודעה"
         class="px-3 py-2 bg-brand-black text-white text-sm rounded-lg hover:bg-brand-text-dark transition-colors flex-shrink-0">
         שלח
       </button>
@@ -1732,6 +1799,7 @@
     let activeSubcat  = null;
 
     function selectAge(age) {
+      gtag('event', 'select_age_track', { age_group: age });
       document.getElementById('track-1418').classList.toggle('hidden', age !== '1418');
       document.getElementById('track-1826').classList.toggle('hidden', age !== '1826');
       document.getElementById('programs-panel').classList.add('hidden');
@@ -1749,6 +1817,7 @@
     }
 
     function openSection(key) {
+      gtag('event', 'view_section', { section_name: key });
       const section = SECTIONS[key];
       if (!section) return;
 
@@ -1974,8 +2043,10 @@
       const listEl       = document.getElementById('search-results-list');
       const noResultsEl  = document.getElementById('search-no-results');
 
+      const input = document.getElementById('search-input');
       if (!query || query.trim().length < 2) {
         resultsEl.classList.add('hidden');
+        input.setAttribute('aria-expanded', 'false');
         return;
       }
 
@@ -2019,6 +2090,8 @@
       }
 
       resultsEl.classList.remove('hidden');
+      input.setAttribute('aria-expanded', 'true');
+      gtag('event', 'search', { search_term: q, results_count: results.length });
 
       if (results.length === 0) {
         listEl.innerHTML = '';
@@ -2030,7 +2103,7 @@
             ? '<span class="text-xs font-bold text-fuchsia">14–18</span>'
             : '';
           return `<button onclick="goToSearchResult('${r.sectionKey}',${r.subcatIndex},'${r.ageTrack}')"
-            class="w-full flex items-center gap-3 px-5 py-3 hover:bg-brand-bg-light transition-colors text-right border-b border-brand-border last:border-0">
+            role="option" class="w-full flex items-center gap-3 px-5 py-3 hover:bg-brand-bg-light focus:bg-brand-bg-light focus:outline-none transition-colors text-right border-b border-brand-border last:border-0">
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2">
                 <p class="text-sm font-semibold text-brand-black truncate">${r.prog.name}</p>
@@ -2062,8 +2135,23 @@
     }
 
     function handleSearchKey(e) {
+      const resultsEl = document.getElementById('search-results');
+      const input = document.getElementById('search-input');
       if (e.key === 'Escape') {
-        document.getElementById('search-results').classList.add('hidden');
+        resultsEl.classList.add('hidden');
+        input.setAttribute('aria-expanded', 'false');
+        return;
+      }
+      // Arrow key navigation in search results
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const buttons = resultsEl.querySelectorAll('button');
+        if (!buttons.length) return;
+        const active = resultsEl.querySelector('button:focus');
+        let idx = active ? Array.from(buttons).indexOf(active) : -1;
+        if (e.key === 'ArrowDown') idx = Math.min(idx + 1, buttons.length - 1);
+        else idx = Math.max(idx - 1, 0);
+        buttons[idx].focus();
       }
     }
 
@@ -2106,6 +2194,7 @@
 
     function toggleChatbot() {
       chatbotOpen = !chatbotOpen;
+      if (chatbotOpen) gtag('event', 'chatbot_open');
       document.getElementById('chatbot-window').classList.toggle('hidden', !chatbotOpen);
       document.getElementById('chatbot-icon-open').classList.toggle('hidden', chatbotOpen);
       document.getElementById('chatbot-icon-close').classList.toggle('hidden', !chatbotOpen);
@@ -2235,6 +2324,7 @@
     }
 
     function chatQuickstart(topic) {
+      gtag('event', 'chatbot_quickstart', { topic: topic });
       document.getElementById('chatbot-quickstart').classList.add('hidden');
       chatAddUserMessage(topic);
       processChatInput(topic);
@@ -2244,6 +2334,7 @@
       const input = document.getElementById('chatbot-input');
       const text = input.value.trim();
       if (!text) return;
+      gtag('event', 'chatbot_message', { search_term: text });
       input.value = '';
       document.getElementById('chatbot-quickstart').classList.add('hidden');
       chatAddUserMessage(text);
@@ -2563,13 +2654,28 @@
     }
 
     // ————————————————————————————————————————————————————————
-    // FORMSPREE FORM IDs — להחליף לפני העלאה לאוויר
-    // 1. היכנסו ל-formspree.io → New Form
-    // 2. צרו שני טפסים נפרדים (פנייה + הגשת תוכנית)
-    // 3. העתיקו את ה-ID (8 תווים אחרי /f/) לכאן:
-    const FORMSPREE_CONTACT_ID = 'YOUR_CONTACT_FORM_ID'; // ← החליפו
-    const FORMSPREE_SUBMIT_ID  = 'YOUR_SUBMIT_FORM_ID';  // ← החליפו
+    // SUPABASE — טפסי פנייה והגשת תוכנית נשמרים ישירות ל-DB
     // ————————————————————————————————————————————————————————
+    const SB_FORMS_URL = 'https://vhmwijzcrqjjquxomccq.supabase.co';
+    const SB_FORMS_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZobXdpanpjcnFqanF1eG9tY2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1Nzk0MDgsImV4cCI6MjA4OTE1NTQwOH0.rMnAcdMiPddUAoap63tMiqeQQanJoF-HDmzra7P-5Cc';
+
+    async function _sbPost(table, payload) {
+      const res = await fetch(`${SB_FORMS_URL}/rest/v1/${table}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SB_FORMS_KEY,
+          'Authorization': 'Bearer ' + SB_FORMS_KEY,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(res.statusText);
+    }
+
+    // --- Validation helpers ---
+    function _showErr(el, msg) { el.textContent = msg; el.classList.remove('hidden'); }
+    function _hideEl(el) { el.classList.add('hidden'); }
 
     async function handleContactSubmit(event) {
       event.preventDefault();
@@ -2578,60 +2684,50 @@
       const errEl = document.getElementById('contact-form-error');
       const successEl = document.getElementById('contact-form-success');
 
-      errEl.classList.add('hidden');
-      successEl.classList.add('hidden');
+      _hideEl(errEl);
+      _hideEl(successEl);
 
       const data = {
         name:    form.name.value.trim(),
         phone:   form.phone.value.trim(),
         email:   form.email.value.trim(),
-        city:    form.city.value.trim(),
-        age:     form.age.value.trim(),
         message: form.message.value.trim(),
       };
 
-      if (!data.name)    { errEl.textContent = 'נא למלא שם מלא'; errEl.classList.remove('hidden'); return; }
-      if (!data.phone)   { errEl.textContent = 'נא למלא מספר טלפון'; errEl.classList.remove('hidden'); return; }
-      if (!data.message) { errEl.textContent = 'נא לתאר במה מחפשים עזרה'; errEl.classList.remove('hidden'); return; }
+      // Validation
+      if (!data.name)    { _showErr(errEl, 'נא למלא שם מלא'); return; }
+      if (!data.phone)   { _showErr(errEl, 'נא למלא מספר טלפון'); return; }
+      if (data.phone && !/^[\d\-+() ]{7,15}$/.test(data.phone)) { _showErr(errEl, 'מספר טלפון לא תקין'); return; }
+      if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) { _showErr(errEl, 'כתובת מייל לא תקינה'); return; }
+      if (!data.message) { _showErr(errEl, 'נא לתאר במה מחפשים עזרה'); return; }
 
+      const origText = btn.textContent;
       btn.disabled = true;
       btn.textContent = 'שולח...';
 
-      // Fallback to mailto if Formspree ID not configured
-      if (FORMSPREE_CONTACT_ID === 'YOUR_CONTACT_FORM_ID') {
-        const subject = encodeURIComponent('פנייה מהאתר – ' + data.name);
-        const body = encodeURIComponent(
-          `שם: ${data.name}\nטלפון: ${data.phone}\nמייל: ${data.email || '—'}\nעיר: ${data.city || '—'}\nגיל: ${data.age || '—'}\n\nמה מחפשים:\n${data.message}`
-        );
-        window.location.href = `mailto:contact@hopa.org.il?subject=${subject}&body=${body}`;
-        setTimeout(() => {
-          successEl.classList.remove('hidden');
-          form.reset();
-          btn.disabled = false;
-          btn.textContent = 'שלחו פנייה';
-        }, 600);
-        return;
-      }
-
       try {
-        const res = await fetch(`https://formspree.io/f/${FORMSPREE_CONTACT_ID}`, {
-          method: 'POST',
-          body: JSON.stringify(data),
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+        // Subject = city + age info for admin context
+        const city = form.city.value.trim();
+        const age  = form.age.value.trim();
+        const subject = [city, age ? `גיל ${age}` : ''].filter(Boolean).join(', ') || 'פנייה מהאתר';
+
+        await _sbPost('inquiries', {
+          name:    data.name,
+          phone:   data.phone,
+          email:   data.email || null,
+          subject: subject,
+          message: data.message,
+          status:  'new'
         });
-        if (res.ok) {
-          successEl.classList.remove('hidden');
-          form.reset();
-        } else {
-          errEl.textContent = 'שגיאה בשליחה. נסו שוב או צרו קשר ישירות.';
-          errEl.classList.remove('hidden');
-        }
+
+        gtag('event', 'generate_lead', { event_category: 'contact_form', event_label: subject });
+        successEl.classList.remove('hidden');
+        form.reset();
       } catch (e) {
-        errEl.textContent = 'בעיית תקשורת. בדקו את החיבור לאינטרנט ונסו שוב.';
-        errEl.classList.remove('hidden');
+        _showErr(errEl, 'בעיית תקשורת. בדקו את החיבור לאינטרנט ונסו שוב.');
       } finally {
         btn.disabled = false;
-        btn.textContent = 'שלחו פנייה';
+        btn.textContent = origText;
       }
     }
 
@@ -2642,75 +2738,47 @@
       const errEl = document.getElementById('submit-program-error');
       const successEl = document.getElementById('submit-program-success');
 
-      errEl.classList.add('hidden');
-      successEl.classList.add('hidden');
+      _hideEl(errEl);
+      _hideEl(successEl);
 
-      const data = {
-        org_name:         form.org_name.value.trim(),
-        contact_name:     form.contact_name.value.trim(),
-        contact_role:     form.contact_role.value.trim(),
-        contact_phone:    form.contact_phone.value.trim(),
-        contact_email:    form.contact_email.value.trim(),
-        prog_name:        form.prog_name.value.trim(),
-        prog_desc:        form.prog_desc.value.trim(),
-        prog_url:         form.prog_url.value.trim(),
-        prog_region:      form.prog_region.value.trim(),
-        prog_population:  form.prog_population.value.trim(),
-        prog_category:    form.prog_category.value.trim(),
-        prog_eligibility: form.prog_eligibility.value.trim(),
-        prog_how_to_apply:form.prog_how_to_apply.value.trim(),
-        prog_cost:        form.prog_cost.value.trim(),
-        prog_deadline:    form.prog_deadline.value.trim(),
-        prog_documents:   form.prog_documents.value.trim(),
-        prog_tags:        form.prog_tags.value.trim(),
-        prog_notes:       form.prog_notes.value.trim(),
-      };
+      const orgName      = form.org_name.value.trim();
+      const contactName  = form.contact_name.value.trim();
+      const contactPhone = form.contact_phone.value.trim();
+      const contactEmail = form.contact_email.value.trim();
+      const progName     = form.prog_name.value.trim();
+      const progDesc     = form.prog_desc.value.trim();
 
-      if (!data.org_name)      { errEl.textContent = 'נא למלא שם הארגון'; errEl.classList.remove('hidden'); return; }
-      if (!data.contact_phone) { errEl.textContent = 'נא למלא טלפון לתיאום'; errEl.classList.remove('hidden'); return; }
-      if (!data.prog_name)     { errEl.textContent = 'נא למלא שם התוכנית'; errEl.classList.remove('hidden'); return; }
-      if (!data.prog_desc)     { errEl.textContent = 'נא למלא תיאור קצר של התוכנית'; errEl.classList.remove('hidden'); return; }
+      // Validation
+      if (!orgName)      { _showErr(errEl, 'נא למלא שם הארגון'); return; }
+      if (!contactPhone) { _showErr(errEl, 'נא למלא טלפון לתיאום'); return; }
+      if (contactPhone && !/^[\d\-+() ]{7,15}$/.test(contactPhone)) { _showErr(errEl, 'מספר טלפון לא תקין'); return; }
+      if (contactEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail)) { _showErr(errEl, 'כתובת מייל לא תקינה'); return; }
+      if (!progName)     { _showErr(errEl, 'נא למלא שם התוכנית'); return; }
+      if (!progDesc)     { _showErr(errEl, 'נא למלא תיאור קצר של התוכנית'); return; }
 
+      const origText = btn.textContent;
       btn.disabled = true;
       btn.textContent = 'שולח...';
 
-      // Fallback to mailto if Formspree ID not configured
-      if (FORMSPREE_SUBMIT_ID === 'YOUR_SUBMIT_FORM_ID') {
-        const subject = encodeURIComponent('הגשת תוכנית חדשה – ' + data.org_name);
-        const body = encodeURIComponent(
-          `ארגון: ${data.org_name}\nאיש קשר: ${data.contact_name || '—'} (${data.contact_role || '—'})\nטלפון: ${data.contact_phone}\nמייל: ${data.contact_email || '—'}\n\n` +
-          `תוכנית: ${data.prog_name}\nתיאור: ${data.prog_desc}\nURL: ${data.prog_url || '—'}\n` +
-          `אזור: ${data.prog_region || '—'} | קהל יעד: ${data.prog_population || '—'} | קטגוריה: ${data.prog_category || '—'}\n` +
-          `תנאי זכאות: ${data.prog_eligibility || '—'}\nאיך מצטרפים: ${data.prog_how_to_apply || '—'}\n` +
-          `עלות: ${data.prog_cost || '—'} | מועד אחרון: ${data.prog_deadline || '—'}\n` +
-          `מסמכים: ${data.prog_documents || '—'} | תגיות: ${data.prog_tags || '—'}\nהערות: ${data.prog_notes || '—'}`
-        );
-        window.location.href = `mailto:contact@hopa.org.il?subject=${subject}&body=${body}`;
-        setTimeout(() => {
-          successEl.classList.remove('hidden');
-          form.reset();
-          btn.disabled = false;
-          btn.textContent = 'שלחו בקשה לבדיקה';
-        }, 600);
-        return;
-      }
-
       try {
-        const res = await fetch(`https://formspree.io/f/${FORMSPREE_SUBMIT_ID}`, {
-          method: 'POST',
-          body: JSON.stringify(data),
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+        await _sbPost('submissions', {
+          org_name:      orgName,
+          contact_name:  contactName || null,
+          contact_phone: contactPhone,
+          contact_email: contactEmail || null,
+          program_name:  progName,
+          description:   progDesc,
+          url:           form.prog_url.value.trim() || null,
+          category:      form.prog_category.value.trim() || null,
+          target_population: form.prog_population.value.trim() || null,
+          status:        'pending'
         });
-        if (res.ok) {
-          successEl.classList.remove('hidden');
-          form.reset();
-        } else {
-          errEl.textContent = 'שגיאה בשליחה. נסו שוב או שלחו ישירות ל-contact@hopa.org.il';
-          errEl.classList.remove('hidden');
-        }
+
+        gtag('event', 'submit_program', { event_category: 'program_submission', org_name: orgName, program_name: progName });
+        successEl.classList.remove('hidden');
+        form.reset();
       } catch (e) {
-        errEl.textContent = 'בעיית תקשורת. בדקו את החיבור לאינטרנט ונסו שוב.';
-        errEl.classList.remove('hidden');
+        _showErr(errEl, 'בעיית תקשורת. בדקו את החיבור לאינטרנט ונסו שוב.');
       } finally {
         btn.disabled = false;
         btn.textContent = 'שלחו בקשה לבדיקה';
@@ -2721,6 +2789,20 @@
     // INIT — מאתחל dropdowns ו-ticker לאחר טעינת הדף
     // ================================================
     document.addEventListener('DOMContentLoaded', function () {
+
+      // --- GA4: מעקב לחיצות וואטסאפ, טלפון, מייל ---
+      document.addEventListener('click', function(e) {
+        const link = e.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href') || '';
+        if (href.includes('whatsapp.com')) {
+          gtag('event', 'whatsapp_click', { event_category: 'contact', link_url: href });
+        } else if (href.startsWith('tel:')) {
+          gtag('event', 'phone_call', { event_category: 'contact', phone_number: href.replace('tel:', '') });
+        } else if (href.startsWith('mailto:')) {
+          gtag('event', 'email_click', { event_category: 'contact', email: href.replace('mailto:', '') });
+        }
+      });
 
       // --- Populate filter dropdowns from REGION_VALUES / POPULATION_VALUES ---
       const filterRegionEl = document.getElementById('filter-region');
@@ -2783,6 +2865,222 @@
         monthEl.textContent = `עודכן: ${MONTHS_HE[now.getMonth()]} ${now.getFullYear()}`;
       }
     });
+  </script>
+
+  <!-- Global error handler + Service Worker -->
+  <script>
+    window.addEventListener('error', function(e) {
+      // Prevent broken JS from leaving invisible content
+      document.querySelectorAll('.section-animate').forEach(function(s) { s.classList.add('visible'); });
+      document.querySelectorAll('.service-card, .stat-card').forEach(function(c) { c.style.opacity = '1'; c.style.transform = 'none'; });
+    });
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+  </script>
+
+  <!-- ==============================
+       LOGIN MODAL
+       ============================== -->
+  <div id="login-modal" class="fixed inset-0 z-[200] hidden">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeLoginModal()"></div>
+    <!-- Modal -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white rounded-2xl shadow-xl p-6 sm:p-8" dir="rtl">
+      <button onclick="closeLoginModal()" class="absolute top-4 left-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-brand-bg-light transition-all text-brand-text-secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
+      <div class="text-center mb-6">
+        <div class="w-12 h-12 bg-brand-yellow rounded-xl flex items-center justify-center mx-auto mb-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-brand-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        </div>
+        <h2 class="text-xl font-bold text-brand-black">כניסה למשתמשים רשומים</h2>
+        <p class="text-sm text-brand-text-secondary mt-1">הזינו את מספר הטלפון והסיסמה שלכם</p>
+      </div>
+
+      <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label for="login-phone" class="block text-sm font-medium text-brand-black mb-1">מספר טלפון</label>
+          <input type="tel" id="login-phone" placeholder="05X-XXXXXXX" required dir="ltr"
+                 class="w-full px-4 py-3 border border-brand-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-yellow focus:border-transparent transition-all text-center tracking-wider" />
+        </div>
+        <div>
+          <label for="login-password" class="block text-sm font-medium text-brand-black mb-1">סיסמה</label>
+          <div class="relative">
+            <input type="password" id="login-password" placeholder="••••••" required dir="ltr"
+                   class="w-full px-4 py-3 border border-brand-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-yellow focus:border-transparent transition-all text-center tracking-wider" />
+            <button type="button" onclick="togglePasswordVisibility()" class="absolute left-3 top-1/2 -translate-y-1/2 text-brand-text-secondary hover:text-brand-black">
+              <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="login-error" class="hidden text-sm text-red-600 bg-red-50 px-4 py-2 rounded-lg text-center"></div>
+
+        <button type="submit" id="login-submit-btn"
+                class="w-full py-3 bg-brand-black text-white font-semibold text-sm rounded-xl hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
+          <span id="login-btn-text">כניסה</span>
+          <svg id="login-spinner" class="hidden w-5 h-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==============================
+       LOGIN LOGIC
+       ============================== -->
+  <script>
+  (function() {
+    const SB_URL = 'https://vhmwijzcrqjjquxomccq.supabase.co';
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZobXdpanpjcnFqanF1eG9tY2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1Nzk0MDgsImV4cCI6MjA4OTE1NTQwOH0.rMnAcdMiPddUAoap63tMiqeQQanJoF-HDmzra7P-5Cc';
+
+    // Simple hash for client-side password comparison
+    async function hashPassword(pwd) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(pwd);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function normalizePhone(phone) {
+      return phone.replace(/[\s\-()]/g, '');
+    }
+
+    // Open / close modal
+    window.openLoginModal = function() {
+      document.getElementById('login-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('login-phone').focus(), 100);
+    };
+
+    window.closeLoginModal = function() {
+      document.getElementById('login-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+      document.getElementById('login-form').reset();
+      document.getElementById('login-error').classList.add('hidden');
+    };
+
+    // Toggle password visibility
+    window.togglePasswordVisibility = function() {
+      const inp = document.getElementById('login-password');
+      inp.type = inp.type === 'password' ? 'text' : 'password';
+    };
+
+    // Handle login
+    window.handleLogin = async function(e) {
+      e.preventDefault();
+      const errEl = document.getElementById('login-error');
+      const spinner = document.getElementById('login-spinner');
+      const btnText = document.getElementById('login-btn-text');
+      const btn = document.getElementById('login-submit-btn');
+
+      errEl.classList.add('hidden');
+      spinner.classList.remove('hidden');
+      btnText.textContent = 'מתחבר...';
+      btn.disabled = true;
+
+      try {
+        const phone = normalizePhone(document.getElementById('login-phone').value);
+        const password = document.getElementById('login-password').value;
+        const pwdHash = await hashPassword(password);
+
+        // Query Supabase
+        const res = await fetch(
+          `${SB_URL}/rest/v1/registered_users?phone=eq.${encodeURIComponent(phone)}&is_active=eq.true&select=id,full_name,phone,role,password_hash`,
+          {
+            headers: {
+              'apikey': SB_KEY,
+              'Authorization': 'Bearer ' + SB_KEY
+            }
+          }
+        );
+
+        if (!res.ok) throw new Error('שגיאת שרת');
+        const users = await res.json();
+
+        if (users.length === 0 || users[0].password_hash !== pwdHash) {
+          errEl.textContent = 'מספר טלפון או סיסמה שגויים';
+          errEl.classList.remove('hidden');
+          return;
+        }
+
+        const user = users[0];
+
+        // Update last_login
+        fetch(`${SB_URL}/rest/v1/registered_users?id=eq.${user.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY
+          },
+          body: JSON.stringify({ last_login: new Date().toISOString() })
+        });
+
+        // Save to localStorage
+        localStorage.setItem('hopa_user', JSON.stringify({
+          id: user.id,
+          name: user.full_name,
+          phone: user.phone,
+          role: user.role
+        }));
+
+        closeLoginModal();
+        showLoggedInState(user.full_name);
+
+      } catch (err) {
+        errEl.textContent = err.message || 'שגיאה בהתחברות, נסו שוב';
+        errEl.classList.remove('hidden');
+      } finally {
+        spinner.classList.add('hidden');
+        btnText.textContent = 'כניסה';
+        btn.disabled = false;
+      }
+    };
+
+    // Show logged-in state in header
+    function showLoggedInState(name) {
+      document.getElementById('header-login-btn').classList.add('hidden');
+      document.getElementById('header-user-info').classList.remove('hidden');
+      document.getElementById('header-user-info').classList.add('sm:flex');
+      document.getElementById('header-user-name').textContent = 'שלום, ' + name;
+
+      document.getElementById('mobile-login-btn').classList.add('hidden');
+      document.getElementById('mobile-user-info').classList.remove('hidden');
+      document.getElementById('mobile-user-name').textContent = 'שלום, ' + name;
+    }
+
+    // Logout
+    window.logoutUser = function() {
+      localStorage.removeItem('hopa_user');
+      document.getElementById('header-login-btn').classList.remove('hidden');
+      document.getElementById('header-user-info').classList.add('hidden');
+      document.getElementById('header-user-info').classList.remove('sm:flex');
+
+      document.getElementById('mobile-login-btn').classList.remove('hidden');
+      document.getElementById('mobile-user-info').classList.add('hidden');
+    };
+
+    // Check on load if user is logged in
+    const saved = localStorage.getItem('hopa_user');
+    if (saved) {
+      try {
+        const u = JSON.parse(saved);
+        if (u && u.name) showLoggedInState(u.name);
+      } catch(e) {
+        localStorage.removeItem('hopa_user');
+      }
+    }
+
+    // Close modal with Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !document.getElementById('login-modal').classList.contains('hidden')) {
+        closeLoginModal();
+      }
+    });
+  })();
   </script>
 
 </body>
