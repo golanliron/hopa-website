@@ -459,9 +459,25 @@
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2 mb-1">
                 <h3 class="font-bold text-brand-black text-sm">חוסן ותמיכה רגשית</h3>
-                <span class="text-xs text-brand-text-secondary flex-shrink-0">58 מענים</span>
+                <span class="text-xs text-brand-text-secondary flex-shrink-0">61 מענים</span>
               </div>
               <p class="text-xs text-brand-text-secondary leading-snug">סיוע נפשי, מנטורים, התמכרויות, מוגנות, הורות</p>
+            </div>
+          </button>
+
+          <button onclick="openSection('employment')" data-section="employment"
+            class="section-card group flex items-start gap-4 bg-white border border-brand-border rounded-xl p-5 hover:border-brand-black hover:shadow-sm transition-all text-right w-full">
+            <div class="section-icon w-10 h-10 rounded-lg bg-brand-bg-light flex items-center justify-center flex-shrink-0 group-hover:bg-brand-yellow transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between gap-2 mb-1">
+                <h3 class="font-bold text-brand-black text-sm">תעסוקה והכשרה מקצועית</h3>
+                <span class="text-xs text-brand-text-secondary flex-shrink-0">16 מענים</span>
+              </div>
+              <p class="text-xs text-brand-text-secondary leading-snug">הכשרות מקצועיות, ליווי תעסוקתי, השמה, מעבר לאחר שירות</p>
             </div>
           </button>
 
@@ -1693,6 +1709,36 @@
         ]
       },
 
+      employment: {
+        title: 'תעסוקה והכשרה מקצועית',
+        subcategories: [
+          { name: 'הכשרות תעסוקה', hopaUrl: null, programs: [
+            { name: 'אלקטרוניקה - נהריה', description: null, phone: null, email: null, url: 'https://www.zurim.org.il', regions: ['צפון'] },
+            { name: 'לוגיסטיקה וניהול מלאי', description: null, phone: null, email: null, url: 'https://www.zurim.org.il', regions: ['מרכז'] },
+            { name: 'ריתוך - חצור הגליל', description: null, phone: null, email: null, url: 'https://www.zurim.org.il', regions: ['צפון'] },
+            { name: 'אלקטרוניקה - ראשון לציון', description: null, phone: null, email: null, url: 'https://www.zurim.org.il', regions: ['מרכז'] },
+            { name: 'חשמלאי יומי - רחובות', description: null, phone: null, email: null, url: 'https://www.zurim.org.il', regions: ['מרכז'] },
+            { name: 'אלקטרוניקה - קריית גת', description: null, phone: null, email: null, url: 'https://www.zurim.org.il', regions: ['דרום'] },
+            { name: 'אלקטרוניקה - שדרות', description: null, phone: null, email: null, url: 'https://www.zurim.org.il', regions: ['דרום'] },
+            { name: 'אלקטרוניקה - טבריה', description: null, phone: null, email: null, url: 'https://www.zurim.org.il', regions: ['צפון'] },
+            { name: 'בקרות ואוטומציה', description: null, phone: null, email: null, url: 'https://www.zurim.org.il' },
+            { name: 'טכנאי מעליות', description: null, phone: null, email: null, url: 'https://www.zurim.org.il' },
+            { name: 'מפעיל עגורן', description: null, phone: null, email: null, url: 'https://www.zurim.org.il' },
+            { name: 'חשמלאי יומי - עמק הירדן', description: null, phone: null, email: null, url: 'https://www.zurim.org.il', regions: ['צפון'] },
+          ] },
+          { name: 'ליווי תעסוקתי', hopaUrl: null, programs: [
+            { name: 'דואליס - ליווי תעסוקתי לצעירים', description: 'ליווי צעירים לתעסוקה בהצלחה מקסימלית, בשיתוף פעולה עם היחידה למתבגרים. כולל הפניה למשרות במגוון תחומים', phone: null, email: null, url: 'https://dualis.fillout.com/form', regions: ['ירושלים'] },
+          ] },
+          { name: 'תכניות מעבר לאחר שירות צבאי', hopaUrl: null, programs: [
+            { name: 'מסע אל האופק', description: 'תכנית לחיילים משוחררים הכוללת סדנאות פרקטיות על קריירה, יזמות ושוק ההון, אימון אישי עם קואצ\'ר, סמינרים ומפגשים עם חברות מובילות במשק', phone: null, email: null, url: 'https://wkf.ms/3JsOKvR', regions: ['ירושלים'] },
+            { name: 'תעסוקה לחיילים - לאופק', description: 'מענה תעסוקתי לחיילים בודדים, חיילים משוחררים וחיילים בשירות סדיר', phone: null, email: null, url: 'https://www.laofek.org/plans/%D7%AA%D7%A2%D7%A1%D7%95%D7%97%D7%99%D7%9C/' },
+          ] },
+          { name: 'השמה והזדמנויות עבודה בחו"ל', hopaUrl: null, programs: [
+            { name: 'AMANDI - רילוקיישן למערב אפריקה', description: 'גיוס צעירים לחברת בנייה מצליחה במערב אפריקה. רילוקיישן ללא צורך בניסיון קודם. מתאים לבעלי כושר ארגון, רקע פיקודי, עצמאות ושאיפות גבוהות.', phone: '052-6130186', email: 'meirav@greendream.co.il', url: null },
+          ] },
+        ]
+      },
+
       resilience: {
         title: 'חוסן ותמיכה רגשית',
         subcategories: [
@@ -2189,6 +2235,8 @@
       { keywords: ['להט"ב', 'גאה', 'טרנס', 'להטב'], sectionKey: 'diverse', subcatName: 'קהילה להט"בית' },
       { keywords: ['חרבות ברזל', 'מלחמה', 'עקורים', 'פליטים'], sectionKey: 'diverse', subcatName: 'חרבות ברזל' },
       { keywords: ['מרכז צעירים', 'צעירים', 'אזור', 'עיר', 'קרוב'], sectionKey: 'education', subcatName: 'מרכזי צעירים' },
+      { keywords: ['הכשרה', 'הכשרה מקצועית', 'חשמלאי', 'אלקטרוניקה', 'ריתוך', 'מעליות', 'עגורן'], sectionKey: 'employment', subcatName: 'הכשרות תעסוקה' },
+      { keywords: ['רילוקיישן', 'עבודה בחו"ל', 'חו"ל'], sectionKey: 'employment', subcatName: 'השמה והזדמנויות עבודה בחו"ל' },
     ];
 
     function toggleChatbot() {
@@ -2638,6 +2686,8 @@
         result.sectionKey = 'resilience';
       } else if (['אתיופי', 'חרדי', 'להט"ב', 'מלחמה'].some(kw => text.includes(kw))) {
         result.sectionKey = 'diverse';
+      } else if (['הכשרה מקצועית', 'חשמלאי', 'אלקטרוניקה', 'ריתוך', 'מעליות', 'עגורן', 'לוגיסטיקה'].some(kw => text.includes(kw))) {
+        result.sectionKey = 'employment';
       }
 
       // Age track classification
