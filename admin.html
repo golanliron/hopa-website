@@ -1939,13 +1939,14 @@ function updateYouthSubcatFilter() {
   const cat = $('y-cat') ? $('y-cat').value : '';
   const sel = $('y-subcat'); if (!sel) return;
   const current = sel.value;
+  const subCounts = {};
+  allYouth.forEach(p=>{ if(p.subcategory) subCounts[p.subcategory]=(subCounts[p.subcategory]||0)+1; });
+
   if (cat && CATS[cat]) {
-    const subCounts = {};
-    allYouth.filter(p=>p.category===cat).forEach(p=>{ if(p.subcategory) subCounts[p.subcategory]=(subCounts[p.subcategory]||0)+1; });
     sel.innerHTML = '<option value="">כל תת-הקטגוריות</option>' + CATS[cat].map(s => `<option value="${h(s)}"${current===s?' selected':''}>${h(s)} (${subCounts[s]||0})</option>`).join('');
   } else {
-    const subs = [...new Set(allYouth.map(p => p.subcategory).filter(Boolean))].sort();
-    sel.innerHTML = '<option value="">כל תת-הקטגוריות</option>' + subs.map(s => `<option${current===s?' selected':''}>${s}</option>`).join('');
+    const allSubs = getAllSubcatsFlat();
+    sel.innerHTML = '<option value="">כל תת-הקטגוריות</option>' + allSubs.map(s => `<option value="${h(s.name)}"${current===s.name?' selected':''}>${h(s.name)} (${subCounts[s.name]||0})</option>`).join('');
   }
 }
 
@@ -2153,31 +2154,48 @@ function setProgsView(mode) {
   if (mode === 'grid') renderProgsGrid(); else renderProgsTable();
 }
 
+function getAllSubcatsFlat() {
+  // Returns all subcategories from CATS_FULL as flat array with category prefix
+  const all = [];
+  Object.entries(CATS_FULL).forEach(([cat, {subs}]) => {
+    subs.forEach(s => all.push({ name: s.name, cat }));
+  });
+  return all;
+}
+
 function updateAllSubcatFilter() {
   const cat = $('all-cat').value;
-  const opts = CATS[cat] || [];
+  const sel = $('all-subcat'); if(!sel) return;
+  const current = sel.value;
+  const subCounts = {};
+  allMixed.forEach(r=>{ if(r.subcategory) subCounts[r.subcategory]=(subCounts[r.subcategory]||0)+1; });
+
   if (cat) {
-    const subCounts = {};
-    allMixed.filter(r=>r.category===cat).forEach(r=>{ if(r.subcategory) subCounts[r.subcategory]=(subCounts[r.subcategory]||0)+1; });
-    $('all-subcat').innerHTML = '<option value="">כל תת-הקטגוריות</option>' + opts.map(o=>`<option value="${h(o)}">${h(o)} (${subCounts[o]||0})</option>`).join('');
+    const opts = CATS[cat] || [];
+    sel.innerHTML = '<option value="">כל תת-הקטגוריות</option>' + opts.map(o=>`<option value="${h(o)}"${current===o?' selected':''}>${h(o)} (${subCounts[o]||0})</option>`).join('');
   } else {
-    $('all-subcat').innerHTML = '<option value="">כל תת-הקטגוריות</option>';
+    const allSubs = getAllSubcatsFlat();
+    sel.innerHTML = '<option value="">כל תת-הקטגוריות</option>' + allSubs.map(s=>`<option value="${h(s.name)}"${current===s.name?' selected':''}>${h(s.name)} (${subCounts[s.name]||0})</option>`).join('');
   }
 }
 
 function updateProgsSubcatFilter() {
   const cat = $('p-cat').value;
-  const opts = CATS[cat] || [];
+  const sel = $('p-subcat'); if(!sel) return;
+  const current = sel.value;
+  const subCounts = {};
+  allProgs.forEach(p=>{ if(p.subcategory) subCounts[p.subcategory]=(subCounts[p.subcategory]||0)+1; });
+
   if (cat) {
-    const subCounts = {};
-    allProgs.filter(p=>p.category===cat).forEach(p=>{ if(p.subcategory) subCounts[p.subcategory]=(subCounts[p.subcategory]||0)+1; });
-    $('p-subcat').innerHTML = '<option value="">כל תת-הקטגוריות</option>' + opts.map(o=>`<option value="${h(o)}">${h(o)} (${subCounts[o]||0})</option>`).join('');
+    const opts = CATS[cat] || [];
+    sel.innerHTML = '<option value="">כל תת-הקטגוריות</option>' + opts.map(o=>`<option value="${h(o)}"${current===o?' selected':''}>${h(o)} (${subCounts[o]||0})</option>`).join('');
   } else {
-    $('p-subcat').innerHTML = '<option value="">כל תת-הקטגוריות</option>';
+    const allSubs = getAllSubcatsFlat();
+    sel.innerHTML = '<option value="">כל תת-הקטגוריות</option>' + allSubs.map(s=>`<option value="${h(s.name)}"${current===s.name?' selected':''}>${h(s.name)} (${subCounts[s.name]||0})</option>`).join('');
   }
 }
 
-// Populate category dropdowns with counts
+// Populate category dropdowns with counts + auto-populate subcategories
 function updateCatDropdownsWithCounts() {
   const catCounts = {};
   allProgs.forEach(p => { if(p.category) catCounts[p.category]=(catCounts[p.category]||0)+1; });
@@ -2197,6 +2215,10 @@ function updateCatDropdownsWithCounts() {
     allYouth.forEach(p => { if(p.category) youthCatCounts[p.category]=(youthCatCounts[p.category]||0)+1; });
     const cur=yCat.value; yCat.innerHTML = baseOpt + catNames.map(c=>`<option value="${h(c)}"${cur===c?' selected':''}>${h(c)} (${youthCatCounts[c]||0})</option>`).join('');
   }
+
+  // Also populate subcategory dropdowns
+  updateAllSubcatFilter();
+  updateProgsSubcatFilter();
 }
 
 function toggleDropdown(id) {
