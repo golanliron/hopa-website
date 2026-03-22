@@ -746,11 +746,93 @@
       <!-- ══ CATEGORIES ══ -->
       <div id="view-categories" class="view hidden fade-in">
         <div class="flex items-center justify-between mb-5">
-          <div><h1 class="text-2xl font-bold">קטגוריות</h1><p class="text-sm text-[#999] mt-0.5">ניהול קטגוריות ותת-קטגוריות של המענים</p></div>
+          <div><h1 class="text-2xl font-bold">ניתוח טקסונומיה</h1><p class="text-sm text-[#999] mt-0.5">קטגוריות, תת-קטגוריות, קהלי יעד ואזורים — 507 מענים</p></div>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          <div id="cats-main-list" class="space-y-3"></div>
+
+        <!-- סיכום מהיר -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+          <div class="bg-white rounded-xl border border-[#E5E5E5] p-4 text-center">
+            <div id="tax-total" class="text-2xl font-black">—</div>
+            <div class="text-xs text-[#999] mt-1">סה"כ מענים</div>
+          </div>
+          <div class="bg-white rounded-xl border border-[#E5E5E5] p-4 text-center">
+            <div class="text-2xl font-black">6</div>
+            <div class="text-xs text-[#999] mt-1">קטגוריות</div>
+          </div>
+          <div class="bg-white rounded-xl border border-[#E5E5E5] p-4 text-center">
+            <div class="text-2xl font-black">34</div>
+            <div class="text-xs text-[#999] mt-1">תת-קטגוריות</div>
+          </div>
+          <div class="bg-white rounded-xl border border-[#E5E5E5] p-4 text-center">
+            <div class="text-2xl font-black">20</div>
+            <div class="text-xs text-[#999] mt-1">קהלי יעד</div>
+          </div>
         </div>
+
+        <!-- טאבים -->
+        <div class="flex gap-2 mb-5 border-b border-[#E5E5E5] pb-3">
+          <button onclick="showTaxTab('cats')" id="tax-tab-cats" class="tax-tab px-4 py-2 rounded-lg text-sm font-bold bg-black text-white">קטגוריות ותת-קטגוריות</button>
+          <button onclick="showTaxTab('pops')" id="tax-tab-pops" class="tax-tab px-4 py-2 rounded-lg text-sm font-medium text-[#666] border border-[#E5E5E5] hover:border-black">קהלי יעד</button>
+          <button onclick="showTaxTab('areas')" id="tax-tab-areas" class="tax-tab px-4 py-2 rounded-lg text-sm font-medium text-[#666] border border-[#E5E5E5] hover:border-black">אזורים גיאוגרפיים</button>
+          <button onclick="showTaxTab('matrix')" id="tax-tab-matrix" class="tax-tab px-4 py-2 rounded-lg text-sm font-medium text-[#666] border border-[#E5E5E5] hover:border-black">מטריצה</button>
+        </div>
+
+        <!-- תוכן: קטגוריות -->
+        <div id="tax-panel-cats">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <div id="cats-main-list" class="space-y-3"></div>
+          </div>
+        </div>
+
+        <!-- תוכן: קהלי יעד -->
+        <div id="tax-panel-pops" class="hidden">
+          <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead class="border-b border-[#E5E5E5] bg-[#F7F7F7]"><tr class="text-[#999] text-xs">
+                  <th class="px-4 py-3 text-right font-medium w-8">#</th>
+                  <th class="px-4 py-3 text-right font-medium">קהל יעד</th>
+                  <th class="px-4 py-3 text-center font-medium">בוגרים</th>
+                  <th class="px-4 py-3 text-center font-medium">נוער</th>
+                  <th class="px-4 py-3 text-center font-medium">סה"כ</th>
+                  <th class="px-4 py-3 text-right font-medium">אחוז</th>
+                </tr></thead>
+                <tbody id="tax-pops-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- תוכן: אזורים -->
+        <div id="tax-panel-areas" class="hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead class="border-b border-[#E5E5E5] bg-[#F7F7F7]"><tr class="text-[#999] text-xs">
+                    <th class="px-4 py-3 text-right font-medium">אזור</th>
+                    <th class="px-4 py-3 text-center font-medium">בוגרים</th>
+                    <th class="px-4 py-3 text-center font-medium">נוער</th>
+                    <th class="px-4 py-3 text-center font-medium">סה"כ</th>
+                    <th class="px-4 py-3 text-right font-medium">אחוז</th>
+                  </tr></thead>
+                  <tbody id="tax-areas-body"></tbody>
+                </table>
+              </div>
+            </div>
+            <div id="tax-areas-chart" class="bg-white rounded-2xl border border-[#E5E5E5] p-6 flex flex-col items-center justify-center min-h-[250px]"></div>
+          </div>
+        </div>
+
+        <!-- תוכן: מטריצה קטגוריה × קהל יעד -->
+        <div id="tax-panel-matrix" class="hidden">
+          <div class="bg-white rounded-2xl border border-[#E5E5E5] overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs" id="tax-matrix-table"></table>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <!-- ══ PARTNERS ══ -->
@@ -1820,7 +1902,7 @@ const CATS = Object.fromEntries(
   Object.entries(CATS_FULL).map(([cat,{subs}]) => [cat, subs.map(s=>s.name)])
 );
 
-const POPS = ['אזרחים ותיקים','בדואים','בעלי מוגבלויות','דור ראשון להשכלה גבוהה','דרוזים','הנדסאים וטכנאים','חיילים בודדים','חיילים משוחררים','יוצאי אתיופיה','יוצאי החברה החרדית','כלל הסטודנטים','להט"ב','לומדים בהכשרה מקצועית','לומדים בחיפה','מגזר דתי-לאומי','מגזר חרדי','מגזר ערבי','מוסלמים','מפונים','מצב סוציו-אקונומי נמוך','משרתי מילואים','משרתי שירות לאומי/אזרחי','נוצרים','נפגעי מלחמה/חרבות ברזל','נשים בלבד','סטודנטים לתואר מתקדם','סטודנטים לתואר ראשון','עולים חדשים','עתודאים',"צ'רקסים",'צעירים בסכנת נשירה','צעירים ללא עורף משפחתי','תושבי עוטף/חבל תקומה','תושבי פריפריה','תושבי/לומדים בירושלים','תלמידי מכינה קדם-אקדמית'];
+const POPS = ['כלל הצעירים','נוער וצעירים בסיכון','חיילים משוחררים','בוגרי תיכון','תלמידים ונוער','נשים וצעירות בסיכון','יוצאי החברה החרדית','חיילים בודדים','כלל הסטודנטים','יוצאי אתיופיה','תושבי פריפריה','קהילת להט"ב','נפגעי חרבות ברזל','בוגרי מסגרות חוץ-ביתיות','סטודנטים לתואר ראשון','מגזר ערבי ודרוזי','צעירים ללא עורף משפחתי','משרתי מילואים','עולים חדשים','סטודנטים לתואר מתקדם'];
 
 // Column auto-mapping rules (field → list of Hebrew/English keywords)
 const COL_RULES = {
@@ -4069,6 +4151,7 @@ function renderCategories() {
 async function loadCatCounts() {
   const { data } = await sb.from('programs').select('category,subcategory').eq('status','active');
   if (!data) return;
+  const te = $('tax-total'); if(te) te.textContent = data.length;
   const catMap = {}, subMap = {};
   data.forEach(r => {
     if (r.category) catMap[r.category] = (catMap[r.category]||0) + 1;
@@ -4083,6 +4166,133 @@ async function loadCatCounts() {
     const el = $('subcat-count-'+(cat+sub).replace(/[^א-ת\w]/g,'_'));
     if (el) el.textContent = cnt;
   });
+}
+
+// ─── TAXONOMY TABS ────────────────────────────
+function showTaxTab(tab) {
+  ['cats','pops','areas','matrix'].forEach(t => {
+    const panel = $('tax-panel-'+t);
+    const btn = $('tax-tab-'+t);
+    if(panel) panel.classList.toggle('hidden', t!==tab);
+    if(btn) {
+      btn.classList.toggle('bg-black', t===tab);
+      btn.classList.toggle('text-white', t===tab);
+      btn.classList.toggle('font-bold', t===tab);
+      btn.classList.toggle('text-[#666]', t!==tab);
+      btn.classList.toggle('font-medium', t!==tab);
+      btn.classList.toggle('border', t!==tab);
+      btn.classList.toggle('border-[#E5E5E5]', t!==tab);
+    }
+  });
+  if(tab==='pops') loadTaxPops();
+  if(tab==='areas') loadTaxAreas();
+  if(tab==='matrix') loadTaxMatrix();
+}
+
+async function loadTaxPops() {
+  const {data} = await sb.from('programs').select('target_population,age_track').eq('status','active');
+  if(!data) return;
+  const total = data.length;
+  $('tax-total').textContent = total;
+  const map = {};
+  data.forEach(r => {
+    const p = r.target_population || 'לא מוגדר';
+    if(!map[p]) map[p] = {b:0,y:0};
+    if(r.age_track==='1418') map[p].y++; else map[p].b++;
+  });
+  const sorted = Object.entries(map).sort((a,b)=>(b[1].b+b[1].y)-(a[1].b+a[1].y));
+  $('tax-pops-body').innerHTML = sorted.map(([pop,{b,y}],i) => {
+    const t = b+y;
+    const pct = ((t/total)*100).toFixed(1);
+    const barW = Math.max(2, Math.round((t/sorted[0][1].b+sorted[0][1].y)*100));
+    return `<tr class="border-b border-[#F7F7F7] hover:bg-[#FAFAFA]">
+      <td class="px-4 py-2.5 text-[#999] text-xs">${i+1}</td>
+      <td class="px-4 py-2.5 font-medium">${h(pop)}</td>
+      <td class="px-4 py-2.5 text-center"><span class="bg-[#FFF200]/20 text-black font-bold px-2 py-0.5 rounded-lg text-xs">${b}</span></td>
+      <td class="px-4 py-2.5 text-center"><span class="bg-[#E8348A]/10 text-[#E8348A] font-bold px-2 py-0.5 rounded-lg text-xs">${y}</span></td>
+      <td class="px-4 py-2.5 text-center font-black">${t}</td>
+      <td class="px-4 py-2.5">
+        <div class="flex items-center gap-2">
+          <div class="flex-1 h-2 bg-[#F7F7F7] rounded-full overflow-hidden"><div class="h-full bg-black rounded-full" style="width:${pct}%"></div></div>
+          <span class="text-xs text-[#999] w-10 text-left">${pct}%</span>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function loadTaxAreas() {
+  const {data} = await sb.from('programs').select('geographic_area,age_track').eq('status','active');
+  if(!data) return;
+  const total = data.length;
+  $('tax-total').textContent = total;
+  const map = {};
+  const AREAS = ['ארצי','ירושלים','מרכז','צפון','דרום'];
+  AREAS.forEach(a => map[a] = {b:0,y:0});
+  data.forEach(r => {
+    const a = r.geographic_area || 'ארצי';
+    if(!map[a]) map[a] = {b:0,y:0};
+    if(r.age_track==='1418') map[a].y++; else map[a].b++;
+  });
+  const colors = ['#111','#FFF200','#E8348A','#4ECDC4','#FF6B6B'];
+  $('tax-areas-body').innerHTML = AREAS.map((area,i) => {
+    const {b,y} = map[area];
+    const t = b+y;
+    const pct = ((t/total)*100).toFixed(1);
+    return `<tr class="border-b border-[#F7F7F7] hover:bg-[#FAFAFA]">
+      <td class="px-4 py-3 font-medium"><span class="inline-block w-3 h-3 rounded-full mr-2" style="background:${colors[i]}"></span>${h(area)}</td>
+      <td class="px-4 py-3 text-center"><span class="bg-[#FFF200]/20 text-black font-bold px-2 py-0.5 rounded-lg text-xs">${b}</span></td>
+      <td class="px-4 py-3 text-center"><span class="bg-[#E8348A]/10 text-[#E8348A] font-bold px-2 py-0.5 rounded-lg text-xs">${y}</span></td>
+      <td class="px-4 py-3 text-center font-black">${t}</td>
+      <td class="px-4 py-3">
+        <div class="flex items-center gap-2">
+          <div class="flex-1 h-3 bg-[#F7F7F7] rounded-full overflow-hidden"><div class="h-full rounded-full" style="width:${pct}%;background:${colors[i]}"></div></div>
+          <span class="text-xs text-[#999] w-10 text-left">${pct}%</span>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+  // Simple visual chart
+  const maxT = Math.max(...AREAS.map(a=>(map[a].b+map[a].y)));
+  $('tax-areas-chart').innerHTML = `<h3 class="text-sm font-bold mb-4">פיזור מענים לפי אזור</h3>
+    <div class="flex items-end gap-4 h-40 w-full justify-center">
+      ${AREAS.map((a,i) => {
+        const t = map[a].b+map[a].y;
+        const hPct = Math.max(8, Math.round((t/maxT)*100));
+        return `<div class="flex flex-col items-center gap-1">
+          <span class="text-xs font-bold">${t}</span>
+          <div class="w-12 rounded-t-lg" style="height:${hPct}%;background:${colors[i]}"></div>
+          <span class="text-[10px] text-[#999] mt-1">${a}</span>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+async function loadTaxMatrix() {
+  const {data} = await sb.from('programs').select('category,target_population').eq('status','active');
+  if(!data) return;
+  const cats = Object.keys(CATS_FULL);
+  const pops = POPS.slice(0, 10); // Top 10 populations
+  const matrix = {};
+  cats.forEach(c => { matrix[c] = {}; pops.forEach(p => matrix[c][p] = 0); });
+  data.forEach(r => {
+    if(r.category && matrix[r.category] && r.target_population && pops.includes(r.target_population)) {
+      matrix[r.category][r.target_population]++;
+    }
+  });
+  const tbl = $('tax-matrix-table');
+  tbl.innerHTML = `<thead class="bg-[#F7F7F7] border-b border-[#E5E5E5]"><tr>
+    <th class="px-3 py-2.5 text-right font-bold text-[11px] sticky right-0 bg-[#F7F7F7]">קטגוריה \\ קהל יעד</th>
+    ${pops.map(p=>`<th class="px-2 py-2.5 text-center font-medium text-[10px] min-w-[70px]">${h(p)}</th>`).join('')}
+    </tr></thead>
+    <tbody>${cats.map(c => `<tr class="border-b border-[#F7F7F7] hover:bg-[#FAFAFA]">
+      <td class="px-3 py-2 font-bold text-[11px] sticky right-0 bg-white">${h(c)}</td>
+      ${pops.map(p => {
+        const v = matrix[c][p];
+        const bg = v===0?'':'background:rgba(255,242,0,'+(Math.min(v/15,1)*0.6+0.1).toFixed(2)+')';
+        return `<td class="px-2 py-2 text-center text-[11px] font-medium" style="${bg}">${v||'·'}</td>`;
+      }).join('')}
+    </tr>`).join('')}</tbody>`;
 }
 
 // ══════════════════════════════════════════════
