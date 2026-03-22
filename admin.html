@@ -305,7 +305,7 @@
               <option value="">כל הקטגוריות</option>
               <option>שירות צבאי/לאומי</option><option>השכלה ופיתוח קריירה</option>
               <option>זכויות, דיור וסיוע כלכלי</option><option>חוסן ותמיכה רגשית</option>
-              <option>אוכלוסיות יעד מגוונות</option>
+              <option>אוכלוסיות יעד מגוונות</option><option>תעסוקה והכשרה מקצועית</option>
             </select>
             <select id="all-subcat" class="border border-[#E5E5E5] rounded-xl px-4 py-2.5 text-sm bg-white" onchange="filterAll()">
               <option value="">כל תת-הקטגוריות</option>
@@ -379,7 +379,7 @@
               <option value="">כל הקטגוריות</option>
               <option>שירות צבאי/לאומי</option><option>השכלה ופיתוח קריירה</option>
               <option>זכויות, דיור וסיוע כלכלי</option><option>חוסן ותמיכה רגשית</option>
-              <option>אוכלוסיות יעד מגוונות</option>
+              <option>אוכלוסיות יעד מגוונות</option><option>תעסוקה והכשרה מקצועית</option>
             </select>
             <select id="p-subcat" class="border border-[#E5E5E5] rounded-xl px-4 py-2.5 text-sm bg-white" onchange="filterProgs()">
               <option value="">כל תת-הקטגוריות</option>
@@ -457,7 +457,7 @@
               <option value="">כל הקטגוריות</option>
               <option>שירות צבאי/לאומי</option><option>השכלה ופיתוח קריירה</option>
               <option>זכויות, דיור וסיוע כלכלי</option><option>חוסן ותמיכה רגשית</option>
-              <option>אוכלוסיות יעד מגוונות</option>
+              <option>אוכלוסיות יעד מגוונות</option><option>תעסוקה והכשרה מקצועית</option>
             </select>
             <select id="y-subcat" class="border border-[#E5E5E5] rounded-xl px-4 py-2.5 text-sm bg-white" onchange="filterYouth()">
               <option value="">כל תת-הקטגוריות</option>
@@ -1087,7 +1087,7 @@
           <div><label class="lbl">סטטוס</label><select id="pf-status" class="inp bg-white"><option value="active">פעיל</option><option value="inactive">לא פעיל</option></select></div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div><label class="lbl">קטגוריה</label><select id="pf-cat" onchange="updateSubcats()" class="inp bg-white"><option value="">בחר</option><option>שירות צבאי/לאומי</option><option>השכלה ופיתוח קריירה</option><option>זכויות, דיור וסיוע כלכלי</option><option>חוסן ותמיכה רגשית</option><option>אוכלוסיות יעד מגוונות</option></select></div>
+          <div><label class="lbl">קטגוריה</label><select id="pf-cat" onchange="updateSubcats()" class="inp bg-white"><option value="">בחר</option><option>שירות צבאי/לאומי</option><option>השכלה ופיתוח קריירה</option><option>זכויות, דיור וסיוע כלכלי</option><option>חוסן ותמיכה רגשית</option><option>אוכלוסיות יעד מגוונות</option><option>תעסוקה והכשרה מקצועית</option></select></div>
           <div>
             <label class="lbl">תת-קטגוריה</label>
             <input id="pf-subcat" list="subcat-datalist" class="inp" placeholder="בחר או הקלד תת-קטגוריה חדשה"/>
@@ -1112,7 +1112,10 @@
           </div>
         </div>
         <div><label class="lbl">תיאור</label><textarea id="pf-desc" rows="3" class="inp resize-none"></textarea></div>
-        <div><label class="lbl">אוכלוסיית יעד</label><input id="pf-pop" class="inp"/></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div><label class="lbl">אזור גיאוגרפי</label><select id="pf-area" class="inp bg-white"><option value="">בחר</option><option>ארצי</option><option>ירושלים</option><option>מרכז</option><option>צפון</option><option>דרום</option></select></div>
+          <div><label class="lbl">אוכלוסיית יעד</label><input id="pf-pop" class="inp"/></div>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div><label class="lbl">איש קשר</label><input id="pf-contact" class="inp"/></div>
           <div><label class="lbl">טלפון</label><input id="pf-phone" class="inp" dir="ltr"/></div>
@@ -1875,7 +1878,7 @@ function filterYouth() {
     (!q  || [p.name,p.description,p.target_population,p.subcategory].some(f=>(f||'').toLowerCase().includes(q.toLowerCase()))) &&
     (!cat || p.category === cat) &&
     (!sc  || p.subcategory === sc) &&
-    (!reg || (p.location||'') === reg) &&
+    (!reg || (p.geographic_area||p.location||'') === reg) &&
     (!st  || p.status === st)
   );
   renderYouthGrouped();
@@ -1920,7 +1923,7 @@ function renderYouthGrouped() {
             <tbody>${progs.map(p => `<tr class="border-b border-[#F7F7F7] last:border-0 hover:bg-[#FAFAFA]">
               <td class="px-4 py-3 font-medium">${h(p.name||'—')}</td>
               <td class="px-4 py-2 text-xs text-[#666] hidden md:table-cell max-w-xs"><span class="line-clamp-2">${h(p.description||'')}</span></td>
-              <td class="px-4 py-2 text-xs hidden lg:table-cell"><span class="bg-[#F7F7F7] border border-[#E5E5E5] px-2 py-0.5 rounded-lg">${h(p.location||'ארצי')}</span></td>
+              <td class="px-4 py-2 text-xs hidden lg:table-cell"><span class="bg-[#F7F7F7] border border-[#E5E5E5] px-2 py-0.5 rounded-lg">${h(p.geographic_area||p.location||'ארצי')}</span></td>
               <td class="px-4 py-2 text-xs hidden sm:table-cell text-[#666]">${p.target_population?`<span class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded-lg">${h(p.target_population)}</span>`:''}</td>
               <td class="px-4 py-2 text-xs">${p.status==='active'?'<span class="bg-green-50 text-green-700 font-semibold px-2 py-0.5 rounded-lg">פעיל</span>':'<span class="bg-[#F7F7F7] text-[#999] px-2 py-0.5 rounded-lg">לא פעיל</span>'}</td>
               <td class="px-3 py-2"><div class="flex gap-1">
@@ -1947,7 +1950,7 @@ function exportYouth(fmt) {
   if (!filtYouth.length) return toast('אין נתונים לייצוא','error');
   const rows = filtYouth.map(p => ({
     'שם': p.name||'', 'קטגוריה': p.category||'', 'תת-קטגוריה': p.subcategory||'',
-    'אזור': p.location||'', 'אוכלוסייה': p.target_population||'', 'תיאור': p.description||'',
+    'אזור': p.geographic_area||p.location||'', 'אוכלוסייה': p.target_population||'', 'תיאור': p.description||'',
     'טלפון': p.phone||'', 'אימייל': p.email||'', 'אתר': p.url||'', 'סטטוס': p.status||''
   }));
   const ws = XLSX.utils.json_to_sheet(rows);
@@ -2300,7 +2303,7 @@ function openProgModal(data) {
     $('pf-stype').value=data.service_type||'';
     const ageTrack = data.age_track||'1826';
     document.querySelectorAll('[name="pf-age-track"]').forEach(r=>{ r.checked=(r.value===ageTrack); });
-    $('pf-desc').value=data.description||''; $('pf-pop').value=data.target_population||'';
+    $('pf-desc').value=data.description||''; $('pf-area').value=data.geographic_area||''; $('pf-pop').value=data.target_population||'';
     $('pf-contact').value=data.contact_person||''; $('pf-phone').value=data.phone||'';
     $('pf-email').value=data.email||''; $('pf-url').value=data.url||''; $('pf-notes').value=data.notes||'';
     if (data.image) { $('pf-image').value=data.image; progImgSetExisting(data.image); }
@@ -2341,8 +2344,12 @@ async function importProgFromPDF(event) {
       max_tokens: 1024,
       messages: [{
         role: 'user',
-        content: `מהטקסט הבא של מענה/תוכנית לנוער, חלץ את הפרטים והחזר JSON בלבד (ללא הסבר) עם השדות הבאים:
-name (שם התוכנית/ארגון), description (תיאור קצר), population (אוכלוסיית יעד), contact_name (איש קשר), phone, email, url (קישור לאתר), category (אחת מ: שירות צבאי/לאומי, השכלה ופיתוח קריירה, זכויות דיור וסיוע כלכלי, חוסן ותמיכה רגשית, אוכלוסיות יעד מגוונות), age_track (1418 או 1826 או 1426), notes.
+        content: `מהטקסט הבא של מענה/תוכנית, חלץ את הפרטים והחזר JSON בלבד (ללא הסבר) עם השדות הבאים:
+name (שם התוכנית/ארגון), description (תיאור קצר), population (אוכלוסיית יעד), contact_name (איש קשר), phone, email, url (קישור לאתר),
+category (חייב להיות אחת מ: שירות צבאי/לאומי, השכלה ופיתוח קריירה, זכויות, דיור וסיוע כלכלי, חוסן ותמיכה רגשית, אוכלוסיות יעד מגוונות, תעסוקה והכשרה מקצועית),
+subcategory (חייב להיות מהרשימה המתאימה לקטגוריה — שירות: מכינות ושנת שירות/חיילים בודדים/מנטורים במהלך הצבא/התנדבות לצה"ל | השכלה: מלגות לימודים/לימודי יג-יד/מרכזי צעירים/הכוונה תעסוקתית/הנדסאים ועתודאים/השלמת בגרויות/העשרה וחוגים/פתיחת עסק/הכוונה לימודית | זכויות: סיוע כלכלי ודיור/הלנת חירום/זכויות חיילים משוחררים/סיוע משפטי ומיצוי זכויות/דיור מוגן/דיור תומך/ציוד מחשוב | חוסן: סיוע רפואי ורגשי/טיפול בהתמכרויות/מנטורים לחיים/טרום הורות/מוגנות/מסגרות חלופיות/חווה טיפולית | אוכלוסיות: קהילה אתיופית/חרבות ברזל/קהילה להט"בית/יוצאי החברה החרדית | תעסוקה: הכשרות תעסוקה/ליווי תעסוקתי/תכניות מעבר לאחר שירות צבאי/השמה והזדמנויות עבודה בחו"ל),
+geographic_area (ארצי/ירושלים/מרכז/צפון/דרום),
+age_track (1418 או 1826 או 1426 — 1418 לנוער/בית ספר/נשירה, 1826 לבוגרים), notes.
 אם שדה לא קיים — השאר "".
 טקסט:
 ${text.slice(0, 4000)}`
@@ -2394,7 +2401,7 @@ async function saveProg(e) {
   const btn=$('prog-save'); btn.textContent='שומר...'; btn.disabled=true;
   const id=$('pf-id').value;
   const ageTrackSel = document.querySelector('[name="pf-age-track"]:checked');
-  const payload={name:g('pf-name'),status:g('pf-status'),category:g('pf-cat')||null,subcategory:g('pf-subcat')||null,service_type:g('pf-stype')||null,age_track:ageTrackSel?.value||'1826',description:g('pf-desc')||null,target_population:g('pf-pop')||null,contact_person:g('pf-contact')||null,phone:g('pf-phone')||null,email:g('pf-email')||null,url:g('pf-url')||null,notes:g('pf-notes')||null,image:$('pf-image').value||null};
+  const payload={name:g('pf-name'),status:g('pf-status'),category:g('pf-cat')||null,subcategory:g('pf-subcat')||null,service_type:g('pf-stype')||null,age_track:ageTrackSel?.value||'1826',description:g('pf-desc')||null,geographic_area:g('pf-area')||'ארצי',target_population:g('pf-pop')||null,contact_person:g('pf-contact')||null,phone:g('pf-phone')||null,email:g('pf-email')||null,url:g('pf-url')||null,notes:g('pf-notes')||null,image:$('pf-image').value||null};
   if (!id) {
     const dup = await checkDuplicateProg(payload.name);
     if (dup) { btn.textContent='שמירה'; btn.disabled=false; return toast(`⚠️ מענה בשם "${dup.name}" כבר קיים במאגר`,'error'); }
