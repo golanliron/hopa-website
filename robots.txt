@@ -1,0 +1,50 @@
+# Hopa Website - robots.txt
+# Block crawlers from admin and internal pages
+
+User-agent: *
+Allow: /index.html
+Allow: /$
+Allow: /data/pg_*.html
+Allow: /servises/
+Allow: /categories/
+
+Disallow: /admin.html
+Disallow: /admin-redirect.html
+Disallow: /grants.html
+Disallow: /motzkin.html
+Disallow: /bogrim-maanim.html
+Disallow: /bogrim-demo.html
+Disallow: /ads-dashboard.html
+Disallow: /analytics-dashboard.html
+Disallow: /data/pending_submissions.json
+Disallow: /data/programs.json
+Disallow: /data/page_*.html
+Disallow: /supabase/
+Disallow: /google_ads_agent/
+Disallow: /google_ads_export/
+Disallow: /docs/
+Disallow: /*.csv$
+Disallow: /*.xlsx$
+Disallow: /*.pdf$
+Disallow: /*.pptx$
+
+Sitemap: https://hopa.org.il/sitemap.xml
+
+# Block common scraping bots
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
