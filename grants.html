@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="referrer" content="no-referrer" />
   <title>הופה — גיוס משאבים</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -110,16 +112,22 @@
       <div style="background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 8px 48px rgba(0,0,0,0.6);">
         <div style="background:#FFF200;padding:22px 24px;text-align:center;">
           <p style="font-weight:800;font-size:1rem;color:#000;">כניסה למערכת</p>
-          <p style="color:#0007;font-size:0.76rem;margin-top:3px;">הכנסי קוד כניסה</p>
+          <p style="color:#0007;font-size:0.76rem;margin-top:3px;">אימייל וסיסמה</p>
         </div>
         <div style="padding:28px 24px;">
-          <form onsubmit="doPinLogin(event)">
-            <input id="pin-input" type="password" inputmode="numeric"
-              style="width:100%;text-align:center;font-size:1.9rem;font-weight:700;letter-spacing:0.22em;border:2px solid #E5E5E5;border-radius:14px;padding:14px 8px;margin-bottom:12px;outline:none;transition:border .15s;display:block;"
-              placeholder="• • • • • •" autocomplete="off"
+          <form onsubmit="doAuthLogin(event)">
+            <label style="display:block;font-size:0.78rem;font-weight:600;color:#666;margin-bottom:6px;">אימייל</label>
+            <input id="auth-email" type="email" required dir="ltr"
+              style="width:100%;font-size:0.95rem;border:2px solid #E5E5E5;border-radius:14px;padding:12px 14px;margin-bottom:14px;outline:none;transition:border .15s;display:block;"
+              placeholder="admin@hopa.org.il"
               onfocus="this.style.borderColor='#000'" onblur="this.style.borderColor='#E5E5E5'"/>
-            <div id="pin-err" class="hidden" style="background:#FFF5F5;border:1px solid #FFCCCC;color:#C00;font-size:0.8rem;border-radius:10px;padding:10px;text-align:center;margin-bottom:10px;">קוד שגוי, נסי שנית</div>
-            <button type="submit"
+            <label style="display:block;font-size:0.78rem;font-weight:600;color:#666;margin-bottom:6px;">סיסמה</label>
+            <input id="auth-pw" type="password" required
+              style="width:100%;font-size:0.95rem;border:2px solid #E5E5E5;border-radius:14px;padding:12px 14px;margin-bottom:12px;outline:none;transition:border .15s;display:block;"
+              placeholder="••••••••"
+              onfocus="this.style.borderColor='#000'" onblur="this.style.borderColor='#E5E5E5'"/>
+            <div id="auth-err" class="hidden" style="background:#FFF5F5;border:1px solid #FFCCCC;color:#C00;font-size:0.8rem;border-radius:10px;padding:10px;text-align:center;margin-bottom:10px;">פרטי כניסה שגויים</div>
+            <button type="submit" id="auth-btn"
               style="width:100%;background:#FFF200;color:#000;font-weight:800;padding:14px;border-radius:14px;border:none;cursor:pointer;font-size:0.95rem;transition:background .15s;"
               onmouseover="this.style.background='#E6D900'" onmouseout="this.style.background='#FFF200'">
               כניסה →
@@ -763,7 +771,7 @@
 <!-- ══ MODALS ══ -->
 
 <!-- Grant Modal -->
-<div id="grant-modal" class="fixed inset-0 bg-black/60 z-50 items-start justify-center p-4 pt-8 overflow-y-auto hidden" style="display:none">
+<div id="grant-modal" role="dialog" aria-modal="true" aria-labelledby="gm-title" class="fixed inset-0 bg-black/60 z-50 items-start justify-center p-4 pt-8 overflow-y-auto hidden" style="display:none">
   <div class="modal-box bg-white rounded-2xl w-full max-w-2xl shadow-2xl mx-auto">
     <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl" style="background:#000;">
       <h2 id="gm-title" class="font-bold text-lg" style="color:#FFF200;">קול קורא חדש</h2>
@@ -868,7 +876,7 @@
 </div>
 
 <!-- Draft Modal -->
-<div id="draft-modal" class="fixed inset-0 bg-black/60 z-[60] items-start justify-center p-4 pt-12 overflow-y-auto hidden" style="display:none">
+<div id="draft-modal" role="dialog" aria-modal="true" aria-label="כתיבה עם Claude" class="fixed inset-0 bg-black/60 z-[60] items-start justify-center p-4 pt-12 overflow-y-auto hidden" style="display:none">
   <div class="modal-box bg-white rounded-2xl w-full max-w-xl shadow-2xl mx-auto">
     <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl" style="background:#000;">
       <h2 class="font-bold text-lg" style="color:#FFF200;">✍️ כתיבה עם Claude</h2>
@@ -923,7 +931,7 @@
 </div>
 
 <!-- Import Modal -->
-<div id="import-modal" class="fixed inset-0 bg-black/60 z-50 items-start justify-center p-4 pt-8 hidden" style="display:none">
+<div id="import-modal" role="dialog" aria-modal="true" aria-label="ייבוא מ-Excel" class="fixed inset-0 bg-black/60 z-50 items-start justify-center p-4 pt-8 hidden" style="display:none">
   <div class="modal-box bg-white rounded-2xl w-full max-w-2xl shadow-2xl mx-auto max-h-[85vh] flex flex-col">
     <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl flex-shrink-0" style="background:#000;">
       <h2 class="font-bold text-lg" style="color:#FFF200;">ייבוא מ-Excel</h2>
@@ -964,7 +972,7 @@
 </div>
 
 <!-- Watchlist Modal -->
-<div id="watch-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
+<div id="watch-modal" role="dialog" aria-modal="true" aria-label="הוספת קרן לרשימה" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
   <div class="modal-box bg-white rounded-2xl w-full max-w-md shadow-2xl">
     <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl" style="background:#000;">
       <h2 class="font-bold text-lg" style="color:#FFF200;">הוספת קרן לרשימה</h2>
@@ -986,7 +994,7 @@
 </div>
 
 <!-- Project Modal -->
-<div id="project-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
+<div id="project-modal" role="dialog" aria-modal="true" aria-labelledby="pm-title" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
   <div class="modal-box bg-white rounded-2xl w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto">
     <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl" style="background:#000;">
       <h2 id="pm-title" class="font-bold text-lg" style="color:#FFF200;">פרויקט חדש</h2>
@@ -1022,7 +1030,7 @@
 </div>
 
 <!-- Research Modal -->
-<div id="research-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
+<div id="research-modal" role="dialog" aria-modal="true" aria-label="הוספת מחקר" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
   <div class="modal-box bg-white rounded-2xl w-full max-w-md shadow-2xl">
     <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl" style="background:#000;">
       <h2 class="font-bold text-lg" style="color:#FFF200;">הוספת מחקר / נתון סטטיסטי</h2>
@@ -1055,7 +1063,7 @@
 </div>
 
 <!-- Document Modal -->
-<div id="doc-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
+<div id="doc-modal" role="dialog" aria-modal="true" aria-label="הוספת מסמך" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
   <div class="modal-box bg-white rounded-2xl w-full max-w-md shadow-2xl">
     <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl" style="background:#000;">
       <h2 class="font-bold text-lg" style="color:#FFF200;">הוספת מסמך</h2>
@@ -1083,7 +1091,7 @@
 </div>
 
 <!-- Setup Modal -->
-<div id="setup-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
+<div id="setup-modal" role="dialog" aria-modal="true" aria-label="הגדרות" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
   <div class="modal-box bg-white rounded-2xl w-full max-w-xl shadow-2xl">
     <div class="flex items-center justify-between px-6 py-4 rounded-t-2xl" style="background:#000;">
       <h2 class="font-bold text-lg" style="color:#FFF200;">הגדרות</h2>
@@ -1105,15 +1113,13 @@
         </div>
         <p class="text-xs text-[#999] mt-1">PIN נוכחי: <span id="current-emp-pin" class="font-mono"></span></p>
       </div>
-      <!-- Claude API Key -->
+      <!-- Claude AI — פעיל אוטומטית -->
       <div class="border-t border-[#E5E5E5] pt-4">
-        <p class="text-sm font-semibold mb-1">Claude API Key (לניתוח קולות קוראים)</p>
-        <p class="text-xs text-[#999] mb-2">אם הניתוח לא עובד — עדכן את המפתח מ-<a href="https://console.anthropic.com/settings/keys" target="_blank" class="underline">console.anthropic.com</a></p>
-        <div class="flex gap-2">
-          <input id="claude-key-input" type="password" class="inp flex-1" placeholder="sk-ant-api03-..." dir="ltr"/>
-          <button onclick="saveClaudeKey()" class="bg-[#FFF200] text-black font-bold px-4 py-2 rounded-xl text-sm hover:bg-[#E6D900] whitespace-nowrap">שמור</button>
+        <div class="flex items-center gap-2 mb-1">
+          <div class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></div>
+          <p class="text-sm font-semibold">ניתוח AI — פעיל</p>
         </div>
-        <p class="text-xs text-[#999] mt-1">מפתח נוכחי: <span id="current-claude-key" class="font-mono"></span></p>
+        <p class="text-xs text-[#999]">הניתוח עובד אוטומטית דרך שרת הופה. אין צורך להכניס מפתח.</p>
       </div>
     </div>
     <div class="px-6 py-4 border-t border-[#E5E5E5] flex justify-end">
@@ -1129,9 +1135,25 @@
 // ── CONFIG ───────────────────────────────────────────────
 const SUPABASE_URL  = 'https://vhmwijzcrqjjquxomccq.supabase.co';
 const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZobXdpanpjcnFqanF1eG9tY2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1Nzk0MDgsImV4cCI6MjA4OTE1NTQwOH0.rMnAcdMiPddUAoap63tMiqeQQanJoF-HDmzra7P-5Cc';
-let CLAUDE_KEY = localStorage.getItem('grants_claude_key') || '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';
-const ADMIN_PIN     = '0502671012';
 
+// Call Claude via Edge Function (API key stays on server)
+async function callClaude({ model, max_tokens, messages, system, tools }) {
+  const session = (await sb.auth.getSession()).data.session;
+  if (!session) throw new Error('לא מחובר — יש להתחבר מחדש');
+  const res = await fetch(`${SUPABASE_URL}/functions/v1/claude-proxy`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session.access_token}`,
+    },
+    body: JSON.stringify({ model, max_tokens, messages, system, tools }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || `Claude proxy error ${res.status}`);
+  }
+  return res.json();
+}
 const SETUP_SQL = `CREATE TABLE IF NOT EXISTS grants (
   id               uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   foundation_name  text NOT NULL,
@@ -1169,22 +1191,41 @@ let impStep = 1, impHeaders = [], impRows = [], impMapping = {};
 let watchlist = [];
 
 // ── AUTH ─────────────────────────────────────────────────
-function doPinLogin(e) {
+async function doAuthLogin(e) {
   e.preventDefault();
-  const pin = document.getElementById('pin-input').value.trim();
-  const empPin = localStorage.getItem('hopa_emp_pin');
+  const btn = document.getElementById('auth-btn');
+  const err = document.getElementById('auth-err');
+  err.classList.add('hidden');
+  btn.textContent = 'מתחבר...'; btn.disabled = true;
 
-  if (pin === ADMIN_PIN) {
+  const { data, error } = await sb.auth.signInWithPassword({
+    email: document.getElementById('auth-email').value.trim(),
+    password: document.getElementById('auth-pw').value
+  });
+
+  btn.textContent = 'כניסה →'; btn.disabled = false;
+
+  if (error) {
+    err.classList.remove('hidden');
+    return;
+  }
+
+  userRole = 'admin';
+  startApp();
+}
+
+// Check existing session on load
+async function checkSession() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
     userRole = 'admin';
     startApp();
-  } else if (empPin && pin === empPin) {
-    userRole = 'employee';
-    startApp();
-  } else {
-    document.getElementById('pin-err').classList.remove('hidden');
-    setTimeout(() => document.getElementById('pin-err').classList.add('hidden'), 3000);
   }
 }
+
+sb.auth.onAuthStateChange((ev, ses) => {
+  if (ev === 'SIGNED_OUT') doSignOut();
+});
 
 function startApp() {
   document.getElementById('login-screen').classList.add('hidden');
@@ -1203,10 +1244,10 @@ function startApp() {
   loadWatchlist();
 }
 
-function doSignOut() {
+async function doSignOut() {
+  await sb.auth.signOut();
   document.getElementById('app').classList.add('hidden');
   document.getElementById('login-screen').classList.remove('hidden');
-  document.getElementById('pin-input').value = '';
   grants = [];
 }
 
@@ -1218,15 +1259,6 @@ function saveEmpPin() {
   toast('PIN נשמר', 'success');
 }
 
-function saveClaudeKey() {
-  const key = document.getElementById('claude-key-input').value.trim();
-  if (!key) { toast('הכנס API Key', 'error'); return; }
-  localStorage.setItem('grants_claude_key', key);
-  CLAUDE_KEY = key;
-  const disp = key.slice(0,12) + '...' + key.slice(-4);
-  document.getElementById('current-claude-key').textContent = disp;
-  toast('API Key נשמר', 'success');
-}
 
 // ── NAVIGATION ───────────────────────────────────────────
 function showView(name) {
@@ -1581,24 +1613,12 @@ async function generateDraft() {
   document.getElementById('d-result').classList.add('hidden');
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': CLAUDE_KEY,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 3000,
-        system: HOPA_PROMPT,
-        messages: [{ role: 'user', content: userMsg }]
-      })
+    const data = await callClaude({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 3000,
+      system: HOPA_PROMPT,
+      messages: [{ role: 'user', content: userMsg }]
     });
-
-    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || res.status); }
-    const data = await res.json();
     document.getElementById('d-output').value = data.content[0].text;
     document.getElementById('d-result').classList.remove('hidden');
     document.getElementById('d-copy-btn').classList.remove('hidden');
@@ -1805,8 +1825,6 @@ function openSetupModal() {
   const saved = localStorage.getItem('hopa_emp_pin')||'';
   document.getElementById('emp-pin-input').value = saved;
   document.getElementById('current-emp-pin').textContent = saved ? '••••' : 'לא הוגדר';
-  const ck = localStorage.getItem('grants_claude_key');
-  document.getElementById('current-claude-key').textContent = ck ? ck.slice(0,12)+'...'+ck.slice(-4) : 'ברירת מחדל';
   document.getElementById('setup-modal').classList.remove('hidden');
 }
 function closeSetupModal() { document.getElementById('setup-modal').classList.add('hidden'); }
@@ -2173,29 +2191,18 @@ async function runAnalysisPDF(b64) {
   "fit_notes": "מה להדגיש בבקשה אם מגישים"
 }`;
 
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'x-api-key': CLAUDE_KEY,
-      'anthropic-version': '2023-06-01',
-      'content-type': 'application/json',
-      'anthropic-dangerous-direct-browser-access': 'true'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 1200,
-      system: HOPA_PROMPT,
-      messages: [{
-        role: 'user',
-        content: [
-          { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: b64 } },
-          { type: 'text', text: prompt }
-        ]
-      }]
-    })
+  const data = await callClaude({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 1200,
+    system: HOPA_PROMPT,
+    messages: [{
+      role: 'user',
+      content: [
+        { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: b64 } },
+        { type: 'text', text: prompt }
+      ]
+    }]
   });
-  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || res.status); }
-  const data = await res.json();
   let raw = data.content[0].text.trim();
   const jsonMatch = raw.match(/\{[\s\S]*\}/);
   if (!jsonMatch) throw new Error('לא נמצא JSON בתגובה');
@@ -2236,23 +2243,12 @@ ${text}
 }`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': CLAUDE_KEY,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1200,
-        system: HOPA_PROMPT,
-        messages: [{ role: 'user', content: prompt }]
-      })
+    const data = await callClaude({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1200,
+      system: HOPA_PROMPT,
+      messages: [{ role: 'user', content: prompt }]
     });
-    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || res.status); }
-    const data = await res.json();
     let raw = data.content[0].text.trim();
     // Extract JSON object even if Claude wraps it in markdown or adds extra text
     const jsonMatch = raw.match(/\{[\s\S]*\}/);
@@ -2741,23 +2737,12 @@ ${grantInfo}
 - אל תמציא נתונים שאינם ידועים לך על הופה`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': CLAUDE_KEY,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 4000,
-        system: HOPA_PROMPT,
-        messages: [{ role: 'user', content: prompt }]
-      })
+    const data = await callClaude({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 4096,
+      system: HOPA_PROMPT,
+      messages: [{ role: 'user', content: prompt }]
     });
-    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || res.status); }
-    const data = await res.json();
     draftEl.value = data.content[0].text.trim();
   } catch(err) {
     draftEl.value = `שגיאה בכתיבת הבקשה: ${err.message}\n\nניתן לנסות שוב עם "כתוב מחדש"`;
@@ -3123,7 +3108,8 @@ function filterScannerResults() {
 }
 
 // ── INIT ─────────────────────────────────────────────────
-document.getElementById('pin-input').focus();
+checkSession();
+document.getElementById('auth-email')?.focus();
 </script>
 </body>
 </html>
