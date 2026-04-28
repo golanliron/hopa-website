@@ -306,12 +306,15 @@ function renderCards(list) {
     html += '</div>';
     // Show management status on card
     const mgmt = getMgmt(idx);
+    const approvalLabels = {approved:'אושר',rejected:'לא אושר',pending:'ממתין לאישור'};
+    const approvalColors = {approved:'#2e7d32',rejected:'#c62828',pending:'#ff9800'};
     const statusLabels = {pending:'ממתין',in_progress:'בטיפול',email_sent:'מייל נשלח',follow_up:'דורש מעקב',done:'טופל'};
     const statusColors = {pending:'#ff9800',in_progress:'#2196f3',email_sent:'#4caf50',follow_up:'#e65100',done:'#2e7d32'};
-    if (mgmt.emailSent || mgmt.status) {
+    if (mgmt.approval || mgmt.grantSent || mgmt.emailSent || mgmt.status) {
       html += '<div class="card-status-bar">';
-      if (mgmt.emailSent) html += '<span class="pill sent">מייל נשלח' + (mgmt.emailDate?' ' + mgmt.emailDate:'') + '</span>';
-      else html += '<span class="pill not-sent">מייל לא נשלח</span>';
+      if (mgmt.approval && approvalLabels[mgmt.approval]) html += '<span class="pill" style="background:' + approvalColors[mgmt.approval] + '22;color:' + approvalColors[mgmt.approval] + '">' + approvalLabels[mgmt.approval] + '</span>';
+      if (mgmt.grantSent) html += '<span class="pill sent">תרומה נשלחה' + (mgmt.grantDate?' ' + mgmt.grantDate:'') + '</span>';
+      if (mgmt.emailSent) html += '<span class="pill sent">מייל אישור נשלח</span>';
       if (mgmt.status && statusLabels[mgmt.status]) html += '<span class="pill" style="background:' + statusColors[mgmt.status] + '22;color:' + statusColors[mgmt.status] + '">' + statusLabels[mgmt.status] + '</span>';
       html += '</div>';
     }
@@ -452,6 +455,24 @@ function openModal(idx) {
   html += '<div class="mgmt-section">';
   html += '<div class="mgmt-title">ניהול צוות ברלוביץ</div>';
 
+  // Approval status
+  html += '<div class="mgmt-row"><label>סטטוס אישור</label>';
+  html += '<select class="mgmt-select" id="mgmt-approval-' + idx + '" onchange="saveMgmt(' + idx + ')">';
+  [{v:'',l:'-- בחרו --'},{v:'approved',l:'אושר'},{v:'rejected',l:'לא אושר'},{v:'pending',l:'ממתין לאישור'}].forEach(s => {
+    html += '<option value="' + s.v + '"' + (mgmt.approval===s.v?' selected':'') + '>' + s.l + '</option>';
+  });
+  html += '</select></div>';
+
+  // Grant sent to organization?
+  html += '<div class="mgmt-row"><label>התרומה נשלחה לעמותה?</label>';
+  html += '<input type="checkbox" class="mgmt-toggle" id="mgmt-grant-sent-' + idx + '" ' + (mgmt.grantSent?'checked':'') + ' onchange="saveMgmt(' + idx + ')">';
+  html += '</div>';
+
+  // Date grant sent
+  html += '<div class="mgmt-row"><label>תאריך שליחת תרומה</label>';
+  html += '<input type="date" class="mgmt-input" id="mgmt-grant-date-' + idx + '" value="' + (mgmt.grantDate||'') + '" onchange="saveMgmt(' + idx + ')" style="max-width:200px">';
+  html += '</div>';
+
   // Email confirmation sent?
   html += '<div class="mgmt-row"><label>נשלח מייל אישור תרומה?</label>';
   html += '<input type="checkbox" class="mgmt-toggle" id="mgmt-email-sent-' + idx + '" ' + (mgmt.emailSent?'checked':'') + ' onchange="saveMgmt(' + idx + ')">';
@@ -465,15 +486,7 @@ function openModal(idx) {
   // Team status
   html += '<div class="mgmt-row"><label>סטטוס צוות</label>';
   html += '<select class="mgmt-select" id="mgmt-status-' + idx + '" onchange="saveMgmt(' + idx + ')">';
-  const statuses = [
-    {v:'', l:'-- בחרו סטטוס --'},
-    {v:'pending', l:'ממתין לטיפול'},
-    {v:'in_progress', l:'בטיפול'},
-    {v:'email_sent', l:'מייל נשלח'},
-    {v:'follow_up', l:'דורש מעקב'},
-    {v:'done', l:'טופל'},
-  ];
-  statuses.forEach(s => {
+  [{v:'',l:'-- בחרו סטטוס --'},{v:'pending',l:'ממתין לטיפול'},{v:'in_progress',l:'בטיפול'},{v:'email_sent',l:'מייל נשלח'},{v:'follow_up',l:'דורש מעקב'},{v:'done',l:'טופל'}].forEach(s => {
     html += '<option value="' + s.v + '"' + (mgmt.status===s.v?' selected':'') + '>' + s.l + '</option>';
   });
   html += '</select></div>';
@@ -500,6 +513,9 @@ function getMgmt(idx) {
 function saveMgmt(idx) {
   const all = JSON.parse(localStorage.getItem('berelovitz_crm_mgmt') || '{}');
   all[idx] = {
+    approval: document.getElementById('mgmt-approval-' + idx).value,
+    grantSent: document.getElementById('mgmt-grant-sent-' + idx).checked,
+    grantDate: document.getElementById('mgmt-grant-date-' + idx).value,
     emailSent: document.getElementById('mgmt-email-sent-' + idx).checked,
     emailDate: document.getElementById('mgmt-email-date-' + idx).value,
     status: document.getElementById('mgmt-status-' + idx).value,
