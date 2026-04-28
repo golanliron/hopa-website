@@ -40,6 +40,10 @@ body{font-family:'Heebo','Inter',sans-serif;background:var(--light);color:var(--
 .cards-grid{padding:20px 40px;display:grid;grid-template-columns:repeat(auto-fill, minmax(340px, 1fr));gap:16px}
 .card{background:var(--white);border-radius:12px;padding:20px;cursor:pointer;transition:all .3s;border:2px solid transparent;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .card:hover{border-color:var(--warm);box-shadow:0 8px 24px rgba(0,0,0,.1);transform:translateY(-2px)}
+.card.duplicate{border-right:4px solid #e65100}
+.card.duplicate .dup-badge{display:inline-block}
+.dup-badge{display:none;background:#fff3e0;color:#e65100;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;margin-right:6px}
+.crm-table tr.dup-row td:first-child{border-right:4px solid #e65100}
 .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
 .card-org{font-size:16px;font-weight:700;color:var(--ink);line-height:1.4}
 .card-amount{font-size:15px;font-weight:700;color:var(--ink);white-space:nowrap;background:var(--lighter);padding:4px 12px;border-radius:8px}
@@ -188,6 +192,21 @@ let currentView = 'cards';
 let sortCol = null;
 let sortDir = 1;
 
+// Detect duplicates
+function normName(s) {
+  return s.replace(/\u05E2\u05DE\u05D5\u05EA\u05EA /g,'').replace(/\u05E2"\u05E8/g,'').replace(/\u05E2\u05F4\u05E8/g,'').replace(/[()]/g,'').replace(/\u05D5\u05BC/g,'\u05D5').replace(/-+$/,'').trim();
+}
+const dupMap = {};
+DATA.forEach((d,i) => {
+  const n = normName(d.org);
+  if (!dupMap[n]) dupMap[n] = [];
+  dupMap[n].push(i);
+});
+const dupGroups = {};
+Object.entries(dupMap).forEach(([name, indices]) => {
+  if (indices.length > 1) indices.forEach(i => { dupGroups[i] = {name, indices}; });
+});
+
 function parseAmount(v) {
   if (!v) return 0;
   return parseFloat(String(v).replace(/[^\d.]/g, '')) || 0;
@@ -245,10 +264,15 @@ function renderCards(list) {
   let html = '';
   list.forEach((d, i) => {
     const idx = DATA.indexOf(d);
-    html += '<div class="card" onclick="openModal(' + idx + ')">';
+    const isDup = idx in dupGroups;
+    html += '<div class="card' + (isDup?' duplicate':'') + '" onclick="openModal(' + idx + ')">';
     html += '<div class="card-header"><div class="card-org">' + esc(d.org) + '</div>';
     html += '<div class="card-amount">' + formatAmount(d.amount) + '</div></div>';
     html += trackBadge(d.track);
+    if (isDup) {
+      const otherTracks = dupGroups[idx].indices.filter(j=>j!==idx).map(j=>DATA[j].track);
+      html += '<span class="dup-badge" style="display:inline-block">מופיעה גם ב: ' + otherTracks.join(', ') + '</span>';
+    }
     if (d.project) html += ' <span style="font-size:12px;color:#666">' + esc(d.project) + '</span>';
     if (d.what_for) html += '<div class="card-what">' + esc(d.what_for) + '</div>';
     html += '<div class="card-meta">';
@@ -275,7 +299,8 @@ function renderTable(list) {
   html += '</tr></thead><tbody>';
   list.forEach((d, i) => {
     const idx = DATA.indexOf(d);
-    html += '<tr onclick="openModal(' + idx + ')">';
+    const isDupT = idx in dupGroups;
+    html += '<tr class="' + (isDupT?'dup-row':'') + '" onclick="openModal(' + idx + ')">';
     cols.forEach(c => {
       let val = d[c] || '';
       if (c === 'org') html += '<td class="org-cell">' + esc(val) + '</td>';
@@ -333,8 +358,23 @@ function openModal(idx) {
 
   let html = '';
 
+  // Duplicate alert
+  if (idx in dupGroups) {
+    const group = dupGroups[idx];
+    html += '<div style="background:#fff3e0;border:2px solid #e65100;border-radius:10px;padding:14px 18px;margin-bottom:20px">';
+    html += '<div style="font-weight:700;color:#e65100;margin-bottom:6px">עמותה עם מענקים ממספר מסלולים:</div>';
+    group.indices.forEach(j => {
+      const other = DATA[j];
+      const isCurrent = j === idx;
+      html += '<div style="padding:4px 0;' + (isCurrent?'font-weight:700':'cursor:pointer;text-decoration:underline') + '" ' + (!isCurrent?'onclick="openModal('+j+')"':'') + '>';
+      html += (isCurrent?'>> ':'') + other.track + ' - ' + formatAmount(other.amount);
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
   // Amount hero
-  html += '<div class="modal-amount">' + formatAmount(d.amount) + '<span>סכום המענק</span></div>';
+  html += '<div class="modal-amount">' + formatAmount(d.amount) + '<span>סכום המענק (' + d.track + ')</span></div>';
 
   // Contact info grid
   const contactFields = [
