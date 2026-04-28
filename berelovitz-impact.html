@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Berelowitz Family Foundation - Impact Report 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --deep-ink:#2B2D42;
+  --warm:#C4B89B;
+  --light:#F0EDED;
+  --white:#FFFFFF;
+  --gray:#8D8D8D;
+}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--deep-ink);
+  color:var(--deep-ink);
+  min-height:100vh;
+}
+
+/* Print-friendly A4 landscape */
+@page{size:landscape;margin:0}
+@media print{
+  body{background:#fff}
+  .page{box-shadow:none!important;page-break-inside:avoid}
+}
+
+.page{
+  width:1440px;
+  min-height:900px;
+  margin:0 auto;
+  background:var(--white);
+  position:relative;
+  overflow:hidden;
+  padding:0;
+}
+
+/* Top accent bar */
+.top-bar{
+  height:6px;
+  background:linear-gradient(90deg,var(--warm) 0%,var(--deep-ink) 100%);
+}
+
+/* Header */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:28px 60px 20px;
+  border-bottom:1px solid #e8e4e0;
+}
+.header h1{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-size:32px;
+  color:var(--deep-ink);
+  letter-spacing:1px;
+}
+.header h1 span{
+  color:var(--warm);
+  font-weight:500;
+}
+.header .subtitle{
+  font-size:13px;
+  color:var(--gray);
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+/* Stats banner */
+.stats-banner{
+  display:flex;
+  justify-content:center;
+  gap:60px;
+  padding:22px 60px;
+  background:var(--deep-ink);
+  color:var(--white);
+}
+.stat{text-align:center}
+.stat .num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;
+  font-weight:300;
+  color:var(--warm);
+  line-height:1.1;
+}
+.stat .label{
+  font-size:11px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  opacity:.7;
+  margin-top:2px;
+}
+
+/* Main content grid */
+.content{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  min-height:660px;
+}
+
+/* Left: Impact highlights */
+.impact-col{
+  padding:28px 40px 28px 60px;
+  border-right:1px solid #e8e4e0;
+}
+.impact-col h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;
+  font-weight:400;
+  color:var(--deep-ink);
+  margin-bottom:16px;
+  padding-bottom:8px;
+  border-bottom:2px solid var(--warm);
+  display:inline-block;
+}
+
+.impact-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.impact-card{
+  background:var(--light);
+  border-radius:6px;
+  padding:12px 14px;
+  border-left:3px solid var(--warm);
+}
+.impact-card .org{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--warm);
+  font-weight:600;
+  margin-bottom:4px;
+}
+.impact-card .metric{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;
+  font-weight:500;
+  color:var(--deep-ink);
+  line-height:1.15;
+}
+.impact-card .desc{
+  font-size:10.5px;
+  color:var(--gray);
+  margin-top:3px;
+  line-height:1.4;
+}
+
+/* Right: Voices / Quotes */
+.voices-col{
+  padding:28px 60px 28px 40px;
+}
+.voices-col h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;
+  font-weight:400;
+  color:var(--deep-ink);
+  margin-bottom:16px;
+  padding-bottom:8px;
+  border-bottom:2px solid var(--warm);
+  display:inline-block;
+}
+
+.quote{
+  margin-bottom:12px;
+  padding:10px 14px;
+  background:linear-gradient(135deg,#faf9f7 0%,var(--light) 100%);
+  border-radius:6px;
+  position:relative;
+}
+.quote::before{
+  content:'\201C';
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;
+  color:var(--warm);
+  position:absolute;
+  top:2px;
+  left:10px;
+  line-height:1;
+}
+.quote p{
+  font-size:11px;
+  line-height:1.55;
+  color:#3a3a4a;
+  padding-left:28px;
+  font-style:italic;
+}
+.quote .attribution{
+  font-size:9.5px;
+  color:var(--warm);
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  margin-top:4px;
+  padding-left:28px;
+  font-style:normal;
+}
+
+/* Bottom bar */
+.bottom-bar{
+  background:var(--deep-ink);
+  padding:14px 60px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+}
+.bottom-bar .tagline{
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;
+  color:var(--warm);
+  font-weight:300;
+  letter-spacing:1px;
+}
+.bottom-bar .year{
+  font-size:11px;
+  color:rgba(255,255,255,.4);
+  letter-spacing:2px;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+
+  <div class="header">
+    <div>
+      <h1>Berelowitz Family Foundation <span>|</span> Impact Report</h1>
+      <div class="subtitle">Grants Cycle 2024 - 2025 &mdash; Making a Difference Across Israel</div>
+    </div>
+  </div>
+
+  <div class="stats-banner">
+    <div class="stat">
+      <div class="num">36</div>
+      <div class="label">Organizations Funded</div>
+    </div>
+    <div class="stat">
+      <div class="num">1.19M</div>
+      <div class="label">Total NIS Granted</div>
+    </div>
+    <div class="stat">
+      <div class="num">50,000+</div>
+      <div class="label">Direct Beneficiaries</div>
+    </div>
+    <div class="stat">
+      <div class="num">5</div>
+      <div class="label">Grant Tracks</div>
+    </div>
+    <div class="stat">
+      <div class="num">118K</div>
+      <div class="label">Youth Reached Online</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- LEFT: Impact Highlights -->
+    <div class="impact-col">
+      <h2>Measurable Impact</h2>
+      <div class="impact-grid">
+
+        <div class="impact-card">
+          <div class="org">Nir Yitzchak Kibbutz</div>
+          <div class="metric">86% returned home</div>
+          <div class="desc">After Oct 7th evacuation. Over 1M NIS raised for education rebuilding. 7 new families absorbed.</div>
+        </div>
+
+        <div class="impact-card">
+          <div class="org">Pele Yoetz &middot; Shlomi</div>
+          <div class="metric">94% emotional recovery</div>
+          <div class="desc">100 children (ages 6-18) returned from evacuation. 88% closed educational gaps. 98% feel community belonging.</div>
+        </div>
+
+        <div class="impact-card">
+          <div class="org">Basecamp &middot; Upper Galilee</div>
+          <div class="metric">30% rise in participation</div>
+          <div class="desc">15+ youth mentors trained. 200+ group sessions held across 10+ frontline communities during active conflict.</div>
+        </div>
+
+        <div class="impact-card">
+          <div class="org">Hadassah Neurim Youth Village</div>
+          <div class="metric">80% drop in dropouts</div>
+          <div class="desc">Rehabilitative kennel project. 200% increase in dog adoptions. 90% of participants report improved self-confidence.</div>
+        </div>
+
+        <div class="impact-card">
+          <div class="org">Beit HaShem</div>
+          <div class="metric">22% attendance increase</div>
+          <div class="desc">Electrical lab for at-risk ultra-orthodox youth. 11-point grade improvement. 87% completed hands-on projects.</div>
+        </div>
+
+        <div class="impact-card">
+          <div class="org">SAHAR &middot; Online Crisis Response</div>
+          <div class="metric">11,829 distress posts answered</div>
+          <div class="desc">75% growth in proactive outreach. 333 self-harm cases identified and intervened. 118K youth exposed.</div>
+        </div>
+
+        <div class="impact-card">
+          <div class="org">Or Simcha &middot; Children's Home</div>
+          <div class="metric">50% skills improvement</div>
+          <div class="desc">Remedial education for at-risk children with no family support. Dramatic drop in absences and disciplinary incidents.</div>
+        </div>
+
+        <div class="impact-card">
+          <div class="org">Academy of Growth &middot; Northern Schools</div>
+          <div class="metric">69% feel safer in class</div>
+          <div class="desc">280 students across 3 northern towns. 81% know classmates better. 100% of teachers rated training 8-10.</div>
+        </div>
+
+        <div class="impact-card">
+          <div class="org">Kibbutz Dafna</div>
+          <div class="metric">4x weekly activities (was 2x)</div>
+          <div class="desc">111 children served. 5 youth mentors. Project expanded 50% for next year due to success.</div>
+        </div>
+
+        <div class="impact-card">
+          <div class="org">Planetherapy &middot; Global</div>
+          <div class="metric">477 new patients / year</div>
+          <div class="desc">63% continued beyond first session. Multilingual mental health support for Israelis and Jews worldwide.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: Voices from the Field -->
+    <div class="voices-col">
+      <h2>Voices from the Field</h2>
+
+      <div class="quote">
+        <p>On Sunday I had the surgery to remove the cyst and extract the teeth. A new era of hope and happiness is beginning &mdash; I can finally eat without suffering. Thousands of thanks for the tremendous effort you invested to fundamentally improve my quality of life.</p>
+        <div class="attribution">Patient, via Leshanot Olam (dental emergency grant)</div>
+      </div>
+
+      <div class="quote">
+        <p>Thanks to the Berelowitz Foundation's emergency support, our healing farm team was able to provide meaningful care to Sheba Hospital medical staff alongside Dizengoff shelter residents. The therapeutic framework has since expanded into a permanent program funded by the hospital itself.</p>
+        <div class="attribution">Patricio Paoletti Foundation &middot; Sheba Hospital</div>
+      </div>
+
+      <div class="quote">
+        <p>Your support helped us prevent severe deterioration in the mental state of nearly 100 children and the complete collapse of our community. In the name of our team and the residents of Shlomi &mdash; thank you.</p>
+        <div class="attribution">Pele Yoetz &middot; Returning Evacuees Program</div>
+      </div>
+
+      <div class="quote">
+        <p>The grant enabled us to rehabilitate youth and rescue dogs together. The special bond between the young people and the animals is living proof of the power of innovative therapeutic approaches. We are deeply grateful for this partnership.</p>
+        <div class="attribution">Hadassah Neurim Youth Village &middot; Rehabilitative Kennel</div>
+      </div>
+
+      <div class="quote">
+        <p>The ability to use the grant for salary costs was hugely significant &mdash; almost no organizations help directly with staffing. The impact is enormous and allows us to continue our rehabilitation efforts. Thank you for being with us in the rebuilding process.</p>
+        <div class="attribution">Kibbutz Nir Yitzchak &middot; Oct 7th Rehabilitation</div>
+      </div>
+
+      <div class="quote">
+        <p>The workshop opens people's hearts and makes them share opinions and talk more than they usually do.</p>
+        <div class="attribution">11th-grade student, Atzmon Segev &middot; Academy of Growth</div>
+      </div>
+
+      <div class="quote">
+        <p>Your support turned our family finance workshops from a professional service into a real life-changing opportunity for dozens of families. Participants report a renewed sense of control, calm, and financial security &mdash; a change felt not just in finances but in quality of life and family stability.</p>
+        <div class="attribution">Tvuna &middot; Financial Literacy for Ultra-Orthodox Families</div>
+      </div>
+
+      <div class="quote">
+        <p>The electrical lab gave a tremendous boost to our entire technology track, raised student motivation, and opened the door to new audiences. We are in a continuous growth process &mdash; expanding buildings and developing programs.</p>
+        <div class="attribution">Beit HaShem Yeshiva High School &middot; Beit Shemesh</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="tagline">Building Resilience. Restoring Hope. Empowering Communities.</div>
+    <div class="year">BERELOWITZ FAMILY FOUNDATION &bull; 2025</div>
+  </div>
+</div>
+</body>
+</html>
