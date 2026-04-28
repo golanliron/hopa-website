@@ -7,41 +7,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--ink:#2B2D42;--warm:#C4B89B;--light:#F0EDED;--lighter:#FAF9F7;--white:#fff;--gray:#8D8D8D}
-body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--ink);line-height:1.6}
-@media print{body{background:#fff}@page{size:A4 portrait;margin:12mm}}
+:root{--ink:#2B2D42;--warm:#C4B89B;--light:#F0EDED;--lighter:#FAF9F7;--white:#fff}
+body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--ink);line-height:1.7}
+@media print{body{background:#fff}@page{size:A4 portrait;margin:14mm}}
 
-.page{max-width:960px;margin:0 auto;background:var(--white);min-height:100vh}
+.page{max-width:880px;margin:0 auto;background:var(--white);min-height:100vh}
 
-/* Header */
-.hero{background:var(--ink);padding:60px 56px 48px;text-align:center;position:relative}
+.hero{background:var(--ink);padding:64px 56px 52px;text-align:center;position:relative}
 .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--warm),var(--ink),var(--warm))}
-.hero h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:38px;color:var(--white);letter-spacing:2px;margin-bottom:8px}
-.hero h1 em{font-style:italic;color:var(--warm);font-weight:400}
-.hero .sub{font-size:13px;color:var(--warm);letter-spacing:3px;text-transform:uppercase}
+.hero h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:40px;color:var(--white);letter-spacing:2px}
+.hero h2{font-family:'Cormorant Garamond',serif;font-size:26px;font-style:italic;color:var(--warm);font-weight:300;margin-top:8px}
+.hero .sub{font-size:12px;color:rgba(255,255,255,.35);letter-spacing:3px;text-transform:uppercase;margin-top:16px}
 
-/* Section titles */
-.section-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--ink);text-align:center;padding:40px 56px 8px;letter-spacing:1px}
-.section-line{width:60px;height:2px;background:var(--warm);margin:0 auto 36px}
+.intro{text-align:center;padding:44px 64px 12px;font-family:'Cormorant Garamond',serif;font-size:19px;color:#555;font-style:italic;line-height:1.7}
+.section-line{width:60px;height:2px;background:var(--warm);margin:20px auto 40px}
 
-/* Organization card */
-.org-card{margin:0 40px 28px;padding:28px 36px;background:var(--lighter);border-radius:8px;border-left:4px solid var(--warm);position:relative}
-.org-card .org-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--ink);margin-bottom:2px}
-.org-card .org-track{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--warm);font-weight:600;margin-bottom:12px}
-.org-card .org-what{font-size:13.5px;color:#444;line-height:1.65;margin-bottom:14px}
-.org-card .org-quote{font-style:italic;font-size:13.5px;color:#3a3a4a;line-height:1.7;padding:14px 20px;background:var(--white);border-radius:6px;position:relative;margin-bottom:0}
-.org-card .org-quote::before{content:'\201C';font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--warm);position:absolute;top:-4px;left:8px;line-height:1}
-.org-card .org-quote .qt{padding-left:24px;display:block}
+.quote-block{margin:0 48px 32px;padding:28px 32px;background:var(--lighter);border-radius:8px;border-left:4px solid var(--warm);position:relative}
+.quote-block::before{content:'\201C';font-family:'Cormorant Garamond',serif;font-size:48px;color:var(--warm);position:absolute;top:8px;left:14px;line-height:1}
+.quote-block p{font-size:14.5px;color:#3a3a4a;line-height:1.75;padding-left:28px;font-style:italic}
+.quote-block .attr{font-size:11px;color:var(--warm);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-top:10px;padding-left:28px;font-style:normal}
 
-/* Divider between tracks */
-.track-divider{display:flex;align-items:center;gap:16px;padding:24px 56px 8px}
-.track-divider .line{flex:1;height:1px;background:var(--warm);opacity:.4}
-.track-divider .label{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--warm);letter-spacing:1px;white-space:nowrap}
+.divider{display:flex;align-items:center;gap:16px;padding:20px 56px 28px}
+.divider .line{flex:1;height:1px;background:var(--warm);opacity:.35}
+.divider .dot{width:6px;height:6px;background:var(--warm);border-radius:50%}
 
-/* Footer */
-.footer{background:var(--ink);padding:28px 56px;text-align:center;margin-top:40px}
-.footer p{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--warm);letter-spacing:1px;font-weight:300}
-.footer .copy{font-size:10px;color:rgba(255,255,255,.3);margin-top:6px;letter-spacing:2px;font-family:'Inter',sans-serif}
+.footer{background:var(--ink);padding:32px 56px;text-align:center;margin-top:48px}
+.footer p{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--warm);letter-spacing:1px;font-weight:300}
+.footer .copy{font-size:10px;color:rgba(255,255,255,.3);margin-top:8px;letter-spacing:2px;font-family:'Inter',sans-serif}
 </style>
 </head>
 <body>
@@ -49,211 +41,136 @@ body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--ink);line-
 
 <div class="hero">
   <h1>Berelowitz Family Foundation</h1>
-  <h1 style="font-size:28px;margin-top:4px"><em>Your Impact, In Their Words</em></h1>
+  <h2>Your Impact, In Their Words</h2>
   <div class="sub">Grants Cycle 2024 &ndash; 2025</div>
 </div>
 
-<div class="section-title">What Organizations Told Us</div>
+<div class="intro">These are the voices of the organizations you supported &mdash; unedited, translated faithfully from their original reports.</div>
 <div class="section-line"></div>
 
-<!-- ═══════════ IM KALVIA ═══════════ -->
-<div class="track-divider"><div class="line"></div><div class="label">Im Kalvia Emergency Fund</div><div class="line"></div></div>
-
-<div class="org-card">
-  <div class="org-name">Patricio Paoletti Foundation</div>
-  <div class="org-track">Sheba Hospital &amp; Dizengoff Shelter &middot; NIS 5,000</div>
-  <div class="org-what">The grant helped fund the Healing Farm's activities at Sheba Hospital and the Dizengoff municipal shelter. Touch therapists including Shiatsu, reflexology and mental health professionals treated staff at Sheba in one-on-one 20-minute sessions. A mindfulness workshop with headphones was also held in rotating groups for staff. At the same time, touch therapy was provided at the Dizengoff shelter for residents who had fled there.</div>
-  <div class="org-quote"><span class="qt">Thanks to the Berelowitz Foundation's support in this emergency, our Healing Farm team was able to provide meaningful treatment to Sheba's medical staff alongside Dizengoff Center residents. The therapeutic framework provided to staff during the war expanded and became a recurring program funded by the hospital itself for Sheba's emergency department staff. We are proud and happy to provide meaningful service thanks to support like this.</span></div>
+<div class="quote-block">
+  <p>Thanks to the Berelowitz Foundation's support in this emergency, our Healing Farm team was able to provide meaningful treatment to Sheba Hospital's medical staff alongside Dizengoff Center residents. The therapeutic framework provided to the teams during the war expanded and became a recurring program funded by the hospital itself for Sheba's emergency department staff. We are proud and happy to provide meaningful service thanks to support like this.</p>
+  <div class="attr">Patricio Paoletti Foundation &middot; Sheba Hospital</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Kavim V'Machshavot</div>
-  <div class="org-track">"The Safe Space" Campaign &middot; NIS 4,000</div>
-  <div class="org-quote"><span class="qt">10% of the population deals with ADHD (plus their families, friends, therapists, doctors, teachers...) and the feedback we received from the community on this campaign was amazing. People joined special Zoom meetings to cope with the situation &mdash; for conversation, sharing and emotional release, to remember that we are not alone. A safe space was created to unload, share, and be together.</span></div>
+<div class="quote-block">
+  <p>A message we received from the patient: "Hi Reut, how are you? On Sunday I had the surgery to remove the cyst and extract the teeth, and soon a new era of hope and happiness begins &mdash; I can finally eat without suffering from pain and not live on soft food and be limited. Thousands of thanks for the tremendous effort you invested to fundamentally improve my quality of life. Bless you."</p>
+  <div class="attr">Leshanot Olam &middot; Emergency Dental Care</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Kibbutz Nir Yitzchak</div>
-  <div class="org-track">Emergency Command Center Equipment &middot; NIS 10,000</div>
-  <div class="org-what">The donation was used for the kibbutz emergency command center: communication equipment enabling remote meetings &mdash; speakers, microphone and camera. Broadcasts were held during the war for the entire population from the command center thanks to the equipment purchased. A seating and shading area was also set up for the emergency team.</div>
-  <div class="org-quote"><span class="qt">Thank you so much for the help! The donation helped us make a big and meaningful change, to communicate with the population and continue holding community meetings on Zoom &mdash; even during war, from a protected place.</span></div>
+<div class="quote-block">
+  <p>The feedback we received from the community on this campaign was amazing. People joined special Zoom meetings to cope with the situation &mdash; for conversation, sharing and emotional release, to remember that we are not alone. A safe space was created to unload, share, and be together.</p>
+  <div class="attr">Kavim V'Machshavot &middot; "The Safe Space" Campaign</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Leshanot Olam</div>
-  <div class="org-track">Emergency Dental Surgery &middot; NIS 5,000</div>
-  <div class="org-what">The donation was used for emergency grants during the war for a patient at the "Tooth Fairy" clinic who needed emergency treatment. The donation covered lab x-rays and preparation for a complex and expensive surgical procedure.</div>
-  <div class="org-quote"><span class="qt">A message we received from the patient: "Hi Reut, how are you? On Sunday I had the surgery to remove the cyst and extract the teeth, and soon a new era of hope and happiness begins &mdash; I can finally eat without suffering from pain and not live on soft food and be limited. Thousands of thanks for the tremendous effort you invested to fundamentally improve my quality of life. Bless you."</span></div>
+<div class="quote-block">
+  <p>Thank you so much for the help! The donation helped us make a big and meaningful change, to communicate with the population and continue holding community meetings on Zoom &mdash; even during war, from a protected place.</p>
+  <div class="attr">Kibbutz Nir Yitzchak &middot; Emergency Command Center</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Beit L'Tzafon</div>
-  <div class="org-track">Children &amp; Youth on the Frontline &middot; NIS 30,000</div>
-  <div class="org-quote"><span class="qt">Thank you so much for the support &mdash; your help allowed us to get through an extremely complex period, and to provide respite activities and support adapted programs for children and youth in safe spaces. The support was extremely meaningful for the children and youth, and also for the parents, who have also been going through and continue to go through a very complex period. Thank you for your trust in us and thank you for the partnership.</span></div>
+<div class="divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+<div class="quote-block">
+  <p>Thank you so much for the support &mdash; your help allowed us to get through an extremely complex period, and to provide respite activities and support adapted programs for children and youth in safe spaces. The support was extremely meaningful for the children and youth, and also for the parents, who have also been going through and continue to go through a very complex period. Thank you for your trust in us and thank you for the partnership.</p>
+  <div class="attr">Beit L'Tzafon &middot; Children on the Northern Frontline</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Forum Nir'ut</div>
-  <div class="org-track">Dental Aid &amp; Youth Advocacy &middot; NIS 20,000</div>
-  <div class="org-quote"><span class="qt">Thank you so much for the support throughout the entire war, and particularly through Im Kalvia, when our headquarters worked extra hard with very limited resources.</span></div>
+<div class="quote-block">
+  <p>Thank you, you gave us so much strength!</p>
+  <div class="attr">Yedidim &middot; Safe Room Rescue Kits</div>
 </div>
 
-<!-- ═══════════ SHAAGAT HAARI ═══════════ -->
-<div class="track-divider"><div class="line"></div><div class="label">Shaagat HaAri Emergency Fund</div><div class="line"></div></div>
-
-<div class="org-card">
-  <div class="org-name">Yedidim</div>
-  <div class="org-track">Safe Room Rescue Kits &middot; NIS 12,000</div>
-  <div class="org-what">Purchase of safe room rescue kits. Handled approximately 17,000 safe room incidents.</div>
-  <div class="org-quote"><span class="qt">Thank you, you gave us so much strength!</span></div>
+<div class="quote-block">
+  <p>We thank you from the bottom of our hearts for the support. We would love to stay in touch to explore continued funding for the project in the Upper Galilee for the next activity year.</p>
+  <div class="attr">Basecamp &middot; Youth Mentors in the Galilee</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">SOS Children's Villages Israel</div>
-  <div class="org-track">Games for Children in Emergency Centers &middot; NIS 10,000</div>
-  <div class="org-what">The donation was used to purchase games for children living in our children's villages and emergency center. About 150 children currently live there. The games were intended for the well-being of all the children.</div>
-  <div class="org-quote"><span class="qt">Thank you for rallying to our aid and for your support.</span></div>
+<div class="quote-block">
+  <p>We thank the Berelowitz Foundation for the support that enabled opening a new group in Be'er Sheva and expanding services for children and youth who need an adapted and stable social framework. The support contributed to creating meaningful activity continuity for participants and strengthening their sense of belonging in the community.</p>
+  <div class="attr">Magen HaMishpacha &middot; Inclusion Group for Youth</div>
 </div>
 
-<!-- ═══════════ KOL KOREH 25 ═══════════ -->
-<div class="track-divider"><div class="line"></div><div class="label">Kol Koreh 2025 &mdash; Open Call</div><div class="line"></div></div>
+<div class="divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
 
-<div class="org-card">
-  <div class="org-name">Basecamp</div>
-  <div class="org-track">Youth Mentors in the Upper Galilee &middot; NIS 50,000</div>
-  <div class="org-what">The project operated in the Upper Galilee to recruit, train and support youth mentors in frontline communities during an extended emergency. The response included community placement, trauma-informed education training, and ongoing emotional and professional support. The mentors worked to create educational continuity, strengthen personal connections and engage youth under complex wartime conditions.</div>
-  <div class="org-quote"><span class="qt">We thank you from the bottom of our hearts for the support. We would love to stay in touch to explore continued funding for the project in the Upper Galilee for the next activity year.</span></div>
+<div class="quote-block">
+  <p>The project was summarized by the kibbutz as highly successful, enabling us to restart the informal education system for our children more frequently than before the war! As a result, it was decided that next year the group will grow by over fifty percent. We wish to extend our gratitude to the Berelowitz Foundation for responding and assisting in this challenging time. Thank you so much!</p>
+  <div class="attr">Kibbutz Dafna &middot; Youth Service Core</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Magen HaMishpacha</div>
-  <div class="org-track">"HaMifgash" &mdash; Inclusion Group in Be'er Sheva &middot; NIS 20,000</div>
-  <div class="org-what">The organization opened a new activity group in Be'er Sheva for the inclusion of youth with and without disabilities and immigrant children. The group opened in June 2025 and works to promote social integration, communication skills and a sense of community belonging.</div>
-  <div class="org-quote"><span class="qt">We thank the Berelowitz Foundation for the support that enabled opening a new group in Be'er Sheva and expanding services for children and youth who need an adapted and stable social framework. The support contributed to creating meaningful activity continuity for participants and strengthening their sense of belonging in the community. We would be happy to apply again when the new call for proposals is published.</span></div>
+<div class="quote-block">
+  <p>We wish to thank you, on our behalf and on behalf of the city's residents, for your significant contribution. With your help, we managed to prevent severe deterioration in the mental state of about one hundred children and the complete collapse of the community.</p>
+  <div class="attr">Pele Yoetz &middot; Returning Evacuees in Shlomi</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Kibbutz Dafna</div>
-  <div class="org-track">Youth Service Core &mdash; Informal Education &middot; NIS 50,000</div>
-  <div class="org-what">For the first time, a Scouts service core of 5 pre-army young men and women was established at the kibbutz. They joined the informal education system for grades 1-6 and also led additional community activities.</div>
-  <div class="org-quote"><span class="qt">The project was summarized by the kibbutz as highly successful, enabling us to restart the informal education system for our children more frequently than before the war! As a result, it was decided that next year the group will grow by over fifty percent to 8 young men and women, and will begin their volunteering as early as August &mdash; supporting the system during summer vacation as well. We wish to extend our gratitude to the Berelowitz Foundation for responding and assisting in this challenging time, and to explore continued partnership next year as well. Thank you so much!</span></div>
+<div class="quote-block">
+  <p>"The workshop opens people's hearts and makes them say their opinions and talk more than they usually do." "I loved that we learn about each other and learn to respect and appreciate the other." "I loved how kids opened up and now I know much more about my class." Teacher: "I was very satisfied. It was important to see the class as a group. The best part &mdash; seeing the small moments of a class functioning as a group of equals."</p>
+  <div class="attr">Academy of Growth &middot; Student &amp; Teacher Voices from Northern Schools</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Pele Yoetz</div>
-  <div class="org-track">Therapeutic Support for Returning Evacuees in Shlomi &middot; NIS 30,000</div>
-  <div class="org-what">For three months we provided therapeutic support to one hundred children and youth who returned to Shlomi after being evacuated from the city at the start of the war, helping them reintegrate into the community and educational institutions.</div>
-  <div class="org-quote"><span class="qt">We wish to thank you, on our behalf and on behalf of the city's residents, for your significant contribution. With your help, we managed to prevent severe deterioration in the mental state of about one hundred children and the complete collapse of the community.</span></div>
+<div class="quote-block">
+  <p>We wanted to tell you how much the electrical lab project impacted our institution. It gave a significant boost to the entire technology track, raised student motivation, and opened the door to new audiences coming to learn and join. Thank you for the partnership and trust that make all this possible.</p>
+  <div class="attr">Beit HaShem &middot; At-Risk Youth in Beit Shemesh</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Academy of Growth (Matzmichim)</div>
-  <div class="org-track">"Growth Classroom" Training for Northern Schools &middot; NIS 40,000</div>
-  <div class="org-what">The project subsidized 8 training processes for educators, including 3-day intensive workshops (18 hours) to create a "growth classroom" in secondary schools in northern communities, plus follow-up meetings and a toolkit for educators. 280 students across 3 northern towns (Evron, Carmiel, Gesher HaZiv).</div>
-  <div class="org-quote"><span class="qt">Student quotes from surveys: "The workshop opens people's hearts and makes them say their opinions and talk more than they usually do" (11th grade student, Carmiel). "I loved that we learn about each other and learn to respect and appreciate the other" (8th grade student, Gesher HaZiv). "I loved how kids opened up and now I know much more about my class" (7th grade student, Evron). Teacher: "I was very satisfied. It was important to see the class as a group. As an educator I don't have enough hours with them, and in the workshop I could be three focused days with them. The best part &mdash; seeing the small moments of a class functioning as a group of equals."</span></div>
+<div class="divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+<div class="quote-block">
+  <p>This project was exceptionally meaningful, especially given the challenging period Israel went through &mdash; a time of uncertainty, tensions and heavy emotional pressure that intensified the educational and emotional gaps among at-risk children. For the children of Or Simcha, who already grew up without stable family support, the continuity and stability the project provided within the storm were of immense value beyond the academic metrics alone.</p>
+  <div class="attr">Or Simcha &middot; Children's Therapeutic Boarding Home</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Beit HaShem</div>
-  <div class="org-track">Electrical Lab for At-Risk Youth &middot; NIS 40,000</div>
-  <div class="org-what">An active electrical lab was established enabling students to gain hands-on experience. Students performed wiring, voltage and current measurements, and built basic and advanced circuits. 78 students ages 14-17, at-risk youth from the socio-economic periphery in Beit Shemesh.</div>
-  <div class="org-quote"><span class="qt">We wanted to tell you how much the electrical lab project impacted our institution. It gave a significant boost to the entire technology track, raised student motivation, and opened the door to new audiences coming to learn and join. We are in a continuous growth process &mdash; expanding buildings, working with the municipality for additional facilities, and developing a professional website. Thank you for the partnership and trust that make all this possible.</span></div>
+<div class="quote-block">
+  <p>Thank you so much for being with us in the rehabilitation process! The ability to use the grant funds for salary costs is extremely significant since almost no organizations help directly with covering staffing costs. The impact of the donation is very significant and enables us to continue our rehabilitation efforts.</p>
+  <div class="attr">Kibbutz Nir Yitzchak &middot; Post-October 7th Rehabilitation</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Or Simcha Children's Home</div>
-  <div class="org-track">Remedial Education for At-Risk Children &middot; NIS 40,000</div>
-  <div class="org-what">Remedial teaching for at-risk children living in a therapeutic boarding home, who arrived with significant learning gaps and sometimes with no educational background at all. Lessons were given twice a week in small groups of two, focusing on reading, writing and spelling. Students showed an average 50% improvement in academic skills.</div>
-  <div class="org-quote"><span class="qt">This project was exceptionally meaningful, especially given the challenging period Israel went through &mdash; a time of uncertainty, tensions and heavy emotional pressure that intensified the educational and emotional gaps among at-risk children. For the children of Or Simcha, who already grew up without stable family support, the continuity and stability the project provided within the storm were of immense value beyond the academic metrics alone.</span></div>
+<div class="quote-block">
+  <p>The grant enabled us to create real, measurable change &mdash; both in the lives of our young people and in the lives of the dogs. The special bond formed between the youth and the dogs is living proof of the power of an innovative therapeutic approach, and we are grateful from the bottom of our hearts for this partnership.</p>
+  <div class="attr">Hadassah Neurim Youth Village &middot; Rehabilitative Kennel</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Kibbutz Nir Yitzchak</div>
-  <div class="org-track">Resource Development for Post-Oct 7th Rehabilitation &middot; NIS 30,000</div>
-  <div class="org-what">We hired an additional staff member for resource development at half-time to address the wide range of needs for rebuilding the kibbutz after October 7th. Since the beginning of the year, over one million NIS was raised for the education system. 86% of residents returned. 7 new families absorbed.</div>
-  <div class="org-quote"><span class="qt">Thank you so much for being with us in the rehabilitation process! The ability to use the grant funds for salary costs is extremely significant since almost no organizations help directly with covering staffing costs. The impact of the donation is very significant and enables us to continue our rehabilitation efforts.</span></div>
+<div class="divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+<div class="quote-block">
+  <p>The patrol has been operating since 2008 and to date has responded to the distress of hundreds of thousands of youth. The grant was extremely significant for expanding the patrol's activities, enabling us to strengthen proactive response precisely at a time when the need is growing. From the field we clearly see that young people are dealing with ongoing mental fatigue. In such reality, the patrol has a critical role: not to wait for people in distress to reach out themselves, but to identify signs of distress in time and provide assistance proactively. We wish to thank the Berelowitz Family Foundation for the generous grant.</p>
+  <div class="attr">SAHAR &middot; Online Crisis Response for Youth</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Hadassah Neurim Youth Village</div>
-  <div class="org-track">Rehabilitative Kennel &mdash; Youth &amp; Rescue Dogs &middot; NIS 50,000</div>
-  <div class="org-what">The project takes place at the rehabilitative kennel and combines rehabilitation of our youth with rehabilitation of abandoned dogs. The young people learn to care for, train and lead the dogs, developing responsibility, self-confidence and life skills. 200% increase in dog adoptions. 80% drop in dropout rate. 90% report improved self-confidence.</div>
-  <div class="org-quote"><span class="qt">Thank you so much to the Berelowitz Foundation for the trust and meaningful support in the project. The grant enabled us to create real, measurable change &mdash; both in the lives of our young people and in the lives of the dogs. The special bond formed between the youth and the dogs is living proof of the power of an innovative therapeutic approach, and we are grateful from the bottom of our hearts for this partnership.</span></div>
+<div class="quote-block">
+  <p>Our thanks and blessings to the Foundation for having our backs in such challenging times.</p>
+  <div class="attr">Kibbutz Manara &middot; Shelter Equipment on the Frontline</div>
 </div>
 
-<!-- ═══════════ GRANT REPORT 25 ═══════════ -->
-<div class="track-divider"><div class="line"></div><div class="label">Grant Report 2025</div><div class="line"></div></div>
-
-<div class="org-card">
-  <div class="org-name">SAHAR &mdash; Online Crisis Response</div>
-  <div class="org-track">Training Volunteers for Proactive Mental Health Outreach &middot; NIS 50,000</div>
-  <div class="org-what">Over three and a half months we trained 17 new volunteers for the "SAHAR Patrol" which identifies posts of severe mental distress on social media and forums, and proactively reaches out to the authors. In 2025 the patrol responded to 11,829 severe distress posts &mdash; a 75% increase from 2024. Approximately 118,290 young people ages 10-30 were exposed to SAHAR's posts. The patrol reported 333 cases of self-harm, contributing to actual life-saving.</div>
-  <div class="org-quote"><span class="qt">The patrol has been operating since 2008 and to date has responded to the distress of hundreds of thousands of youth. The grant was extremely significant for expanding the patrol's activities, enabling us to strengthen proactive response precisely at a time when the need is growing. From the field we clearly see that young people are dealing with ongoing mental fatigue, alongside deep disruption of daily life frameworks. In such reality, the patrol has a critical role: not to wait for people in distress to reach out themselves, but to identify signs of distress in time and provide assistance proactively. We wish to thank the Berelowitz Family Foundation for the generous grant.</span></div>
+<div class="quote-block">
+  <p>Beyond the contribution to patients in managing symptoms of pain, anxiety and nausea surrounding surgeries, we see in Tigist's advancement the opening of a significant employment channel for the Ethiopian community. We are deeply grateful that you made this possible.</p>
+  <div class="attr">Bnei Zion Hospital &middot; Ethiopian-Israeli Acupuncturist Pioneer</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Kibbutz Manara</div>
-  <div class="org-track">Radiators &amp; Chairs for 15 Active Shelters &middot; NIS 10,000</div>
-  <div class="org-what">We purchased radiators and chairs for the active shelters in Manara &mdash; 15 shelters. The entire community of Manara unfortunately finds itself again on the front line and sitting in shelters, and there was an urgent need to equip them.</div>
-  <div class="org-quote"><span class="qt">Our thanks and blessings to the Foundation for having our backs in such challenging times.</span></div>
+<div class="quote-block">
+  <p>Thanks to your support, the family finance workshops transformed from a professional service into a real life-changing opportunity for dozens of families. Beyond the practical tools acquired, participants report a renewed sense of control, calm and financial security &mdash; a change felt not just in financial management but also in quality of life and family stability. Personal stories from the field illustrate how the right knowledge, culturally adapted, can open a new horizon of hope and growth.</p>
+  <div class="attr">Tvuna &middot; Financial Literacy for Ultra-Orthodox Families</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Bnei Zion Hospital Friends Association</div>
-  <div class="org-track">Ethiopian-Israeli Acupuncturist &mdash; Pioneering Role &middot; NIS 20,000</div>
-  <div class="org-what">Staffing a Chinese acupuncture position with a practitioner from the Ethiopian community as a pioneer in the field, specializing in hospital-setting acupuncture focused on urological patients including cancer patients and post-surgery recovery.</div>
-  <div class="org-quote"><span class="qt">Beyond the contribution to urological patients in managing symptoms of pain, anxiety and nausea surrounding surgeries, we see in Tigist's advancement the opening of a significant employment channel for the Ethiopian community. We are deeply grateful that you made this possible.</span></div>
+<div class="divider"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+<div class="quote-block">
+  <p>The donation was relatively modest but vital. Without it, we would not have been able to realize the significant participation of the Ministry of Defense. Women introduced themselves through their family member's military unit &mdash; indicating a fundamental shift in perceptions about military service in the ultra-orthodox community.</p>
+  <div class="attr">Alumah (Osot Chayil) &middot; Ultra-Orthodox Military Families</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Vertigo Dance &mdash; Jerusalem</div>
-  <div class="org-track">"Breathing Space" for Reservists' Wives &middot; NIS 20,000</div>
-  <div class="org-what">The "Breathing Space" project provided emotional support for wives of reservists and security forces dealing with ongoing stress, anxiety and burnout against the backdrop of the war. The program included movement-based workshops, art and group dialogue at Vertigo's ecological art village. About 136 women participated. The program led to emotional improvement in approximately 90% of all participants.</div>
-  <div class="org-quote"><span class="qt">We thank you for your consistent and ongoing support of our activities.</span></div>
+<div class="quote-block">
+  <p>Planetherapy's impact is expressed not only at the individual level, but also in creating new infrastructure: a global, accessible and multilingual system capable of responding to distress in real time and continuing to accompany over time. The activity began as an emergency response, but the data points to an ongoing need.</p>
+  <div class="attr">Planetherapy &middot; International Mental Health Center</div>
 </div>
 
-<div class="org-card">
-  <div class="org-name">Alumah (Osot Chayil)</div>
-  <div class="org-track">"Rosh Hashana Together" for Ultra-Orthodox Military Families &middot; NIS 25,000</div>
-  <div class="org-what">The initiative provides real respite for families of ultra-orthodox soldiers, both regular and reserve duty. It especially strengthens the women and children, relieving emotional and practical burden during a loaded and complex period in the ultra-orthodox calendar. About 500 participants (120 women plus children) from across the country.</div>
-  <div class="org-quote"><span class="qt">The donation was relatively modest but vital. Without it, we would not have been able to realize the significant participation of the Ministry of Defense. 92% reported a sense of belonging with other ultra-orthodox families facing the same challenges. 75% reported a decrease in their children's distress. 32% of women introduced themselves through their family member's military unit &mdash; indicating a fundamental shift in perceptions about military service.</span></div>
+<div class="quote-block">
+  <p>Again, thank you so much! We would be happy to continue being a tool in your hands in advancing the Foundation's goals.</p>
+  <div class="attr">Yom Echad Tikkun Olam &middot; Volunteering for Northern Israel</div>
 </div>
 
-<!-- ═══════════ DETAILS COMPLETION ═══════════ -->
-<div class="track-divider"><div class="line"></div><div class="label">Additional Impact Reports</div><div class="line"></div></div>
-
-<div class="org-card">
-  <div class="org-name">Tvuna &mdash; Financial Literacy</div>
-  <div class="org-track">Family Finance Workshops for Ultra-Orthodox Communities &middot; NIS 50,000</div>
-  <div class="org-what">45% began implementing a monthly savings plan. 72% expressed desire to continue learning additional financial topics.</div>
-  <div class="org-quote"><span class="qt">Thanks to your support, the family finance workshops project transformed from a professional service into a real life-changing opportunity for dozens of families. Beyond the practical tools acquired, participants report a renewed sense of control, calm and financial security &mdash; a change felt not just in financial management but also in quality of life and family stability. Personal stories from the field illustrate how the right knowledge, culturally adapted, can open a new horizon of hope and growth.</span></div>
-</div>
-
-<div class="org-card">
-  <div class="org-name">Planetherapy</div>
-  <div class="org-track">International Resilience Center &mdash; Online Mental Health &middot; NIS 210,000</div>
-  <div class="org-what">An international resilience center providing online emotional support for Israelis and Jews, based on a network of professional therapists volunteering from around the world. About 63% of those who reached out chose to continue beyond the first session. ~40 new referrals per month. ~46% from communities outside Israel. ~88% of therapists specialize in mental health and trauma. ~45% provide multilingual support.</div>
-  <div class="org-quote"><span class="qt">Planetherapy's impact is expressed not only at the individual level, but also in creating new infrastructure: a global, accessible and multilingual system capable of responding to distress in real time and continuing to accompany over time. The activity began as an emergency response, but the data points to an ongoing need.</span></div>
-</div>
-
-<div class="org-card">
-  <div class="org-name">Yom Echad Tikkun Olam</div>
-  <div class="org-track">Volunteering for Northern Israel Rehabilitation &middot; NIS 100,000</div>
-  <div class="org-what">1,065 volunteers. 2,165 beneficiaries. 43 projects. Examples: activities at a center for people with special needs in Acre, a therapeutic garden in Haifa, sports activities with children who returned home to the north, building wooden benches in Metzuba, activity at a center for the visually impaired, educational playground in Haifa for at-risk youth, loneliness prevention for elderly in Nahariya, and more.</div>
-  <div class="org-quote"><span class="qt">Again, thank you so much! We would be happy to continue being a tool in your hands in advancing the Foundation's goals.</span></div>
-</div>
-
-<div class="org-card">
-  <div class="org-name">Vesta Tsega</div>
-  <div class="org-track">Culturally-Adapted Mental Health for the Ethiopian Community &middot; NIS 50,000</div>
-  <div class="org-what">About 100 patients received culturally-adapted mental health treatment thanks to the grant. ~30% increase in referrals in the southern region. ~75% completed at least 8 consecutive sessions. ~60% reported decrease in mental distress. ~50% reported improvement in daily functioning (work, family, sleep). ~25% decrease in anxiety and stress symptoms among continuing patients.</div>
-  <div class="org-quote"><span class="qt">Given the ongoing security situation, we identify a rise in the need for mental health services and in the volume of referrals, and we foresee continued growth in demand for treatment in the coming period.</span></div>
-</div>
-
-<div class="org-card">
-  <div class="org-name">Engine 121 for Social Change</div>
-  <div class="org-track">Quality School Meals for Food-Insecure Students &middot; NIS 50,000</div>
-  <div class="org-what">Ensuring that every boy and girl in Israel suffering from food insecurity receives quality nutrition at school, enabling them to focus on their studies. 67% of teachers reported improvement in student concentration. 77% reported improved relationships between staff and students. 36% reported improvement in grades. 70% of students said they eat at school. 16.7% said they returned to school because of the meals.</div>
+<div class="quote-block">
+  <p>Given the ongoing security situation, we identify a rise in the need for mental health services and in the volume of referrals, and we foresee continued growth in demand for treatment in the coming period.</p>
+  <div class="attr">Vesta Tsega &middot; Mental Health for the Ethiopian Community</div>
 </div>
 
 <div class="footer">
