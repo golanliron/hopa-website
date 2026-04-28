@@ -30,7 +30,9 @@ td.impact { font-size: 12.5px; }
 .he-text { display: none; font-family: 'Heebo', sans-serif; direction: rtl; text-align: right; unicode-bidi: bidi-override; }
 td:hover .en-text { display: none; }
 td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; border-radius: 4px; }
-@media print { body { padding: 10px; } .stats { display: none; } table { font-size: 11px; } }
+.delete-btn { background: #e74c3c; color: #fff; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-size: 14px; line-height: 24px; text-align: center; opacity: 0.6; transition: opacity 0.2s; }
+.delete-btn:hover { opacity: 1; }
+@media print { body { padding: 10px; } .stats { display: none; } table { font-size: 11px; } .delete-btn { display: none; } }
 </style>
 </head>
 <body>
@@ -47,6 +49,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 <table>
 <thead>
 <tr>
+<th></th>
 <th>#</th>
 <th>Call for Proposals</th>
 <th>Organization</th>
@@ -60,6 +63,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 <tbody>
 
 <tr class="duplicate">
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>1</td>
 <td><span class="kol-kore kolkore25"><span class="en-text">Call for Proposals 25</span><span class="he-text">קול קורא 25</span></span></td>
 <td class="org-name"><span class="en-text">Kibbutz Nir Yitzchak (2/2)</span><span class="he-text">קיבוץ ניר יצחק (2/2)</span></td>
@@ -71,6 +75,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr class="duplicate">
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>2</td>
 <td><span class="kol-kore doch25"><span class="en-text">Grant Report 25</span><span class="he-text">דוח מענק 25</span></span></td>
 <td class="org-name"><span class="en-text">Forum Nirut (Visibility Forum) (2/2)</span><span class="he-text">פורום נראות (2/2)</span></td>
@@ -82,6 +87,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>3</td>
 <td><span class="kol-kore kolkore25"><span class="en-text">Call for Proposals 25</span><span class="he-text">קול קורא 25</span></span></td>
 <td class="org-name"><span class="en-text">Basecamp</span><span class="he-text">בייסקאמפ</span></td>
@@ -93,6 +99,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>4</td>
 <td><span class="kol-kore kolkore25"><span class="en-text">Call for Proposals 25</span><span class="he-text">קול קורא 25</span></span></td>
 <td class="org-name"><span class="en-text">Magen HaMishpacha (Family Shield)</span><span class="he-text">מגן המשפחה</span></td>
@@ -104,6 +111,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>5</td>
 <td><span class="kol-kore kolkore25"><span class="en-text">Call for Proposals 25</span><span class="he-text">קול קורא 25</span></span></td>
 <td class="org-name"><span class="en-text">Nirim</span><span class="he-text">נירים</span></td>
@@ -115,6 +123,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>6</td>
 <td><span class="kol-kore kolkore25"><span class="en-text">Call for Proposals 25</span><span class="he-text">קול קורא 25</span></span></td>
 <td class="org-name"><span class="en-text">Kibbutz Dafna</span><span class="he-text">קיבוץ דפנה</span></td>
@@ -126,6 +135,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>7</td>
 <td><span class="kol-kore kolkore25"><span class="en-text">Call for Proposals 25</span><span class="he-text">קול קורא 25</span></span></td>
 <td class="org-name"><span class="en-text">Matzmichim Academy</span><span class="he-text">אקדמיית מצמיחים</span></td>
@@ -137,6 +147,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>8</td>
 <td><span class="kol-kore kolkore25"><span class="en-text">Call for Proposals 25</span><span class="he-text">קול קורא 25</span></span></td>
 <td class="org-name"><span class="en-text">Pele Yoetz - Educational Counseling and Relationships Center (NPO)</span><span class="he-text">פלא יועץ המרכז לייעוץ חינוכי וזוגיות ע&quot;ר</span></td>
@@ -148,6 +159,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>9</td>
 <td><span class="kol-kore kolkore25"><span class="en-text">Call for Proposals 25</span><span class="he-text">קול קורא 25</span></span></td>
 <td class="org-name"><span class="en-text">Beit HaShem</span><span class="he-text">בית השם</span></td>
@@ -159,6 +171,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>10</td>
 <td><span class="kol-kore kolkore25"><span class="en-text">Call for Proposals 25</span><span class="he-text">קול קורא 25</span></span></td>
 <td class="org-name"><span class="en-text">Or Simcha</span><span class="he-text">אור שמחה</span></td>
@@ -170,6 +183,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>11</td>
 <td><span class="kol-kore kolkore25"><span class="en-text">Call for Proposals 25</span><span class="he-text">קול קורא 25</span></span></td>
 <td class="org-name"><span class="en-text">Leadership Academy - Pre-Army Mechina Upper Galilee</span><span class="he-text">המדרשה למנהיגות - מכינה קדם צבאית גליל עליון</span></td>
@@ -181,6 +195,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>12</td>
 <td><span class="kol-kore kolkore25"><span class="en-text">Call for Proposals 25</span><span class="he-text">קול קורא 25</span></span></td>
 <td class="org-name"><span class="en-text">Hadassah Neurim Youth Village</span><span class="he-text">כפר הנוער הדסה נעורים</span></td>
@@ -192,6 +207,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>13</td>
 <td><span class="kol-kore hashlamat"><span class="en-text">Supplementary Info</span><span class="he-text">השלמת פרטים</span></span></td>
 <td class="org-name"><span class="en-text">Association 121 - Engine for Social Change</span><span class="he-text">עמותת 121 מנוע לשינוי חברתי</span></td>
@@ -203,6 +219,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>14</td>
 <td><span class="kol-kore hashlamat"><span class="en-text">Supplementary Info</span><span class="he-text">השלמת פרטים</span></span></td>
 <td class="org-name"><span class="en-text">Tvuna - The Path to Smart Finance</span><span class="he-text">תבונה הדרך לכלכלה נבונה</span></td>
@@ -214,6 +231,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>15</td>
 <td><span class="kol-kore hashlamat"><span class="en-text">Supplementary Info</span><span class="he-text">השלמת פרטים</span></span></td>
 <td class="org-name"><span class="en-text">Planetherapy</span><span class="he-text">planetherapy</span></td>
@@ -225,6 +243,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>16</td>
 <td><span class="kol-kore hashlamat"><span class="en-text">Supplementary Info</span><span class="he-text">השלמת פרטים</span></span></td>
 <td class="org-name"><span class="en-text">Yom Echad Tikun Olam (One Day - Repairing the World) NPO</span><span class="he-text">יום אחד תיקון עולם ע״ר</span></td>
@@ -236,6 +255,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>17</td>
 <td><span class="kol-kore hashlamat"><span class="en-text">Supplementary Info</span><span class="he-text">השלמת פרטים</span></span></td>
 <td class="org-name"><span class="en-text">Westa Tsega</span><span class="he-text">ווסטה צגה</span></td>
@@ -247,6 +267,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>18</td>
 <td><span class="kol-kore doch25"><span class="en-text">Grant Report 25</span><span class="he-text">דוח מענק 25</span></span></td>
 <td class="org-name"><span class="en-text">Tashtit - Strengthening Public Service</span><span class="he-text">תשתית - לחיזוק השירות הציבורי</span></td>
@@ -258,6 +279,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>19</td>
 <td><span class="kol-kore doch25"><span class="en-text">Grant Report 25</span><span class="he-text">דוח מענק 25</span></span></td>
 <td class="org-name"><span class="en-text">Kibbutz Manara via the Kibbutz Movement</span><span class="he-text">קיבוץ מנרה באמצעות ברית התנועה הקיבוצית</span></td>
@@ -269,6 +291,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>20</td>
 <td><span class="kol-kore doch25"><span class="en-text">Grant Report 25</span><span class="he-text">דוח מענק 25</span></span></td>
 <td class="org-name"><span class="en-text">SAHAR - Online Support and Listening</span><span class="he-text">סה&quot;ר - סיוע והקשבה ברשת</span></td>
@@ -280,6 +303,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>21</td>
 <td><span class="kol-kore doch25"><span class="en-text">Grant Report 25</span><span class="he-text">דוח מענק 25</span></span></td>
 <td class="org-name"><span class="en-text">Bnei Zion Friends Association</span><span class="he-text">אגודת הידידים בני ציון</span></td>
@@ -291,6 +315,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>22</td>
 <td><span class="kol-kore doch25"><span class="en-text">Grant Report 25</span><span class="he-text">דוח מענק 25</span></span></td>
 <td class="org-name"><span class="en-text">Vertigo Dance Company - Jerusalem</span><span class="he-text">עמותת ורטיגו למחול - ירושלים</span></td>
@@ -302,6 +327,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>23</td>
 <td><span class="kol-kore doch25"><span class="en-text">Grant Report 25</span><span class="he-text">דוח מענק 25</span></span></td>
 <td class="org-name"><span class="en-text">Aluma (Osot Chayil)</span><span class="he-text">אלומה (עושות חיל)</span></td>
@@ -313,6 +339,7 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 </tr>
 
 <tr>
+<td><button class="delete-btn" onclick="deleteRow(this)">×</button></td>
 <td>24</td>
 <td></td>
 <td class="org-name"><span class="en-text">Anu Yoga</span><span class="he-text">אנו יוגה</span></td>
@@ -326,5 +353,32 @@ td:hover .he-text { display: inline; background: #fdf6e3; padding: 2px 6px; bord
 
 </tbody>
 </table>
+
+<script>
+function deleteRow(btn) {
+  if (!confirm('Remove this organization?')) return;
+  var row = btn.closest('tr');
+  row.style.transition = 'opacity 0.3s';
+  row.style.opacity = '0';
+  setTimeout(function() {
+    row.remove();
+    updateTable();
+  }, 300);
+}
+function updateTable() {
+  var rows = document.querySelectorAll('tbody tr');
+  var totalILS = 0;
+  rows.forEach(function(row, i) {
+    row.cells[1].textContent = i + 1;
+    var amountText = row.cells[5].textContent.replace(/[^0-9]/g, '');
+    if (amountText) totalILS += parseInt(amountText);
+  });
+  var totalUSD = Math.round(totalILS / 2.979);
+  var cards = document.querySelectorAll('.stat-card .num');
+  cards[0].textContent = rows.length;
+  cards[1].textContent = totalILS.toLocaleString() + ' \u20AA';
+  cards[2].textContent = '$' + totalUSD.toLocaleString();
+}
+</script>
 </body>
 </html>
