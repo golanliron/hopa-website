@@ -6,50 +6,97 @@
     <title>הופה | תוכנית למיגור נידוי חברתי בקרב בני נוער</title>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #E8358A;
+            --secondary: #F5C800;
+            --foreground: #2A2D38;
+            --background: #FFFFFF;
+            --muted: hsl(220, 10%, 92%);
+            --muted-fg: hsl(220, 10%, 45%);
+            --radius: 16px;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Heebo', sans-serif;
-            background: #FFFFFF;
-            color: #1a1a2e;
+            background: var(--background);
+            color: var(--foreground);
             line-height: 1.7;
+        }
+
+        /* Glow line */
+        .glow-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+        }
+
+        /* Pattern dots */
+        .pattern-dots {
+            background-image: radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
+            background-size: 32px 32px;
         }
 
         /* Hero */
         .hero {
-            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b3d 50%, #1a1a2e 100%);
-            padding: 60px 24px 50px;
+            background: var(--background);
+            padding: 50px 24px 40px;
             text-align: center;
             position: relative;
-            overflow: hidden;
         }
         .hero::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 50%, rgba(194, 24, 91, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 50%, rgba(255, 242, 0, 0.1) 0%, transparent 50%);
-            animation: pulse 8s ease-in-out infinite;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(232, 53, 138, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(245, 200, 0, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
-        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
-        .hero img { height: 60px; margin-bottom: 20px; }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero img {
+            height: 56px;
+            margin-bottom: 20px;
+        }
+        .hero-label {
+            display: inline-block;
+            background: rgba(232, 53, 138, 0.08);
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 6px 18px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+        }
         .hero h1 {
             font-size: 2.2rem;
             font-weight: 900;
-            color: #fff;
+            color: var(--foreground);
             margin-bottom: 12px;
+            line-height: 1.3;
         }
-        .hero h1 span { color: #C2185B; }
+        .hero h1 span { color: var(--primary); }
         .hero p {
-            font-size: 1.15rem;
-            color: rgba(255,255,255,0.75);
+            font-size: 1.1rem;
+            color: var(--muted-fg);
             max-width: 600px;
             margin: 0 auto;
         }
@@ -58,22 +105,20 @@
         .stats-bar {
             display: flex;
             justify-content: center;
-            gap: 40px;
+            gap: 48px;
             flex-wrap: wrap;
-            padding: 30px 24px;
-            background: #F7F7F7;
+            padding: 36px 24px;
+            background: hsl(220, 10%, 95%);
         }
-        .stat {
-            text-align: center;
-        }
+        .stat { text-align: center; }
         .stat-number {
             font-size: 2.4rem;
             font-weight: 900;
-            color: #C2185B;
+            color: var(--primary);
         }
         .stat-label {
-            font-size: 0.9rem;
-            color: #666;
+            font-size: 0.85rem;
+            color: var(--muted-fg);
             font-weight: 500;
         }
 
@@ -84,74 +129,83 @@
             padding: 50px 24px;
         }
         .section-title {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 900;
-            margin-bottom: 8px;
-            color: #1a1a2e;
+            margin-bottom: 6px;
+            color: var(--foreground);
         }
         .section-subtitle {
-            font-size: 1rem;
-            color: #888;
-            margin-bottom: 30px;
+            font-size: 0.95rem;
+            color: var(--muted-fg);
+            margin-bottom: 28px;
         }
 
         /* Data table */
         .data-section {
-            background: #F7F7F7;
+            background: hsl(220, 10%, 95%);
         }
         .data-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             margin-top: 10px;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+            border-radius: var(--radius);
+            overflow: hidden;
         }
         .data-table th {
-            background: #1a1a2e;
+            background: var(--foreground);
             color: #fff;
-            padding: 12px 16px;
+            padding: 14px 16px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-align: right;
         }
         .data-table td {
             padding: 12px 16px;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-size: 0.93rem;
         }
-        .data-table tr:last-child td {
+        .data-table tbody tr:last-child td {
             border-bottom: none;
             font-weight: 700;
-            background: rgba(194, 24, 91, 0.05);
-        }
-        .data-table tr:hover td {
-            background: rgba(194, 24, 91, 0.03);
+            background: rgba(232, 53, 138, 0.04);
         }
         .highlight-cell {
-            color: #C2185B;
+            color: var(--primary);
             font-weight: 700;
+        }
+
+        /* Glass card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+            border-radius: var(--radius);
+            padding: 32px;
+            position: relative;
+            transition: box-shadow 0.3s, transform 0.2s;
+        }
+        .glass-card:hover {
+            box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
         }
 
         /* Idea cards */
         .ideas-grid {
             display: flex;
             flex-direction: column;
-            gap: 30px;
-        }
-        .idea-card {
-            background: #fff;
-            border: 1px solid #eee;
-            border-radius: 16px;
-            padding: 32px;
-            position: relative;
-            transition: box-shadow 0.3s;
-        }
-        .idea-card:hover {
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            gap: 28px;
         }
         .idea-number {
             position: absolute;
             top: -14px;
             right: 24px;
-            background: #C2185B;
+            background: linear-gradient(135deg, var(--primary), #c22a70);
             color: #fff;
             width: 36px;
             height: 36px;
@@ -161,54 +215,55 @@
             justify-content: center;
             font-weight: 900;
             font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(232, 53, 138, 0.3);
         }
-        .idea-card h3 {
-            font-size: 1.3rem;
+        .glass-card h3 {
+            font-size: 1.25rem;
             font-weight: 900;
             margin-bottom: 4px;
-            color: #1a1a2e;
+            color: var(--foreground);
         }
-        .idea-card .idea-tagline {
-            color: #C2185B;
+        .idea-tagline {
+            color: var(--primary);
             font-weight: 500;
-            font-size: 0.95rem;
-            margin-bottom: 16px;
+            font-size: 0.93rem;
+            margin-bottom: 14px;
         }
-        .idea-card p {
-            color: #555;
-            margin-bottom: 12px;
-            font-size: 0.95rem;
+        .glass-card p {
+            color: var(--muted-fg);
+            margin-bottom: 10px;
+            font-size: 0.93rem;
         }
-        .idea-card h4 {
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin: 20px 0 8px;
-            color: #1a1a2e;
-        }
-        .idea-card ul {
-            padding-right: 20px;
-            color: #555;
+        .glass-card h4 {
             font-size: 0.9rem;
+            font-weight: 700;
+            margin: 18px 0 8px;
+            color: var(--foreground);
         }
-        .idea-card ul li {
-            margin-bottom: 4px;
+        .glass-card ul {
+            padding-right: 20px;
+            color: var(--muted-fg);
+            font-size: 0.88rem;
         }
+        .glass-card ul li { margin-bottom: 4px; }
 
         /* Budget mini-table */
         .budget-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 12px;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
         }
         .budget-table td {
             padding: 8px 12px;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+            color: var(--muted-fg);
         }
         .budget-table tr:last-child td {
             border-bottom: none;
             font-weight: 700;
-            background: rgba(194, 24, 91, 0.05);
+            color: var(--foreground);
+            background: rgba(232, 53, 138, 0.04);
             border-radius: 8px;
         }
         .budget-table .amount {
@@ -220,49 +275,60 @@
         /* Impact badge */
         .impact-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #C2185B, #E8358A);
-            color: #fff;
-            padding: 6px 16px;
+            background: var(--secondary);
+            color: var(--foreground);
+            padding: 6px 18px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 700;
             margin-top: 16px;
         }
 
         /* Summary section */
         .summary-section {
-            background: #1a1a2e;
-            color: #fff;
+            background: hsl(220, 10%, 95%);
             padding: 50px 24px;
         }
-        .summary-section .section-title {
-            color: #fff;
+        .summary-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        .summary-card .section-title {
+            padding: 24px 24px 0;
         }
         .summary-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
         }
         .summary-table th {
-            background: rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.7);
+            background: var(--foreground);
+            color: rgba(255,255,255,0.8);
             padding: 12px 16px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.83rem;
             text-align: right;
         }
         .summary-table td {
             padding: 14px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-size: 0.93rem;
         }
-        .summary-table tr:last-child td {
+        .summary-table tbody tr:last-child td {
             border-bottom: none;
             font-weight: 900;
-            font-size: 1.1rem;
-            color: #C2185B;
+            font-size: 1.05rem;
+            background: rgba(232, 53, 138, 0.06);
         }
-        .summary-table .sum-amount {
+        .summary-table tbody tr:last-child td:nth-child(3) {
+            color: var(--primary);
+        }
+        .sum-amount {
             text-align: left;
             font-weight: 700;
         }
@@ -270,23 +336,22 @@
         /* Footer */
         .footer {
             text-align: center;
-            padding: 30px 24px;
-            background: #F7F7F7;
-            color: #999;
-            font-size: 0.85rem;
+            padding: 28px 24px;
+            color: var(--muted-fg);
+            font-size: 0.82rem;
         }
         .footer a {
-            color: #C2185B;
+            color: var(--primary);
             text-decoration: none;
             font-weight: 600;
         }
 
         /* Responsive */
         @media (max-width: 600px) {
-            .hero h1 { font-size: 1.6rem; }
+            .hero h1 { font-size: 1.55rem; }
             .stats-bar { gap: 20px; }
             .stat-number { font-size: 1.8rem; }
-            .idea-card { padding: 24px 18px; }
+            .glass-card { padding: 24px 18px; }
             .section { padding: 36px 16px; }
         }
     </style>
@@ -297,13 +362,16 @@
 <div class="hero">
     <div class="hero-content">
         <img src="assets/logo.png" alt="הופה" onerror="this.style.display='none'">
+        <div class="hero-label">הגשה לקול קורא | נידוי חברתי</div>
         <h1>תוכנית <span>"רואים אותי"</span><br>למיגור נידוי חברתי בקרב בני נוער</h1>
         <p>5 רעיונות להשפעה רוחבית ארצית, מבתי הספר של הופה ומעבר להם</p>
     </div>
 </div>
 
+<div class="glow-line"></div>
+
 <!-- Stats -->
-<div class="stats-bar">
+<div class="stats-bar pattern-dots">
     <div class="stat">
         <div class="stat-number">3,950</div>
         <div class="stat-label">תלמידים ב-10 בתי ספר</div>
@@ -322,8 +390,10 @@
     </div>
 </div>
 
+<div class="glow-line"></div>
+
 <!-- Data Section -->
-<div class="data-section">
+<div class="data-section pattern-dots">
     <div class="section">
         <div class="section-title">נתוני בסיס: בתי הספר של הופה</div>
         <div class="section-subtitle">מבוסס על דיווחי מנהלות בתי הספר, ממוצע 40% נידוי חברתי</div>
@@ -390,6 +460,8 @@
     </div>
 </div>
 
+<div class="glow-line"></div>
+
 <!-- Ideas -->
 <div class="section">
     <div class="section-title">5 רעיונות לתוכנית</div>
@@ -398,12 +470,11 @@
     <div class="ideas-grid">
 
         <!-- Idea 1 -->
-        <div class="idea-card">
+        <div class="glass-card">
             <div class="idea-number">1</div>
             <h3>קמפיין "רואים אותי"</h3>
             <div class="idea-tagline">תלמידים יוצרים תוכן אותנטי על נידוי חברתי ברשתות</div>
             <p>איש קמפיינים/קריאייטיב צעיר מגיע לכל בית ספר ל-2-3 מפגשים. יחד עם התלמידים יוצרים סרטוני טיקטוק, רילס ויוטיוב שורטס על נידוי חברתי, בדידות והכלה.</p>
-
             <h4>למה זה חזק:</h4>
             <ul>
                 <li>התלמידים הם היוצרים, לא צופים פסיביים</li>
@@ -411,7 +482,6 @@
                 <li>כל בית ספר מייצר תוכן משלו = תחושת בעלות</li>
                 <li>ניתן למדוד: צפיות, שיתופים, תגובות</li>
             </ul>
-
             <h4>תמחור:</h4>
             <table class="budget-table">
                 <tr><td>איש קמפיינים (חצי משרה, 10 חודשים)</td><td class="amount">120,000 &#8362;</td></tr>
@@ -424,12 +494,11 @@
         </div>
 
         <!-- Idea 2 -->
-        <div class="idea-card">
+        <div class="glass-card">
             <div class="idea-number">2</div>
             <h3>"מד חברתי"</h3>
             <div class="idea-tagline">שאלון דינמי למיפוי נידוי חברתי + דוח אוטומטי למנהלת</div>
             <p>כלי דיגיטלי שמנהלות ויועצות מעבירות לתלמידים. השאלון מזהה דפוסי נידוי, בדידות וחרם ומפיק "מפת חום חברתית" של הכיתה.</p>
-
             <h4>איך זה עובד:</h4>
             <ul>
                 <li>תלמיד ממלא שאלון אנונימי (5-7 דקות, מובייל)</li>
@@ -437,14 +506,12 @@
                 <li>המערכת מייצרת דוח למנהלת: אחוז תלמידים בסיכון, מגמות לפי כיתה</li>
                 <li>מדידה חוזרת כל רבעון לבדיקת שינוי</li>
             </ul>
-
             <h4>למה זה מתאים לקול הקורא:</h4>
             <ul>
                 <li>כלי מדיד ומוכח (evidence-based)</li>
                 <li>ניתן להפצה לכל בית ספר בארץ (scalable)</li>
                 <li>מתאים בדיוק לסעיף "הדרכות וכלים מקצועיים"</li>
             </ul>
-
             <h4>תמחור:</h4>
             <table class="budget-table">
                 <tr><td>אפיון + פיתוח השאלון (פסיכולוג + מפתח)</td><td class="amount">80,000 &#8362;</td></tr>
@@ -457,12 +524,11 @@
         </div>
 
         <!-- Idea 3 -->
-        <div class="idea-card">
+        <div class="glass-card">
             <div class="idea-number">3</div>
             <h3>"ערכת בית ספר"</h3>
             <div class="idea-tagline">חבילה דיגיטלית מוכנה להורדה לכל בית ספר בארץ</div>
             <p>הופה מפתחת ערכה שכל בית ספר בארץ יכול להוריד ולהפעיל בעצמו, בלי שהופה צריכה להיות שם פיזית. ככה ההשפעה חוצה הרבה מעבר ל-10 בתי הספר שלנו.</p>
-
             <h4>מה בערכה:</h4>
             <ul>
                 <li>מערך שיעור מוכן ל-4 מפגשים (מחנכים מעבירים)</li>
@@ -471,7 +537,6 @@
                 <li>תבנית דוח למנהלת</li>
                 <li>חומרי קמפיין מוכנים (פוסטרים, תבניות לרשתות)</li>
             </ul>
-
             <h4>תמחור:</h4>
             <table class="budget-table">
                 <tr><td>פיתוח תוכן (פדגוגית + פסיכולוגית)</td><td class="amount">60,000 &#8362;</td></tr>
@@ -484,19 +549,17 @@
         </div>
 
         <!-- Idea 4 -->
-        <div class="idea-card">
+        <div class="glass-card">
             <div class="idea-number">4</div>
             <h3>"שגרירי הכלה"</h3>
             <div class="idea-tagline">תלמידים של הופה מכשירים תלמידים בבתי ספר אחרים</div>
             <p>מכל בית ספר של הופה נבחרים 5-8 תלמידים שעוברים הכשרה. הם הופכים ל"שגרירי הכלה" ויוצאים לבתי ספר אחרים להעביר סדנאות עמיתים.</p>
-
             <h4>למה תלמידים מדברים לתלמידים:</h4>
             <ul>
                 <li>אמינות גבוהה יותר מכל מבוגר</li>
                 <li>שפה של הגיל, טיקטוק, סלנג</li>
                 <li>התלמידים-השגרירים עצמם מתחזקים מהתפקיד</li>
             </ul>
-
             <h4>מודל:</h4>
             <ul>
                 <li>הכשרה של 60-80 שגרירים (מ-10 בתי ספר של הופה)</li>
@@ -504,7 +567,6 @@
                 <li>סדנת עמיתים של 90 דקות לכיתה</li>
                 <li>פוטנציאל: 60 בתי ספר חיצוניים, 180 כיתות, ~5,400 תלמידים</li>
             </ul>
-
             <h4>תמחור:</h4>
             <table class="budget-table">
                 <tr><td>הכשרת שגרירים (3 ימי הכשרה + ליווי)</td><td class="amount">80,000 &#8362;</td></tr>
@@ -517,12 +579,11 @@
         </div>
 
         <!-- Idea 5 -->
-        <div class="idea-card">
+        <div class="glass-card">
             <div class="idea-number">5</div>
             <h3>צ'אטבוט "יש למי לדבר"</h3>
             <div class="idea-tagline">קו תמיכה דיגיטלי בוואטסאפ לכל בן נוער שחווה נידוי</div>
             <p>בוט וואטסאפ שבן נוער שחווה נידוי יכול לפנות אליו 24/7. הבוט נותן כלים ראשוניים, מזהה מצבי חירום, ומפנה למענים מקצועיים. אנונימי ונגיש.</p>
-
             <h4>מה הבוט עושה:</h4>
             <ul>
                 <li>שואל שאלות קצרות: "מה קורה?", "כבר כמה זמן?", "יש מישהו שיודע?"</li>
@@ -531,7 +592,6 @@
                 <li>מפנה למענים מקצועיים לפי אזור</li>
                 <li>כל פנייה נשמרת (אנונימית) לצורך מדידת אימפקט</li>
             </ul>
-
             <h4>תמחור:</h4>
             <table class="budget-table">
                 <tr><td>אפיון מקצועי (פסיכולוג + מומחה נוער)</td><td class="amount">35,000 &#8362;</td></tr>
@@ -550,9 +610,11 @@
     </div>
 </div>
 
+<div class="glow-line"></div>
+
 <!-- Summary -->
-<div class="summary-section">
-    <div class="section" style="padding-top: 0; padding-bottom: 0;">
+<div class="summary-section pattern-dots">
+    <div class="summary-card">
         <div class="section-title">סיכום: חבילה מלאה</div>
         <table class="summary-table">
             <thead>
@@ -604,6 +666,8 @@
         </table>
     </div>
 </div>
+
+<div class="glow-line"></div>
 
 <!-- Footer -->
 <div class="footer">
