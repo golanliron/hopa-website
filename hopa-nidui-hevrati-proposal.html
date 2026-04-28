@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הופה | תוכנית למיגור נידוי חברתי בקרב בני נוער</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: #FFFFFF;
+            color: #1a1a2e;
+            line-height: 1.7;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b3d 50%, #1a1a2e 100%);
+            padding: 60px 24px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(194, 24, 91, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(255, 242, 0, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .hero img { height: 60px; margin-bottom: 20px; }
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .hero h1 span { color: #C2185B; }
+        .hero p {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.75);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Stats bar */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            padding: 30px 24px;
+            background: #F7F7F7;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: #C2185B;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Section */
+        .section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 24px;
+        }
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            color: #1a1a2e;
+        }
+        .section-subtitle {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        /* Data table */
+        .data-section {
+            background: #F7F7F7;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .data-table th {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 12px 16px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-align: right;
+        }
+        .data-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 0.95rem;
+        }
+        .data-table tr:last-child td {
+            border-bottom: none;
+            font-weight: 700;
+            background: rgba(194, 24, 91, 0.05);
+        }
+        .data-table tr:hover td {
+            background: rgba(194, 24, 91, 0.03);
+        }
+        .highlight-cell {
+            color: #C2185B;
+            font-weight: 700;
+        }
+
+        /* Idea cards */
+        .ideas-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .idea-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 16px;
+            padding: 32px;
+            position: relative;
+            transition: box-shadow 0.3s;
+        }
+        .idea-card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+        .idea-number {
+            position: absolute;
+            top: -14px;
+            right: 24px;
+            background: #C2185B;
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+        .idea-card h3 {
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 4px;
+            color: #1a1a2e;
+        }
+        .idea-card .idea-tagline {
+            color: #C2185B;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+        .idea-card p {
+            color: #555;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+        .idea-card h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            color: #1a1a2e;
+        }
+        .idea-card ul {
+            padding-right: 20px;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        .idea-card ul li {
+            margin-bottom: 4px;
+        }
+
+        /* Budget mini-table */
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 0.88rem;
+        }
+        .budget-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .budget-table tr:last-child td {
+            border-bottom: none;
+            font-weight: 700;
+            background: rgba(194, 24, 91, 0.05);
+            border-radius: 8px;
+        }
+        .budget-table .amount {
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* Impact badge */
+        .impact-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #C2185B, #E8358A);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 16px;
+        }
+
+        /* Summary section */
+        .summary-section {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 50px 24px;
+        }
+        .summary-section .section-title {
+            color: #fff;
+        }
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .summary-table th {
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+            padding: 12px 16px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-align: right;
+        }
+        .summary-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.95rem;
+        }
+        .summary-table tr:last-child td {
+            border-bottom: none;
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: #C2185B;
+        }
+        .summary-table .sum-amount {
+            text-align: left;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 24px;
+            background: #F7F7F7;
+            color: #999;
+            font-size: 0.85rem;
+        }
+        .footer a {
+            color: #C2185B;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.6rem; }
+            .stats-bar { gap: 20px; }
+            .stat-number { font-size: 1.8rem; }
+            .idea-card { padding: 24px 18px; }
+            .section { padding: 36px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+    <div class="hero-content">
+        <img src="assets/logo.png" alt="הופה" onerror="this.style.display='none'">
+        <h1>תוכנית <span>"רואים אותי"</span><br>למיגור נידוי חברתי בקרב בני נוער</h1>
+        <p>5 רעיונות להשפעה רוחבית ארצית, מבתי הספר של הופה ומעבר להם</p>
+    </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+    <div class="stat">
+        <div class="stat-number">3,950</div>
+        <div class="stat-label">תלמידים ב-10 בתי ספר</div>
+    </div>
+    <div class="stat">
+        <div class="stat-number">40%</div>
+        <div class="stat-label">חווים נידוי חברתי</div>
+    </div>
+    <div class="stat">
+        <div class="stat-number">~1,580</div>
+        <div class="stat-label">תלמידים נפגעים</div>
+    </div>
+    <div class="stat">
+        <div class="stat-number">6-18</div>
+        <div class="stat-label">גילאי אוכלוסיית היעד</div>
+    </div>
+</div>
+
+<!-- Data Section -->
+<div class="data-section">
+    <div class="section">
+        <div class="section-title">נתוני בסיס: בתי הספר של הופה</div>
+        <div class="section-subtitle">מבוסס על דיווחי מנהלות בתי הספר, ממוצע 40% נידוי חברתי</div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>בית ספר</th>
+                    <th>תלמידים</th>
+                    <th>% נידוי</th>
+                    <th>נפגעים</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>תיכון בית הערבה</td>
+                    <td>200</td>
+                    <td>40%</td>
+                    <td class="highlight-cell">80</td>
+                </tr>
+                <tr>
+                    <td>אורט אדיבי</td>
+                    <td>300</td>
+                    <td>45%</td>
+                    <td class="highlight-cell">135</td>
+                </tr>
+                <tr>
+                    <td>אורט מגשימים בית שאן</td>
+                    <td>100</td>
+                    <td>40%</td>
+                    <td class="highlight-cell">40</td>
+                </tr>
+                <tr>
+                    <td>עכו</td>
+                    <td>150</td>
+                    <td>~40%</td>
+                    <td class="highlight-cell">60</td>
+                </tr>
+                <tr>
+                    <td>מרחבים</td>
+                    <td>500</td>
+                    <td>~40%</td>
+                    <td class="highlight-cell">200</td>
+                </tr>
+                <tr>
+                    <td>3 תיכונים מקיפים</td>
+                    <td>2,100</td>
+                    <td>~40%</td>
+                    <td class="highlight-cell">840</td>
+                </tr>
+                <tr>
+                    <td>3 בתי ספר לנוער בסיכון</td>
+                    <td>600</td>
+                    <td>~40%</td>
+                    <td class="highlight-cell">240</td>
+                </tr>
+                <tr>
+                    <td><strong>סה"כ</strong></td>
+                    <td><strong>3,950</strong></td>
+                    <td><strong>~40%</strong></td>
+                    <td class="highlight-cell"><strong>~1,580</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Ideas -->
+<div class="section">
+    <div class="section-title">5 רעיונות לתוכנית</div>
+    <div class="section-subtitle">כל רעיון עומד בפני עצמו, ניתן לשלב כחבילה אחת</div>
+
+    <div class="ideas-grid">
+
+        <!-- Idea 1 -->
+        <div class="idea-card">
+            <div class="idea-number">1</div>
+            <h3>קמפיין "רואים אותי"</h3>
+            <div class="idea-tagline">תלמידים יוצרים תוכן אותנטי על נידוי חברתי ברשתות</div>
+            <p>איש קמפיינים/קריאייטיב צעיר מגיע לכל בית ספר ל-2-3 מפגשים. יחד עם התלמידים יוצרים סרטוני טיקטוק, רילס ויוטיוב שורטס על נידוי חברתי, בדידות והכלה.</p>
+
+            <h4>למה זה חזק:</h4>
+            <ul>
+                <li>התלמידים הם היוצרים, לא צופים פסיביים</li>
+                <li>הגעה אורגנית של עשרות אלפי צפיות</li>
+                <li>כל בית ספר מייצר תוכן משלו = תחושת בעלות</li>
+                <li>ניתן למדוד: צפיות, שיתופים, תגובות</li>
+            </ul>
+
+            <h4>תמחור:</h4>
+            <table class="budget-table">
+                <tr><td>איש קמפיינים (חצי משרה, 10 חודשים)</td><td class="amount">120,000 &#8362;</td></tr>
+                <tr><td>ציוד צילום + תאורה</td><td class="amount">15,000 &#8362;</td></tr>
+                <tr><td>קידום ממומן ברשתות</td><td class="amount">30,000 &#8362;</td></tr>
+                <tr><td>עריכה ופוסט-פרודקשן</td><td class="amount">25,000 &#8362;</td></tr>
+                <tr><td>סה"כ</td><td class="amount">190,000 &#8362;</td></tr>
+            </table>
+            <div class="impact-badge">3,950 תלמידים ישירות + עשרות אלפים ברשתות</div>
+        </div>
+
+        <!-- Idea 2 -->
+        <div class="idea-card">
+            <div class="idea-number">2</div>
+            <h3>"מד חברתי"</h3>
+            <div class="idea-tagline">שאלון דינמי למיפוי נידוי חברתי + דוח אוטומטי למנהלת</div>
+            <p>כלי דיגיטלי שמנהלות ויועצות מעבירות לתלמידים. השאלון מזהה דפוסי נידוי, בדידות וחרם ומפיק "מפת חום חברתית" של הכיתה.</p>
+
+            <h4>איך זה עובד:</h4>
+            <ul>
+                <li>תלמיד ממלא שאלון אנונימי (5-7 דקות, מובייל)</li>
+                <li>שאלות: עם מי אתה בהפסקה? יש מישהו שלא מדברים איתו? הרגשת מבודד?</li>
+                <li>המערכת מייצרת דוח למנהלת: אחוז תלמידים בסיכון, מגמות לפי כיתה</li>
+                <li>מדידה חוזרת כל רבעון לבדיקת שינוי</li>
+            </ul>
+
+            <h4>למה זה מתאים לקול הקורא:</h4>
+            <ul>
+                <li>כלי מדיד ומוכח (evidence-based)</li>
+                <li>ניתן להפצה לכל בית ספר בארץ (scalable)</li>
+                <li>מתאים בדיוק לסעיף "הדרכות וכלים מקצועיים"</li>
+            </ul>
+
+            <h4>תמחור:</h4>
+            <table class="budget-table">
+                <tr><td>אפיון + פיתוח השאלון (פסיכולוג + מפתח)</td><td class="amount">80,000 &#8362;</td></tr>
+                <tr><td>פיתוח מערכת דיגיטלית (אפליקציית ווב)</td><td class="amount">120,000 &#8362;</td></tr>
+                <tr><td>הכשרת יועצות ומנהלות (10 בתי ספר)</td><td class="amount">40,000 &#8362;</td></tr>
+                <tr><td>תחזוקה ותמיכה שנתית</td><td class="amount">30,000 &#8362;</td></tr>
+                <tr><td>סה"כ</td><td class="amount">270,000 &#8362;</td></tr>
+            </table>
+            <div class="impact-badge">3,950 תלמידים + פוטנציאל הפצה ארצית</div>
+        </div>
+
+        <!-- Idea 3 -->
+        <div class="idea-card">
+            <div class="idea-number">3</div>
+            <h3>"ערכת בית ספר"</h3>
+            <div class="idea-tagline">חבילה דיגיטלית מוכנה להורדה לכל בית ספר בארץ</div>
+            <p>הופה מפתחת ערכה שכל בית ספר בארץ יכול להוריד ולהפעיל בעצמו, בלי שהופה צריכה להיות שם פיזית. ככה ההשפעה חוצה הרבה מעבר ל-10 בתי הספר שלנו.</p>
+
+            <h4>מה בערכה:</h4>
+            <ul>
+                <li>מערך שיעור מוכן ל-4 מפגשים (מחנכים מעבירים)</li>
+                <li>סרטוני הדרכה קצרים ליועצות (5 דקות כל אחד)</li>
+                <li>שאלון מד חברתי (גרסה פשוטה, גוגל פורם)</li>
+                <li>תבנית דוח למנהלת</li>
+                <li>חומרי קמפיין מוכנים (פוסטרים, תבניות לרשתות)</li>
+            </ul>
+
+            <h4>תמחור:</h4>
+            <table class="budget-table">
+                <tr><td>פיתוח תוכן (פדגוגית + פסיכולוגית)</td><td class="amount">60,000 &#8362;</td></tr>
+                <tr><td>עיצוב + הפקת סרטונים</td><td class="amount">45,000 &#8362;</td></tr>
+                <tr><td>פלטפורמה להורדה + מעקב</td><td class="amount">25,000 &#8362;</td></tr>
+                <tr><td>שיווק לבתי ספר (מיילים, משרד החינוך)</td><td class="amount">20,000 &#8362;</td></tr>
+                <tr><td>סה"כ</td><td class="amount">150,000 &#8362;</td></tr>
+            </table>
+            <div class="impact-badge">20,000-60,000 תלמידים בבתי ספר ברחבי הארץ</div>
+        </div>
+
+        <!-- Idea 4 -->
+        <div class="idea-card">
+            <div class="idea-number">4</div>
+            <h3>"שגרירי הכלה"</h3>
+            <div class="idea-tagline">תלמידים של הופה מכשירים תלמידים בבתי ספר אחרים</div>
+            <p>מכל בית ספר של הופה נבחרים 5-8 תלמידים שעוברים הכשרה. הם הופכים ל"שגרירי הכלה" ויוצאים לבתי ספר אחרים להעביר סדנאות עמיתים.</p>
+
+            <h4>למה תלמידים מדברים לתלמידים:</h4>
+            <ul>
+                <li>אמינות גבוהה יותר מכל מבוגר</li>
+                <li>שפה של הגיל, טיקטוק, סלנג</li>
+                <li>התלמידים-השגרירים עצמם מתחזקים מהתפקיד</li>
+            </ul>
+
+            <h4>מודל:</h4>
+            <ul>
+                <li>הכשרה של 60-80 שגרירים (מ-10 בתי ספר של הופה)</li>
+                <li>כל שגריר יוצא ל-3 בתי ספר חיצוניים בשנה</li>
+                <li>סדנת עמיתים של 90 דקות לכיתה</li>
+                <li>פוטנציאל: 60 בתי ספר חיצוניים, 180 כיתות, ~5,400 תלמידים</li>
+            </ul>
+
+            <h4>תמחור:</h4>
+            <table class="budget-table">
+                <tr><td>הכשרת שגרירים (3 ימי הכשרה + ליווי)</td><td class="amount">80,000 &#8362;</td></tr>
+                <tr><td>רכז/ת תוכנית (חצי משרה)</td><td class="amount">72,000 &#8362;</td></tr>
+                <tr><td>הסעות + לוגיסטיקה</td><td class="amount">40,000 &#8362;</td></tr>
+                <tr><td>חומרים + חולצות + ערכות</td><td class="amount">20,000 &#8362;</td></tr>
+                <tr><td>סה"כ</td><td class="amount">212,000 &#8362;</td></tr>
+            </table>
+            <div class="impact-badge">80 שגרירים + 5,400 תלמידים בבתי ספר חיצוניים</div>
+        </div>
+
+        <!-- Idea 5 -->
+        <div class="idea-card">
+            <div class="idea-number">5</div>
+            <h3>צ'אטבוט "יש למי לדבר"</h3>
+            <div class="idea-tagline">קו תמיכה דיגיטלי בוואטסאפ לכל בן נוער שחווה נידוי</div>
+            <p>בוט וואטסאפ שבן נוער שחווה נידוי יכול לפנות אליו 24/7. הבוט נותן כלים ראשוניים, מזהה מצבי חירום, ומפנה למענים מקצועיים. אנונימי ונגיש.</p>
+
+            <h4>מה הבוט עושה:</h4>
+            <ul>
+                <li>שואל שאלות קצרות: "מה קורה?", "כבר כמה זמן?", "יש מישהו שיודע?"</li>
+                <li>נותן כלים מיידיים: תרגילי הרגעה, משפטים להגיד, מה הזכויות שלך</li>
+                <li>מזהה מצבי חירום (אובדנות, אלימות) ומפנה מיד לער"ן/מוקד</li>
+                <li>מפנה למענים מקצועיים לפי אזור</li>
+                <li>כל פנייה נשמרת (אנונימית) לצורך מדידת אימפקט</li>
+            </ul>
+
+            <h4>תמחור:</h4>
+            <table class="budget-table">
+                <tr><td>אפיון מקצועי (פסיכולוג + מומחה נוער)</td><td class="amount">35,000 &#8362;</td></tr>
+                <tr><td>כתיבת תוכן (תסריטי שיחה, 50+ תרחישים)</td><td class="amount">25,000 &#8362;</td></tr>
+                <tr><td>פיתוח בוט וואטסאפ (Green API + Supabase + AI)</td><td class="amount">80,000 &#8362;</td></tr>
+                <tr><td>ממשק ניהול (דשבורד, סטטיסטיקות, התראות)</td><td class="amount">45,000 &#8362;</td></tr>
+                <tr><td>בדיקות + QA + אבטחת מידע</td><td class="amount">20,000 &#8362;</td></tr>
+                <tr><td>אינטגרציה למענים (הפניה ליועצת/ער"ן/עמותות)</td><td class="amount">15,000 &#8362;</td></tr>
+                <tr><td>תחזוקה + ניטור מקצועי (שנתי)</td><td class="amount">36,000 &#8362;</td></tr>
+                <tr><td>שיווק לבני נוער (טיקטוק, אינסטגרם, בתי ספר)</td><td class="amount">30,000 &#8362;</td></tr>
+                <tr><td>סה"כ</td><td class="amount">286,000 &#8362;</td></tr>
+            </table>
+            <div class="impact-badge">אלפי בני נוער מכל הארץ, ללא תלות בבית ספר</div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Summary -->
+<div class="summary-section">
+    <div class="section" style="padding-top: 0; padding-bottom: 0;">
+        <div class="section-title">סיכום: חבילה מלאה</div>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>רעיון</th>
+                    <th>תקציב</th>
+                    <th>השפעה</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>קמפיין "רואים אותי"</td>
+                    <td class="sum-amount">190,000 &#8362;</td>
+                    <td>3,950 + עשרות אלפים ברשתות</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>מד חברתי (שאלון דינמי)</td>
+                    <td class="sum-amount">270,000 &#8362;</td>
+                    <td>3,950 + הפצה ארצית</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>ערכת בית ספר להורדה</td>
+                    <td class="sum-amount">150,000 &#8362;</td>
+                    <td>20,000-60,000 תלמידים</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>שגרירי הכלה</td>
+                    <td class="sum-amount">212,000 &#8362;</td>
+                    <td>5,400 בבתי ספר חיצוניים</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>צ'אטבוט "יש למי לדבר"</td>
+                    <td class="sum-amount">286,000 &#8362;</td>
+                    <td>כל בן נוער בארץ</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>סה"כ חבילה מלאה</td>
+                    <td class="sum-amount">1,108,000 &#8362;</td>
+                    <td>השפעה ארצית</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>הופה | עמותה לקידום בני נוער במצבי סיכון</p>
+    <p style="margin-top: 6px;"><a href="https://hopa.org.il">hopa.org.il</a> | הוכן לצורך הגשה לקול קורא - נידוי חברתי בקרב בני נוער</p>
+</div>
+
+</body>
+</html>
