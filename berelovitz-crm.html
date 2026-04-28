@@ -93,6 +93,29 @@ body{font-family:'Heebo','Inter',sans-serif;background:var(--light);color:var(--
 .modal-amount{font-size:28px;font-weight:700;color:var(--ink);text-align:center;padding:16px;background:var(--lighter);border-radius:12px;margin-bottom:24px}
 .modal-amount span{font-size:14px;font-weight:400;color:#999;display:block;margin-top:4px}
 
+/* Management section */
+.mgmt-section{background:#fafafa;border:2px solid #e0e0e0;border-radius:12px;padding:20px;margin-top:24px}
+.mgmt-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--warm)}
+.mgmt-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.mgmt-row label{font-size:13px;font-weight:500;color:#555;min-width:120px}
+.mgmt-toggle{appearance:none;width:44px;height:24px;background:#ccc;border-radius:12px;position:relative;cursor:pointer;transition:all .3s;border:none;flex-shrink:0}
+.mgmt-toggle:checked{background:var(--green)}
+.mgmt-toggle::after{content:'';position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:all .3s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.mgmt-toggle:checked::after{right:22px}
+.mgmt-input{padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-family:'Heebo',sans-serif;font-size:13px;flex:1;min-width:150px}
+.mgmt-input:focus{outline:none;border-color:var(--warm)}
+.mgmt-select{padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-family:'Heebo',sans-serif;font-size:13px;background:var(--white);cursor:pointer;min-width:150px}
+.mgmt-select:focus{outline:none;border-color:var(--warm)}
+.status-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-left:6px}
+.status-dot.green{background:#4caf50}
+.status-dot.orange{background:#ff9800}
+.status-dot.red{background:#f44336}
+.status-dot.gray{background:#bbb}
+.card-status-bar{display:flex;gap:6px;margin-top:8px;align-items:center;font-size:11px;color:#888}
+.card-status-bar .pill{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500}
+.pill.sent{background:#e8f5e9;color:#2e7d32}
+.pill.not-sent{background:#fce4ec;color:#c62828}
+
 /* Export button */
 .export-btn{padding:10px 20px;border:2px solid var(--warm);border-radius:10px;background:transparent;cursor:pointer;font-family:'Heebo',sans-serif;font-size:13px;font-weight:500;color:var(--ink);transition:all .3s}
 .export-btn:hover{background:var(--warm);color:var(--white)}
@@ -278,7 +301,19 @@ function renderCards(list) {
     if (d.contact) html += '<span>👤 ' + esc(d.contact) + '</span>';
     if (d.email) html += '<span>✉ ' + esc(d.email) + '</span>';
     if (d.beneficiaries) html += '<span>👥 ' + esc(String(d.beneficiaries).substring(0,40)) + '</span>';
-    html += '</div></div>';
+    html += '</div>';
+    // Show management status on card
+    const mgmt = getMgmt(idx);
+    const statusLabels = {pending:'ממתין',in_progress:'בטיפול',email_sent:'מייל נשלח',follow_up:'דורש מעקב',done:'טופל'};
+    const statusColors = {pending:'#ff9800',in_progress:'#2196f3',email_sent:'#4caf50',follow_up:'#e65100',done:'#2e7d32'};
+    if (mgmt.emailSent || mgmt.status) {
+      html += '<div class="card-status-bar">';
+      if (mgmt.emailSent) html += '<span class="pill sent">מייל נשלח' + (mgmt.emailDate?' ' + mgmt.emailDate:'') + '</span>';
+      else html += '<span class="pill not-sent">מייל לא נשלח</span>';
+      if (mgmt.status && statusLabels[mgmt.status]) html += '<span class="pill" style="background:' + statusColors[mgmt.status] + '22;color:' + statusColors[mgmt.status] + '">' + statusLabels[mgmt.status] + '</span>';
+      html += '</div>';
+    }
+    html += '</div>';
   });
   document.getElementById('cardsView').innerHTML = html;
 }
@@ -410,9 +445,67 @@ function openModal(idx) {
     }
   });
 
+  // Management section (saved in localStorage)
+  const mgmt = getMgmt(idx);
+  html += '<div class="mgmt-section">';
+  html += '<div class="mgmt-title">ניהול צוות ברלוביץ</div>';
+
+  // Email confirmation sent?
+  html += '<div class="mgmt-row"><label>נשלח מייל אישור תרומה?</label>';
+  html += '<input type="checkbox" class="mgmt-toggle" id="mgmt-email-sent-' + idx + '" ' + (mgmt.emailSent?'checked':'') + ' onchange="saveMgmt(' + idx + ')">';
+  html += '</div>';
+
+  // When was email sent
+  html += '<div class="mgmt-row"><label>תאריך שליחת מייל</label>';
+  html += '<input type="date" class="mgmt-input" id="mgmt-email-date-' + idx + '" value="' + (mgmt.emailDate||'') + '" onchange="saveMgmt(' + idx + ')" style="max-width:200px">';
+  html += '</div>';
+
+  // Team status
+  html += '<div class="mgmt-row"><label>סטטוס צוות</label>';
+  html += '<select class="mgmt-select" id="mgmt-status-' + idx + '" onchange="saveMgmt(' + idx + ')">';
+  const statuses = [
+    {v:'', l:'-- בחרו סטטוס --'},
+    {v:'pending', l:'ממתין לטיפול'},
+    {v:'in_progress', l:'בטיפול'},
+    {v:'email_sent', l:'מייל נשלח'},
+    {v:'follow_up', l:'דורש מעקב'},
+    {v:'done', l:'טופל'},
+  ];
+  statuses.forEach(s => {
+    html += '<option value="' + s.v + '"' + (mgmt.status===s.v?' selected':'') + '>' + s.l + '</option>';
+  });
+  html += '</select></div>';
+
+  // Team notes
+  html += '<div class="mgmt-row"><label>הערות צוות</label>';
+  html += '<textarea class="mgmt-input" id="mgmt-notes-' + idx + '" rows="2" onchange="saveMgmt(' + idx + ')" placeholder="הערות פנימיות...">' + esc(mgmt.teamNotes||'') + '</textarea>';
+  html += '</div>';
+
+  html += '</div>';
+
   document.getElementById('modalBody').innerHTML = html;
   document.getElementById('modal').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+function getMgmt(idx) {
+  try {
+    const all = JSON.parse(localStorage.getItem('berelovitz_crm_mgmt') || '{}');
+    return all[idx] || {};
+  } catch(e) { return {}; }
+}
+
+function saveMgmt(idx) {
+  const all = JSON.parse(localStorage.getItem('berelovitz_crm_mgmt') || '{}');
+  all[idx] = {
+    emailSent: document.getElementById('mgmt-email-sent-' + idx).checked,
+    emailDate: document.getElementById('mgmt-email-date-' + idx).value,
+    status: document.getElementById('mgmt-status-' + idx).value,
+    teamNotes: document.getElementById('mgmt-notes-' + idx).value,
+  };
+  localStorage.setItem('berelovitz_crm_mgmt', JSON.stringify(all));
+  // Refresh cards/table to show updated status
+  filterData();
 }
 
 function closeModal() {
