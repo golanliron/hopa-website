@@ -50,11 +50,47 @@
   }
 
   @media print {
-    body { font-size: 11pt; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+    body { font-size: 11pt; background: white; }
     .no-print { display: none !important; }
     .page-break { page-break-before: always; }
-    section { break-inside: avoid; }
-    .paper-container { box-shadow: none; }
+    section { break-inside: avoid; page-break-inside: avoid; }
+    .paper-container { box-shadow: none; margin: 0; max-width: 100%; }
+    .paper-hero { background: #111111 !important; padding: 36px 48px 32px; }
+    .paper-hero::before { background: linear-gradient(90deg, #C2185B, #FFF200, #C2185B) !important; }
+    .hero-logo { filter: brightness(0) invert(1) !important; }
+    .hero-stat { background: rgba(255,255,255,0.06) !important; border: 1px solid rgba(255,255,255,0.08) !important; }
+    .hero-stat-val { color: #E6D900 !important; }
+    .paper-content { padding: 32px 48px 40px; }
+    .abstract { padding: 24px 48px; }
+    .paper-meta-bar { padding: 14px 48px; }
+    .data-table thead { background: #C2185B !important; }
+    .data-table th { color: white !important; }
+    .schools-compact thead { background: #111111 !important; }
+    .schools-compact th { color: white !important; }
+    .highlight-box { background: rgba(194, 24, 91, 0.06) !important; border-right: 4px solid #C2185B !important; }
+    .analogy-box { background: #111111 !important; color: white !important; }
+    .analogy-box h4 { color: #FFF200 !important; }
+    .analogy-box p { color: rgba(255,255,255,0.85) !important; }
+    .triage-card.green { background: rgba(76, 175, 80, 0.08) !important; }
+    .triage-card.orange { background: rgba(255, 152, 0, 0.08) !important; }
+    .triage-card.red { background: rgba(244, 67, 54, 0.08) !important; }
+    .radar-card.tech { background: rgba(255, 242, 0, 0.06) !important; }
+    .radar-card.human { background: rgba(194, 24, 91, 0.06) !important; }
+    .model-step-num { background: #C2185B !important; color: white !important; }
+    .paper-footer { background: #111111 !important; color: rgba(255,255,255,0.5) !important; }
+    .paper-footer .brand { color: #C2185B !important; }
+    .stat-val { color: #C2185B !important; }
+    .stat-box.gold .stat-val { color: #B8A600 !important; }
+    .stat-box::after { background: #C2185B !important; }
+    .stat-box.gold::after { background: #E6D900 !important; }
+    .section-num { color: #C2185B !important; }
+    .section-heading { border-bottom-color: #C2185B !important; }
+    .subsection-heading { border-right-color: #C2185B !important; }
+    .paper-content ul li::before { background: #C2185B !important; }
+    .hero-badge { background: #C2185B !important; color: white !important; }
+    .hero-slogan { color: #E6D900 !important; }
+    a { color: #C2185B; text-decoration: none; }
   }
 
   /* Paper Container */
@@ -116,6 +152,24 @@
     border-radius: 20px;
     letter-spacing: 0.5px;
   }
+
+  .pdf-btn {
+    background: var(--yellow);
+    color: var(--black);
+    font-family: 'Heebo', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 22px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .pdf-btn:hover { background: var(--yellow-dark); }
+  .pdf-btn svg { width: 16px; height: 16px; }
 
   .hero-slogan {
     font-size: 13px;
@@ -623,7 +677,13 @@
   <div class="paper-hero">
     <div class="hero-top">
       <img src="assets/logo.png" alt="הופה" class="hero-logo">
-      <span class="hero-badge">מאמר עמדה | Position Paper</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="hero-badge">מאמר עמדה | Position Paper</span>
+        <button class="pdf-btn no-print" onclick="window.print()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          הורד PDF
+        </button>
+      </div>
     </div>
 
     <div class="hero-slogan">מזהים · מכווינים · מלווים</div>
