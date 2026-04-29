@@ -46,10 +46,6 @@
             border: 1px solid rgba(0,0,0,0.06);
         }
 
-        .slide-card.dark-card {
-            background: #000;
-        }
-
         /* Accent gradient bar */
         .accent-bar {
             height: 6px;
@@ -67,19 +63,11 @@
             flex-shrink: 0;
         }
 
-        .dark-card .card-header {
-            border-bottom-color: rgba(255,255,255,0.15);
-        }
-
         .card-header .label {
             font-size: 0.7rem;
             font-weight: 500;
             color: var(--muted);
             letter-spacing: 0.03em;
-        }
-
-        .dark-card .card-header .label {
-            color: rgba(255,255,255,0.6);
         }
 
         .card-header .right {
@@ -97,18 +85,9 @@
             color: var(--muted);
         }
 
-        .dark-card .card-header .counter {
-            background: rgba(255,255,255,0.15);
-            color: rgba(255,255,255,0.7);
-        }
-
         .card-header .logo {
             height: 20px;
             width: auto;
-        }
-
-        .dark-card .card-header .logo {
-            filter: brightness(0) invert(1);
         }
 
         /* Title bar */
@@ -150,10 +129,6 @@
             gap: 6px;
         }
 
-        .dark-card .card-footer {
-            border-top-color: rgba(255,255,255,0.15);
-        }
-
         .dot {
             width: 8px;
             height: 8px;
@@ -166,14 +141,6 @@
         .dot.active {
             width: 28px;
             background: var(--pink);
-        }
-
-        .dark-card .dot {
-            background: rgba(255,255,255,0.25);
-        }
-
-        .dark-card .dot.active {
-            background: #fff;
         }
 
         /* ===== COVER SLIDE ===== */
@@ -270,35 +237,40 @@
             color: #fff;
         }
 
-        /* ===== IMPACT CARDS (on dark) ===== */
+        /* ===== IMPACT CARDS (white background) ===== */
         .impact-card {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: var(--outer-bg);
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--pink);
             border-radius: 1rem;
             padding: 24px 20px;
             text-align: center;
         }
 
+        .impact-card.yellow-top {
+            border-top-color: var(--yellow);
+        }
+
         .impact-card.highlight-card {
-            border-color: rgba(255,242,0,0.3);
-            background: rgba(255,242,0,0.06);
+            border-top-color: var(--pink);
+            background: rgba(232,52,138,0.04);
         }
 
         .impact-number {
             font-size: 2.6rem;
             font-weight: 900;
-            color: #fff;
+            color: #000;
             line-height: 1;
             margin-bottom: 6px;
         }
 
-        .impact-number.yellow { color: var(--yellow-bright); }
         .impact-number.pink { color: var(--pink); }
+        .impact-number.yellow-text { color: var(--yellow); }
 
         .impact-label {
             font-size: 0.85rem;
             font-weight: 500;
-            color: rgba(255,255,255,0.6);
+            color: var(--muted);
         }
 
         /* ===== ACTION ITEMS ===== */
@@ -354,7 +326,7 @@
         }
 
         .contacts-table thead {
-            background: #000;
+            background: var(--pink);
             color: #fff;
         }
 
@@ -374,7 +346,7 @@
         }
 
         .contacts-table tbody tr:hover {
-            background: rgba(245,200,0,0.05);
+            background: rgba(232,52,138,0.04);
         }
 
         .contacts-table .org-name {
@@ -390,50 +362,6 @@
 
         .hopa-row {
             background: rgba(232,52,138,0.04);
-        }
-
-        /* ===== SCHOLARSHIP CARDS ===== */
-        .scholarship-card {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 1rem;
-            padding: 20px;
-        }
-
-        .scholarship-name {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 8px;
-        }
-
-        .scholarship-detail {
-            font-size: 0.78rem;
-            color: rgba(255,255,255,0.5);
-            margin-bottom: 4px;
-        }
-
-        .scholarship-amount {
-            color: var(--yellow-bright);
-            font-weight: 700;
-            font-size: 1rem;
-            margin-top: 8px;
-        }
-
-        .scholarship-tag {
-            display: inline-block;
-            margin-top: 8px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 2px 10px;
-            border-radius: 50px;
-            background: rgba(255,242,0,0.15);
-            color: var(--yellow-bright);
-        }
-
-        .scholarship-tag.volunteer {
-            background: rgba(232,52,138,0.15);
-            color: var(--pink);
         }
 
         /* ===== RESOURCE CARDS ===== */
@@ -516,7 +444,6 @@
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
         .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
         .mt-20 { margin-top: 20px; }
-        .mt-24 { margin-top: 24px; }
         .text-center { text-align: center; }
 
         .section-sub {
@@ -525,10 +452,6 @@
             color: #000;
             margin-top: 24px;
             margin-bottom: 12px;
-        }
-
-        .dark-card .section-sub {
-            color: #fff;
         }
 
         /* ===== ANIMATIONS ===== */
@@ -574,7 +497,7 @@
         <div class="card-header">
             <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
             <div class="right">
-                <span class="counter">1 / 8</span>
+                <span class="counter">1 / 7</span>
                 <img src="assets/logo.png" alt="הופה" class="logo">
             </div>
         </div>
@@ -596,7 +519,6 @@
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
-            <div class="dot"></div>
         </div>
     </div>
 </section>
@@ -608,7 +530,7 @@
         <div class="card-header">
             <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
             <div class="right">
-                <span class="counter">2 / 8</span>
+                <span class="counter">2 / 7</span>
                 <img src="assets/logo.png" alt="הופה" class="logo">
             </div>
         </div>
@@ -693,19 +615,18 @@
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
-            <div class="dot"></div>
         </div>
     </div>
 </section>
 
 <!-- ==================== SLIDE 3 — IMPACT ==================== -->
 <section class="slide" data-slide="3">
-    <div class="slide-card dark-card">
+    <div class="slide-card">
         <div class="accent-bar"></div>
         <div class="card-header">
             <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
             <div class="right">
-                <span class="counter">3 / 8</span>
+                <span class="counter">3 / 7</span>
                 <img src="assets/logo.png" alt="הופה" class="logo">
             </div>
         </div>
@@ -714,32 +635,32 @@
             <div class="card-body-inner fade-up">
                 <div class="grid-3">
                     <div class="impact-card highlight-card" style="grid-column: 1 / -1;">
-                        <div class="impact-number yellow">24</div>
+                        <div class="impact-number pink">24</div>
                         <div class="impact-label">מסתדרים כרגע — חיילים, עובדים או לומדים</div>
                     </div>
-                    <div class="impact-card">
-                        <div class="impact-number pink">5</div>
+                    <div class="impact-card yellow-top">
+                        <div class="impact-number">5</div>
                         <div class="impact-label">הכשרה תעסוקתית</div>
                     </div>
                     <div class="impact-card">
-                        <div class="impact-number yellow">4</div>
+                        <div class="impact-number">4</div>
                         <div class="impact-label">תעסוקה</div>
                     </div>
-                    <div class="impact-card">
-                        <div class="impact-number pink">2</div>
+                    <div class="impact-card yellow-top">
+                        <div class="impact-number">2</div>
                         <div class="impact-label">לימודים</div>
                     </div>
                     <div class="impact-card">
-                        <div class="impact-number yellow">1</div>
+                        <div class="impact-number">1</div>
                         <div class="impact-label">בתהליך טיפול</div>
                     </div>
-                    <div class="impact-card">
-                        <div class="impact-number pink">1</div>
+                    <div class="impact-card yellow-top">
+                        <div class="impact-number">1</div>
                         <div class="impact-label">להתקשר אחרי שחרור</div>
                     </div>
                 </div>
 
-                <div class="bottom-bar" style="background: rgba(255,255,255,0.1); margin-top: 20px;">
+                <div class="bottom-bar">
                     <div>
                         <div class="bb-label">סה"כ בוגרים שמופו</div>
                         <div class="bb-value">37 מתוך 97</div>
@@ -759,7 +680,6 @@
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
-            <div class="dot"></div>
         </div>
     </div>
 </section>
@@ -771,7 +691,7 @@
         <div class="card-header">
             <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
             <div class="right">
-                <span class="counter">4 / 8</span>
+                <span class="counter">4 / 7</span>
                 <img src="assets/logo.png" alt="הופה" class="logo">
             </div>
         </div>
@@ -832,7 +752,6 @@
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
-            <div class="dot"></div>
         </div>
     </div>
 </section>
@@ -844,7 +763,7 @@
         <div class="card-header">
             <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
             <div class="right">
-                <span class="counter">5 / 8</span>
+                <span class="counter">5 / 7</span>
                 <img src="assets/logo.png" alt="הופה" class="logo">
             </div>
         </div>
@@ -873,7 +792,6 @@
             <div class="dot active"></div>
             <div class="dot"></div>
             <div class="dot"></div>
-            <div class="dot"></div>
         </div>
     </div>
 </section>
@@ -885,7 +803,7 @@
         <div class="card-header">
             <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
             <div class="right">
-                <span class="counter">6 / 8</span>
+                <span class="counter">6 / 7</span>
                 <img src="assets/logo.png" alt="הופה" class="logo">
             </div>
         </div>
@@ -979,92 +897,18 @@
             <div class="dot"></div>
             <div class="dot active"></div>
             <div class="dot"></div>
-            <div class="dot"></div>
         </div>
     </div>
 </section>
 
-<!-- ==================== SLIDE 7 — SCHOLARSHIPS ==================== -->
+<!-- ==================== SLIDE 7 — NEXT + CLOSING ==================== -->
 <section class="slide" data-slide="7">
-    <div class="slide-card dark-card">
-        <div class="accent-bar"></div>
-        <div class="card-header">
-            <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
-            <div class="right">
-                <span class="counter">7 / 8</span>
-                <img src="assets/logo.png" alt="הופה" class="logo">
-            </div>
-        </div>
-        <div class="title-bar"><h3>מלגות פתוחות לבוגרים</h3></div>
-        <div class="card-body">
-            <div class="card-body-inner fade-up">
-                <div class="grid-3">
-                    <div class="scholarship-card">
-                        <div class="scholarship-name">לומדים בפריפריה</div>
-                        <div class="scholarship-detail">מלגת ייעוד 44, תואר ראשון</div>
-                        <div class="scholarship-amount">שכ"ל אוניברסיטאי</div>
-                        <div class="scholarship-tag">ללא התנדבות</div>
-                    </div>
-                    <div class="scholarship-card">
-                        <div class="scholarship-name">המרכז הליברלי</div>
-                        <div class="scholarship-detail">טופס בקשה באתר</div>
-                        <div class="scholarship-amount">5,000 &#8362;</div>
-                        <div class="scholarship-tag">ללא התנדבות</div>
-                    </div>
-                    <div class="scholarship-card">
-                        <div class="scholarship-name">קרן יהושע סלטי</div>
-                        <div class="scholarship-detail">משתנה לפי סוג התואר</div>
-                        <div class="scholarship-amount">משתנה</div>
-                        <div class="scholarship-tag">ללא התנדבות</div>
-                    </div>
-                    <div class="scholarship-card">
-                        <div class="scholarship-name">ממדים ללימודים</div>
-                        <div class="scholarship-detail">לוחמות ולוחמים ואוכלוסיות ייחודיות</div>
-                        <div class="scholarship-amount">עד 12,000 &#8362;</div>
-                        <div class="scholarship-tag">ללא התנדבות</div>
-                    </div>
-                    <div class="scholarship-card">
-                        <div class="scholarship-name">ספורט למען השלום</div>
-                        <div class="scholarship-detail">כ-80 שעות התנדבות</div>
-                        <div class="scholarship-amount">5,100 &#8362;</div>
-                        <div class="scholarship-tag volunteer">דורש התנדבות</div>
-                    </div>
-                    <div class="scholarship-card">
-                        <div class="scholarship-name">חינוך לפסגות</div>
-                        <div class="scholarship-detail">מסלולים שונים עם התנדבות</div>
-                        <div class="scholarship-amount">משתנה</div>
-                        <div class="scholarship-tag volunteer">דורש התנדבות</div>
-                    </div>
-                </div>
-
-                <div class="bottom-bar" style="background: rgba(255,255,255,0.1); margin-top: 20px;">
-                    <div class="bb-value" style="font-size: 0.82rem; font-weight: 500; color: rgba(255,255,255,0.7);">
-                        במידה ויש מענה שלא נמצא עבורו פתרון — עדכנו אותנו ונמצא חלופה
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-footer">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot active"></div>
-            <div class="dot"></div>
-        </div>
-    </div>
-</section>
-
-<!-- ==================== SLIDE 8 — NEXT + CLOSING ==================== -->
-<section class="slide" data-slide="8">
     <div class="slide-card">
         <div class="accent-bar"></div>
         <div class="card-header">
             <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
             <div class="right">
-                <span class="counter">8 / 8</span>
+                <span class="counter">7 / 7</span>
                 <img src="assets/logo.png" alt="הופה" class="logo">
             </div>
         </div>
@@ -1119,13 +963,14 @@
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
-            <div class="dot"></div>
             <div class="dot active"></div>
         </div>
     </div>
 </section>
 
 <script>
+    const TOTAL = 7;
+
     // Fade-in on scroll
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -1158,7 +1003,7 @@
     // Click dots to navigate
     document.querySelectorAll('.dot').forEach((dot, i) => {
         dot.addEventListener('click', () => {
-            const targetSlide = document.querySelector(`[data-slide="${(i % 8) + 1}"]`);
+            const targetSlide = document.querySelector(`[data-slide="${(i % TOTAL) + 1}"]`);
             if (targetSlide) targetSlide.scrollIntoView({ behavior: 'smooth' });
         });
     });
