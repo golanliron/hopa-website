@@ -3,27 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>תוכנית בוגרים הופה — עתיד שמיים קריית מוצקין</title>
+    <title>הופה — כל ההזדמנויות | עתיד שמיים מוצקין</title>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --pink: #E8348A;
-            --yellow: #F5C800;
-            --yellow-bright: #FFF200;
-            --dark: #1a1a1a;
-            --outer-bg: #F5F5F5;
-            --card-bg: #FFFFFF;
-            --muted: #999;
-            --text: #222;
-            --border: #F0F0F0;
+            --primary: #E8358A;
+            --secondary: #F5C800;
+            --foreground: #2A2D38;
+            --background: #FFFFFF;
+            --muted: hsl(220, 10%, 92%);
+            --muted-fg: hsl(220, 10%, 45%);
+            --border: hsl(220, 10%, 88%);
+            --radius: 1rem;
         }
 
         body {
             font-family: 'Heebo', sans-serif;
-            background: var(--outer-bg);
-            color: var(--text);
+            background: var(--background);
+            color: var(--foreground);
             overflow-x: hidden;
         }
 
@@ -32,336 +31,423 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding: 12px 20px;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
         }
 
-        .slide-card {
-            flex: 1;
-            background: var(--card-bg);
-            border-radius: 1rem;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-            border: 1px solid rgba(0,0,0,0.06);
+        .slide-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            width: 100%;
         }
 
-        .accent-bar {
-            height: 6px;
-            background: linear-gradient(90deg, var(--pink), var(--pink) 60%, var(--yellow-bright));
-            flex-shrink: 0;
+        /* ===== GLOW LINE ===== */
+        .glow-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+            margin: 0;
         }
 
-        .card-header {
+        /* ===== PATTERN DOTS ===== */
+        .pattern-dots {
+            background-image: radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        /* ===== GLASS CARD ===== */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+        }
+
+        .glass-card-dark {
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0,0,0,0.08);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+        }
+
+        /* ===== HEADER BAR ===== */
+        .slide-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 24px;
-            border-bottom: 1px solid var(--border);
-            flex-shrink: 0;
+            margin-bottom: 32px;
         }
 
-        .card-header .label {
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: var(--muted);
-            letter-spacing: 0.03em;
-        }
-
-        .card-header .right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .card-header .counter {
-            font-size: 0.65rem;
-            font-weight: 500;
-            padding: 2px 10px;
-            border-radius: 50px;
-            background: var(--outer-bg);
-            color: var(--muted);
-        }
-
-        .card-header .logo {
-            height: 20px;
+        .slide-header .logo {
+            height: 28px;
             width: auto;
         }
 
-        .title-bar {
-            background: var(--pink);
-            padding: 10px 24px;
-            flex-shrink: 0;
+        .slide-header .badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--muted-fg);
+            background: var(--muted);
+            padding: 4px 14px;
+            border-radius: 50px;
         }
 
-        .title-bar h3 {
-            font-size: 0.95rem;
+        .slide-header .counter {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--muted-fg);
+        }
+
+        /* ===== SECTION TITLE ===== */
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
             font-weight: 900;
-            color: #fff;
-            letter-spacing: 0.06em;
-        }
-
-        .card-body {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 32px 40px;
-        }
-
-        .card-body-inner {
-            width: 100%;
-            max-width: 900px;
-        }
-
-        .card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 24px;
-            border-top: 1px solid var(--border);
-            flex-shrink: 0;
-            gap: 6px;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #E5E5E5;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .dot.active {
-            width: 28px;
-            background: var(--pink);
-        }
-
-        /* ===== COVER SLIDE ===== */
-        .cover-frame {
-            text-align: center;
-            border: 2px solid transparent;
-            border-top-color: #000;
-            border-bottom-color: #000;
-            padding: 40px 24px;
-            display: inline-block;
-        }
-
-        .cover-hopa {
-            font-size: 4.5rem;
-            font-weight: 900;
-            color: #000;
-            letter-spacing: 0.02em;
-            line-height: 1;
-            margin-bottom: 16px;
-        }
-
-        .cover-hopa .o { color: var(--pink); }
-        .cover-hopa .ex { color: var(--pink); font-size: 5rem; }
-
-        .cover-subtitle {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #000;
+            color: var(--foreground);
             margin-bottom: 8px;
         }
 
-        .cover-sub2 {
-            font-size: 1rem;
-            color: var(--muted);
+        .section-subtitle {
+            font-size: 0.95rem;
+            color: var(--muted-fg);
             font-weight: 400;
+            margin-bottom: 32px;
         }
 
-        .cover-date {
-            font-size: 0.85rem;
-            color: #bbb;
-            margin-top: 12px;
+        /* ===== RADAR ===== */
+        .radar-section {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+            margin-bottom: 40px;
         }
 
-        /* ===== FEATURE POINTS ===== */
-        .feature-list {
+        .radar-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            flex-shrink: 0;
+        }
+
+        .radar-text {
+            flex: 1;
+        }
+
+        .radar-text h2 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--foreground);
+            margin-bottom: 8px;
+        }
+
+        .radar-text .slogan {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .radar-steps {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-top: 8px;
+            gap: 8px;
         }
 
-        .feature-item {
-            background: #fff;
-            border-radius: 1rem;
-            padding: 28px 24px;
-            border-top: 3px solid var(--pink);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        .radar-step {
             display: flex;
-            gap: 16px;
-            align-items: flex-start;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--foreground);
         }
 
-        .feature-item:nth-child(even) {
-            border-top-color: var(--yellow);
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+        .step-num {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-            background: rgba(232,52,138,0.08);
-        }
-
-        .feature-item:nth-child(even) .feature-icon {
-            background: rgba(245,200,0,0.12);
-        }
-
-        .feature-text h4 {
-            font-size: 1rem;
+            font-size: 0.7rem;
             font-weight: 800;
-            color: #000;
+            color: #fff;
+            background: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .step-num.yellow {
+            background: var(--secondary);
+            color: var(--foreground);
+        }
+
+        /* ===== FEATURE GRID ===== */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+            border-radius: var(--radius);
+            padding: 24px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .feature-card:nth-child(even)::before {
+            background: var(--secondary);
+        }
+
+        .feature-card h4 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--foreground);
             margin-bottom: 6px;
         }
 
-        .feature-text p {
-            font-size: 0.85rem;
-            color: var(--muted);
+        .feature-card p {
+            font-size: 0.82rem;
+            color: var(--muted-fg);
             line-height: 1.7;
         }
 
-        /* ===== STAT CARDS ===== */
-        .stat-card {
-            background: #fff;
-            border-top: 3px solid var(--pink);
-            border-radius: 1rem;
-            padding: 24px 20px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        /* ===== CTA BAR ===== */
+        .cta-bar {
+            margin-top: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50px;
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #fff;
         }
 
-        .stat-card.yellow-top {
-            border-top-color: var(--yellow);
+        .cta-bar .cta-label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            opacity: 0.85;
+        }
+
+        .cta-bar .cta-value {
+            font-size: 0.95rem;
+            font-weight: 800;
+        }
+
+        /* ===== STAT CARDS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+            border-radius: var(--radius);
+            padding: 24px 16px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .stat-card.yellow-accent::before {
+            background: var(--secondary);
         }
 
         .stat-number {
-            font-size: 2.8rem;
+            font-size: 2.6rem;
             font-weight: 900;
-            color: #000;
+            color: var(--foreground);
             line-height: 1;
             margin-bottom: 6px;
         }
 
+        .stat-number.pink { color: var(--primary); }
+
         .stat-label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
-            color: var(--muted);
+            color: var(--muted-fg);
             line-height: 1.4;
         }
 
-        .stat-number.pink { color: var(--pink); }
-
-        /* ===== STATUS STRIP ===== */
-        .status-strip {
+        /* ===== STATUS CHIPS ===== */
+        .chips-row {
             display: flex;
             justify-content: center;
-            align-items: stretch;
             gap: 10px;
             flex-wrap: wrap;
-            margin-bottom: 20px;
         }
 
-        .status-chip {
-            background: #fff;
-            border: 1px solid var(--border);
+        .chip {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.05);
             border-radius: 14px;
-            padding: 16px 10px;
+            padding: 16px 12px;
             text-align: center;
             flex: 1 1 0;
             min-width: 80px;
             max-width: 130px;
-            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .status-chip:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-        }
-
-        .status-chip .chip-num {
+        .chip-num {
             font-size: 1.8rem;
             font-weight: 900;
-            color: #222;
+            color: var(--foreground);
             line-height: 1;
             margin-bottom: 4px;
         }
 
-        .status-chip .chip-label {
-            font-size: 0.75rem;
+        .chip-label {
+            font-size: 0.72rem;
             font-weight: 600;
-            color: var(--muted);
+            color: var(--muted-fg);
             line-height: 1.3;
         }
 
-        .status-chip.chip-total {
-            background: linear-gradient(135deg, rgba(232,52,138,0.06), rgba(245,200,0,0.08));
-            border: 2px solid var(--yellow);
+        .chip.chip-hero {
+            background: linear-gradient(135deg, rgba(232,53,138,0.06), rgba(245,200,0,0.08));
+            border: 2px solid var(--secondary);
             box-shadow: 0 0 16px rgba(245,200,0,0.15);
         }
 
-        .status-chip.chip-total .chip-num {
-            font-size: 2.4rem;
-            color: var(--pink);
+        .chip.chip-hero .chip-num {
+            font-size: 2.2rem;
+            color: var(--primary);
         }
 
-        .status-chip.chip-total .chip-label {
-            color: #555;
-            font-weight: 700;
+        .chip-num.green { color: #2e7d32; }
+        .chip-num.orange { color: #e65100; }
+
+        /* ===== DARK SECTION ===== */
+        .dark-section {
+            background: hsl(220, 10%, 95%);
+            border-radius: var(--radius);
+            padding: 24px;
         }
 
-        .status-chip.chip-green .chip-num { color: #2e7d32; }
-        .status-chip.chip-orange .chip-num { color: #e65100; }
-
-        .section-sub {
-            font-size: 1.1rem;
+        .sub-title {
+            font-size: 1rem;
             font-weight: 700;
-            color: #000;
-            margin-top: 24px;
-            margin-bottom: 12px;
+            color: var(--foreground);
+            margin: 24px 0 12px;
             text-align: center;
         }
 
-        /* ===== BOTTOM BAR ===== */
-        .bottom-bar {
-            background: #000;
-            border-radius: 0.8rem;
+        .sub-title:first-child {
+            margin-top: 0;
+        }
+
+        /* ===== INFO BAR ===== */
+        .info-bar {
+            margin-top: 24px;
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: var(--radius);
             padding: 16px 24px;
-            color: #fff;
             display: flex;
             align-items: center;
             justify-content: space-between;
+        }
+
+        .info-bar .ib-label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--muted-fg);
+        }
+
+        .info-bar .ib-value {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--foreground);
+        }
+
+        /* ===== RADAR SVG ANIMATIONS ===== */
+        @keyframes radar-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes radar-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.5; }
+        }
+
+        .sweep-line {
+            animation: radar-rotate 3s linear infinite;
+        }
+
+        .radar-dot-pulse {
+            animation: radar-pulse 2s ease-in-out infinite;
+        }
+
+        /* ===== PAGE DOTS ===== */
+        .page-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
             margin-top: 24px;
         }
 
-        .bottom-bar .bb-label {
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: rgba(255,255,255,0.6);
+        .page-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--muted);
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .bottom-bar .bb-value {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #fff;
+        .page-dot.active {
+            width: 28px;
+            background: var(--primary);
         }
 
-        /* ===== GRID ===== */
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-        .text-center { text-align: center; }
-
-        /* ===== ANIMATIONS ===== */
+        /* ===== FADE UP ===== */
         .fade-up {
             opacity: 0;
             transform: translateY(24px);
@@ -375,198 +461,218 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .slide { padding: 8px 10px; }
-            .card-body { padding: 20px 16px; }
-            .feature-list { grid-template-columns: 1fr; }
-            .grid-3 { grid-template-columns: 1fr; }
-            .grid-2 { grid-template-columns: 1fr; }
-            .cover-hopa { font-size: 3rem; }
-            .cover-hopa .ex { font-size: 3.5rem; }
-            .cover-subtitle { font-size: 1.1rem; }
-            .stat-number { font-size: 2.2rem; }
-            .status-strip { gap: 6px; }
-            .status-chip { min-width: 60px; max-width: 90px; padding: 12px 6px; border-radius: 10px; }
-            .status-chip .chip-num { font-size: 1.4rem; }
-            .status-chip .chip-label { font-size: 0.65rem; }
-            .status-chip.chip-total .chip-num { font-size: 1.8rem; }
-            .bottom-bar { flex-direction: column; gap: 8px; text-align: center; }
+            .slide { padding: 24px 14px; }
+            .radar-section { flex-direction: column; gap: 24px; text-align: center; }
+            .radar-container { width: 180px; height: 180px; margin: 0 auto; }
+            .radar-steps { grid-template-columns: 1fr 1fr; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .chips-row { gap: 6px; }
+            .chip { min-width: 60px; max-width: 90px; padding: 12px 6px; }
+            .chip-num { font-size: 1.4rem; }
+            .chip.chip-hero .chip-num { font-size: 1.8rem; }
+            .section-title { font-size: 1.3rem; }
+            .cta-bar { flex-direction: column; gap: 4px; text-align: center; }
+            .info-bar { flex-direction: column; gap: 8px; text-align: center; }
         }
 
-        /* ===== PRINT ===== */
         @media print {
-            .slide { page-break-after: always; min-height: auto; padding: 20px; }
+            .slide { page-break-after: always; min-height: auto; }
             .fade-up { opacity: 1; transform: none; }
         }
     </style>
 </head>
 <body>
 
-<!-- ==================== SLIDE 1 — COVER + WHAT HOPA DOES ==================== -->
-<section class="slide" data-slide="1">
-    <div class="slide-card">
-        <div class="accent-bar"></div>
-        <div class="card-header">
-            <span class="label">תוכנית בוגרים הופה x עתיד שמיים</span>
-            <div class="right">
-                <span class="counter">1 / 2</span>
-                <img src="assets/logo.png" alt="הופה" class="logo">
-            </div>
+<!-- ==================== SLIDE 1 — HOPA + RADAR ==================== -->
+<section class="slide pattern-dots" data-slide="1">
+    <div class="slide-inner fade-up">
+        <div class="slide-header">
+            <img src="assets/logo.png" alt="הופה" class="logo">
+            <span class="counter">1 / 2</span>
         </div>
-        <div class="title-bar"><h3>הופה — כל ההזדמנויות | תשתית חברתית טכנולוגית לליווי צעירים 18-26</h3></div>
-        <div class="card-body">
-            <div class="card-body-inner fade-up">
-                <div class="feature-list">
-                    <div class="feature-item">
-                        <div class="feature-icon">&#127979;</div>
-                        <div class="feature-text">
-                            <h4>שייכות לבית הספר</h4>
-                            <p>שמירה על קשר רציף עם הבוגרים בעזרת רכז בוגרים וצוות בית הספר. הבוגר לא נעלם אחרי כיתה י"ב</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">&#128218;</div>
-                        <div class="feature-text">
-                            <h4>מאגר מעל 600 מענים</h4>
-                            <p>גישה למאגר של מעל 600 תוכניות ומענים לבוגרים: מלגות, תעסוקה, הכשרות, זכויות, ליווי רגשי ועוד</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">&#9889;</div>
-                        <div class="feature-text">
-                            <h4>מערכת חכמה ואוטומציות</h4>
-                            <p>מערכת טכנולוגית שמחברת בוגרים למענים המתאימים להם, שולחת עדכונים, ומנטרת סטטוס באופן רציף</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">&#128101;</div>
-                        <div class="feature-text">
-                            <h4>ליווי אישי בשלבי מעבר</h4>
-                            <p>שיחות אישיות, הכוונה מקצועית וליווי פרטני בצמתים קריטיים: שחרור מצבא, כניסה ללימודים, מציאת עבודה</p>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="bottom-bar">
-                    <div>
-                        <div class="bb-label">רצף ליווי</div>
-                        <div class="bb-value">מכיתה י"ב ועד גיל 26</div>
-                    </div>
+        <div class="section-label">הופה — כל ההזדמנויות</div>
+        <div class="section-title">תשתית חברתית טכנולוגית לליווי צעירים 18-26</div>
+        <div class="section-subtitle">תוכנית הבוגרים של הופה בשיתוף תיכון עתיד שמיים קריית מוצקין</div>
+
+        <!-- RADAR -->
+        <div class="radar-section">
+            <div class="radar-container">
+                <svg width="220" height="220" viewBox="0 0 220 220" style="position:absolute;inset:0;">
+                    <circle cx="110" cy="110" r="22"  fill="none" stroke="rgba(194,24,91,0.15)" stroke-width="1"/>
+                    <circle cx="110" cy="110" r="44"  fill="none" stroke="rgba(194,24,91,0.15)" stroke-width="1"/>
+                    <circle cx="110" cy="110" r="66"  fill="none" stroke="rgba(194,24,91,0.15)" stroke-width="1"/>
+                    <circle cx="110" cy="110" r="88"  fill="none" stroke="rgba(194,24,91,0.15)" stroke-width="1"/>
+                    <circle cx="110" cy="110" r="108" fill="none" stroke="rgba(194,24,91,0.15)" stroke-width="1"/>
+                    <line x1="0" y1="110" x2="220" y2="110" stroke="rgba(194,24,91,0.2)" stroke-width="1"/>
+                    <line x1="110" y1="0" x2="110" y2="220" stroke="rgba(194,24,91,0.2)" stroke-width="1"/>
+                </svg>
+                <!-- Sweep line -->
+                <div class="sweep-line" style="position:absolute;top:110px;right:110px;width:110px;height:2px;background:linear-gradient(to left,transparent,rgba(194,24,91,0.8));transform-origin:right center;"></div>
+                <!-- Center dot -->
+                <div style="position:absolute;width:12px;height:12px;top:104px;right:104px;border-radius:50%;background:#C2185B;box-shadow:0 0 20px rgba(194,24,91,0.6);"></div>
+                <!-- Pink dots (youth) -->
+                <div class="radar-dot-pulse" style="position:absolute;width:8px;height:8px;border-radius:50%;top:55px;right:66px;background:#C2185B;box-shadow:0 0 16px rgba(194,24,91,0.6);animation-delay:0s;"></div>
+                <div class="radar-dot-pulse" style="position:absolute;width:8px;height:8px;border-radius:50%;top:77px;right:143px;background:#C2185B;box-shadow:0 0 16px rgba(194,24,91,0.6);animation-delay:0.4s;"></div>
+                <div class="radar-dot-pulse" style="position:absolute;width:8px;height:8px;border-radius:50%;top:132px;right:44px;background:#C2185B;box-shadow:0 0 16px rgba(194,24,91,0.6);animation-delay:0.8s;"></div>
+                <div class="radar-dot-pulse" style="position:absolute;width:8px;height:8px;border-radius:50%;top:154px;right:165px;background:#C2185B;box-shadow:0 0 16px rgba(194,24,91,0.6);animation-delay:1.2s;"></div>
+                <div class="radar-dot-pulse" style="position:absolute;width:8px;height:8px;border-radius:50%;top:176px;right:88px;background:#C2185B;box-shadow:0 0 16px rgba(194,24,91,0.6);animation-delay:1.6s;"></div>
+                <!-- Yellow dots (bogrim) -->
+                <div class="radar-dot-pulse" style="position:absolute;width:8px;height:8px;border-radius:50%;top:44px;right:121px;background:#E6D900;box-shadow:0 0 10px rgba(230,217,0,0.5);animation-delay:0.2s;"></div>
+                <div class="radar-dot-pulse" style="position:absolute;width:8px;height:8px;border-radius:50%;top:99px;right:176px;background:#E6D900;box-shadow:0 0 10px rgba(230,217,0,0.5);animation-delay:0.7s;"></div>
+                <div class="radar-dot-pulse" style="position:absolute;width:8px;height:8px;border-radius:50%;top:121px;right:77px;background:#E6D900;box-shadow:0 0 10px rgba(230,217,0,0.5);animation-delay:1.2s;"></div>
+                <div class="radar-dot-pulse" style="position:absolute;width:8px;height:8px;border-radius:50%;top:165px;right:132px;background:#E6D900;box-shadow:0 0 10px rgba(230,217,0,0.5);animation-delay:1.7s;"></div>
+            </div>
+
+            <div class="radar-text">
+                <h2>מודל הרדאר — הלב של הופה</h2>
+                <div class="slogan">מזהים · מכווינים · מלווים</div>
+                <div class="radar-steps">
+                    <div class="radar-step"><span class="step-num">1</span> שידור וקליטה</div>
+                    <div class="radar-step"><span class="step-num">2</span> ניתוח — מודל הרמזור</div>
+                    <div class="radar-step"><span class="step-num yellow">3</span> חישוב והתאמה</div>
+                    <div class="radar-step"><span class="step-num yellow">4</span> החזרת גלים</div>
                 </div>
             </div>
         </div>
-        <div class="card-footer">
-            <div class="dot active"></div>
-            <div class="dot"></div>
+
+        <div class="glow-line"></div>
+
+        <!-- FEATURES -->
+        <div class="feature-grid" style="margin-top: 28px;">
+            <div class="feature-card">
+                <h4>שייכות לבית הספר</h4>
+                <p>רכז בוגרים + צוות בית הספר שומרים על קשר רציף עם כל בוגר. הבוגר לא נעלם ביום שאחרי כיתה י"ב</p>
+            </div>
+            <div class="feature-card">
+                <h4>מאגר מעל 600 תוכניות ומענים</h4>
+                <p>מלגות, תעסוקה, הכשרות מקצועיות, מיצוי זכויות, חיילים בודדים, לימודים ועוד. הכל מרוכז ומעודכן</p>
+            </div>
+            <div class="feature-card">
+                <h4>מערכת חכמה ואוטומציות</h4>
+                <p>ניטור סטטוס כל בוגר, התאמה אוטומטית של מענים, הודעות בימי הולדת, שחרור מצה"ל וגיוס</p>
+            </div>
+            <div class="feature-card">
+                <h4>גיוס משאבים לבוגרים</h4>
+                <p>הופה מגייסת משאבים ייעודיים: מלגות, ציוד טכנולוגי, מנויים לשירותים, חיבור לגורמים מקצועיים באזור</p>
+            </div>
+        </div>
+
+        <div class="cta-bar">
+            <div>
+                <div class="cta-label">רצף ליווי</div>
+                <div class="cta-value">מכיתה י"ב ועד גיל 26</div>
+            </div>
+            <div>
+                <div class="cta-label">בית ספר</div>
+                <div class="cta-value">עתיד שמיים קריית מוצקין</div>
+            </div>
+        </div>
+
+        <div class="page-dots">
+            <div class="page-dot active"></div>
+            <div class="page-dot"></div>
         </div>
     </div>
 </section>
 
+<div class="glow-line"></div>
+
 <!-- ==================== SLIDE 2 — MOTZKIN DATA ==================== -->
 <section class="slide" data-slide="2">
-    <div class="slide-card">
-        <div class="accent-bar"></div>
-        <div class="card-header">
-            <span class="label">תוכנית בוגרים הופה x עתיד שמיים</span>
-            <div class="right">
-                <span class="counter">2 / 2</span>
-                <img src="assets/logo.png" alt="הופה" class="logo">
+    <div class="slide-inner fade-up">
+        <div class="slide-header">
+            <img src="assets/logo.png" alt="הופה" class="logo">
+            <span class="counter">2 / 2</span>
+        </div>
+
+        <div class="section-label">הופה x עתיד שמיים מוצקין</div>
+        <div class="section-title">הבוגרים של מוצקין — נתוני מפתח</div>
+
+        <div class="chips-row">
+            <div class="chip chip-hero">
+                <div class="chip-num">97</div>
+                <div class="chip-label">בוגרים<br>במערכת</div>
+            </div>
+            <div class="chip">
+                <div class="chip-num green">40</div>
+                <div class="chip-label">נוצר<br>קשר</div>
+            </div>
+            <div class="chip">
+                <div class="chip-num green">27</div>
+                <div class="chip-label">חיילים</div>
+            </div>
+            <div class="chip">
+                <div class="chip-num green">7</div>
+                <div class="chip-label">עובדים</div>
+            </div>
+            <div class="chip">
+                <div class="chip-num green">10</div>
+                <div class="chip-label">חוברו<br>למענים</div>
             </div>
         </div>
-        <div class="title-bar"><h3>הבוגרים של מוצקין — נתוני מפתח</h3></div>
-        <div class="card-body">
-            <div class="card-body-inner fade-up">
 
-                <div class="grid-3">
-                    <div class="stat-card">
-                        <div class="stat-number pink">97</div>
-                        <div class="stat-label">בוגרים סה"כ<br>במערכת הופה</div>
-                    </div>
-                    <div class="stat-card yellow-top">
-                        <div class="stat-number">40</div>
-                        <div class="stat-label">בוגרים שנוצר<br>איתם קשר אישי</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">27</div>
-                        <div class="stat-label">חיילים<br>בשירות פעיל</div>
-                    </div>
-                </div>
+        <div class="glow-line" style="margin: 28px 0;"></div>
 
-                <div class="section-sub">חיבור למענים ותוכניות</div>
-
-                <div class="status-strip">
-                    <div class="status-chip chip-total">
-                        <div class="chip-num">10</div>
-                        <div class="chip-label">חוברו<br>למענים</div>
-                    </div>
-                    <div class="status-chip chip-green">
-                        <div class="chip-num">7</div>
-                        <div class="chip-label">חוברו<br>לתעסוקה</div>
-                    </div>
-                    <div class="status-chip chip-green">
-                        <div class="chip-num">1</div>
-                        <div class="chip-label">חוברו<br>ללימודים</div>
-                    </div>
-                    <div class="status-chip chip-green">
-                        <div class="chip-num">2</div>
-                        <div class="chip-label">חוברו להכשרה<br>מקצועית</div>
-                    </div>
-                </div>
-
-                <div class="section-sub">משאבים שגויסו לבוגרי מוצקין</div>
-
-                <div class="grid-3">
-                    <div class="stat-card">
-                        <div class="stat-number" style="font-size:2rem;">10,000 &#8362;</div>
-                        <div class="stat-label">מלגות לבוגרים</div>
-                    </div>
-                    <div class="stat-card yellow-top">
-                        <div class="stat-number" style="font-size:2rem;">2</div>
-                        <div class="stat-label">מחשבים ניידים<br>שנתרמו</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" style="font-size:2rem;">&#10003;</div>
-                        <div class="stat-label">מנויים למלגות פלוס<br>איתור מלגות אוטומטי</div>
-                    </div>
-                </div>
-
-                <div class="bottom-bar">
-                    <div>
-                        <div class="bb-label">תחילת פעילות</div>
-                        <div class="bb-value">פברואר 2026</div>
-                    </div>
-                    <div>
-                        <div class="bb-label">שיטת עבודה</div>
-                        <div class="bb-value">ניטור + ליווי אישי + אוטומציה</div>
-                    </div>
-                </div>
+        <div class="sub-title">פילוח לפי שנת סיום</div>
+        <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr);">
+            <div class="stat-card">
+                <div class="stat-number" style="font-size:2.2rem;">37</div>
+                <div class="stat-label">תשפ"ד</div>
+            </div>
+            <div class="stat-card yellow-accent">
+                <div class="stat-number" style="font-size:2.2rem;">60</div>
+                <div class="stat-label">תשפ"ה</div>
             </div>
         </div>
-        <div class="card-footer">
-            <div class="dot"></div>
-            <div class="dot active"></div>
+
+        <div class="sub-title">משאבים שגויסו</div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" style="font-size:1.8rem;">10,000 &#8362;</div>
+                <div class="stat-label">מלגות לבוגרים</div>
+            </div>
+            <div class="stat-card yellow-accent">
+                <div class="stat-number" style="font-size:1.8rem;">2</div>
+                <div class="stat-label">מחשבים ניידים<br>שנתרמו</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="font-size:1.8rem;">19</div>
+                <div class="stat-label">בוגרים בקבוצת<br>וואטסאפ פעילה</div>
+            </div>
+        </div>
+
+        <div class="info-bar">
+            <div>
+                <div class="ib-label">תחילת פעילות</div>
+                <div class="ib-value">פברואר 2026</div>
+            </div>
+            <div>
+                <div class="ib-label">שיטת עבודה</div>
+                <div class="ib-value">ניטור + ליווי אישי + אוטומציה</div>
+            </div>
+        </div>
+
+        <div class="page-dots">
+            <div class="page-dot"></div>
+            <div class="page-dot active"></div>
         </div>
     </div>
 </section>
 
 <script>
-    // Intersection Observer for fade-up animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
+            if (entry.isIntersecting) entry.target.classList.add('visible');
         });
     }, { threshold: 0.15 });
 
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-    // Dot navigation
-    document.querySelectorAll('.dot').forEach((dot, i) => {
+    document.querySelectorAll('.page-dot').forEach((dot, i) => {
         dot.addEventListener('click', () => {
-            const slides = document.querySelectorAll('.slide');
-            if (slides[i]) {
-                slides[i].scrollIntoView({ behavior: 'smooth' });
-            }
+            document.querySelectorAll('.slide')[i]?.scrollIntoView({ behavior: 'smooth' });
         });
     });
 </script>
