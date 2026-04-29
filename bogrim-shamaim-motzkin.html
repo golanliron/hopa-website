@@ -958,6 +958,20 @@
                     <td>04-812-9200<br>054-481-2060</td>
                     <td>10 חודשים, 3 מקצועות בסמסטר</td>
                 </tr>
+                <tr style="background:rgba(232,53,138,0.06);">
+                    <td class="org-name">צוות הופה</td>
+                    <td>ניהול תוכנית בוגרים, ליווי אישי, מיפוי מענים</td>
+                    <td>טל מאיר, מנהלת פרויקטים</td>
+                    <td>058-558-5991</td>
+                    <td class="note">וואטסאפ הופה</td>
+                </tr>
+                <tr style="background:rgba(232,53,138,0.06);">
+                    <td class="org-name">צוות הופה</td>
+                    <td>ניהול, אסטרטגיה, שותפויות</td>
+                    <td>לירון גולן, מנכ"לית</td>
+                    <td>liron@hopa.org.il</td>
+                    <td class="note">מייל</td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -1078,87 +1092,8 @@
     </div>
 </section>
 
-<!-- ALUMNI LIST SECTION -->
-<section class="slide slide-alumni" style="background:white; min-height:auto; padding:60px 40px;">
-    <div class="slide-content" style="max-width:1200px;">
-        <div class="section-label">נתונים חיים מ-Monday</div>
-        <h2 class="section-title">רשימת בוגרים</h2>
-        <p style="color:var(--muted); margin-top:4px;">97 בוגרים · אזור הצפון</p>
-
-        <!-- Search -->
-        <div style="margin-top:24px;">
-            <input type="text" id="searchBox" placeholder="חיפוש..." oninput="filterTable()"
-                style="width:100%; padding:12px 20px; border:2px solid var(--border); border-radius:50px; font-family:Heebo; font-size:1rem; outline:none; transition:border-color 0.3s;"
-                onfocus="this.style.borderColor='var(--yellow)'" onblur="this.style.borderColor='var(--border)'" />
-        </div>
-
-        <!-- Filters -->
-        <div style="margin-top:20px; display:flex; flex-wrap:wrap; gap:12px; align-items:flex-start;">
-            <!-- Year filter -->
-            <div class="filter-group">
-                <span class="filter-label">שנת סיום:</span>
-                <button class="filter-btn active" onclick="setFilter('year','all',this)">הכל</button>
-                <button class="filter-btn" onclick="setFilter('year','תשפד',this)">תשפ"ד</button>
-                <button class="filter-btn" onclick="setFilter('year','תשפה',this)">תשפ"ה</button>
-            </div>
-            <!-- Major filter -->
-            <div class="filter-group">
-                <span class="filter-label">מגמה:</span>
-                <button class="filter-btn active" onclick="setFilter('major','all',this)">הכל</button>
-                <button class="filter-btn" onclick="setFilter('major','עיצוב',this)">עיצוב</button>
-                <button class="filter-btn" onclick="setFilter('major','קונדיטוריה',this)">קונדיטוריה</button>
-                <button class="filter-btn" onclick="setFilter('major','מכונות',this)">מכונות</button>
-            </div>
-            <!-- Service filter -->
-            <div class="filter-group">
-                <span class="filter-label">שירות:</span>
-                <button class="filter-btn active" onclick="setFilter('service','all',this)">הכל</button>
-                <button class="filter-btn" onclick="setFilter('service','במהלך צבא',this)">במהלך צבא</button>
-                <button class="filter-btn" onclick="setFilter('service','סיימתי צבא',this)">סיימתי צבא</button>
-                <button class="filter-btn" onclick="setFilter('service','שירות לאומי',this)">שירות לאומי</button>
-                <button class="filter-btn" onclick="setFilter('service','לא שירת',this)">לא שירת</button>
-                <button class="filter-btn" onclick="setFilter('service','לא ידוע',this)">לא ידוע</button>
-            </div>
-            <!-- Impact filter -->
-            <div class="filter-group">
-                <span class="filter-label">אימפקט:</span>
-                <button class="filter-btn active" onclick="setFilter('impact','all',this)">הכל</button>
-                <button class="filter-btn" onclick="setFilter('impact','מסתדר כרגע',this)">מסתדר כרגע</button>
-                <button class="filter-btn" onclick="setFilter('impact','תעסוקה',this)">תעסוקה</button>
-                <button class="filter-btn" onclick="setFilter('impact','הכשרה תעסוקתית',this)">הכשרה</button>
-                <button class="filter-btn" onclick="setFilter('impact','לימודים',this)">לימודים</button>
-                <button class="filter-btn" onclick="setFilter('impact','בתהליך טיפול',this)">בתהליך טיפול</button>
-                <button class="filter-btn" onclick="setFilter('impact','להתקשר אחרי שחרור',this)">להתקשר</button>
-                <button class="filter-btn" onclick="setFilter('impact','לא סווג',this)">לא סווג</button>
-            </div>
-        </div>
-
-        <!-- Count -->
-        <div id="resultCount" style="margin-top:16px; font-size:0.9rem; color:var(--muted); font-weight:600;"></div>
-
-        <!-- Table -->
-        <div style="overflow-x:auto; margin-top:12px;">
-            <table class="contacts-table" id="alumniTable">
-                <thead>
-                    <tr>
-                        <th>שם</th>
-                        <th>טלפון</th>
-                        <th>מגמה</th>
-                        <th>סיום</th>
-                        <th>עיר</th>
-                        <th>סטטוס שירות</th>
-                        <th>אימפקט</th>
-                        <th>טיפול</th>
-                    </tr>
-                </thead>
-                <tbody id="alumniBody"></tbody>
-            </table>
-        </div>
-    </div>
-</section>
-
 <!-- Slide counter -->
-<div class="slide-counter" id="counter">1 / 9</div>
+<div class="slide-counter" id="counter">1 / 8</div>
 
 <script>
     // Fade-in on scroll
@@ -1192,189 +1127,6 @@
     }, { threshold: 0.5 });
 
     slides.forEach(s => counterObserver.observe(s));
-
-    // ===== ALUMNI TABLE =====
-    const alumni = [
-        {n:"אלמוג",l:"אזרן",p:"0548676671",m:"עיצוב",y:"תשפד",c:"קריית אתא",s:"במהלך צבא",i:"תעסוקה",t:"טופל"},
-        {n:"אברהם",l:"אברמאשוילי",p:"0532223691",m:"עיצוב",y:"תשפה",c:"קריית ים",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"אגם",l:"לוי",p:"0529263540",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"אגם",l:"נח",p:"0543006766",m:"מכונות",y:"תשפה",c:"חיפה",s:"",i:"",t:""},
-        {n:"אודליה",l:"אורין",p:"0546355841",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"לא שירת",i:"לימודים",t:"טופל"},
-        {n:"אולסיה",l:"גורבטוב",p:"0526212826",m:"קונדיטוריה",y:"תשפה",c:"קריית ביאליק",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"אופק",l:"וילק",p:"0534721565",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"אור",l:"סוויסה",p:"0528908563",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"אוראל",l:"אלקובי",p:"0587112253",m:"עיצוב",y:"תשפד",c:"קריית ביאליק",s:"שירות לאומי",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"אורי",l:"חיוט",p:"0507578866",m:"קונדיטוריה",y:"תשפד",c:"קריית אתא",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"איוון",l:"מלניקוב",p:"0535402608",m:"קונדיטוריה",y:"תשפד",c:"חיפה",s:"",i:"",t:""},
-        {n:"אילן",l:"סיומין",p:"0559582277",m:"מכונות",y:"תשפה",c:"",s:"",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"אליאור",l:"יוסף",p:"0539360773",m:"קונדיטוריה",y:"תשפד",c:"חיפה",s:"",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"אליה",l:"איבגי",p:"0556888856",m:"עיצוב",y:"תשפד",c:"נשר",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"אליס",l:"פרלשטיין",p:"0535279796",m:"עיצוב",y:"תשפד",c:"חיפה",s:"במהלך צבא",i:"תעסוקה",t:"טופל"},
-        {n:"אלכס",l:"קוקלב",p:"0542001470",m:"קונדיטוריה",y:"תשפה",c:"קריית ים",s:"",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"אלכסנדר",l:"גולובקו",p:"0533400633",m:"מכונות",y:"תשפד",c:"קריית מוצקין",s:"במהלך צבא",i:"תעסוקה",t:"טופל"},
-        {n:"אמיל",l:"קצב",p:"0534256652",m:"קונדיטוריה",y:"תשפד",c:"קריית גת",s:"",i:"",t:""},
-        {n:"אנג'ל",l:"קורן",p:"0545556156",m:"עיצוב",y:"תשפד",c:"חיפה",s:"סיימתי צבא",i:"",t:""},
-        {n:"אריק",l:"פיפקו",p:"0523070295",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"אריקה",l:"סקוביולה",p:"0527221586",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"בני",l:"קופרמן",p:"0508771185",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"בראל",l:"אניילוו",p:"0534947046",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"ליבר",l:"גרופר",p:"0525628788",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"תעסוקה",t:"טופל"},
-        {n:"גיאורגי",l:"גריגוריאנץ",p:"0509966320",m:"מכונות",y:"תשפה",c:"חיפה",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"אריה דב",l:"מיגדל",p:"0584076982",m:"קונדיטוריה",y:"תשפה",c:"קריית ביאליק",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"דוד",l:"ניילינגר",p:"0559342620",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"ליאל דוד",l:"חיים",p:"0528165510",m:"קונדיטוריה",y:"תשפד",c:"חיפה",s:"סיימתי צבא",i:"הכשרה תעסוקתית",t:"טופל"},
-        {n:"דיאוניס",l:"פטרוב",p:"0539649338",m:"קונדיטוריה",y:"תשפד",c:"",s:"במהלך צבא",i:"",t:""},
-        {n:"דיאנה",l:"מוסקליוב",p:"0544887387",m:"קונדיטוריה",y:"תשפה",c:"קריית אתא",s:"",i:"הכשרה תעסוקתית",t:"טופל"},
-        {n:"ליאם",l:"דהן",p:"0505997911",m:"מכונות",y:"תשפד",c:"חיפה",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"דיאנה",l:"מיכאיילוב",p:"0542592998",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"הראל",l:"בן",p:"0547766942",m:"מכונות",y:"תשפד",c:"קריית אתא",s:"",i:"",t:""},
-        {n:"ויקי",l:"קושניר",p:"0543542402",m:"עיצוב",y:"תשפה",c:"קריית ים",s:"",i:"",t:""},
-        {n:"ורוניקה",l:"ובריק",p:"0552479499",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"ורוניקה",l:"ביקובה",p:"0523001756",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"חיים",l:"בני",p:"0535207605",m:"קונדיטוריה",y:"תשפה",c:"קריית אתא",s:"במהלך צבא",i:"",t:""},
-        {n:"חן",l:"דרי",p:"0546333756",m:"עיצוב",y:"תשפד",c:"",s:"לא שירת",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"חנניה",l:"דרי",p:"0512292659",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"טום",l:"יואל",p:"0544868939",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"להתקשר אחרי שחרור",t:"לחזור אליו"},
-        {n:"טליה",l:"שם-טוב",p:"0585009954",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"יאן",l:"פבלנקו",p:"0537523261",m:"מכונות",y:"תשפה",c:"קריית ים",s:"",i:"",t:""},
-        {n:"יארוסלב",l:"קלשניקוב",p:"0585858624",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"יוסף",l:"מזרחי",p:"0535461872",m:"מכונות",y:"תשפה",c:"קריית ים",s:"",i:"",t:""},
-        {n:"יורי",l:"ניסנוב",p:"0533327496",m:"מכונות",y:"תשפד",c:"קריית ים",s:"",i:"",t:""},
-        {n:"לוסי",l:"לגסה",p:"0539199928",m:"קונדיטוריה",y:"תשפד",c:"חיפה",s:"",i:"",t:""},
-        {n:"לורן",l:"ברוך",p:"0532258880",m:"עיצוב",y:"תשפה",c:"קריית ביאליק",s:"",i:"",t:""},
-        {n:"אבירם",l:"גובזיה",p:"0524173301",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"הכשרה תעסוקתית",t:"טופל"},
-        {n:"ליאור",l:"לשצ'ינר",p:"0535231367",m:"קונדיטוריה",y:"תשפד",c:"קריית אתא",s:"",i:"",t:""},
-        {n:"ליאל",l:"שייק",p:"0559456308",m:"עיצוב",y:"תשפה",c:"עכו",s:"במהלך צבא",i:"",t:"מסתדר כרגע"},
-        {n:"ליאל",l:"גלזמן",p:"0546825737",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"ליבל",l:"אברמוב",p:"0526696677",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"לירון",l:"כהן",p:"0547245479",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"פטור",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"מורן",l:"חרסונסקי",p:"0535262860",m:"עיצוב",y:"תשפד",c:"",s:"לא שירת",i:"הכשרה תעסוקתית",t:"טופל"},
-        {n:"מיכל",l:"מילגרום",p:"0584282011",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"מייק",l:"מוגוטנוב",p:"0537020255",m:"מכונות",y:"תשפה",c:"עפולה",s:"",i:"",t:""},
-        {n:"מיתר",l:"שלמייב",p:"0555533766",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"מרדכי",l:"דרוקר",p:"0546878870",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"לא שירת",i:"מסתדר כרגע",t:""},
-        {n:"מריה",l:"טנסייב",p:"0552671484",m:"עיצוב",y:"תשפד",c:"קריית ביאליק",s:"במהלך צבא",i:"מסתדר כרגע",t:""},
-        {n:"מרים",l:"בוסקילא",p:"0543272559",m:"עיצוב",y:"תשפד",c:"חיפה",s:"",i:"",t:""},
-        {n:"נבו",l:"גולדנברג",p:"0503003316",m:"קונדיטוריה",y:"תשפד",c:"קריית ביאליק",s:"",i:"",t:""},
-        {n:"נויה",l:"אוחנה",p:"0507727017",m:"עיצוב",y:"תשפה",c:"קריית ים",s:"",i:"",t:""},
-        {n:"נועה",l:"ממן",p:"0559761144",m:"עיצוב",y:"תשפה",c:"קריית אתא",s:"",i:"",t:""},
-        {n:"נועה",l:"קלוגמן",p:"0543349930",m:"עיצוב",y:"תשפד",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"נוריאל",l:"דוד",p:"0528669004",m:"עיצוב",y:"תשפה",c:"טבריה",s:"",i:"",t:""},
-        {n:"ניצן",l:"כהן",p:"0522827305",m:"קונדיטוריה",y:"תשפד",c:"קריית אתא",s:"",i:"",t:""},
-        {n:"ניק",l:"סקריפניק",p:"0553192605",m:"מכונות",y:"תשפה",c:"",s:"",i:"",t:""},
-        {n:"נפתלי",l:"חורי",p:"0522177748",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"נתנאל",l:"כהן",p:"0504272976",m:"קונדיטוריה",y:"תשפד",c:"קריית אתא",s:"",i:"",t:""},
-        {n:"נתנאל",l:"מקונן",p:"0506828813",m:"קונדיטוריה",y:"תשפד",c:"",s:"",i:"",t:""},
-        {n:"נתנאל",l:"סנאי",p:"0542350658",m:"קונדיטוריה",y:"תשפד",c:"קריית ים",s:"",i:"",t:""},
-        {n:"סהר",l:"דהן",p:"0546421096",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"סופיה",l:"זנדונדי",p:"0543414409",m:"קונדיטוריה",y:"תשפה",c:"נהריה",s:"",i:"",t:""},
-        {n:"סמאל",l:"מלדה",p:"0533409633",m:"מכונות",y:"תשפד",c:"קריית ים",s:"",i:"",t:""},
-        {n:"עדי",l:"אטיאס",p:"0502127706",m:"עיצוב",y:"תשפד",c:"",s:"",i:"",t:""},
-        {n:"עדן",l:"סגל",p:"0533301270",m:"קונדיטוריה",y:"תשפד",c:"",s:"",i:"",t:""},
-        {n:"פטריסיה",l:"קיציס",p:"0503064800",m:"עיצוב",y:"תשפד",c:"חיפה",s:"",i:"",t:""},
-        {n:"פנטהון",l:"מנגשה",p:"0526267519",m:"קונדיטוריה",y:"תשפד",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"פנינה",l:"סטירט",p:"0547098992",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"קארינה",l:"זנצ'נקו",p:"0549910302",m:"קונדיטוריה",y:"תשפה",c:"כרמיאל",s:"",i:"",t:""},
-        {n:"קורל",l:"מריזן",p:"0505443733",m:"עיצוב",y:"תשפה",c:"קריית אתא",s:"",i:"",t:""},
-        {n:"קורן",l:"בר",p:"0512323766",m:"מכונות",y:"תשפד",c:"",s:"",i:"",t:""},
-        {n:"קסניה",l:"רומיאנצב",p:"0548681595",m:"מכונות",y:"תשפה",c:"חיפה",s:"",i:"",t:""},
-        {n:"קרינה",l:"פבלנקו",p:"0538201474",m:"קונדיטוריה",y:"תשפה",c:"קריית ים",s:"",i:"",t:""},
-        {n:"רוני",l:"רצאבי",p:"0542673388",m:"עיצוב",y:"תשפד",c:"רכסים",s:"במהלך צבא",i:"הכשרה תעסוקתית",t:"טופל"},
-        {n:"מריה",l:"חוחלוב",p:"0584009793",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"לא שירת",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"רום",l:"גולדובסקי",p:"0533033500",m:"עיצוב",y:"תשפד",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"רומן",l:"פורמן",p:"0545905647",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"רונן",l:"אלנה",p:"0523757220",m:"קונדיטוריה",y:"תשפד",c:"קריית ביאליק",s:"",i:"",t:""},
-        {n:"שי",l:"סמן",p:"0537115602",m:"עיצוב",y:"תשפה",c:"חיפה",s:"",i:"",t:""},
-        {n:"שירה",l:"קינן",p:"0532422523",m:"עיצוב",y:"תשפה",c:"קריית ביאליק",s:"",i:"",t:""},
-        {n:"שיריי",l:"דנן",p:"0526020243",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"מסתדר כרגע",t:""},
-        {n:"ליאב",l:"שלום",p:"0532358690",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
-        {n:"ליאב",l:"סויסה",p:"0527343652",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"בתהליך טיפול",t:"בתהליך"},
-        {n:"שלי",l:"דרומר",p:"0532394497",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"שרון",l:"קאוס",p:"0538266373",m:"עיצוב",y:"תשפד",c:"קריית מוצקין",s:"",i:"מסתדר כרגע",t:"מסתדר כרגע"},
-        {n:"חסמין",l:"זנדונדי",p:"0543414409",m:"קונדיטוריה",y:"תשפה",c:"נהריה",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"}
-    ];
-
-    const filters = { year: 'all', major: 'all', service: 'all', impact: 'all' };
-
-    function setFilter(type, val, btn) {
-        filters[type] = val;
-        btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        filterTable();
-    }
-
-    function badgeClass(val) {
-        if (!val) return 'badge-gray';
-        if (val.includes('מסתדר')) return 'badge-green';
-        if (val.includes('תעסוקה') || val.includes('הכשרה')) return 'badge-blue';
-        if (val.includes('לימודים')) return 'badge-purple';
-        if (val.includes('טיפול') || val.includes('בתהליך')) return 'badge-pink';
-        if (val.includes('להתקשר') || val.includes('לחזור')) return 'badge-orange';
-        if (val.includes('טופל')) return 'badge-blue';
-        return 'badge-gray';
-    }
-
-    function yearDisplay(y) { return y === 'תשפד' ? 'תשפ"ד' : 'תשפ"ה'; }
-
-    function matchService(item, filter) {
-        if (filter === 'all') return true;
-        if (filter === 'במהלך צבא') return item.s === 'במהלך צבא';
-        if (filter === 'סיימתי צבא') return item.s === 'סיימתי צבא';
-        if (filter === 'שירות לאומי') return item.s.includes('שירות לאומי');
-        if (filter === 'לא שירת') return item.s === 'לא שירת' || item.s === 'פטור';
-        if (filter === 'לא ידוע') return !item.s;
-        return true;
-    }
-
-    function matchImpact(item, filter) {
-        if (filter === 'all') return true;
-        if (filter === 'לא סווג') return !item.i;
-        return item.i.includes(filter);
-    }
-
-    function filterTable() {
-        const search = document.getElementById('searchBox').value.toLowerCase();
-        const tbody = document.getElementById('alumniBody');
-        let html = '';
-        let count = 0;
-
-        alumni.forEach(a => {
-            // Search
-            const text = (a.n + ' ' + a.l + ' ' + a.p + ' ' + a.c + ' ' + a.m + ' ' + a.i).toLowerCase();
-            if (search && !text.includes(search)) return;
-
-            // Year
-            if (filters.year !== 'all' && a.y !== filters.year) return;
-            // Major
-            if (filters.major !== 'all' && a.m !== filters.major) return;
-            // Service
-            if (!matchService(a, filters.service)) return;
-            // Impact
-            if (!matchImpact(a, filters.impact)) return;
-
-            count++;
-            const sDisplay = a.s || '<span style="color:#ccc">-</span>';
-            const iDisplay = a.i ? '<span class="badge ' + badgeClass(a.i) + '">' + a.i + '</span>' : '<span style="color:#ccc">-</span>';
-            const tDisplay = a.t ? '<span class="badge ' + badgeClass(a.t) + '">' + a.t + '</span>' : '<span style="color:#ccc">-</span>';
-
-            html += '<tr>' +
-                '<td class="org-name">' + a.n + ' ' + a.l + '</td>' +
-                '<td style="direction:ltr; text-align:right;">' + a.p + '</td>' +
-                '<td>' + a.m + '</td>' +
-                '<td>' + yearDisplay(a.y) + '</td>' +
-                '<td>' + (a.c || '-') + '</td>' +
-                '<td>' + sDisplay + '</td>' +
-                '<td>' + iDisplay + '</td>' +
-                '<td>' + tDisplay + '</td>' +
-                '</tr>';
-        });
-
-        tbody.innerHTML = html;
-        document.getElementById('resultCount').textContent = count + ' בוגרים מוצגים מתוך 97';
-    }
-
-    // Init
-    filterTable();
 </script>
 
 </body>
