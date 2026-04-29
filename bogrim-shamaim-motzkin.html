@@ -481,6 +481,161 @@
             .bottom-bar { flex-direction: column; gap: 8px; text-align: center; }
         }
 
+        /* ===== QUESTIONNAIRE FORM ===== */
+        .form-intro {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .form-intro h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #000;
+            margin-bottom: 6px;
+        }
+
+        .form-intro p {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 8px;
+        }
+
+        .form-group label .required {
+            color: var(--pink);
+            margin-right: 2px;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #E5E5E5;
+            border-radius: 12px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text);
+            background: #FAFAFA;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 3px rgba(232,52,138,0.08);
+            background: #fff;
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            position: relative;
+        }
+
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .radio-option label {
+            display: inline-block;
+            padding: 10px 24px;
+            border: 2px solid #E5E5E5;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #FAFAFA;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            border-color: var(--pink);
+            background: rgba(232,52,138,0.06);
+            color: var(--pink);
+        }
+
+        .radio-option label:hover {
+            border-color: #ccc;
+            background: #fff;
+        }
+
+        .form-submit-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--pink);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 8px;
+        }
+
+        .form-submit-btn:hover {
+            background: #d12a78;
+        }
+
+        .form-submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .form-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 24px 0;
+        }
+
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .form-success .check {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .form-success h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #000;
+            margin-bottom: 8px;
+        }
+
+        .form-success p {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
         /* ===== PRINT ===== */
         @media print {
             .slide { page-break-after: always; min-height: auto; padding: 20px; }
@@ -497,7 +652,7 @@
         <div class="card-header">
             <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
             <div class="right">
-                <span class="counter">1 / 7</span>
+                <span class="counter">1 / 8</span>
                 <img src="assets/logo.png" alt="הופה" class="logo">
             </div>
         </div>
@@ -519,6 +674,7 @@
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
+            <div class="dot"></div>
         </div>
     </div>
 </section>
@@ -530,7 +686,7 @@
         <div class="card-header">
             <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
             <div class="right">
-                <span class="counter">2 / 7</span>
+                <span class="counter">2 / 8</span>
                 <img src="assets/logo.png" alt="הופה" class="logo">
             </div>
         </div>
@@ -600,6 +756,7 @@
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
+            <div class="dot"></div>
         </div>
     </div>
 </section>
@@ -611,7 +768,7 @@
         <div class="card-header">
             <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
             <div class="right">
-                <span class="counter">3 / 7</span>
+                <span class="counter">3 / 8</span>
                 <img src="assets/logo.png" alt="הופה" class="logo">
             </div>
         </div>
@@ -665,6 +822,7 @@
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
+            <div class="dot"></div>
         </div>
     </div>
 </section>
@@ -676,7 +834,7 @@
         <div class="card-header">
             <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
             <div class="right">
-                <span class="counter">4 / 7</span>
+                <span class="counter">4 / 8</span>
                 <img src="assets/logo.png" alt="הופה" class="logo">
             </div>
         </div>
@@ -737,6 +895,7 @@
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
+            <div class="dot"></div>
         </div>
     </div>
 </section>
@@ -748,7 +907,7 @@
         <div class="card-header">
             <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
             <div class="right">
-                <span class="counter">5 / 7</span>
+                <span class="counter">5 / 8</span>
                 <img src="assets/logo.png" alt="הופה" class="logo">
             </div>
         </div>
@@ -782,6 +941,7 @@
             <div class="dot active"></div>
             <div class="dot"></div>
             <div class="dot"></div>
+            <div class="dot"></div>
         </div>
     </div>
 </section>
@@ -793,7 +953,7 @@
         <div class="card-header">
             <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
             <div class="right">
-                <span class="counter">6 / 7</span>
+                <span class="counter">6 / 8</span>
                 <img src="assets/logo.png" alt="הופה" class="logo">
             </div>
         </div>
@@ -873,6 +1033,7 @@
             <div class="dot"></div>
             <div class="dot active"></div>
             <div class="dot"></div>
+            <div class="dot"></div>
         </div>
     </div>
 </section>
@@ -884,7 +1045,7 @@
         <div class="card-header">
             <span class="label">תוכנית בוגרים · עדכון סטטוס</span>
             <div class="right">
-                <span class="counter">7 / 7</span>
+                <span class="counter">7 / 8</span>
                 <img src="assets/logo.png" alt="הופה" class="logo">
             </div>
         </div>
@@ -940,12 +1101,140 @@
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot active"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== SLIDE 8 — QUESTIONNAIRE ==================== -->
+<section class="slide" data-slide="8">
+    <div class="slide-card">
+        <div class="accent-bar"></div>
+        <div class="card-header">
+            <span class="label">תוכנית בוגרים · שאלון אישי</span>
+            <div class="right">
+                <span class="counter">8 / 8</span>
+                <img src="assets/logo.png" alt="הופה" class="logo">
+            </div>
+        </div>
+        <div class="title-bar"><h3>שאלון בוגרי יב' — עתיד שמיים מוצקין</h3></div>
+        <div class="card-body" style="align-items: flex-start; padding-top: 24px;">
+            <div class="card-body-inner fade-up" style="max-width: 640px;">
+
+                <div class="form-intro">
+                    <h2>היי, רגע לפני שמתחילים</h2>
+                    <p>השאלון הזה יעזור לנו ללוות אותך בצורה הכי מדויקת אחרי סיום התיכון. אנונימי? לא. אישי? מאוד.</p>
+                </div>
+
+                <form id="questionnaire-form" onsubmit="handleFormSubmit(event)">
+
+                    <div class="form-group">
+                        <label><span class="required">*</span> שם פרטי</label>
+                        <input type="text" name="first_name" placeholder="השם שלך" required>
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <div class="form-group">
+                        <label><span class="required">*</span> קיבלת צו ראשון?</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="first_order" id="fo_yes" value="כן" required>
+                                <label for="fo_yes">כן</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="first_order" id="fo_no" value="לא">
+                                <label for="fo_no">לא</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="first_order" id="fo_wait" value="ממתין/ה">
+                                <label for="fo_wait">ממתין/ה</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <div class="form-group">
+                        <label><span class="required">*</span> הולך/ת למכינה?</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="mechina" id="mc_yes" value="כן" required>
+                                <label for="mc_yes">כן</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="mechina" id="mc_no" value="לא">
+                                <label for="mc_no">לא</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="mechina" id="mc_info" value="אשמח לקבל פרטים">
+                                <label for="mc_info">אשמח לקבל פרטים</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <div class="form-group">
+                        <label><span class="required">*</span> מתגייס/ת לצה"ל?</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="idf" id="idf_yes" value="כן" required>
+                                <label for="idf_yes">כן</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="idf" id="idf_no" value="לא">
+                                <label for="idf_no">לא</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="idf" id="idf_unsure" value="לא בטוח/ה">
+                                <label for="idf_unsure">לא בטוח/ה</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <div class="form-group">
+                        <label>האם יש תפקיד שאתה מעוניין לשרת בו בצה"ל?</label>
+                        <input type="text" name="desired_role" placeholder="למשל: קרבי, הנדסה, מודיעין, רפואה...">
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <div class="form-group">
+                        <label>פרופיל קרבי</label>
+                        <input type="text" name="combat_profile" placeholder="אם ידוע לך — מספר הפרופיל שלך">
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <button type="submit" class="form-submit-btn">שליחה</button>
+                </form>
+
+                <div class="form-success" id="form-success">
+                    <div class="check" style="color: var(--pink);">&#10003;</div>
+                    <h3>תודה! קיבלנו</h3>
+                    <p>הצוות של הופה יצור איתך קשר בהמשך</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot active"></div>
         </div>
     </div>
 </section>
 
 <script>
-    const TOTAL = 7;
+    const TOTAL = 8;
 
     // Fade-in on scroll
     const observer = new IntersectionObserver((entries) => {
@@ -975,6 +1264,15 @@
     }, { threshold: 0.5 });
 
     slides.forEach(s => slideObserver.observe(s));
+
+    // Form submit handler
+    function handleFormSubmit(e) {
+        e.preventDefault();
+        document.getElementById('questionnaire-form').style.display = 'none';
+        document.querySelector('.form-intro').style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+    }
+    window.handleFormSubmit = handleFormSubmit;
 
     // Click dots to navigate
     document.querySelectorAll('.dot').forEach((dot, i) => {
