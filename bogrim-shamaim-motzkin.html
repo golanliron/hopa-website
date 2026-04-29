@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תוכנית בוגרים הופה — עתיד שמיים קריית מוצקין</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --pink: #E8358A;
+            --yellow: #F5C800;
+            --yellow-bright: #FFF200;
+            --dark: #2A2D38;
+            --light-bg: #F7F7F7;
+            --muted: #666666;
+            --border: #E5E5E5;
+            --radius: 1rem;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: #111;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Slide system */
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-content {
+            max-width: 1000px;
+            width: 100%;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Glow line separator */
+        .glow-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--pink), var(--yellow), transparent);
+            width: 100%;
+        }
+
+        /* Pattern backgrounds */
+        .pattern-dots {
+            background-image: radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        .pattern-plus::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+        }
+
+        /* ======== SLIDE 1 — COVER ======== */
+        .slide-cover {
+            background: #111;
+            color: white;
+            text-align: center;
+        }
+
+        .slide-cover::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .cover-logo {
+            width: 180px;
+            margin-bottom: 40px;
+            filter: brightness(0) invert(1);
+        }
+
+        .cover-badge {
+            display: inline-block;
+            background: var(--yellow);
+            color: #111;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 6px 20px;
+            border-radius: 50px;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+        }
+
+        .cover-title {
+            font-size: 3.2rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .cover-title span {
+            background: linear-gradient(135deg, var(--yellow-bright), var(--yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cover-subtitle {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 12px;
+        }
+
+        .cover-date {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 8px;
+        }
+
+        .cover-line {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--pink), var(--yellow));
+            margin: 30px auto 0;
+            border-radius: 2px;
+        }
+
+        /* ======== SLIDE 2 — STATS ======== */
+        .slide-stats {
+            background: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: var(--radius);
+            padding: 32px 24px;
+            text-align: center;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.04);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--pink), var(--yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--muted);
+        }
+
+        .section-label {
+            display: inline-block;
+            background: var(--yellow);
+            color: #111;
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 4px 16px;
+            border-radius: 50px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--dark);
+            line-height: 1.3;
+        }
+
+        .section-title-light {
+            color: white;
+        }
+
+        /* ======== IMPACT SLIDE ======== */
+        .slide-impact {
+            background: #111;
+            color: white;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 36px;
+        }
+
+        .impact-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .impact-card:hover {
+            border-color: var(--yellow);
+            transform: translateY(-3px);
+        }
+
+        .impact-card.highlight {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(245,200,0,0.1), rgba(232,53,138,0.06));
+            border-color: rgba(245,200,0,0.25);
+        }
+
+        .impact-number {
+            font-size: 2.8rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .impact-number.gradient {
+            background: linear-gradient(135deg, var(--yellow-bright), var(--yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .impact-number.pink-grad {
+            background: linear-gradient(135deg, var(--pink), #ff6eb4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .impact-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 6px;
+        }
+
+        .impact-names {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        /* ======== SLIDE 3 — ACTIONS ======== */
+        .slide-actions {
+            background: var(--light-bg);
+        }
+
+        .actions-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 36px;
+        }
+
+        .action-item {
+            background: white;
+            border-radius: var(--radius);
+            padding: 28px;
+            border: 1px solid var(--border);
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .action-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+
+        .action-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .action-icon.yellow { background: rgba(245,200,0,0.15); }
+        .action-icon.pink { background: rgba(232,53,138,0.12); }
+
+        .action-text h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--dark);
+        }
+
+        .action-text p {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ======== SLIDE 4 — CONTACTS TABLE ======== */
+        .slide-contacts {
+            background: white;
+        }
+
+        .contacts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 32px;
+            font-size: 0.9rem;
+        }
+
+        .contacts-table thead {
+            background: #111;
+            color: white;
+        }
+
+        .contacts-table th {
+            padding: 14px 16px;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .contacts-table th:first-child {
+            border-radius: 0 12px 0 0;
+        }
+
+        .contacts-table th:last-child {
+            border-radius: 12px 0 0 0;
+        }
+
+        .contacts-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .contacts-table tbody tr:hover {
+            background: rgba(245,200,0,0.06);
+        }
+
+        .contacts-table .org-name {
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .contacts-table .note {
+            font-size: 0.8rem;
+            color: var(--pink);
+            font-weight: 500;
+        }
+
+        /* ======== SLIDE 5 — SCHOLARSHIPS ======== */
+        .slide-scholarships {
+            background: #111;
+            color: white;
+        }
+
+        .scholarships-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .scholarship-card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius);
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            transition: border-color 0.3s;
+        }
+
+        .scholarship-card:hover {
+            border-color: var(--yellow);
+        }
+
+        .scholarship-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .scholarship-detail {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .scholarship-amount {
+            color: var(--yellow);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        .scholarship-note {
+            display: inline-block;
+            margin-top: 10px;
+            background: rgba(245,200,0,0.15);
+            color: var(--yellow);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 50px;
+        }
+
+        .scholarship-note.volunteer {
+            background: rgba(232,53,138,0.15);
+            color: var(--pink);
+        }
+
+        /* ======== SLIDE 6 — RESOURCES ======== */
+        .slide-resources {
+            background: white;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 36px;
+        }
+
+        .resource-card {
+            background: linear-gradient(135deg, rgba(245,200,0,0.08), rgba(232,53,138,0.05));
+            border: 1px solid rgba(245,200,0,0.2);
+            border-radius: var(--radius);
+            padding: 32px;
+            text-align: center;
+        }
+
+        .resource-card .icon {
+            font-size: 2.4rem;
+            margin-bottom: 16px;
+        }
+
+        .resource-card h4 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .resource-card p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ======== SLIDE 7 — NEXT STEPS ======== */
+        .slide-next {
+            background: var(--light-bg);
+        }
+
+        .next-items {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 36px;
+        }
+
+        .next-item {
+            background: white;
+            border-radius: var(--radius);
+            padding: 28px 32px;
+            border-right: 4px solid;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.03);
+        }
+
+        .next-item:nth-child(1) { border-color: var(--pink); }
+        .next-item:nth-child(2) { border-color: var(--yellow); }
+        .next-item:nth-child(3) { border-color: var(--pink); }
+        .next-item:nth-child(4) { border-color: var(--yellow); }
+
+        .next-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            color: white;
+        }
+
+        .next-item:nth-child(odd) .next-number { background: var(--pink); }
+        .next-item:nth-child(even) .next-number { background: var(--yellow); color: #111; }
+
+        .next-text h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .next-text p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* ======== SLIDE 8 — CLOSING ======== */
+        .slide-closing {
+            background: #111;
+            color: white;
+            text-align: center;
+        }
+
+        .closing-quote {
+            font-size: 1.8rem;
+            font-weight: 300;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto 32px;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .closing-quote span {
+            color: var(--yellow);
+            font-weight: 700;
+        }
+
+        .closing-cta {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--pink), var(--yellow));
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 14px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 12px;
+            box-shadow: 0 4px 20px rgba(232,53,138,0.3);
+        }
+
+        .closing-info {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .closing-info strong {
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* ======== RESPONSIVE ======== */
+        @media (max-width: 768px) {
+            .slide { padding: 40px 20px; }
+            .cover-title { font-size: 2.2rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .actions-list { grid-template-columns: 1fr; }
+            .resources-grid { grid-template-columns: 1fr; }
+            .scholarships-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 1.7rem; }
+            .contacts-table { font-size: 0.8rem; }
+            .contacts-table td, .contacts-table th { padding: 10px 8px; }
+        }
+
+        /* Animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Slide counter */
+        .slide-counter {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            font-size: 0.75rem;
+            padding: 6px 14px;
+            border-radius: 50px;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            font-weight: 500;
+        }
+
+        /* Print */
+        @media print {
+            .slide { page-break-after: always; min-height: auto; padding: 40px; }
+            .slide-counter { display: none; }
+            .fade-up { opacity: 1; transform: none; }
+        }
+
+        /* Filter controls */
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-left: 4px;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: 50px;
+            padding: 5px 14px;
+            font-family: Heebo;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--yellow);
+            color: var(--dark);
+        }
+
+        .filter-btn.active {
+            background: #111;
+            border-color: #111;
+            color: white;
+        }
+
+        /* Impact badges */
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-green { background: #e6f9ee; color: #00875a; }
+        .badge-blue { background: #e6f0ff; color: #0052cc; }
+        .badge-pink { background: #fce4ec; color: #c2185b; }
+        .badge-yellow { background: #fff8e1; color: #f57f17; }
+        .badge-gray { background: #f0f0f0; color: #666; }
+        .badge-orange { background: #fff3e0; color: #e65100; }
+        .badge-purple { background: #f3e5f5; color: #7b1fa2; }
+
+        /* CTA box */
+        .cta-box {
+            background: rgba(245,200,0,0.1);
+            border: 1px solid rgba(245,200,0,0.3);
+            border-radius: var(--radius);
+            padding: 20px 28px;
+            margin-top: 28px;
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .cta-box.dark {
+            background: rgba(245,200,0,0.08);
+            border-color: rgba(245,200,0,0.2);
+            color: rgba(255,255,255,0.7);
+        }
+    </style>
+</head>
+<body>
+
+<!-- SLIDE 1 — COVER -->
+<section class="slide slide-cover">
+    <div class="slide-content fade-up" style="text-align:center;">
+        <img src="assets/logo.png" alt="Hopa!" class="cover-logo">
+        <div class="cover-badge">תוכנית בוגרים 2026</div>
+        <h1 class="cover-title">
+            עתיד <span>שמיים</span><br>קריית מוצקין
+        </h1>
+        <p class="cover-subtitle">עדכון סטטוס — תוכנית הבוגרים של הופה</p>
+        <p class="cover-date">אפריל 2026 · הושקה פברואר 2026</p>
+        <div class="cover-line"></div>
+    </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- SLIDE 2 — STATS -->
+<section class="slide slide-stats pattern-dots">
+    <div class="slide-content fade-up">
+        <div class="section-label">מספרים</div>
+        <h2 class="section-title">איפה אנחנו עומדים</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">97</div>
+                <div class="stat-label">בוגרים במערכת<br>ניטור וליווי</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">19</div>
+                <div class="stat-label">בוגרים פעילים<br>בקבוצת וואטסאפ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">7+</div>
+                <div class="stat-label">מלגות פתוחות<br>זמינות לבוגרים</div>
+            </div>
+        </div>
+
+        <!-- Year breakdown -->
+        <h3 style="font-size:1.3rem; font-weight:700; margin-top:40px; margin-bottom:16px; color:var(--dark);">פילוח לפי שנת סיום</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div class="stat-card">
+                <div class="stat-number" style="font-size:2.4rem;">37</div>
+                <div class="stat-label">תשפ"ד</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="font-size:2.4rem;">60</div>
+                <div class="stat-label">תשפ"ה</div>
+            </div>
+        </div>
+
+        <!-- Major breakdown -->
+        <h3 style="font-size:1.3rem; font-weight:700; margin-top:32px; margin-bottom:16px; color:var(--dark);">פילוח לפי מגמה</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
+            <div class="stat-card">
+                <div class="stat-number" style="font-size:2.2rem;">36</div>
+                <div class="stat-label">עיצוב</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="font-size:2.2rem;">34</div>
+                <div class="stat-label">קונדיטוריה</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="font-size:2.2rem;">27</div>
+                <div class="stat-label">מכונות</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- SLIDE 3 — IMPACT -->
+<section class="slide slide-impact pattern-plus">
+    <div class="slide-content fade-up">
+        <div class="section-label">אימפקט</div>
+        <h2 class="section-title section-title-light">סטטוס בוגרים — לאן הם מגיעים</h2>
+        <div class="impact-grid">
+            <div class="impact-card highlight">
+                <div class="impact-number gradient">24</div>
+                <div class="impact-label">מסתדרים כרגע</div>
+            </div>
+            <div class="impact-card">
+                <div class="impact-number pink-grad">5</div>
+                <div class="impact-label">הכשרה תעסוקתית</div>
+                <div class="impact-names">אודליה, ליאל דוד חיים, דיאנה מוסקליוב, אבירם, מורן, רוני רצאבי</div>
+            </div>
+            <div class="impact-card">
+                <div class="impact-number gradient">4</div>
+                <div class="impact-label">תעסוקה</div>
+                <div class="impact-names">אלמוג, אליס, אלכסנדר, ליבר</div>
+            </div>
+            <div class="impact-card">
+                <div class="impact-number pink-grad">2</div>
+                <div class="impact-label">לימודים</div>
+                <div class="impact-names">אודליה, ליאל דוד חיים</div>
+            </div>
+            <div class="impact-card">
+                <div class="impact-number gradient">1</div>
+                <div class="impact-label">בתהליך טיפול</div>
+                <div class="impact-names">ליאב סויסה</div>
+            </div>
+            <div class="impact-card">
+                <div class="impact-number pink-grad">1</div>
+                <div class="impact-label">להתקשר אחרי שחרור</div>
+                <div class="impact-names">טום יואל</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- SLIDE 4 — ACTIONS COMPLETED -->
+<section class="slide slide-actions">
+    <div class="slide-content fade-up">
+        <div class="section-label">מה עשינו</div>
+        <h2 class="section-title">פעולות שבוצעו</h2>
+        <div class="actions-list">
+            <div class="action-item">
+                <div class="action-icon yellow">&#9881;</div>
+                <div class="action-text">
+                    <h4>מערכת ניטור וליווי</h4>
+                    <p>99 בוגרים עודכנו במערכת הופה לניטור שוטף, מעקב אחרי סטטוס צבאי, לימודים ותעסוקה</p>
+                </div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon pink">&#9889;</div>
+                <div class="action-text">
+                    <h4>אוטומציות אישיות</h4>
+                    <p>הופעלו שליחות אוטומטיות של הודעות בימי הולדת, שחרור מצה"ל וגיוס</p>
+                </div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon yellow">&#128172;</div>
+                <div class="action-text">
+                    <h4>קבוצת וואטסאפ</h4>
+                    <p>נפתחה קבוצת בוגרים המונה 19 חברים, עם שליחת מענים ותוכניות ייעודיות</p>
+                </div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon pink">&#128203;</div>
+                <div class="action-text">
+                    <h4>תוכנית עבודה מפורטת</h4>
+                    <p>נשלחה תוכנית עבודה מלאה + עשרות מענים ותוכניות לבוגרי מוצקין</p>
+                </div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon yellow">&#128100;</div>
+                <div class="action-text">
+                    <h4>שיחות אישיות</h4>
+                    <p>צוותה פאני, מלגאית, לשיחות אישיות עם הבוגרים ומתן מענה פרטני</p>
+                </div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon pink">&#128233;</div>
+                <div class="action-text">
+                    <h4>פנייה אישית לבוגרים</h4>
+                    <p>נשלחו הודעות אישיות עם הזמנה להצטרף לקבוצת הוואטסאפ ומענים ייעודיים</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- SLIDE 4 — RESOURCES -->
+<section class="slide slide-resources">
+    <div class="slide-content fade-up">
+        <div class="section-label">תרומות ומשאבים</div>
+        <h2 class="section-title">משאבים שגויסו עבור הבוגרים</h2>
+        <div class="resources-grid">
+            <div class="resource-card">
+                <div class="icon">&#128187;</div>
+                <h4>שני מחשבים ניידים</h4>
+                <p>נתרמו עבור בוגרים שזקוקים לציוד טכנולוגי ללימודים ותעסוקה</p>
+            </div>
+            <div class="resource-card">
+                <div class="icon">&#127942;</div>
+                <h4>שיתוף פעולה עם מלגות פלוס</h4>
+                <p>רכשנו מנויים בתשלום למערכת שמאתרת מלגות ומגישה באופן אוטומטי, כולל איש קשר זמין לסיוע אישי</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- SLIDE 5 — CONTACTS -->
+<section class="slide slide-contacts">
+    <div class="slide-content fade-up">
+        <div class="section-label">רשת מענים</div>
+        <h2 class="section-title">אנשי קשר אזוריים</h2>
+        <p style="color: var(--muted); margin-top: 8px; font-size: 0.95rem;">מיפוי מענים באזור מוצקין והסביבה בנושאי קריירה, לימודים, בגרויות והכשרות</p>
+        <table class="contacts-table">
+            <thead>
+                <tr>
+                    <th>גורם</th>
+                    <th>תחום מענה</th>
+                    <th>איש קשר</th>
+                    <th>טלפון</th>
+                    <th>הערה</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="org-name">מרכז הצעירים</td>
+                    <td>מלגות, חיילים בודדים, סיוע במהלך הצבא</td>
+                    <td>ירדן, רכזת צעירים</td>
+                    <td>052-670-8915</td>
+                    <td class="note">לשימוש רכזי התוכנית בלבד</td>
+                </tr>
+                <tr>
+                    <td class="org-name">מרכז הזדמנות</td>
+                    <td>מציאת עבודות וקריירה</td>
+                    <td>מיטל</td>
+                    <td>052-627-6262</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="org-name">קריית ים</td>
+                    <td>הכשרה, לימודים ותעסוקה</td>
+                    <td>הודיה</td>
+                    <td>054-305-9881</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="org-name">קריית ביאליק</td>
+                    <td>חיילים + משוחררים, מענה וזכויות</td>
+                    <td>עדי</td>
+                    <td>052-537-2070</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="org-name">תוכנית יתד</td>
+                    <td>עו"ס, תוכנית יתד</td>
+                    <td>טדלה לגלם</td>
+                    <td>052-885-3662</td>
+                    <td class="note">ליצור קשר</td>
+                </tr>
+                <tr>
+                    <td class="org-name">מכללת קריית אתא</td>
+                    <td>השלמת בגרויות</td>
+                    <td>אורה</td>
+                    <td>073-323-6873</td>
+                    <td>עבר למתנ"ס</td>
+                </tr>
+                <tr>
+                    <td class="org-name">מתנ"ס נווה יוסף, חיפה</td>
+                    <td>השלמת תעודת 12 שנות לימוד (ללא בגרויות)</td>
+                    <td>אינה (מנהלת)</td>
+                    <td>04-812-9200<br>054-481-2060</td>
+                    <td>10 חודשים, 3 מקצועות בסמסטר</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- SLIDE 6 — SCHOLARSHIPS -->
+<section class="slide slide-scholarships pattern-plus">
+    <div class="slide-content fade-up">
+        <div class="section-label">מלגות</div>
+        <h2 class="section-title section-title-light">מלגות פתוחות לבוגרים</h2>
+        <div class="scholarships-grid">
+            <div class="scholarship-card">
+                <div class="scholarship-name">לומדים בפריפריה</div>
+                <div class="scholarship-detail">מלגת ייעוד 44, תואר ראשון</div>
+                <div class="scholarship-amount">שכ"ל אוניברסיטאי</div>
+                <div class="scholarship-note">ללא התנדבות</div>
+            </div>
+            <div class="scholarship-card">
+                <div class="scholarship-name">המרכז הליברלי</div>
+                <div class="scholarship-detail">טופס בקשה באתר</div>
+                <div class="scholarship-amount">5,000 &#8362;</div>
+                <div class="scholarship-note">ללא התנדבות</div>
+            </div>
+            <div class="scholarship-card">
+                <div class="scholarship-name">קרן יהושע סלטי</div>
+                <div class="scholarship-detail">משתנה לפי סוג התואר</div>
+                <div class="scholarship-amount">משתנה</div>
+                <div class="scholarship-note">ללא התנדבות</div>
+            </div>
+            <div class="scholarship-card">
+                <div class="scholarship-name">ממדים ללימודים</div>
+                <div class="scholarship-detail">לוחמות ולוחמים ואוכלוסיות ייחודיות</div>
+                <div class="scholarship-amount">עד 12,000 &#8362;</div>
+                <div class="scholarship-note">ללא התנדבות</div>
+            </div>
+            <div class="scholarship-card">
+                <div class="scholarship-name">ספורט למען השלום</div>
+                <div class="scholarship-detail">כ-80 שעות התנדבות</div>
+                <div class="scholarship-amount">5,100 &#8362;</div>
+                <div class="scholarship-note volunteer">דורש התנדבות</div>
+            </div>
+            <div class="scholarship-card">
+                <div class="scholarship-name">חינוך לפסגות</div>
+                <div class="scholarship-detail">מסלולים שונים עם התנדבות</div>
+                <div class="scholarship-amount">משתנה</div>
+                <div class="scholarship-note volunteer">דורש התנדבות</div>
+            </div>
+            <div class="scholarship-card">
+                <div class="scholarship-name">מלגת לתת</div>
+                <div class="scholarship-detail">תשפ"ו, עם התנדבות</div>
+                <div class="scholarship-amount">3,500 או 6,000 &#8362;</div>
+                <div class="scholarship-note volunteer">דורש התנדבות</div>
+            </div>
+        </div>
+        <div class="cta-box dark">
+            במידה ויש מענה שלא נמצא עבורו פתרון — עדכנו אותנו ונמצא חלופה
+        </div>
+    </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- SLIDE 7 — NEXT STEPS -->
+<section class="slide slide-next">
+    <div class="slide-content fade-up">
+        <div class="section-label">להמשך</div>
+        <h2 class="section-title">נושאים לדיון משותף</h2>
+        <div class="next-items">
+            <div class="next-item">
+                <div class="next-number">1</div>
+                <div class="next-text">
+                    <h4>בוגרים שאינם יוצרים קשר</h4>
+                    <p>ישנם בוגרים שלא עונים לטלפון ולא יוצרים קשר. ההצעה: לשלוח הודעות אישיות מאביחי או מדמות מוכרת אחרת מבית הספר, כך שהפנייה תהיה אישית ומוכרת יותר</p>
+                </div>
+            </div>
+            <div class="next-item">
+                <div class="next-number">2</div>
+                <div class="next-text">
+                    <h4>הגדלת קבוצת הוואטסאפ</h4>
+                    <p>כרגע 19 מתוך 99 בוגרים בקבוצה. הצעה: להכניס את מחנכי י"ב לקבוצה, ולבקש מהמחנכים והמורים המקצועיים להכניס בעצמם את הבוגרים — דמות סמכות מוכרת תגדיל את שיעור ההצטרפות</p>
+                </div>
+            </div>
+            <div class="next-item">
+                <div class="next-number">3</div>
+                <div class="next-text">
+                    <h4>מפגש חשיפה לתלמידי י"ב</h4>
+                    <p>אנחנו מחכות לקבל תאריך למפגש חשיפה עבור תלמידי י"ב הנוכחיים, להציג את תוכנית הבוגרים והמענים הזמינים לקראת סיום הלימודים</p>
+                </div>
+            </div>
+            <div class="next-item">
+                <div class="next-number">4</div>
+                <div class="next-text">
+                    <h4>מערכת טכנולוגית חדשה בתשפ"ז</h4>
+                    <p>בשנת תשפ"ז אנחנו צפויים לעבור למערכת טכנולוגית חדשה שתאפשר אוטומציה מלאה לבוגרים, כולל שידוך אוטומטי לתוכניות ומענים ארציים במגוון תחומים</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- SLIDE 8 — CLOSING -->
+<section class="slide slide-closing pattern-plus">
+    <div class="slide-content fade-up" style="text-align:center;">
+        <img src="assets/logo.png" alt="Hopa!" class="cover-logo" style="width:140px; margin-bottom:32px;">
+        <div class="closing-quote">
+            כל בוגר שמקבל מענה בזמן —<br>
+            זה <span>עתיד שמשתנה</span>
+        </div>
+        <div class="cover-line" style="margin: 0 auto 32px;"></div>
+        <div class="closing-info">
+            <strong>לירון גולן</strong> · מנכ"לית הופה<br>
+            liron@hopa.org.il
+        </div>
+    </div>
+</section>
+
+<!-- ALUMNI LIST SECTION -->
+<section class="slide slide-alumni" style="background:white; min-height:auto; padding:60px 40px;">
+    <div class="slide-content" style="max-width:1200px;">
+        <div class="section-label">נתונים חיים מ-Monday</div>
+        <h2 class="section-title">רשימת בוגרים</h2>
+        <p style="color:var(--muted); margin-top:4px;">97 בוגרים · אזור הצפון</p>
+
+        <!-- Search -->
+        <div style="margin-top:24px;">
+            <input type="text" id="searchBox" placeholder="חיפוש..." oninput="filterTable()"
+                style="width:100%; padding:12px 20px; border:2px solid var(--border); border-radius:50px; font-family:Heebo; font-size:1rem; outline:none; transition:border-color 0.3s;"
+                onfocus="this.style.borderColor='var(--yellow)'" onblur="this.style.borderColor='var(--border)'" />
+        </div>
+
+        <!-- Filters -->
+        <div style="margin-top:20px; display:flex; flex-wrap:wrap; gap:12px; align-items:flex-start;">
+            <!-- Year filter -->
+            <div class="filter-group">
+                <span class="filter-label">שנת סיום:</span>
+                <button class="filter-btn active" onclick="setFilter('year','all',this)">הכל</button>
+                <button class="filter-btn" onclick="setFilter('year','תשפד',this)">תשפ"ד</button>
+                <button class="filter-btn" onclick="setFilter('year','תשפה',this)">תשפ"ה</button>
+            </div>
+            <!-- Major filter -->
+            <div class="filter-group">
+                <span class="filter-label">מגמה:</span>
+                <button class="filter-btn active" onclick="setFilter('major','all',this)">הכל</button>
+                <button class="filter-btn" onclick="setFilter('major','עיצוב',this)">עיצוב</button>
+                <button class="filter-btn" onclick="setFilter('major','קונדיטוריה',this)">קונדיטוריה</button>
+                <button class="filter-btn" onclick="setFilter('major','מכונות',this)">מכונות</button>
+            </div>
+            <!-- Service filter -->
+            <div class="filter-group">
+                <span class="filter-label">שירות:</span>
+                <button class="filter-btn active" onclick="setFilter('service','all',this)">הכל</button>
+                <button class="filter-btn" onclick="setFilter('service','במהלך צבא',this)">במהלך צבא</button>
+                <button class="filter-btn" onclick="setFilter('service','סיימתי צבא',this)">סיימתי צבא</button>
+                <button class="filter-btn" onclick="setFilter('service','שירות לאומי',this)">שירות לאומי</button>
+                <button class="filter-btn" onclick="setFilter('service','לא שירת',this)">לא שירת</button>
+                <button class="filter-btn" onclick="setFilter('service','לא ידוע',this)">לא ידוע</button>
+            </div>
+            <!-- Impact filter -->
+            <div class="filter-group">
+                <span class="filter-label">אימפקט:</span>
+                <button class="filter-btn active" onclick="setFilter('impact','all',this)">הכל</button>
+                <button class="filter-btn" onclick="setFilter('impact','מסתדר כרגע',this)">מסתדר כרגע</button>
+                <button class="filter-btn" onclick="setFilter('impact','תעסוקה',this)">תעסוקה</button>
+                <button class="filter-btn" onclick="setFilter('impact','הכשרה תעסוקתית',this)">הכשרה</button>
+                <button class="filter-btn" onclick="setFilter('impact','לימודים',this)">לימודים</button>
+                <button class="filter-btn" onclick="setFilter('impact','בתהליך טיפול',this)">בתהליך טיפול</button>
+                <button class="filter-btn" onclick="setFilter('impact','להתקשר אחרי שחרור',this)">להתקשר</button>
+                <button class="filter-btn" onclick="setFilter('impact','לא סווג',this)">לא סווג</button>
+            </div>
+        </div>
+
+        <!-- Count -->
+        <div id="resultCount" style="margin-top:16px; font-size:0.9rem; color:var(--muted); font-weight:600;"></div>
+
+        <!-- Table -->
+        <div style="overflow-x:auto; margin-top:12px;">
+            <table class="contacts-table" id="alumniTable">
+                <thead>
+                    <tr>
+                        <th>שם</th>
+                        <th>טלפון</th>
+                        <th>מגמה</th>
+                        <th>סיום</th>
+                        <th>עיר</th>
+                        <th>סטטוס שירות</th>
+                        <th>אימפקט</th>
+                        <th>טיפול</th>
+                    </tr>
+                </thead>
+                <tbody id="alumniBody"></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Slide counter -->
+<div class="slide-counter" id="counter">1 / 9</div>
+
+<script>
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Slide counter
+    const slides = document.querySelectorAll('.slide');
+    const counter = document.getElementById('counter');
+
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const idx = Array.from(slides).indexOf(entry.target) + 1;
+                counter.textContent = idx + ' / ' + slides.length;
+                // Dark/light counter based on slide background
+                const isDark = entry.target.classList.contains('slide-cover') ||
+                               entry.target.classList.contains('slide-impact') ||
+                               entry.target.classList.contains('slide-scholarships') ||
+                               entry.target.classList.contains('slide-closing');
+                counter.style.background = isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.6)';
+            }
+        });
+    }, { threshold: 0.5 });
+
+    slides.forEach(s => counterObserver.observe(s));
+
+    // ===== ALUMNI TABLE =====
+    const alumni = [
+        {n:"אלמוג",l:"אזרן",p:"0548676671",m:"עיצוב",y:"תשפד",c:"קריית אתא",s:"במהלך צבא",i:"תעסוקה",t:"טופל"},
+        {n:"אברהם",l:"אברמאשוילי",p:"0532223691",m:"עיצוב",y:"תשפה",c:"קריית ים",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"אגם",l:"לוי",p:"0529263540",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"אגם",l:"נח",p:"0543006766",m:"מכונות",y:"תשפה",c:"חיפה",s:"",i:"",t:""},
+        {n:"אודליה",l:"אורין",p:"0546355841",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"לא שירת",i:"לימודים",t:"טופל"},
+        {n:"אולסיה",l:"גורבטוב",p:"0526212826",m:"קונדיטוריה",y:"תשפה",c:"קריית ביאליק",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"אופק",l:"וילק",p:"0534721565",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"אור",l:"סוויסה",p:"0528908563",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"אוראל",l:"אלקובי",p:"0587112253",m:"עיצוב",y:"תשפד",c:"קריית ביאליק",s:"שירות לאומי",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"אורי",l:"חיוט",p:"0507578866",m:"קונדיטוריה",y:"תשפד",c:"קריית אתא",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"איוון",l:"מלניקוב",p:"0535402608",m:"קונדיטוריה",y:"תשפד",c:"חיפה",s:"",i:"",t:""},
+        {n:"אילן",l:"סיומין",p:"0559582277",m:"מכונות",y:"תשפה",c:"",s:"",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"אליאור",l:"יוסף",p:"0539360773",m:"קונדיטוריה",y:"תשפד",c:"חיפה",s:"",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"אליה",l:"איבגי",p:"0556888856",m:"עיצוב",y:"תשפד",c:"נשר",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"אליס",l:"פרלשטיין",p:"0535279796",m:"עיצוב",y:"תשפד",c:"חיפה",s:"במהלך צבא",i:"תעסוקה",t:"טופל"},
+        {n:"אלכס",l:"קוקלב",p:"0542001470",m:"קונדיטוריה",y:"תשפה",c:"קריית ים",s:"",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"אלכסנדר",l:"גולובקו",p:"0533400633",m:"מכונות",y:"תשפד",c:"קריית מוצקין",s:"במהלך צבא",i:"תעסוקה",t:"טופל"},
+        {n:"אמיל",l:"קצב",p:"0534256652",m:"קונדיטוריה",y:"תשפד",c:"קריית גת",s:"",i:"",t:""},
+        {n:"אנג'ל",l:"קורן",p:"0545556156",m:"עיצוב",y:"תשפד",c:"חיפה",s:"סיימתי צבא",i:"",t:""},
+        {n:"אריק",l:"פיפקו",p:"0523070295",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"אריקה",l:"סקוביולה",p:"0527221586",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"בני",l:"קופרמן",p:"0508771185",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"בראל",l:"אניילוו",p:"0534947046",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"ליבר",l:"גרופר",p:"0525628788",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"תעסוקה",t:"טופל"},
+        {n:"גיאורגי",l:"גריגוריאנץ",p:"0509966320",m:"מכונות",y:"תשפה",c:"חיפה",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"אריה דב",l:"מיגדל",p:"0584076982",m:"קונדיטוריה",y:"תשפה",c:"קריית ביאליק",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"דוד",l:"ניילינגר",p:"0559342620",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"ליאל דוד",l:"חיים",p:"0528165510",m:"קונדיטוריה",y:"תשפד",c:"חיפה",s:"סיימתי צבא",i:"הכשרה תעסוקתית",t:"טופל"},
+        {n:"דיאוניס",l:"פטרוב",p:"0539649338",m:"קונדיטוריה",y:"תשפד",c:"",s:"במהלך צבא",i:"",t:""},
+        {n:"דיאנה",l:"מוסקליוב",p:"0544887387",m:"קונדיטוריה",y:"תשפה",c:"קריית אתא",s:"",i:"הכשרה תעסוקתית",t:"טופל"},
+        {n:"ליאם",l:"דהן",p:"0505997911",m:"מכונות",y:"תשפד",c:"חיפה",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"דיאנה",l:"מיכאיילוב",p:"0542592998",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"הראל",l:"בן",p:"0547766942",m:"מכונות",y:"תשפד",c:"קריית אתא",s:"",i:"",t:""},
+        {n:"ויקי",l:"קושניר",p:"0543542402",m:"עיצוב",y:"תשפה",c:"קריית ים",s:"",i:"",t:""},
+        {n:"ורוניקה",l:"ובריק",p:"0552479499",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"ורוניקה",l:"ביקובה",p:"0523001756",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"חיים",l:"בני",p:"0535207605",m:"קונדיטוריה",y:"תשפה",c:"קריית אתא",s:"במהלך צבא",i:"",t:""},
+        {n:"חן",l:"דרי",p:"0546333756",m:"עיצוב",y:"תשפד",c:"",s:"לא שירת",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"חנניה",l:"דרי",p:"0512292659",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"טום",l:"יואל",p:"0544868939",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"להתקשר אחרי שחרור",t:"לחזור אליו"},
+        {n:"טליה",l:"שם-טוב",p:"0585009954",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"יאן",l:"פבלנקו",p:"0537523261",m:"מכונות",y:"תשפה",c:"קריית ים",s:"",i:"",t:""},
+        {n:"יארוסלב",l:"קלשניקוב",p:"0585858624",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"יוסף",l:"מזרחי",p:"0535461872",m:"מכונות",y:"תשפה",c:"קריית ים",s:"",i:"",t:""},
+        {n:"יורי",l:"ניסנוב",p:"0533327496",m:"מכונות",y:"תשפד",c:"קריית ים",s:"",i:"",t:""},
+        {n:"לוסי",l:"לגסה",p:"0539199928",m:"קונדיטוריה",y:"תשפד",c:"חיפה",s:"",i:"",t:""},
+        {n:"לורן",l:"ברוך",p:"0532258880",m:"עיצוב",y:"תשפה",c:"קריית ביאליק",s:"",i:"",t:""},
+        {n:"אבירם",l:"גובזיה",p:"0524173301",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"הכשרה תעסוקתית",t:"טופל"},
+        {n:"ליאור",l:"לשצ'ינר",p:"0535231367",m:"קונדיטוריה",y:"תשפד",c:"קריית אתא",s:"",i:"",t:""},
+        {n:"ליאל",l:"שייק",p:"0559456308",m:"עיצוב",y:"תשפה",c:"עכו",s:"במהלך צבא",i:"",t:"מסתדר כרגע"},
+        {n:"ליאל",l:"גלזמן",p:"0546825737",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"ליבל",l:"אברמוב",p:"0526696677",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"לירון",l:"כהן",p:"0547245479",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"פטור",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"מורן",l:"חרסונסקי",p:"0535262860",m:"עיצוב",y:"תשפד",c:"",s:"לא שירת",i:"הכשרה תעסוקתית",t:"טופל"},
+        {n:"מיכל",l:"מילגרום",p:"0584282011",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"מייק",l:"מוגוטנוב",p:"0537020255",m:"מכונות",y:"תשפה",c:"עפולה",s:"",i:"",t:""},
+        {n:"מיתר",l:"שלמייב",p:"0555533766",m:"קונדיטוריה",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"מרדכי",l:"דרוקר",p:"0546878870",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"לא שירת",i:"מסתדר כרגע",t:""},
+        {n:"מריה",l:"טנסייב",p:"0552671484",m:"עיצוב",y:"תשפד",c:"קריית ביאליק",s:"במהלך צבא",i:"מסתדר כרגע",t:""},
+        {n:"מרים",l:"בוסקילא",p:"0543272559",m:"עיצוב",y:"תשפד",c:"חיפה",s:"",i:"",t:""},
+        {n:"נבו",l:"גולדנברג",p:"0503003316",m:"קונדיטוריה",y:"תשפד",c:"קריית ביאליק",s:"",i:"",t:""},
+        {n:"נויה",l:"אוחנה",p:"0507727017",m:"עיצוב",y:"תשפה",c:"קריית ים",s:"",i:"",t:""},
+        {n:"נועה",l:"ממן",p:"0559761144",m:"עיצוב",y:"תשפה",c:"קריית אתא",s:"",i:"",t:""},
+        {n:"נועה",l:"קלוגמן",p:"0543349930",m:"עיצוב",y:"תשפד",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"נוריאל",l:"דוד",p:"0528669004",m:"עיצוב",y:"תשפה",c:"טבריה",s:"",i:"",t:""},
+        {n:"ניצן",l:"כהן",p:"0522827305",m:"קונדיטוריה",y:"תשפד",c:"קריית אתא",s:"",i:"",t:""},
+        {n:"ניק",l:"סקריפניק",p:"0553192605",m:"מכונות",y:"תשפה",c:"",s:"",i:"",t:""},
+        {n:"נפתלי",l:"חורי",p:"0522177748",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"נתנאל",l:"כהן",p:"0504272976",m:"קונדיטוריה",y:"תשפד",c:"קריית אתא",s:"",i:"",t:""},
+        {n:"נתנאל",l:"מקונן",p:"0506828813",m:"קונדיטוריה",y:"תשפד",c:"",s:"",i:"",t:""},
+        {n:"נתנאל",l:"סנאי",p:"0542350658",m:"קונדיטוריה",y:"תשפד",c:"קריית ים",s:"",i:"",t:""},
+        {n:"סהר",l:"דהן",p:"0546421096",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"סופיה",l:"זנדונדי",p:"0543414409",m:"קונדיטוריה",y:"תשפה",c:"נהריה",s:"",i:"",t:""},
+        {n:"סמאל",l:"מלדה",p:"0533409633",m:"מכונות",y:"תשפד",c:"קריית ים",s:"",i:"",t:""},
+        {n:"עדי",l:"אטיאס",p:"0502127706",m:"עיצוב",y:"תשפד",c:"",s:"",i:"",t:""},
+        {n:"עדן",l:"סגל",p:"0533301270",m:"קונדיטוריה",y:"תשפד",c:"",s:"",i:"",t:""},
+        {n:"פטריסיה",l:"קיציס",p:"0503064800",m:"עיצוב",y:"תשפד",c:"חיפה",s:"",i:"",t:""},
+        {n:"פנטהון",l:"מנגשה",p:"0526267519",m:"קונדיטוריה",y:"תשפד",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"פנינה",l:"סטירט",p:"0547098992",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"קארינה",l:"זנצ'נקו",p:"0549910302",m:"קונדיטוריה",y:"תשפה",c:"כרמיאל",s:"",i:"",t:""},
+        {n:"קורל",l:"מריזן",p:"0505443733",m:"עיצוב",y:"תשפה",c:"קריית אתא",s:"",i:"",t:""},
+        {n:"קורן",l:"בר",p:"0512323766",m:"מכונות",y:"תשפד",c:"",s:"",i:"",t:""},
+        {n:"קסניה",l:"רומיאנצב",p:"0548681595",m:"מכונות",y:"תשפה",c:"חיפה",s:"",i:"",t:""},
+        {n:"קרינה",l:"פבלנקו",p:"0538201474",m:"קונדיטוריה",y:"תשפה",c:"קריית ים",s:"",i:"",t:""},
+        {n:"רוני",l:"רצאבי",p:"0542673388",m:"עיצוב",y:"תשפד",c:"רכסים",s:"במהלך צבא",i:"הכשרה תעסוקתית",t:"טופל"},
+        {n:"מריה",l:"חוחלוב",p:"0584009793",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"לא שירת",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"רום",l:"גולדובסקי",p:"0533033500",m:"עיצוב",y:"תשפד",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"רומן",l:"פורמן",p:"0545905647",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"רונן",l:"אלנה",p:"0523757220",m:"קונדיטוריה",y:"תשפד",c:"קריית ביאליק",s:"",i:"",t:""},
+        {n:"שי",l:"סמן",p:"0537115602",m:"עיצוב",y:"תשפה",c:"חיפה",s:"",i:"",t:""},
+        {n:"שירה",l:"קינן",p:"0532422523",m:"עיצוב",y:"תשפה",c:"קריית ביאליק",s:"",i:"",t:""},
+        {n:"שיריי",l:"דנן",p:"0526020243",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"מסתדר כרגע",t:""},
+        {n:"ליאב",l:"שלום",p:"0532358690",m:"עיצוב",y:"תשפה",c:"קריית מוצקין",s:"",i:"",t:""},
+        {n:"ליאב",l:"סויסה",p:"0527343652",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"בתהליך טיפול",t:"בתהליך"},
+        {n:"שלי",l:"דרומר",p:"0532394497",m:"מכונות",y:"תשפה",c:"קריית מוצקין",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"שרון",l:"קאוס",p:"0538266373",m:"עיצוב",y:"תשפד",c:"קריית מוצקין",s:"",i:"מסתדר כרגע",t:"מסתדר כרגע"},
+        {n:"חסמין",l:"זנדונדי",p:"0543414409",m:"קונדיטוריה",y:"תשפה",c:"נהריה",s:"במהלך צבא",i:"מסתדר כרגע",t:"מסתדר כרגע"}
+    ];
+
+    const filters = { year: 'all', major: 'all', service: 'all', impact: 'all' };
+
+    function setFilter(type, val, btn) {
+        filters[type] = val;
+        btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        filterTable();
+    }
+
+    function badgeClass(val) {
+        if (!val) return 'badge-gray';
+        if (val.includes('מסתדר')) return 'badge-green';
+        if (val.includes('תעסוקה') || val.includes('הכשרה')) return 'badge-blue';
+        if (val.includes('לימודים')) return 'badge-purple';
+        if (val.includes('טיפול') || val.includes('בתהליך')) return 'badge-pink';
+        if (val.includes('להתקשר') || val.includes('לחזור')) return 'badge-orange';
+        if (val.includes('טופל')) return 'badge-blue';
+        return 'badge-gray';
+    }
+
+    function yearDisplay(y) { return y === 'תשפד' ? 'תשפ"ד' : 'תשפ"ה'; }
+
+    function matchService(item, filter) {
+        if (filter === 'all') return true;
+        if (filter === 'במהלך צבא') return item.s === 'במהלך צבא';
+        if (filter === 'סיימתי צבא') return item.s === 'סיימתי צבא';
+        if (filter === 'שירות לאומי') return item.s.includes('שירות לאומי');
+        if (filter === 'לא שירת') return item.s === 'לא שירת' || item.s === 'פטור';
+        if (filter === 'לא ידוע') return !item.s;
+        return true;
+    }
+
+    function matchImpact(item, filter) {
+        if (filter === 'all') return true;
+        if (filter === 'לא סווג') return !item.i;
+        return item.i.includes(filter);
+    }
+
+    function filterTable() {
+        const search = document.getElementById('searchBox').value.toLowerCase();
+        const tbody = document.getElementById('alumniBody');
+        let html = '';
+        let count = 0;
+
+        alumni.forEach(a => {
+            // Search
+            const text = (a.n + ' ' + a.l + ' ' + a.p + ' ' + a.c + ' ' + a.m + ' ' + a.i).toLowerCase();
+            if (search && !text.includes(search)) return;
+
+            // Year
+            if (filters.year !== 'all' && a.y !== filters.year) return;
+            // Major
+            if (filters.major !== 'all' && a.m !== filters.major) return;
+            // Service
+            if (!matchService(a, filters.service)) return;
+            // Impact
+            if (!matchImpact(a, filters.impact)) return;
+
+            count++;
+            const sDisplay = a.s || '<span style="color:#ccc">-</span>';
+            const iDisplay = a.i ? '<span class="badge ' + badgeClass(a.i) + '">' + a.i + '</span>' : '<span style="color:#ccc">-</span>';
+            const tDisplay = a.t ? '<span class="badge ' + badgeClass(a.t) + '">' + a.t + '</span>' : '<span style="color:#ccc">-</span>';
+
+            html += '<tr>' +
+                '<td class="org-name">' + a.n + ' ' + a.l + '</td>' +
+                '<td style="direction:ltr; text-align:right;">' + a.p + '</td>' +
+                '<td>' + a.m + '</td>' +
+                '<td>' + yearDisplay(a.y) + '</td>' +
+                '<td>' + (a.c || '-') + '</td>' +
+                '<td>' + sDisplay + '</td>' +
+                '<td>' + iDisplay + '</td>' +
+                '<td>' + tDisplay + '</td>' +
+                '</tr>';
+        });
+
+        tbody.innerHTML = html;
+        document.getElementById('resultCount').textContent = count + ' בוגרים מוצגים מתוך 97';
+    }
+
+    // Init
+    filterTable();
+</script>
+
+</body>
+</html>
