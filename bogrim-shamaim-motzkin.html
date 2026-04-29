@@ -13,7 +13,7 @@
             --yellow: #F5C800;
             --yellow-bright: #FFF200;
             --dark: #2A2D38;
-            --light-bg: #F5F5F5;
+            --light-bg: #F7F7F7;
             --muted: #666666;
             --border: #E5E5E5;
             --radius: 1rem;
@@ -21,206 +21,92 @@
 
         body {
             font-family: 'Heebo', sans-serif;
-            background: var(--light-bg);
+            background: #111;
             color: var(--dark);
             overflow-x: hidden;
-            direction: rtl;
         }
 
-        /* ======== SLIDE CARD SYSTEM ======== */
-        .slide-wrapper {
+        /* Slide system */
+        .slide {
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            position: relative;
-        }
-
-        .slide-card {
-            width: 100%;
-            max-width: 1100px;
-            min-height: calc(100vh - 40px);
-            background: #fff;
-            border-radius: 1.2rem;
-            overflow: hidden;
-            display: flex;
             flex-direction: column;
-            box-shadow: 0 2px 24px rgba(0,0,0,0.06);
-            border: 1px solid rgba(0,0,0,0.06);
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-content {
+            max-width: 1000px;
+            width: 100%;
+            z-index: 2;
             position: relative;
         }
 
-        .slide-card.dark {
+        /* Glow line separator */
+        .glow-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--pink), var(--yellow), transparent);
+            width: 100%;
+        }
+
+        /* Pattern backgrounds */
+        .pattern-dots {
+            background-image: radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        .pattern-plus::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+        }
+
+        /* ======== SLIDE 1 — COVER ======== */
+        .slide-cover {
             background: #111;
             color: white;
-            border-color: rgba(255,255,255,0.06);
-        }
-
-        /* Top accent gradient */
-        .accent-bar {
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, var(--pink), var(--pink) 60%, var(--yellow-bright));
-            flex-shrink: 0;
-        }
-
-        /* Card header */
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 28px;
-            border-bottom: 1px solid #F0F0F0;
-            flex-shrink: 0;
-        }
-
-        .card-header.dark {
-            border-bottom-color: rgba(255,255,255,0.12);
-        }
-
-        .card-header-label {
-            font-size: 0.72rem;
-            font-weight: 500;
-            color: #999;
-            letter-spacing: 0.03em;
-        }
-
-        .card-header.dark .card-header-label {
-            color: rgba(255,255,255,0.7);
-        }
-
-        .card-header-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .slide-badge {
-            font-size: 0.65rem;
-            font-weight: 500;
-            padding: 3px 10px;
-            border-radius: 50px;
-            background: var(--light-bg);
-            color: #999;
-        }
-
-        .card-header.dark .slide-badge {
-            background: rgba(255,255,255,0.12);
-            color: rgba(255,255,255,0.7);
-        }
-
-        .card-header-logo {
-            height: 22px;
-            width: auto;
-        }
-
-        .card-header.dark .card-header-logo {
-            filter: brightness(0) invert(1);
-        }
-
-        /* Card content */
-        .card-content {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 48px 48px;
-        }
-
-        .card-content-inner {
-            width: 100%;
-            max-width: 920px;
-        }
-
-        /* Card footer — dot navigation */
-        .card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px 28px;
-            border-top: 1px solid #F0F0F0;
-            flex-shrink: 0;
-            gap: 6px;
-        }
-
-        .card-footer.dark {
-            border-top-color: rgba(255,255,255,0.12);
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #E5E5E5;
-            transition: all 0.3s;
-        }
-
-        .dot.active {
-            width: 28px;
-            border-radius: 4px;
-            background: var(--pink);
-        }
-
-        .card-footer.dark .dot {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .card-footer.dark .dot.active {
-            background: white;
-        }
-
-        /* ======== SECTION LABELS & TITLES ======== */
-        .section-label {
-            display: inline-block;
-            background: var(--yellow);
-            color: #111;
-            font-weight: 700;
-            font-size: 0.75rem;
-            padding: 4px 16px;
-            border-radius: 50px;
-            margin-bottom: 14px;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--dark);
-            line-height: 1.3;
-        }
-
-        .section-title.light {
-            color: white;
-        }
-
-        /* ======== COVER SLIDE ======== */
-        .cover-content {
             text-align: center;
         }
 
-        .cover-logo {
-            width: 160px;
-            margin-bottom: 32px;
+        .slide-cover::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
 
-        .cover-top-badge {
+        .cover-logo {
+            width: 180px;
+            margin-bottom: 40px;
+            filter: brightness(0) invert(1);
+        }
+
+        .cover-badge {
             display: inline-block;
             background: var(--yellow);
             color: #111;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             padding: 6px 20px;
             border-radius: 50px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             letter-spacing: 0.5px;
         }
 
         .cover-title {
-            font-size: 3rem;
+            font-size: 3.2rem;
             font-weight: 900;
             line-height: 1.2;
-            margin-bottom: 14px;
-            color: white;
+            margin-bottom: 16px;
         }
 
         .cover-title span {
@@ -231,90 +117,36 @@
         }
 
         .cover-subtitle {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 300;
-            color: rgba(255,255,255,0.65);
-            margin-bottom: 10px;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 12px;
         }
 
         .cover-date {
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.35);
-            margin-top: 6px;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 8px;
         }
 
         .cover-line {
             width: 80px;
             height: 3px;
             background: linear-gradient(90deg, var(--pink), var(--yellow));
-            margin: 28px auto 0;
+            margin: 30px auto 0;
             border-radius: 2px;
         }
 
-        /* Floating blobs for cover */
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.15;
-            z-index: 0;
-            pointer-events: none;
+        /* ======== SLIDE 2 — STATS ======== */
+        .slide-stats {
+            background: white;
         }
 
-        .blob-pink {
-            width: 300px;
-            height: 300px;
-            background: var(--pink);
-            top: 10%;
-            right: -5%;
-            animation: blobFloat 8s ease-in-out infinite;
-        }
-
-        .blob-yellow {
-            width: 250px;
-            height: 250px;
-            background: var(--yellow);
-            bottom: 10%;
-            left: -5%;
-            animation: blobFloat 8s ease-in-out 2s infinite;
-        }
-
-        @keyframes blobFloat {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-20px) scale(1.05); }
-        }
-
-        /* Pattern overlay */
-        .pattern-dots {
-            position: relative;
-        }
-
-        .pattern-dots::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px);
-            background-size: 32px 32px;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .pattern-dark::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* ======== STATS ======== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 32px;
+            gap: 24px;
+            margin-top: 40px;
         }
 
         .stat-card {
@@ -322,7 +154,7 @@
             backdrop-filter: blur(24px);
             border: 1px solid rgba(0,0,0,0.06);
             border-radius: var(--radius);
-            padding: 28px 20px;
+            padding: 32px 24px;
             text-align: center;
             box-shadow: 0 4px 30px rgba(0,0,0,0.04);
             transition: transform 0.3s;
@@ -333,43 +165,62 @@
         }
 
         .stat-number {
-            font-size: 2.8rem;
+            font-size: 3rem;
             font-weight: 900;
             background: linear-gradient(135deg, var(--pink), var(--yellow));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             line-height: 1;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .stat-label {
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 500;
             color: var(--muted);
         }
 
-        .sub-title {
-            font-size: 1.2rem;
+        .section-label {
+            display: inline-block;
+            background: var(--yellow);
+            color: #111;
             font-weight: 700;
-            margin-top: 32px;
-            margin-bottom: 14px;
-            color: var(--dark);
+            font-size: 0.8rem;
+            padding: 4px 16px;
+            border-radius: 50px;
+            margin-bottom: 16px;
         }
 
-        /* ======== IMPACT ======== */
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--dark);
+            line-height: 1.3;
+        }
+
+        .section-title-light {
+            color: white;
+        }
+
+        /* ======== IMPACT SLIDE ======== */
+        .slide-impact {
+            background: #111;
+            color: white;
+        }
+
         .impact-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-top: 28px;
+            gap: 20px;
+            margin-top: 36px;
         }
 
         .impact-card {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: var(--radius);
-            padding: 24px 20px;
+            padding: 28px 24px;
             text-align: center;
             backdrop-filter: blur(12px);
             transition: border-color 0.3s, transform 0.3s;
@@ -387,10 +238,10 @@
         }
 
         .impact-number {
-            font-size: 2.6rem;
+            font-size: 2.8rem;
             font-weight: 900;
             line-height: 1;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .impact-number.gradient {
@@ -408,26 +259,38 @@
         }
 
         .impact-label {
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
             color: rgba(255,255,255,0.7);
+            margin-bottom: 6px;
         }
 
-        /* ======== ACTIONS ======== */
+        .impact-names {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        /* ======== SLIDE 3 — ACTIONS ======== */
+        .slide-actions {
+            background: var(--light-bg);
+        }
+
         .actions-list {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-top: 28px;
+            gap: 20px;
+            margin-top: 36px;
         }
 
         .action-item {
             background: white;
             border-radius: var(--radius);
-            padding: 24px;
+            padding: 28px;
             border: 1px solid var(--border);
             display: flex;
-            gap: 14px;
+            gap: 16px;
             align-items: flex-start;
             transition: transform 0.3s, box-shadow 0.3s;
         }
@@ -438,13 +301,13 @@
         }
 
         .action-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             flex-shrink: 0;
         }
 
@@ -452,98 +315,124 @@
         .action-icon.pink { background: rgba(232,53,138,0.12); }
 
         .action-text h4 {
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 700;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             color: var(--dark);
         }
 
         .action-text p {
-            font-size: 0.82rem;
+            font-size: 0.88rem;
             color: var(--muted);
             line-height: 1.6;
         }
 
-        /* ======== CONTACTS ======== */
+        /* ======== SLIDE 4 — CONTACTS TABLE ======== */
+        .slide-contacts {
+            background: white;
+        }
+
         .contacts-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 24px;
-            font-size: 0.85rem;
+            margin-top: 32px;
+            font-size: 0.9rem;
         }
 
         .contacts-table thead {
-            background: var(--dark);
+            background: #111;
             color: white;
         }
 
         .contacts-table th {
-            padding: 12px 14px;
+            padding: 14px 16px;
             font-weight: 600;
             text-align: right;
         }
 
-        .contacts-table th:first-child { border-radius: 0 10px 0 0; }
-        .contacts-table th:last-child { border-radius: 10px 0 0 0; }
+        .contacts-table th:first-child {
+            border-radius: 0 12px 0 0;
+        }
+
+        .contacts-table th:last-child {
+            border-radius: 12px 0 0 0;
+        }
 
         .contacts-table td {
-            padding: 12px 14px;
+            padding: 14px 16px;
             border-bottom: 1px solid var(--border);
             vertical-align: top;
         }
 
-        .contacts-table tbody tr:hover { background: rgba(245,200,0,0.06); }
-        .contacts-table .org-name { font-weight: 700; color: var(--dark); }
-        .contacts-table .note { font-size: 0.75rem; color: var(--pink); font-weight: 500; }
+        .contacts-table tbody tr:hover {
+            background: rgba(245,200,0,0.06);
+        }
 
-        .hopa-row { background: rgba(232,53,138,0.05); }
-        .hopa-row:hover { background: rgba(232,53,138,0.1) !important; }
+        .contacts-table .org-name {
+            font-weight: 700;
+            color: var(--dark);
+        }
 
-        /* ======== SCHOLARSHIPS ======== */
+        .contacts-table .note {
+            font-size: 0.8rem;
+            color: var(--pink);
+            font-weight: 500;
+        }
+
+        /* ======== SLIDE 5 — SCHOLARSHIPS ======== */
+        .slide-scholarships {
+            background: #111;
+            color: white;
+        }
+
         .scholarships-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 14px;
-            margin-top: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 32px;
         }
 
         .scholarship-card {
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: var(--radius);
-            padding: 20px;
+            padding: 24px;
             backdrop-filter: blur(12px);
             transition: border-color 0.3s;
         }
 
-        .scholarship-card:hover { border-color: var(--yellow); }
+        .scholarship-card:hover {
+            border-color: var(--yellow);
+        }
 
         .scholarship-name {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             color: white;
         }
 
         .scholarship-detail {
-            font-size: 0.82rem;
-            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.55);
             margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
         }
 
         .scholarship-amount {
             color: var(--yellow);
             font-weight: 700;
-            font-size: 1.05rem;
-            margin-top: 8px;
+            font-size: 1.1rem;
+            margin-top: 10px;
         }
 
         .scholarship-note {
             display: inline-block;
-            margin-top: 8px;
+            margin-top: 10px;
             background: rgba(245,200,0,0.15);
             color: var(--yellow);
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 600;
             padding: 3px 10px;
             border-radius: 50px;
@@ -554,41 +443,62 @@
             color: var(--pink);
         }
 
-        /* ======== RESOURCES ======== */
+        /* ======== SLIDE 6 — RESOURCES ======== */
+        .slide-resources {
+            background: white;
+        }
+
         .resources-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 28px;
+            gap: 24px;
+            margin-top: 36px;
         }
 
         .resource-card {
             background: linear-gradient(135deg, rgba(245,200,0,0.08), rgba(232,53,138,0.05));
             border: 1px solid rgba(245,200,0,0.2);
             border-radius: var(--radius);
-            padding: 28px;
+            padding: 32px;
             text-align: center;
         }
 
-        .resource-card .icon { font-size: 2.2rem; margin-bottom: 14px; }
-        .resource-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
-        .resource-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+        .resource-card .icon {
+            font-size: 2.4rem;
+            margin-bottom: 16px;
+        }
 
-        /* ======== NEXT STEPS ======== */
+        .resource-card h4 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .resource-card p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ======== SLIDE 7 — NEXT STEPS ======== */
+        .slide-next {
+            background: var(--light-bg);
+        }
+
         .next-items {
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            margin-top: 28px;
+            gap: 20px;
+            margin-top: 36px;
         }
 
         .next-item {
             background: white;
             border-radius: var(--radius);
-            padding: 24px 28px;
+            padding: 28px 32px;
             border-right: 4px solid;
             display: flex;
-            gap: 16px;
+            gap: 20px;
             align-items: flex-start;
             box-shadow: 0 2px 16px rgba(0,0,0,0.03);
         }
@@ -599,14 +509,14 @@
         .next-item:nth-child(4) { border-color: var(--yellow); }
 
         .next-number {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 1.1rem;
             flex-shrink: 0;
             color: white;
         }
@@ -614,32 +524,80 @@
         .next-item:nth-child(odd) .next-number { background: var(--pink); }
         .next-item:nth-child(even) .next-number { background: var(--yellow); color: #111; }
 
-        .next-text h4 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-        .next-text p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+        .next-text h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
 
-        /* ======== CTA BOX ======== */
-        .cta-box {
-            background: rgba(245,200,0,0.08);
-            border: 1px solid rgba(245,200,0,0.2);
-            border-radius: var(--radius);
-            padding: 16px 24px;
-            margin-top: 20px;
+        .next-text p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* ======== SLIDE 8 — CLOSING ======== */
+        .slide-closing {
+            background: #111;
+            color: white;
             text-align: center;
-            font-size: 0.88rem;
-            color: rgba(255,255,255,0.65);
-            font-weight: 500;
         }
 
-        /* ======== ANIMATIONS ======== */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to { opacity: 1; transform: translateY(0); }
+        .closing-quote {
+            font-size: 1.8rem;
+            font-weight: 300;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto 32px;
+            color: rgba(255,255,255,0.85);
         }
 
+        .closing-quote span {
+            color: var(--yellow);
+            font-weight: 700;
+        }
+
+        .closing-cta {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--pink), var(--yellow));
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 14px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 12px;
+            box-shadow: 0 4px 20px rgba(232,53,138,0.3);
+        }
+
+        .closing-info {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .closing-info strong {
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* ======== RESPONSIVE ======== */
+        @media (max-width: 768px) {
+            .slide { padding: 40px 20px; }
+            .cover-title { font-size: 2.2rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .actions-list { grid-template-columns: 1fr; }
+            .resources-grid { grid-template-columns: 1fr; }
+            .scholarships-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 1.7rem; }
+            .contacts-table { font-size: 0.8rem; }
+            .contacts-table td, .contacts-table th { padding: 10px 8px; }
+        }
+
+        /* Animations */
         .fade-up {
             opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
         }
 
         .fade-up.visible {
@@ -647,577 +605,490 @@
             transform: translateY(0);
         }
 
-        /* Stagger children */
-        .stagger > *:nth-child(1) { transition-delay: 0.05s; }
-        .stagger > *:nth-child(2) { transition-delay: 0.1s; }
-        .stagger > *:nth-child(3) { transition-delay: 0.15s; }
-        .stagger > *:nth-child(4) { transition-delay: 0.2s; }
-        .stagger > *:nth-child(5) { transition-delay: 0.25s; }
-        .stagger > *:nth-child(6) { transition-delay: 0.3s; }
-        .stagger > *:nth-child(7) { transition-delay: 0.35s; }
-
-        /* ======== RESPONSIVE ======== */
-        @media (max-width: 768px) {
-            .slide-wrapper { padding: 10px; }
-            .slide-card { min-height: calc(100vh - 20px); border-radius: 0.8rem; }
-            .card-content { padding: 28px 20px; }
-            .cover-title { font-size: 2.2rem; }
-            .section-title { font-size: 1.6rem; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .actions-list { grid-template-columns: 1fr; }
-            .resources-grid { grid-template-columns: 1fr; }
-            .scholarships-grid { grid-template-columns: 1fr; }
-            .impact-grid { grid-template-columns: 1fr; }
-            .contacts-table { font-size: 0.75rem; }
-            .contacts-table td, .contacts-table th { padding: 8px 6px; }
-            .blob { display: none; }
+        /* Slide counter */
+        .slide-counter {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            font-size: 0.75rem;
+            padding: 6px 14px;
+            border-radius: 50px;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            font-weight: 500;
         }
 
         /* Print */
         @media print {
-            .slide-wrapper { page-break-after: always; min-height: auto; padding: 20px; }
-            .fade-up { opacity: 1 !important; transform: none !important; }
-            .blob { display: none; }
+            .slide { page-break-after: always; min-height: auto; padding: 40px; }
+            .slide-counter { display: none; }
+            .fade-up { opacity: 1; transform: none; }
+        }
+
+        /* Filter controls */
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-left: 4px;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: 50px;
+            padding: 5px 14px;
+            font-family: Heebo;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--yellow);
+            color: var(--dark);
+        }
+
+        .filter-btn.active {
+            background: #111;
+            border-color: #111;
+            color: white;
+        }
+
+        /* Impact badges */
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-green { background: #e6f9ee; color: #00875a; }
+        .badge-blue { background: #e6f0ff; color: #0052cc; }
+        .badge-pink { background: #fce4ec; color: #c2185b; }
+        .badge-yellow { background: #fff8e1; color: #f57f17; }
+        .badge-gray { background: #f0f0f0; color: #666; }
+        .badge-orange { background: #fff3e0; color: #e65100; }
+        .badge-purple { background: #f3e5f5; color: #7b1fa2; }
+
+        /* CTA box */
+        .cta-box {
+            background: rgba(245,200,0,0.1);
+            border: 1px solid rgba(245,200,0,0.3);
+            border-radius: var(--radius);
+            padding: 20px 28px;
+            margin-top: 28px;
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .cta-box.dark {
+            background: rgba(245,200,0,0.08);
+            border-color: rgba(245,200,0,0.2);
+            color: rgba(255,255,255,0.7);
         }
     </style>
 </head>
 <body>
 
-<!-- ==================== SLIDE 1 — COVER ==================== -->
-<div class="slide-wrapper">
-    <div class="slide-card dark pattern-dark">
-        <div class="accent-bar"></div>
-        <div class="card-header dark">
-            <span class="card-header-label">תוכנית בוגרים 2026 · מצגת</span>
-            <div class="card-header-right">
-                <span class="slide-badge">1 / 8</span>
-                <img src="assets/logo.png" alt="הופה" class="card-header-logo">
+<!-- SLIDE 1 — COVER -->
+<section class="slide slide-cover">
+    <div class="slide-content fade-up" style="text-align:center;">
+        <img src="assets/logo.png" alt="Hopa!" class="cover-logo">
+        <div class="cover-badge">תוכנית בוגרים 2026</div>
+        <h1 class="cover-title">
+            עתיד <span>שמיים</span><br>קריית מוצקין
+        </h1>
+        <p class="cover-subtitle">עדכון סטטוס — תוכנית הבוגרים של הופה</p>
+        <p class="cover-date">אפריל 2026 · הושקה פברואר 2026</p>
+        <div class="cover-line"></div>
+    </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- SLIDE 2 — STATS -->
+<section class="slide slide-stats pattern-dots">
+    <div class="slide-content fade-up">
+        <div class="section-label">מספרים</div>
+        <h2 class="section-title">איפה אנחנו עומדים</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">97</div>
+                <div class="stat-label">בוגרים במערכת<br>ניטור וליווי</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">19</div>
+                <div class="stat-label">בוגרים פעילים<br>בקבוצת וואטסאפ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">7+</div>
+                <div class="stat-label">מלגות פתוחות<br>זמינות לבוגרים</div>
             </div>
         </div>
-        <div class="card-content" style="position:relative;">
-            <div class="blob blob-pink"></div>
-            <div class="blob blob-yellow"></div>
-            <div class="card-content-inner cover-content fade-up" style="position:relative; z-index:1;">
-                <img src="assets/logo.png" alt="Hopa!" class="cover-logo" style="filter: brightness(0) invert(1);">
-                <div class="cover-top-badge">תוכנית בוגרים 2026</div>
-                <h1 class="cover-title">
-                    עתיד <span>שמיים</span><br>קריית מוצקין
-                </h1>
-                <p class="cover-subtitle">עדכון סטטוס — תוכנית הבוגרים של הופה</p>
-                <p class="cover-date">אפריל 2026 · הושקה פברואר 2026</p>
-                <div class="cover-line"></div>
+
+        <!-- Year breakdown -->
+        <h3 style="font-size:1.3rem; font-weight:700; margin-top:40px; margin-bottom:16px; color:var(--dark);">פילוח לפי שנת סיום</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div class="stat-card">
+                <div class="stat-number" style="font-size:2.4rem;">37</div>
+                <div class="stat-label">תשפ"ד</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="font-size:2.4rem;">60</div>
+                <div class="stat-label">תשפ"ה</div>
             </div>
         </div>
-        <div class="card-footer dark">
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
+
+        <!-- Major breakdown -->
+        <h3 style="font-size:1.3rem; font-weight:700; margin-top:32px; margin-bottom:16px; color:var(--dark);">פילוח לפי מגמה</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
+            <div class="stat-card">
+                <div class="stat-number" style="font-size:2.2rem;">36</div>
+                <div class="stat-label">עיצוב</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="font-size:2.2rem;">34</div>
+                <div class="stat-label">קונדיטוריה</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="font-size:2.2rem;">27</div>
+                <div class="stat-label">מכונות</div>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- ==================== SLIDE 2 — STATS ==================== -->
-<div class="slide-wrapper">
-    <div class="slide-card pattern-dots">
-        <div class="accent-bar"></div>
-        <div class="card-header">
-            <span class="card-header-label">תוכנית בוגרים 2026 · מצגת</span>
-            <div class="card-header-right">
-                <span class="slide-badge">2 / 8</span>
-                <img src="assets/logo.png" alt="הופה" class="card-header-logo">
+<div class="glow-line"></div>
+
+<!-- SLIDE 3 — IMPACT -->
+<section class="slide slide-impact pattern-plus">
+    <div class="slide-content fade-up">
+        <div class="section-label">אימפקט</div>
+        <h2 class="section-title section-title-light">סטטוס בוגרים — לאן הם מגיעים</h2>
+        <div class="impact-grid">
+            <div class="impact-card highlight">
+                <div class="impact-number gradient">24</div>
+                <div class="impact-label">מסתדרים כרגע</div>
             </div>
-        </div>
-        <div class="card-content">
-            <div class="card-content-inner fade-up">
-                <div class="section-label">מספרים</div>
-                <h2 class="section-title">איפה אנחנו עומדים</h2>
-                <div class="stats-grid stagger">
-                    <div class="stat-card fade-up">
-                        <div class="stat-number">97</div>
-                        <div class="stat-label">בוגרים במערכת<br>ניטור וליווי</div>
-                    </div>
-                    <div class="stat-card fade-up">
-                        <div class="stat-number">19</div>
-                        <div class="stat-label">בוגרים פעילים<br>בקבוצת וואטסאפ</div>
-                    </div>
-                    <div class="stat-card fade-up">
-                        <div class="stat-number">7+</div>
-                        <div class="stat-label">מלגות פתוחות<br>זמינות לבוגרים</div>
-                    </div>
-                </div>
-
-                <h3 class="sub-title">פילוח לפי שנת סיום</h3>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-                    <div class="stat-card">
-                        <div class="stat-number" style="font-size:2.2rem;">37</div>
-                        <div class="stat-label">תשפ"ד</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" style="font-size:2.2rem;">60</div>
-                        <div class="stat-label">תשפ"ה</div>
-                    </div>
-                </div>
-
-                <h3 class="sub-title">פילוח לפי מגמה</h3>
-                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px;">
-                    <div class="stat-card">
-                        <div class="stat-number" style="font-size:2rem;">36</div>
-                        <div class="stat-label">עיצוב</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" style="font-size:2rem;">34</div>
-                        <div class="stat-label">קונדיטוריה</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" style="font-size:2rem;">27</div>
-                        <div class="stat-label">מכונות</div>
-                    </div>
-                </div>
+            <div class="impact-card">
+                <div class="impact-number pink-grad">5</div>
+                <div class="impact-label">הכשרה תעסוקתית</div>
             </div>
-        </div>
-        <div class="card-footer">
-            <div class="dot"></div>
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
+            <div class="impact-card">
+                <div class="impact-number gradient">4</div>
+                <div class="impact-label">תעסוקה</div>
+            </div>
+            <div class="impact-card">
+                <div class="impact-number pink-grad">2</div>
+                <div class="impact-label">לימודים</div>
+            </div>
+            <div class="impact-card">
+                <div class="impact-number gradient">1</div>
+                <div class="impact-label">בתהליך טיפול</div>
+            </div>
+            <div class="impact-card">
+                <div class="impact-number pink-grad">1</div>
+                <div class="impact-label">להתקשר אחרי שחרור</div>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- ==================== SLIDE 3 — IMPACT ==================== -->
-<div class="slide-wrapper">
-    <div class="slide-card dark pattern-dark">
-        <div class="accent-bar"></div>
-        <div class="card-header dark">
-            <span class="card-header-label">תוכנית בוגרים 2026 · מצגת</span>
-            <div class="card-header-right">
-                <span class="slide-badge">3 / 8</span>
-                <img src="assets/logo.png" alt="הופה" class="card-header-logo">
-            </div>
-        </div>
-        <div class="card-content">
-            <div class="card-content-inner fade-up">
-                <div class="section-label">אימפקט</div>
-                <h2 class="section-title light">סטטוס בוגרים — לאן הם מגיעים</h2>
-                <div class="impact-grid stagger">
-                    <div class="impact-card highlight fade-up">
-                        <div class="impact-number gradient">24</div>
-                        <div class="impact-label">מסתדרים כרגע</div>
-                    </div>
-                    <div class="impact-card fade-up">
-                        <div class="impact-number pink-grad">5</div>
-                        <div class="impact-label">הכשרה תעסוקתית</div>
-                    </div>
-                    <div class="impact-card fade-up">
-                        <div class="impact-number gradient">4</div>
-                        <div class="impact-label">תעסוקה</div>
-                    </div>
-                    <div class="impact-card fade-up">
-                        <div class="impact-number pink-grad">2</div>
-                        <div class="impact-label">לימודים</div>
-                    </div>
-                    <div class="impact-card fade-up">
-                        <div class="impact-number gradient">1</div>
-                        <div class="impact-label">בתהליך טיפול</div>
-                    </div>
-                    <div class="impact-card fade-up">
-                        <div class="impact-number pink-grad">1</div>
-                        <div class="impact-label">להתקשר אחרי שחרור</div>
-                    </div>
+<div class="glow-line"></div>
+
+<!-- SLIDE 4 — ACTIONS COMPLETED -->
+<section class="slide slide-actions">
+    <div class="slide-content fade-up">
+        <div class="section-label">מה עשינו</div>
+        <h2 class="section-title">פעולות שבוצעו</h2>
+        <div class="actions-list">
+            <div class="action-item">
+                <div class="action-icon yellow">&#9881;</div>
+                <div class="action-text">
+                    <h4>מערכת ניטור וליווי</h4>
+                    <p>99 בוגרים עודכנו במערכת הופה לניטור שוטף, מעקב אחרי סטטוס צבאי, לימודים ותעסוקה</p>
                 </div>
             </div>
-        </div>
-        <div class="card-footer dark">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
+            <div class="action-item">
+                <div class="action-icon pink">&#9889;</div>
+                <div class="action-text">
+                    <h4>אוטומציות אישיות</h4>
+                    <p>הופעלו שליחות אוטומטיות של הודעות בימי הולדת, שחרור מצה"ל וגיוס</p>
+                </div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon yellow">&#128172;</div>
+                <div class="action-text">
+                    <h4>קבוצת וואטסאפ</h4>
+                    <p>נפתחה קבוצת בוגרים המונה 19 חברים, עם שליחת מענים ותוכניות ייעודיות</p>
+                </div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon pink">&#128203;</div>
+                <div class="action-text">
+                    <h4>תוכנית עבודה מפורטת</h4>
+                    <p>נשלחה תוכנית עבודה מלאה + עשרות מענים ותוכניות לבוגרי מוצקין</p>
+                </div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon yellow">&#128100;</div>
+                <div class="action-text">
+                    <h4>שיחות אישיות</h4>
+                    <p>צוותה פאני, מלגאית, לשיחות אישיות עם הבוגרים ומתן מענה פרטני</p>
+                </div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon pink">&#128233;</div>
+                <div class="action-text">
+                    <h4>פנייה אישית לבוגרים</h4>
+                    <p>נשלחו הודעות אישיות עם הזמנה להצטרף לקבוצת הוואטסאפ ומענים ייעודיים</p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- ==================== SLIDE 4 — ACTIONS ==================== -->
-<div class="slide-wrapper">
-    <div class="slide-card">
-        <div class="accent-bar"></div>
-        <div class="card-header">
-            <span class="card-header-label">תוכנית בוגרים 2026 · מצגת</span>
-            <div class="card-header-right">
-                <span class="slide-badge">4 / 8</span>
-                <img src="assets/logo.png" alt="הופה" class="card-header-logo">
+<div class="glow-line"></div>
+
+<!-- SLIDE 4 — RESOURCES -->
+<section class="slide slide-resources">
+    <div class="slide-content fade-up">
+        <div class="section-label">תרומות ומשאבים</div>
+        <h2 class="section-title">משאבים שגויסו עבור הבוגרים</h2>
+        <div class="resources-grid">
+            <div class="resource-card">
+                <div class="icon">&#128187;</div>
+                <h4>שני מחשבים ניידים</h4>
+                <p>נתרמו עבור בוגרים שזקוקים לציוד טכנולוגי ללימודים ותעסוקה</p>
             </div>
-        </div>
-        <div class="card-content">
-            <div class="card-content-inner fade-up">
-                <div class="section-label">מה עשינו</div>
-                <h2 class="section-title">פעולות שבוצעו</h2>
-                <div class="actions-list stagger">
-                    <div class="action-item fade-up">
-                        <div class="action-icon yellow">&#9881;</div>
-                        <div class="action-text">
-                            <h4>מערכת ניטור וליווי</h4>
-                            <p>99 בוגרים עודכנו במערכת הופה לניטור שוטף, מעקב אחרי סטטוס צבאי, לימודים ותעסוקה</p>
-                        </div>
-                    </div>
-                    <div class="action-item fade-up">
-                        <div class="action-icon pink">&#9889;</div>
-                        <div class="action-text">
-                            <h4>אוטומציות אישיות</h4>
-                            <p>הופעלו שליחות אוטומטיות של הודעות בימי הולדת, שחרור מצה"ל וגיוס</p>
-                        </div>
-                    </div>
-                    <div class="action-item fade-up">
-                        <div class="action-icon yellow">&#128172;</div>
-                        <div class="action-text">
-                            <h4>קבוצת וואטסאפ</h4>
-                            <p>נפתחה קבוצת בוגרים המונה 19 חברים, עם שליחת מענים ותוכניות ייעודיות</p>
-                        </div>
-                    </div>
-                    <div class="action-item fade-up">
-                        <div class="action-icon pink">&#128203;</div>
-                        <div class="action-text">
-                            <h4>תוכנית עבודה מפורטת</h4>
-                            <p>נשלחה תוכנית עבודה מלאה + עשרות מענים ותוכניות לבוגרי מוצקין</p>
-                        </div>
-                    </div>
-                    <div class="action-item fade-up">
-                        <div class="action-icon yellow">&#128100;</div>
-                        <div class="action-text">
-                            <h4>שיחות אישיות</h4>
-                            <p>צוותה פאני, מלגאית, לשיחות אישיות עם הבוגרים ומתן מענה פרטני</p>
-                        </div>
-                    </div>
-                    <div class="action-item fade-up">
-                        <div class="action-icon pink">&#128233;</div>
-                        <div class="action-text">
-                            <h4>פנייה אישית לבוגרים</h4>
-                            <p>נשלחו הודעות אישיות עם הזמנה להצטרף לקבוצת הוואטסאפ ומענים ייעודיים</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="resource-card">
+                <div class="icon">&#127942;</div>
+                <h4>שיתוף פעולה עם מלגות פלוס</h4>
+                <p>רכשנו מנויים בתשלום למערכת שמאתרת מלגות ומגישה באופן אוטומטי, כולל איש קשר זמין לסיוע אישי</p>
             </div>
-        </div>
-        <div class="card-footer">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- ==================== SLIDE 5 — RESOURCES ==================== -->
-<div class="slide-wrapper">
-    <div class="slide-card">
-        <div class="accent-bar"></div>
-        <div class="card-header">
-            <span class="card-header-label">תוכנית בוגרים 2026 · מצגת</span>
-            <div class="card-header-right">
-                <span class="slide-badge">5 / 8</span>
-                <img src="assets/logo.png" alt="הופה" class="card-header-logo">
+<div class="glow-line"></div>
+
+<!-- SLIDE 5 — CONTACTS -->
+<section class="slide slide-contacts">
+    <div class="slide-content fade-up">
+        <div class="section-label">רשת מענים</div>
+        <h2 class="section-title">אנשי קשר אזוריים</h2>
+        <p style="color: var(--muted); margin-top: 8px; font-size: 0.95rem;">מיפוי מענים באזור מוצקין והסביבה בנושאי קריירה, לימודים, בגרויות והכשרות</p>
+        <table class="contacts-table">
+            <thead>
+                <tr>
+                    <th>גורם</th>
+                    <th>תחום מענה</th>
+                    <th>איש קשר</th>
+                    <th>טלפון</th>
+                    <th>הערה</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="org-name">מרכז הצעירים</td>
+                    <td>מלגות, חיילים בודדים, סיוע במהלך הצבא</td>
+                    <td>ירדן, רכזת צעירים</td>
+                    <td>052-670-8915</td>
+                    <td class="note">לשימוש רכזי התוכנית בלבד</td>
+                </tr>
+                <tr>
+                    <td class="org-name">מרכז הזדמנות</td>
+                    <td>מציאת עבודות וקריירה</td>
+                    <td>מיטל</td>
+                    <td>052-627-6262</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="org-name">קריית ים</td>
+                    <td>הכשרה, לימודים ותעסוקה</td>
+                    <td>הודיה</td>
+                    <td>054-305-9881</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="org-name">קריית ביאליק</td>
+                    <td>חיילים + משוחררים, מענה וזכויות</td>
+                    <td>עדי</td>
+                    <td>052-537-2070</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="org-name">תוכנית יתד</td>
+                    <td>עו"ס, תוכנית יתד</td>
+                    <td>טדלה לגלם</td>
+                    <td>052-885-3662</td>
+                    <td class="note">ליצור קשר</td>
+                </tr>
+                <tr>
+                    <td class="org-name">מכללת קריית אתא</td>
+                    <td>השלמת בגרויות</td>
+                    <td>אורה</td>
+                    <td>073-323-6873</td>
+                    <td>עבר למתנ"ס</td>
+                </tr>
+                <tr>
+                    <td class="org-name">מתנ"ס נווה יוסף, חיפה</td>
+                    <td>השלמת תעודת 12 שנות לימוד (ללא בגרויות)</td>
+                    <td>אינה (מנהלת)</td>
+                    <td>04-812-9200<br>054-481-2060</td>
+                    <td>10 חודשים, 3 מקצועות בסמסטר</td>
+                </tr>
+                <tr style="background:rgba(232,53,138,0.06);">
+                    <td class="org-name">צוות הופה</td>
+                    <td>ניהול תוכנית בוגרים, ליווי אישי, מיפוי מענים</td>
+                    <td>טל מאיר, מנהלת פרויקטים</td>
+                    <td>058-558-5991</td>
+                    <td class="note">וואטסאפ הופה</td>
+                </tr>
+                <tr style="background:rgba(232,53,138,0.06);">
+                    <td class="org-name">צוות הופה</td>
+                    <td>ניהול, אסטרטגיה, שותפויות</td>
+                    <td>לירון גולן, מנכ"לית</td>
+                    <td>liron@hopa.org.il</td>
+                    <td class="note">מייל</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- SLIDE 6 — SCHOLARSHIPS -->
+<section class="slide slide-scholarships pattern-plus">
+    <div class="slide-content fade-up">
+        <div class="section-label">מלגות</div>
+        <h2 class="section-title section-title-light">מלגות פתוחות לבוגרים</h2>
+        <div class="scholarships-grid">
+            <div class="scholarship-card">
+                <div class="scholarship-name">לומדים בפריפריה</div>
+                <div class="scholarship-detail">מלגת ייעוד 44, תואר ראשון</div>
+                <div class="scholarship-amount">שכ"ל אוניברסיטאי</div>
+                <div class="scholarship-note">ללא התנדבות</div>
+            </div>
+            <div class="scholarship-card">
+                <div class="scholarship-name">המרכז הליברלי</div>
+                <div class="scholarship-detail">טופס בקשה באתר</div>
+                <div class="scholarship-amount">5,000 &#8362;</div>
+                <div class="scholarship-note">ללא התנדבות</div>
+            </div>
+            <div class="scholarship-card">
+                <div class="scholarship-name">קרן יהושע סלטי</div>
+                <div class="scholarship-detail">משתנה לפי סוג התואר</div>
+                <div class="scholarship-amount">משתנה</div>
+                <div class="scholarship-note">ללא התנדבות</div>
+            </div>
+            <div class="scholarship-card">
+                <div class="scholarship-name">ממדים ללימודים</div>
+                <div class="scholarship-detail">לוחמות ולוחמים ואוכלוסיות ייחודיות</div>
+                <div class="scholarship-amount">עד 12,000 &#8362;</div>
+                <div class="scholarship-note">ללא התנדבות</div>
+            </div>
+            <div class="scholarship-card">
+                <div class="scholarship-name">ספורט למען השלום</div>
+                <div class="scholarship-detail">כ-80 שעות התנדבות</div>
+                <div class="scholarship-amount">5,100 &#8362;</div>
+                <div class="scholarship-note volunteer">דורש התנדבות</div>
+            </div>
+            <div class="scholarship-card">
+                <div class="scholarship-name">חינוך לפסגות</div>
+                <div class="scholarship-detail">מסלולים שונים עם התנדבות</div>
+                <div class="scholarship-amount">משתנה</div>
+                <div class="scholarship-note volunteer">דורש התנדבות</div>
+            </div>
+            <div class="scholarship-card">
+                <div class="scholarship-name">מלגת לתת</div>
+                <div class="scholarship-detail">תשפ"ו, עם התנדבות</div>
+                <div class="scholarship-amount">3,500 או 6,000 &#8362;</div>
+                <div class="scholarship-note volunteer">דורש התנדבות</div>
             </div>
         </div>
-        <div class="card-content">
-            <div class="card-content-inner fade-up">
-                <div class="section-label">תרומות ומשאבים</div>
-                <h2 class="section-title">משאבים שגויסו עבור הבוגרים</h2>
-                <div class="resources-grid">
-                    <div class="resource-card">
-                        <div class="icon">&#128187;</div>
-                        <h4>שני מחשבים ניידים</h4>
-                        <p>נתרמו עבור בוגרים שזקוקים לציוד טכנולוגי ללימודים ותעסוקה</p>
-                    </div>
-                    <div class="resource-card">
-                        <div class="icon">&#127942;</div>
-                        <h4>שיתוף פעולה עם מלגות פלוס</h4>
-                        <p>רכשנו מנויים בתשלום למערכת שמאתרת מלגות ומגישה באופן אוטומטי, כולל איש קשר זמין לסיוע אישי</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-footer">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
+        <div class="cta-box dark">
+            במידה ויש מענה שלא נמצא עבורו פתרון — עדכנו אותנו ונמצא חלופה
         </div>
     </div>
-</div>
+</section>
 
-<!-- ==================== SLIDE 6 — CONTACTS ==================== -->
-<div class="slide-wrapper">
-    <div class="slide-card">
-        <div class="accent-bar"></div>
-        <div class="card-header">
-            <span class="card-header-label">תוכנית בוגרים 2026 · מצגת</span>
-            <div class="card-header-right">
-                <span class="slide-badge">6 / 8</span>
-                <img src="assets/logo.png" alt="הופה" class="card-header-logo">
+<div class="glow-line"></div>
+
+<!-- SLIDE 7 — NEXT STEPS -->
+<section class="slide slide-next">
+    <div class="slide-content fade-up">
+        <div class="section-label">להמשך</div>
+        <h2 class="section-title">נושאים לדיון משותף</h2>
+        <div class="next-items">
+            <div class="next-item">
+                <div class="next-number">1</div>
+                <div class="next-text">
+                    <h4>בוגרים שאינם יוצרים קשר</h4>
+                    <p>ישנם בוגרים שלא עונים לטלפון ולא יוצרים קשר. ההצעה: לשלוח הודעות אישיות מאביחי או מדמות מוכרת אחרת מבית הספר, כך שהפנייה תהיה אישית ומוכרת יותר</p>
+                </div>
             </div>
-        </div>
-        <div class="card-content">
-            <div class="card-content-inner fade-up">
-                <div class="section-label">רשת מענים</div>
-                <h2 class="section-title">אנשי קשר אזוריים</h2>
-                <p style="color: var(--muted); margin-top: 6px; font-size: 0.88rem;">מיפוי מענים באזור מוצקין והסביבה בנושאי קריירה, לימודים, בגרויות והכשרות</p>
-                <table class="contacts-table">
-                    <thead>
-                        <tr>
-                            <th>גורם</th>
-                            <th>תחום מענה</th>
-                            <th>איש קשר</th>
-                            <th>טלפון</th>
-                            <th>הערה</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="org-name">מרכז הצעירים</td>
-                            <td>מלגות, חיילים בודדים, סיוע במהלך הצבא</td>
-                            <td>ירדן, רכזת צעירים</td>
-                            <td>052-670-8915</td>
-                            <td class="note">לשימוש רכזי התוכנית בלבד</td>
-                        </tr>
-                        <tr>
-                            <td class="org-name">מרכז הזדמנות</td>
-                            <td>מציאת עבודות וקריירה</td>
-                            <td>מיטל</td>
-                            <td>052-627-6262</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="org-name">קריית ים</td>
-                            <td>הכשרה, לימודים ותעסוקה</td>
-                            <td>הודיה</td>
-                            <td>054-305-9881</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="org-name">קריית ביאליק</td>
-                            <td>חיילים + משוחררים, מענה וזכויות</td>
-                            <td>עדי</td>
-                            <td>052-537-2070</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="org-name">תוכנית יתד</td>
-                            <td>עו"ס, תוכנית יתד</td>
-                            <td>טדלה לגלם</td>
-                            <td>052-885-3662</td>
-                            <td class="note">ליצור קשר</td>
-                        </tr>
-                        <tr>
-                            <td class="org-name">מכללת קריית אתא</td>
-                            <td>השלמת בגרויות</td>
-                            <td>אורה</td>
-                            <td>073-323-6873</td>
-                            <td>עבר למתנ"ס</td>
-                        </tr>
-                        <tr>
-                            <td class="org-name">מתנ"ס נווה יוסף, חיפה</td>
-                            <td>השלמת תעודת 12 שנות לימוד (ללא בגרויות)</td>
-                            <td>אינה (מנהלת)</td>
-                            <td>04-812-9200<br>054-481-2060</td>
-                            <td>10 חודשים, 3 מקצועות בסמסטר</td>
-                        </tr>
-                        <tr class="hopa-row">
-                            <td class="org-name">צוות הופה</td>
-                            <td>ניהול תוכנית בוגרים, ליווי אישי, מיפוי מענים</td>
-                            <td>טל מאיר, מנהלת פרויקטים</td>
-                            <td>058-558-5991</td>
-                            <td class="note">וואטסאפ הופה</td>
-                        </tr>
-                        <tr class="hopa-row">
-                            <td class="org-name">צוות הופה</td>
-                            <td>ניהול, אסטרטגיה, שותפויות</td>
-                            <td>לירון גולן, מנכ"לית</td>
-                            <td>liron@hopa.org.il</td>
-                            <td class="note">מייל</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="next-item">
+                <div class="next-number">2</div>
+                <div class="next-text">
+                    <h4>הגדלת קבוצת הוואטסאפ</h4>
+                    <p>כרגע 19 מתוך 99 בוגרים בקבוצה. הצעה: להכניס את מחנכי י"ב לקבוצה, ולבקש מהמחנכים והמורים המקצועיים להכניס בעצמם את הבוגרים — דמות סמכות מוכרת תגדיל את שיעור ההצטרפות</p>
+                </div>
             </div>
-        </div>
-        <div class="card-footer">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
+            <div class="next-item">
+                <div class="next-number">3</div>
+                <div class="next-text">
+                    <h4>מפגש חשיפה לתלמידי י"ב</h4>
+                    <p>אנחנו מחכות לקבל תאריך למפגש חשיפה עבור תלמידי י"ב הנוכחיים, להציג את תוכנית הבוגרים והמענים הזמינים לקראת סיום הלימודים</p>
+                </div>
+            </div>
+            <div class="next-item">
+                <div class="next-number">4</div>
+                <div class="next-text">
+                    <h4>מערכת טכנולוגית חדשה בתשפ"ז</h4>
+                    <p>בשנת תשפ"ז אנחנו צפויים לעבור למערכת טכנולוגית חדשה שתאפשר אוטומציה מלאה לבוגרים, כולל שידוך אוטומטי לתוכניות ומענים ארציים במגוון תחומים</p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- ==================== SLIDE 7 — SCHOLARSHIPS ==================== -->
-<div class="slide-wrapper">
-    <div class="slide-card dark pattern-dark">
-        <div class="accent-bar"></div>
-        <div class="card-header dark">
-            <span class="card-header-label">תוכנית בוגרים 2026 · מצגת</span>
-            <div class="card-header-right">
-                <span class="slide-badge">7 / 8</span>
-                <img src="assets/logo.png" alt="הופה" class="card-header-logo">
-            </div>
+<div class="glow-line"></div>
+
+<!-- SLIDE 8 — CLOSING -->
+<section class="slide slide-closing pattern-plus">
+    <div class="slide-content fade-up" style="text-align:center;">
+        <img src="assets/logo.png" alt="Hopa!" class="cover-logo" style="width:140px; margin-bottom:32px;">
+        <div class="closing-quote">
+            כל בוגר שמקבל מענה בזמן —<br>
+            זה <span>עתיד שמשתנה</span>
         </div>
-        <div class="card-content">
-            <div class="card-content-inner fade-up">
-                <div class="section-label">מלגות</div>
-                <h2 class="section-title light">מלגות פתוחות לבוגרים</h2>
-                <div class="scholarships-grid stagger">
-                    <div class="scholarship-card fade-up">
-                        <div class="scholarship-name">לומדים בפריפריה</div>
-                        <div class="scholarship-detail">מלגת ייעוד 44, תואר ראשון</div>
-                        <div class="scholarship-amount">שכ"ל אוניברסיטאי</div>
-                        <div class="scholarship-note">ללא התנדבות</div>
-                    </div>
-                    <div class="scholarship-card fade-up">
-                        <div class="scholarship-name">המרכז הליברלי</div>
-                        <div class="scholarship-detail">טופס בקשה באתר</div>
-                        <div class="scholarship-amount">5,000 &#8362;</div>
-                        <div class="scholarship-note">ללא התנדבות</div>
-                    </div>
-                    <div class="scholarship-card fade-up">
-                        <div class="scholarship-name">קרן יהושע סלטי</div>
-                        <div class="scholarship-detail">משתנה לפי סוג התואר</div>
-                        <div class="scholarship-amount">משתנה</div>
-                        <div class="scholarship-note">ללא התנדבות</div>
-                    </div>
-                    <div class="scholarship-card fade-up">
-                        <div class="scholarship-name">ממדים ללימודים</div>
-                        <div class="scholarship-detail">לוחמות ולוחמים ואוכלוסיות ייחודיות</div>
-                        <div class="scholarship-amount">עד 12,000 &#8362;</div>
-                        <div class="scholarship-note">ללא התנדבות</div>
-                    </div>
-                    <div class="scholarship-card fade-up">
-                        <div class="scholarship-name">ספורט למען השלום</div>
-                        <div class="scholarship-detail">כ-80 שעות התנדבות</div>
-                        <div class="scholarship-amount">5,100 &#8362;</div>
-                        <div class="scholarship-note volunteer">דורש התנדבות</div>
-                    </div>
-                    <div class="scholarship-card fade-up">
-                        <div class="scholarship-name">חינוך לפסגות</div>
-                        <div class="scholarship-detail">מסלולים שונים עם התנדבות</div>
-                        <div class="scholarship-amount">משתנה</div>
-                        <div class="scholarship-note volunteer">דורש התנדבות</div>
-                    </div>
-                    <div class="scholarship-card fade-up">
-                        <div class="scholarship-name">מלגת לתת</div>
-                        <div class="scholarship-detail">תשפ"ו, עם התנדבות</div>
-                        <div class="scholarship-amount">3,500 או 6,000 &#8362;</div>
-                        <div class="scholarship-note volunteer">דורש התנדבות</div>
-                    </div>
-                </div>
-                <div class="cta-box">
-                    במידה ויש מענה שלא נמצא עבורו פתרון — עדכנו אותנו ונמצא חלופה
-                </div>
-            </div>
-        </div>
-        <div class="card-footer dark">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot active"></div>
-            <div class="dot"></div>
+        <div class="cover-line" style="margin: 0 auto 32px;"></div>
+        <div class="closing-info">
+            <strong>לירון גולן</strong> · מנכ"לית הופה<br>
+            liron@hopa.org.il
         </div>
     </div>
-</div>
+</section>
 
-<!-- ==================== SLIDE 8 — NEXT STEPS + CLOSING ==================== -->
-<div class="slide-wrapper">
-    <div class="slide-card">
-        <div class="accent-bar"></div>
-        <div class="card-header">
-            <span class="card-header-label">תוכנית בוגרים 2026 · מצגת</span>
-            <div class="card-header-right">
-                <span class="slide-badge">8 / 8</span>
-                <img src="assets/logo.png" alt="הופה" class="card-header-logo">
-            </div>
-        </div>
-        <div class="card-content">
-            <div class="card-content-inner fade-up">
-                <div class="section-label">להמשך</div>
-                <h2 class="section-title">נושאים לדיון משותף</h2>
-                <div class="next-items stagger">
-                    <div class="next-item fade-up">
-                        <div class="next-number">1</div>
-                        <div class="next-text">
-                            <h4>בוגרים שאינם יוצרים קשר</h4>
-                            <p>ישנם בוגרים שלא עונים לטלפון ולא יוצרים קשר. ההצעה: לשלוח הודעות אישיות מאביחי או מדמות מוכרת אחרת מבית הספר, כך שהפנייה תהיה אישית ומוכרת יותר</p>
-                        </div>
-                    </div>
-                    <div class="next-item fade-up">
-                        <div class="next-number">2</div>
-                        <div class="next-text">
-                            <h4>הגדלת קבוצת הוואטסאפ</h4>
-                            <p>כרגע 19 מתוך 99 בוגרים בקבוצה. הצעה: להכניס את מחנכי י"ב לקבוצה, ולבקש מהמחנכים והמורים המקצועיים להכניס בעצמם את הבוגרים</p>
-                        </div>
-                    </div>
-                    <div class="next-item fade-up">
-                        <div class="next-number">3</div>
-                        <div class="next-text">
-                            <h4>מפגש חשיפה לתלמידי י"ב</h4>
-                            <p>אנחנו מחכות לקבל תאריך למפגש חשיפה עבור תלמידי י"ב הנוכחיים, להציג את תוכנית הבוגרים והמענים הזמינים לקראת סיום הלימודים</p>
-                        </div>
-                    </div>
-                    <div class="next-item fade-up">
-                        <div class="next-number">4</div>
-                        <div class="next-text">
-                            <h4>מערכת טכנולוגית חדשה בתשפ"ז</h4>
-                            <p>בשנת תשפ"ז אנחנו צפויים לעבור למערכת טכנולוגית חדשה שתאפשר אוטומציה מלאה לבוגרים, כולל שידוך אוטומטי לתוכניות ומענים ארציים</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="margin-top:40px; text-align:center; padding-top:28px; border-top: 1px solid var(--border);">
-                    <p style="font-size:1.3rem; font-weight:300; color:var(--muted); margin-bottom:16px;">
-                        כל בוגר שמקבל מענה בזמן — זה <strong style="color:var(--pink); font-weight:700;">עתיד שמשתנה</strong>
-                    </p>
-                    <div style="width:60px; height:3px; background:linear-gradient(90deg, var(--pink), var(--yellow)); margin:0 auto 16px; border-radius:2px;"></div>
-                    <p style="font-size:0.85rem; color:var(--muted);">
-                        <strong style="color:var(--dark);">לירון גולן</strong> · מנכ"לית הופה · liron@hopa.org.il
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="card-footer">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot active"></div>
-        </div>
-    </div>
-</div>
+<!-- Slide counter -->
+<div class="slide-counter" id="counter">1 / 8</div>
 
 <script>
     // Fade-in on scroll
@@ -1230,6 +1101,27 @@
     }, { threshold: 0.15 });
 
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Slide counter
+    const slides = document.querySelectorAll('.slide');
+    const counter = document.getElementById('counter');
+
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const idx = Array.from(slides).indexOf(entry.target) + 1;
+                counter.textContent = idx + ' / ' + slides.length;
+                // Dark/light counter based on slide background
+                const isDark = entry.target.classList.contains('slide-cover') ||
+                               entry.target.classList.contains('slide-impact') ||
+                               entry.target.classList.contains('slide-scholarships') ||
+                               entry.target.classList.contains('slide-closing');
+                counter.style.background = isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.6)';
+            }
+        });
+    }, { threshold: 0.5 });
+
+    slides.forEach(s => counterObserver.observe(s));
 </script>
 
 </body>
