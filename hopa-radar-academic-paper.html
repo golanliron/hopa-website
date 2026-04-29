@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מודל הרדאר של הופה | מאמר אקדמי</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pink: #C2185B;
+    --pink-light: rgba(194, 24, 91, 0.06);
+    --pink-glow: rgba(194, 24, 91, 0.12);
+    --yellow: #FFF200;
+    --yellow-dark: #E6D900;
+    --black: #111111;
+    --white: #FFFFFF;
+    --bg: #F7F7F7;
+    --gray: #E5E5E5;
+    --gray-text: #555555;
+    --text: #222222;
+  }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    line-height: 1.9;
+    direction: rtl;
+  }
+
+  @media print {
+    body { font-size: 11pt; }
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+    section { break-inside: avoid; }
+    .paper-container { box-shadow: none; }
+  }
+
+  /* Paper Container */
+  .paper-container {
+    max-width: 820px;
+    margin: 40px auto;
+    background: var(--white);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    border-radius: 4px;
+  }
+
+  /* Header Bar */
+  .paper-header-bar {
+    background: var(--pink);
+    height: 6px;
+    border-radius: 4px 4px 0 0;
+  }
+
+  /* Title Page */
+  .title-page {
+    padding: 60px 64px 40px;
+    border-bottom: 1px solid var(--gray);
+  }
+
+  .org-line {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+
+  .org-line img {
+    height: 44px;
+  }
+
+  .org-line span {
+    font-size: 14px;
+    color: var(--gray-text);
+    font-weight: 500;
+  }
+
+  .paper-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--black);
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+
+  .paper-subtitle {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--pink);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .paper-meta {
+    font-size: 13px;
+    color: var(--gray-text);
+    line-height: 2;
+    border-top: 1px solid var(--gray);
+    padding-top: 20px;
+  }
+
+  .paper-meta strong {
+    color: var(--black);
+  }
+
+  /* Abstract */
+  .abstract {
+    background: var(--bg);
+    padding: 32px 64px;
+    border-bottom: 1px solid var(--gray);
+  }
+
+  .abstract h2 {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--pink);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+
+  .abstract p {
+    font-size: 14.5px;
+    line-height: 2;
+    color: var(--text);
+  }
+
+  .keywords {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--gray-text);
+  }
+
+  .keywords strong {
+    color: var(--black);
+  }
+
+  /* Content */
+  .paper-content {
+    padding: 40px 64px 60px;
+  }
+
+  /* Section Headers */
+  .section-num {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--pink);
+    margin-bottom: 4px;
+  }
+
+  .section-heading {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--black);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--pink);
+  }
+
+  .subsection-heading {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--black);
+    margin-top: 28px;
+    margin-bottom: 10px;
+    padding-right: 14px;
+    border-right: 3px solid var(--pink);
+  }
+
+  .subsubsection {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gray-text);
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  section {
+    margin-bottom: 40px;
+  }
+
+  p {
+    font-size: 15px;
+    line-height: 2;
+    margin-bottom: 14px;
+    text-align: justify;
+  }
+
+  /* Highlight Box */
+  .highlight-box {
+    background: var(--pink-light);
+    border: 1px solid var(--pink-glow);
+    border-right: 4px solid var(--pink);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+
+  .highlight-box p {
+    margin-bottom: 0;
+    font-size: 14.5px;
+    line-height: 1.9;
+  }
+
+  .highlight-box strong {
+    color: var(--pink);
+  }
+
+  /* Model Diagram */
+  .model-diagram {
+    background: var(--bg);
+    border: 1px solid var(--gray);
+    border-radius: 12px;
+    padding: 32px;
+    margin: 28px 0;
+  }
+
+  .model-diagram h3 {
+    text-align: center;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--pink);
+    margin-bottom: 24px;
+  }
+
+  .model-flow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .model-step {
+    background: var(--white);
+    border: 1px solid var(--gray);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+  }
+
+  .model-step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--pink);
+    color: var(--white);
+    font-weight: 800;
+    font-size: 14px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+
+  .model-step h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 6px;
+  }
+
+  .model-step p {
+    font-size: 13px;
+    color: var(--gray-text);
+    line-height: 1.7;
+    margin-bottom: 0;
+    text-align: right;
+  }
+
+  /* Data Table */
+  .data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--gray);
+    margin: 20px 0;
+    font-size: 14px;
+  }
+
+  .data-table thead { background: var(--pink); }
+
+  .data-table th {
+    color: var(--white);
+    font-weight: 700;
+    padding: 12px 18px;
+    text-align: right;
+    font-size: 13px;
+  }
+
+  .data-table td {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--gray);
+  }
+
+  .data-table tbody tr:last-child td { border-bottom: none; }
+  .data-table tbody tr:nth-child(even) { background: var(--bg); }
+
+  /* Stats Row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin: 24px 0;
+  }
+
+  .stat-box {
+    background: var(--white);
+    border: 1px solid var(--gray);
+    border-radius: 10px;
+    padding: 20px 12px;
+    text-align: center;
+  }
+
+  .stat-box::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: var(--pink);
+    margin: 12px auto 0;
+    border-radius: 2px;
+  }
+
+  .stat-box.gold::after { background: var(--yellow-dark); }
+
+  .stat-val {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--pink);
+    display: block;
+  }
+
+  .stat-box.gold .stat-val { color: #B8A600; }
+
+  .stat-desc {
+    font-size: 12px;
+    color: var(--gray-text);
+    font-weight: 500;
+    margin-top: 4px;
+  }
+
+  /* Bullet lists */
+  .paper-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 16px;
+  }
+
+  .paper-content ul li {
+    font-size: 14.5px;
+    padding: 6px 0 6px 0;
+    padding-right: 22px;
+    position: relative;
+    line-height: 1.9;
+  }
+
+  .paper-content ul li::before {
+    content: '';
+    position: absolute;
+    right: 4px;
+    top: 15px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--pink);
+  }
+
+  /* Triage */
+  .triage-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin: 20px 0;
+  }
+
+  .triage-card {
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .triage-card.green {
+    background: rgba(76, 175, 80, 0.08);
+    border: 1px solid rgba(76, 175, 80, 0.25);
+  }
+
+  .triage-card.orange {
+    background: rgba(255, 152, 0, 0.08);
+    border: 1px solid rgba(255, 152, 0, 0.25);
+  }
+
+  .triage-card.red {
+    background: rgba(244, 67, 54, 0.08);
+    border: 1px solid rgba(244, 67, 54, 0.25);
+  }
+
+  .triage-card h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .triage-card.green h4 { color: #388E3C; }
+  .triage-card.orange h4 { color: #E65100; }
+  .triage-card.red h4 { color: #C62828; }
+
+  .triage-card p {
+    font-size: 13px;
+    color: var(--gray-text);
+    line-height: 1.6;
+    margin-bottom: 0;
+    text-align: center;
+  }
+
+  /* Dual radar */
+  .dual-radar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 24px 0;
+  }
+
+  .radar-card {
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--gray);
+  }
+
+  .radar-card.tech {
+    background: linear-gradient(135deg, rgba(255, 242, 0, 0.06), var(--white));
+    border-color: rgba(230, 217, 0, 0.3);
+  }
+
+  .radar-card.human {
+    background: linear-gradient(135deg, var(--pink-light), var(--white));
+    border-color: rgba(194, 24, 91, 0.15);
+  }
+
+  .radar-card h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .radar-card.tech h4 { color: #B8A600; }
+  .radar-card.human h4 { color: var(--pink); }
+
+  .radar-card ul li::before {
+    background: var(--pink);
+  }
+
+  .radar-card.tech ul li::before {
+    background: var(--yellow-dark);
+  }
+
+  /* Analogy box */
+  .analogy-box {
+    background: var(--black);
+    color: var(--white);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin: 28px 0;
+  }
+
+  .analogy-box h4 {
+    color: var(--yellow);
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .analogy-box p {
+    color: rgba(255,255,255,0.85);
+    font-size: 14px;
+    line-height: 1.9;
+    margin-bottom: 0;
+  }
+
+  /* Footer */
+  .paper-footer {
+    background: var(--black);
+    padding: 24px 64px;
+    text-align: center;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    border-radius: 0 0 4px 4px;
+  }
+
+  .paper-footer .brand {
+    color: var(--pink);
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  /* Schools table */
+  .schools-compact {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--gray);
+    margin: 20px 0;
+    font-size: 13px;
+  }
+
+  .schools-compact thead { background: var(--black); }
+
+  .schools-compact th {
+    color: var(--white);
+    font-weight: 700;
+    padding: 10px 16px;
+    text-align: right;
+    font-size: 12px;
+  }
+
+  .schools-compact td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--gray);
+    font-size: 13px;
+  }
+
+  .schools-compact tbody tr:last-child td { border-bottom: none; }
+  .schools-compact tbody tr:nth-child(even) { background: var(--bg); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .paper-container { margin: 0; border-radius: 0; }
+    .title-page, .abstract, .paper-content, .paper-footer { padding-left: 24px; padding-right: 24px; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .model-flow { grid-template-columns: 1fr; }
+    .dual-radar { grid-template-columns: 1fr; }
+    .triage-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="paper-container">
+  <div class="paper-header-bar"></div>
+
+  <!-- Title Page -->
+  <div class="title-page">
+    <div class="org-line">
+      <img src="assets/logo_small.png" alt="הופה">
+      <span>הופה - תשתית טכנולוגית חברתית</span>
+    </div>
+
+    <h1 class="paper-title">מודל ה"רדאר" של הופה: פרדיגמה אינטגרטיבית להתערבות רב-ממדית בקרב צעירים בסיכון</h1>
+    <p class="paper-subtitle">ניתוח אקולוגי-פדגוגי של מודל חברתי-טכנולוגי לזיהוי, מיפוי והתאמת מענים עבור אוכלוסיית הצעירים בישראל</p>
+
+    <div class="paper-meta">
+      <strong>ארגון:</strong> הופה - פלטפורמה חברתית וחדשנית המובילה ומפתחת מודל פורץ דרך לשינוי כלכלי וחברתי עבור אוכלוסיית הצעירים והצעירות בישראל<br>
+      <strong>תאריך:</strong> אפריל 2026<br>
+      <strong>סוג מסמך:</strong> מאמר עמדה (Position Paper)<br>
+      <strong>היקף פעילות:</strong> 6 בתי ספר | ~1,000 תלמידים | ~1,500 בוגרים | 529+ מענים
+    </div>
+  </div>
+
+  <!-- Abstract -->
+  <div class="abstract">
+    <h2>תקציר</h2>
+    <p>
+      מודל ה"רדאר" של הופה (Hopa) מציג פרדיגמה חדשנית המשלבת כלים אנושיים וטכנולוגיים לטובת זיהוי, מיפוי והתאמה של מענים עבור אוכלוסיית הצעירים והצעירות בישראל. מודל זה עומד בהלימה לגישות מקצועיות עדכניות בתחום החינוך-טיפול, המדגישות מעבר מתגובה ריאקטיבית לעבודה יזומה, ממוקדת מטרה ומערכתית. ייחודיותו טמונה בראייה ההוליסטית של הצעיר הממוקם בתוך האקוסיסטם הרחב שלו, ובשימוש בנתונים לניהול תהליך השינוי האישי והחברתי. המאמר מציג את ארבעת שלבי המודל, את המכניזם הדו-כיווני (רדאר אנושי וטכנולוגי), את מודל הרמזור לדירוג סיכון, ואת המסגרת האקולוגית להתערבות הוליסטית.
+    </p>
+    <div class="keywords">
+      <strong>מילות מפתח:</strong> מניעת נשירה, נוער בסיכון, התערבות מערכתית, יישוג, מודל אקולוגי, רצף ליווי, פדגוגיה טיפולית, מוביליות חברתית, רדאר חברתי-טכנולוגי
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="paper-content">
+
+    <!-- 1. Introduction -->
+    <section>
+      <div class="section-num">1</div>
+      <h2 class="section-heading">מבוא: מיקום המודל בפרדיגמת ההתערבות החינוכית-חברתית</h2>
+
+      <p>
+        בישראל 2026, מערכת החינוך והרווחה ניצבת בפני אתגר מורכב: 439,905 ילדים ובני נוער מוכרים בשירותי הרווחה, המהווים כ-14% מכלל בני הנוער (דוח מבקר המדינה, יולי 2025). במקביל נרשמה עלייה של 78% בלחץ ומצוקה, 77% עלייה בפליליות ו-16% עלייה בניסיונות אובדנות. נתונים אלו מצביעים על כשל מערכתי: המענים הקיימים פועלים באופן ריאקטיבי ומפוצל, ללא רצף ליווי וללא תכלול בין גורמי חינוך, רווחה וקהילה.
+      </p>
+      <p>
+        מודל ה"רדאר" של הופה שואף להבטיח כי המענים החינוכיים-טיפוליים לא יינתנו באופן אקראי או תגובתי, אלא יהיו מוכווני מטרה ומותאמים אישית (tailored) למצבו של הפרט. המודל מבטא את הצורך ליצור ניהול ידע אינטגרטיבי, המשלב בין מעקב ממוחשב (הרדאר הטכנולוגי) לבין בניית אמון ויחסי קשר (הרדאר האנושי), ובכך מאפשר "תפירת חליפה אישית" של מענים הולמים לצרכיו של כל צעיר.
+      </p>
+
+      <div class="highlight-box">
+        <p>
+          <strong>הגדרת הופה:</strong> פלטפורמה חברתית טכנולוגית הפועלת ליצירת רצף ליווי עבור בני נוער וצעירים בסיכון בגילאי 14-26. משלבת קשר אנושי יזום, מודל סיכון מבוסס נתונים, שימוש יומיומי בוואטסאפ ואוטומציות, ומאגר של 529+ מענים ותוכניות. מטרתה להפוך את התמיכה בצעירים מריאקטיבית ליוזמת, רציפה ומבוססת התאמה אישית.
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. Dual Mechanism -->
+    <section>
+      <div class="section-num">2</div>
+      <h2 class="section-heading">המכניזם הדו-כיווני: הרדאר האנושי והטכנולוגי</h2>
+
+      <p>
+        ה"רדאר" בבסיס מודל הופה פועל באמצעות שני ערוצים משלימים, המשרתים את המטרה המרכזית של הבטחת השתלבות ומוביליות של הצעיר. השילוב בין שני הערוצים יוצר מנגנון אפקטיבי שבו הטכנולוגיה מעצימה את הקשר האנושי, והקשר האנושי מעניק משמעות לנתונים הטכנולוגיים.
+      </p>
+
+      <div class="dual-radar">
+        <div class="radar-card tech">
+          <h4>הרדאר הטכנולוגי: מדידה, ניטור והערכה</h4>
+          <p style="font-size:14px; margin-bottom:12px;">
+            המרכיב הטכנולוגי משמש ככלי ניהול ותכנון המאפשר קבלת החלטות מבוססות נתונים.
+          </p>
+          <ul>
+            <li><strong>איתור ומיפוי:</strong> זיהוי מוקדם של מצבי סיכון והיעדרות, פילוח רמות סיכון</li>
+            <li><strong>הערכת התקדמות:</strong> הצלחה נמדדת כהתקדמות (Progress) לאורך ציר ליניארי של התפתחות, לא כנקודה סופית</li>
+            <li><strong>מעקב שוטף:</strong> סימון נקודת פתיחה בצירי מדידה שונים וניטור מוביליות כלפי מעלה</li>
+            <li><strong>ניתוח השפעה:</strong> נתוני ההתקדמות תורמים לניתוח השפעת תוכנית ההתערבות</li>
+          </ul>
+        </div>
+        <div class="radar-card human">
+          <h4>הרדאר האנושי: יישוג, היכרות ותכלול</h4>
+          <p style="font-size:14px; margin-bottom:12px;">
+            כלי חשיבתי ותכנוני שהופך ידע שנאסף למעשה חינוכי-טיפולי.
+          </p>
+          <ul>
+            <li><strong>היפוך הפירמידה:</strong> מעבר מתפקיד אכיפתי לתפקיד מגשר ומתכלל</li>
+            <li><strong>יישוג ובניית אמון:</strong> פעולה אקטיבית ללא תלות בסמכות, המושתתת על דיאלוג בגובה העיניים</li>
+            <li><strong>הכלה ואמפתיה:</strong> יצירת "מפגש אחר" עם הצעיר, שאלות באופן לא שיפוטי</li>
+            <li><strong>ראיית כוחות:</strong> זיהוי משאבים פנימיים של הצעיר, לא רק חסכים</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Model Stages -->
+    <section>
+      <div class="section-num">3</div>
+      <h2 class="section-heading">ארבעת שלבי מודל הרדאר</h2>
+
+      <p>
+        המודל מובנה סביב ארבעה שלבים המבטאים רצף הגיוני של התערבות פסיכו-חינוכית, החל מאיתור יזום ועד ליישום מענים מותאמים אישית. כל שלב מגלם עיקרון מקצועי מתחום החינוך-טיפול ומשקף את המעבר מדפוס תגובתי לעשייה פרואקטיבית ומכוונת.
+      </p>
+
+      <div class="model-diagram">
+        <h3>מזהים &middot; מכווינים &middot; מלווים</h3>
+        <div class="model-flow">
+          <div class="model-step">
+            <div class="model-step-num">1</div>
+            <h4>שידור גלים: יישוג ואיתור יזום</h4>
+            <p>
+              הפעולה הראשונית המבטאת את הגישה הטיפולית-חינוכית, שאינה מחכה לנער שיבוא לבקש עזרה, אלא יוצאת אל הנער. יישוג זה מתבצע באמצעות שיחות, מסרונים, פעילויות מתוכננות ומפגשים אקראיים. המטרה: לפעול לפני שהמצב הופך קריטי או בלתי הפיך.
+            </p>
+          </div>
+          <div class="model-step">
+            <div class="model-step-num">2</div>
+            <h4>החזר מהעצם: קליטת מידע ואיתותים</h4>
+            <p>
+              פיתוח "אוזן קשבת" ורגישות מיוחדת. קליטת טקסט וסאב-טקסט, לשמוע "מבעד לצעקות את הכאב" ולזהות מסרים סמויים. איסוף נתונים רב-ממדי מהנער, ממשפחתו, ומגורמי רווחה וחינוך. זיהוי חסמים, כוחות ורצונות.
+            </p>
+          </div>
+          <div class="model-step">
+            <div class="model-step-num">3</div>
+            <h4>קליטה ועיבוד: אבחון וניתוח צרכים</h4>
+            <p>
+              הערכה פסיכו-סוציאלית ליצירת "מפה קוגניטיבית" של הנער: "זום אאוט" (תמונה כוללת) ו"זום אין" (כוחות וצרכים). פילוח רמות סיכון לפי מדדים ממוקדים. הגדרת הצלחה כהתקדמות (Progress) מנקודת המוצא לנקודה אחרת.
+            </p>
+          </div>
+          <div class="model-step">
+            <div class="model-step-num">4</div>
+            <h4>חישוב נתונים: קביעת מטרות והתאמת מענה</h4>
+            <p>
+              הצבת יעדים ממוקדים (שניים-שלושה לכל היותר). התאמת מענה לרמת הסיכון לפי מודל הרמזור. יצירת "חלופה אישית עבור הנער, הנתפרת מתוך סל השירותים והאפשרויות הקיימים". טיפול אקולוגי: חיזוק חיבורים למרחבי חיים שונים.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Triage Model -->
+    <section>
+      <div class="section-num">4</div>
+      <h2 class="section-heading">מודל הרמזור (Triage): דירוג סיכון והתאמת התערבות</h2>
+
+      <p>
+        ההתערבות נגזרת מרמת הסיכון שזוהתה. ככל שרמת הסיכון גבוהה יותר, נדרשת רמה גבוהה יותר של דיוק והתאמה במענים. מודל ההתערבות מבחין בין שלוש רמות:
+      </p>
+
+      <div class="triage-grid">
+        <div class="triage-card green">
+          <h4>ירוק - מניעה ראשונית</h4>
+          <p>מעקב שוטף, חיזוק שייכות, חיבור למענים בסיסיים. שמירה על קשר ומניעת ירידה.</p>
+        </div>
+        <div class="triage-card orange">
+          <h4>כתום - תוכנית התערבות</h4>
+          <p>תוכנית אישית ממוקדת, ליווי צמוד, התאמת מענים ספציפיים. מעקב תכוף ותיאום עם גורמים.</p>
+        </div>
+        <div class="triage-card red">
+          <h4>אדום - התערבות מומחית</h4>
+          <p>הפניה לגורמי טיפול מקצועיים (פסיכולוג, פקידת סעד). פרוטוקולי SOS במצבי חירום (מודל מעש"ה).</p>
+        </div>
+      </div>
+
+      <h3 class="subsection-heading">4.1 התערבות במצבי חירום (SOS)</h3>
+      <p>
+        במקרי חירום (אובדנות, אלימות, סמים) נדרשת תגובה מיידית ויעילה המבוססת על פרוטוקולים מוגדרים. פעולות החירום כוללות השגחה מיידית, הרחקת אמצעי פגיעה, יידוע גורמים רלוונטיים ויצירת קשר פתוח ומכיל עם הצעיר. הפעולות מכוונות להפגת תחושת האיום, עידוד לפעילות אקטיבית והפעלת הצד הקוגניטיבי לארגון הזיכרון והסרת הבלבול.
+      </p>
+    </section>
+
+    <!-- 5. Trust and Partnership -->
+    <section>
+      <div class="section-num">5</div>
+      <h2 class="section-heading">שלב האמון והשותפות: תשתית לשינוי</h2>
+
+      <p>
+        שלב קריטי זה הוא התשתית לכל שינוי אפקטיבי. בניית קשר רגשי משמעותי (הזולת העצמי) מאפשרת לצעיר לחוש נכונות וביטחון להיפתח. יצירת קשר בלתי אמצעי מתוך אכפתיות ושותפות היא מרכיב מרכזי בפרקטיקה האפקטיבית.
+      </p>
+
+      <h3 class="subsection-heading">5.1 שותפות רב-מערכתית (האקוסיסטם)</h3>
+      <p>
+        המודל האקולוגי מדגיש כי הטיפול בנוער בסיכון מחייב חיזוק החיבורים של הצעיר אל מרחבי ההתערבות שלו: לימודים, משפחה, קהילה, תעסוקה. שיתוף פעולה הדוק בין גורמים שונים (חינוך, רווחה, קב"סים) והיכולת ליצור איגום משאבים (משאבי אנוש, ידע, תקציב) הם תנאי הכרחי להצלחה. הרכזת משמשת כגורם מתכלל שתפקידו ליצור את החיבורים הרלוונטיים ולעקוף חסמים מערכתיים.
+      </p>
+
+      <h3 class="subsection-heading">5.2 קהילת בית הספר וההורים</h3>
+      <p>
+        הרדאר האנושי והטכנולוגי מתממש בעיקר בתוך הקהילה הבית-ספרית. הרכזת יוצרת ברית עבודה משותפת עם צוות בית הספר ודואגת להכשרה כדי שהצוות יפעל מתוך "פדגוגיה טיפולית" ויאמץ ראייה הוליסטית על צורכי התלמיד. עבודה עם הורים חיונית ומטרתה חיזוק הסמכות ההורית וגיוסם כשותפים מלאים בתהליך.
+      </p>
+    </section>
+
+    <!-- 6. Life Preparation -->
+    <section>
+      <div class="section-num">6</div>
+      <h2 class="section-heading">הכנה לחיים: מוביליות חברתית דרך מענים הוליסטיים</h2>
+
+      <p>
+        מודל הופה מכוון לקידום מוביליות באמצעות מתן מענים הוליסטיים המכסים את כל תחומי החיים (Life Domains) של הצעיר, מעבר לתחום הלימודי-התנהגותי.
+      </p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>תחום ליבה</th>
+            <th>גישה</th>
+            <th>מענים בפועל</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>השכלה</strong></td>
+            <td>"דרך המלך" להשתלבות חברתית. פדגוגיה-טיפולית שבה הלמידה חוויה מתקנת ומעצימה</td>
+            <td>השלמת בגרויות, לימודי יג-יד, הכשרות מקצועיות, מלגות</td>
+          </tr>
+          <tr>
+            <td><strong>תעסוקה</strong></td>
+            <td>פיתוח אוריינטציה לעתיד ובניית שאיפות ריאליות, מיומנויות תעסוקה</td>
+            <td>הכוונה מקצועית, סדנאות תעסוקה, חיבור למעסיקים, יזמות</td>
+          </tr>
+          <tr>
+            <td><strong>שירות משמעותי</strong></td>
+            <td>הכנה לשירות צבאי/לאומי כמנוף להשתלבות ולצמיחה אישית</td>
+            <td>מכינות, ליווי חיילים בודדים, חונכות, מיצוי זכויות משוחררים</td>
+          </tr>
+          <tr>
+            <td><strong>מעורבות חברתית</strong></td>
+            <td>התנדבות ותרומה לקהילה לחיזוק ערך עצמי ושייכות</td>
+            <td>תוכניות התנדבות, מנטורים לחיים, קהילות בוגרים</td>
+          </tr>
+          <tr>
+            <td><strong>כישורי חיים</strong></td>
+            <td>כלים רגשיים, חברתיים וקוגניטיביים: קבלת החלטות, ניהול יחסים, ויסות דחפים</td>
+            <td>דיור, ניהול תקציב, בריאות, סיוע משפטי, סיוע כלכלי</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="subsection-heading">6.1 מאגר מענים: תשתית ההתערבות</h3>
+      <p>
+        הופה מנהלת מאגר של 529+ מענים פעילים, מסווגים ב-6 קטגוריות ראשיות, 34 תת-קטגוריות, 5 אזורים גאוגרפיים ו-20 קהלי יעד. המאגר מאפשר התאמה אישית מדויקת לכל צעיר, על בסיס גיל, מיקום, צורך ומאפיינים ייחודיים.
+      </p>
+
+      <h3 class="subsection-heading">6.2 מעברי חיים (Life Transitions)</h3>
+      <p>
+        המודל מכיר בצורך לליווי ממוקד בנקודות קריטיות: מעבר בין שלבי חינוך, סיום לימודים, גיוס לצבא, שחרור, יציאה לחיים עצמאיים. תקופות אלו מעלות את סיכון הנשירה ומחייבות תמיכה מותאמת והכנה. הליווי של הופה לא נגמר עם כיתה י"ב אלא נמשך עד גיל 26.
+      </p>
+    </section>
+
+    <!-- 7. Operational Model -->
+    <section>
+      <div class="section-num">7</div>
+      <h2 class="section-heading">המודל התפעולי: בתי ספר, צוות ונתונים</h2>
+
+      <h3 class="subsection-heading">7.1 בתי ספר שותפים</h3>
+      <p>
+        הופה פועלת כיום ב-6 בתי ספר ברחבי הארץ. אורט בית הערבה משמש כמעבדת פיתוח מרכזית למודלים שהורחבו לכלל המערכת.
+      </p>
+
+      <table class="schools-compact">
+        <thead>
+          <tr><th>בית ספר</th><th>עיר</th><th>רשת</th><th>אזור</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>אורט בית הערבה</td><td>ירושלים</td><td>אורט</td><td>מרכז</td></tr>
+          <tr><td>עתיד קריית מוצקין</td><td>קריית מוצקין</td><td>עתיד טכנולוגי</td><td>צפון</td></tr>
+          <tr><td>מרום עכו</td><td>עכו</td><td>-</td><td>צפון</td></tr>
+          <tr><td>אורט אדיבי</td><td>אשקלון</td><td>אורט</td><td>דרום</td></tr>
+          <tr><td>צור ברק</td><td>צור ברק</td><td>-</td><td>מרכז</td></tr>
+          <tr><td>מגשימים בית שאן</td><td>בית שאן</td><td>-</td><td>צפון</td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="subsection-heading">7.2 הצוות בשטח</h3>
+      <p>
+        המודל מופעל על ידי 5 מלגאיות בניטור טלפוני יומיומי (זיהוי שינויים, שיחות מעקב, דיווח למערכת ועדכון סטטוסים) ורכזות בוגרים בבתי ספר (קשר אישי, ניהול קבוצות וואטסאפ, ליווי בצמתי חיים, חיבור להזדמנויות). תפקיד הרכזת הוא לתווך, לגשר ולתכלל את כלל המערכות והמענים, תוך שמירה על עמדה יציבה מתוך אמונה בנער.
+      </p>
+
+      <h3 class="subsection-heading">7.3 ניטור יומיומי</h3>
+      <p>
+        בכל בוקר (~10:00), מחנכים, בנות שירות ורכזות מדווחות בוואטסאפ על היעדרויות ושינויים בהתנהגות תלמידים. המערכת מעבדת ומזהה תלמידים שדורשים תשומת לב, מסווגת לפי מודל הרמזור, ומפעילה את תהליך היישוג והתאמת המענה.
+      </p>
+    </section>
+
+    <!-- 8. Research Evidence -->
+    <section>
+      <div class="section-num">8</div>
+      <h2 class="section-heading">ראיות מחקריות: הוכחת המודל</h2>
+
+      <h3 class="subsection-heading">8.1 מחקר מכון דו-עת (פברואר 2022)</h3>
+      <p>מדגם של 358 בוגרים שעברו את תוכנית ההתערבות של הופה:</p>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="stat-val">80%</span>
+          <span class="stat-desc">הגיעו ממשפחות מוכרות לרווחה</span>
+        </div>
+        <div class="stat-box gold">
+          <span class="stat-val">10%</span>
+          <span class="stat-desc">בלבד מוכרים לרווחה כיום</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-val">76%</span>
+          <span class="stat-desc">מועסקים (82% בגיל 25+)</span>
+        </div>
+        <div class="stat-box gold">
+          <span class="stat-val">77%</span>
+          <span class="stat-desc">התגייסו לצבא / שירות</span>
+        </div>
+      </div>
+
+      <ul>
+        <li>88% מהמועסקים עובדים במשרה מלאה, 67% יציבים בתעסוקה</li>
+        <li>58% משתכרים ברמת השכר החציוני ומעלה</li>
+        <li>83% מרגישים שעשו שירות צבאי/לאומי משמעותי</li>
+        <li>ציוני הסכמה 4.6 עד 4.9 מתוך 5</li>
+      </ul>
+
+      <div class="highlight-box">
+        <p>
+          <strong>מסקנת המחקר:</strong> ללא ההתערבות, רוב הבוגרים היו נשארים בשכבות הנמוכות. בפועל, התוכנית הביאה אותם למעמד בינוני נורמטיבי. הממצאים מוכיחים כי המודל משיג את מטרתו המרכזית: קידום מוביליות חברתית וכלכלית באמצעות רצף ליווי.
+        </p>
+      </div>
+
+      <h3 class="subsection-heading">8.2 נתוני רקע ארציים</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>נתון</th><th>ערך</th><th>מקור</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>ילדים ובני נוער מוכרים ברווחה</td><td>439,905 (~14%)</td><td>מבקר המדינה, 2025</td></tr>
+          <tr><td>עלייה בלחץ ומצוקה</td><td>78%</td><td>מבקר המדינה, 2025</td></tr>
+          <tr><td>עלייה בפליליות בני נוער</td><td>77%</td><td>מבקר המדינה, 2025</td></tr>
+          <tr><td>עלייה בניסיונות אובדנות</td><td>16%</td><td>מבקר המדינה, 2025</td></tr>
+          <tr><td>עלייה בלחץ בקרב נערות (מלחמה)</td><td>69%</td><td>מבקר המדינה, 2025</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 9. Summary -->
+    <section>
+      <div class="section-num">9</div>
+      <h2 class="section-heading">סיכום: מהתגובתי ליוזם</h2>
+
+      <p>
+        מודל ה"רדאר" של הופה משקף את המעבר המערכתי בתחום הטיפול בצעירים, מדפוס תגובתי לעשייה פרואקטיבית ומכוונת. השילוב בין המעקב הממוחשב (הרדאר הטכנולוגי) לבין בניית אמון ויחסי קשר (הרדאר האנושי) מאפשר תפירת חליפה אישית של מענים הולמים לצרכיו של כל צעיר, ובכך תורם לקידום השתלבותם החברתית והכלכלית.
+      </p>
+      <p>
+        המודל משתמש בגישה אקולוגית על מנת להפוך את האתגרים והחסמים של הצעיר למנוף לצמיחה ולמימוש עצמי. ייחודיותו טמונה בראייה ההוליסטית של הצעיר הממוקם בתוך האקוסיסטם הרחב שלו, ובשימוש בנתונים לניהול תהליך השינוי האישי והחברתי.
+      </p>
+
+      <div class="analogy-box">
+        <h4>אנלוגיה מסכמת</h4>
+        <p>
+          מודל ה"רדאר" של הופה פועל כמו מגדל פיקוח מתקדם במערכת תעופה מורכבת. הרדאר הטכנולוגי (המכשור) מזהה את כל המטוסים (הצעירים) ואת מסלוליהם (צירי ההתקדמות), בעוד הרדאר האנושי (הפקח) מפענח את מצב הטיסה (מצבי סיכון וצורך), מתקשר עם הטייסים (הרכזת/מורה/הורה), ודואג לכך שכל טיסה תצלח את המעבר הקריטי (Life Transitions) ותגיע ליעדה הבטוח (השתלבות תעסוקתית וחברתית), באמצעות תמיכה, הכוונה וגישור בין גורמים רבים.
+        </p>
+      </div>
+
+      <h3 class="subsection-heading">9.1 יעדים אסטרטגיים</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>שנה</th><th>בתי ספר</th><th>בוגרים בליווי</th><th>מענים</th><th>יעד מרכזי</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>2026</strong></td><td>6+</td><td>1,500</td><td>529+</td><td>הוכחת מודל והרחבה מבוקרת</td></tr>
+          <tr><td><strong>2027</strong></td><td>9+</td><td>2,100+</td><td>550+</td><td>כניסה לרשויות נוספות</td></tr>
+          <tr><td><strong>2029</strong></td><td>10+</td><td>2,500+</td><td>700+</td><td>מודל לאומי בר-הרחבה</td></tr>
+        </tbody>
+      </table>
+
+      <div class="highlight-box" style="margin-top: 28px;">
+        <p>
+          <strong>החזון:</strong> הופה שואפת להפוך למודל לאומי. לא רק עמותה שמפעילה תוכניות, אלא תשתית שהמדינה תאמץ ותטמיע בקנה מידה רחב. המעבר: מ-6 בתי ספר, למועצה אזורית, למודל לאומי.
+        </p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="paper-footer">
+    <div class="brand">הופה - תשתית טכנולוגית חברתית</div>
+    <div>רצף ליווי לגילאי 14-26 | מזהים &middot; מכווינים &middot; מלווים | hopa.org.il</div>
+  </div>
+</div>
+
+</body>
+</html>
