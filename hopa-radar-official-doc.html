@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הופה - מודל הרדאר | מסמך רשמי</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pink: #C2185B;
+    --pink-light: rgba(194, 24, 91, 0.08);
+    --pink-glow: rgba(194, 24, 91, 0.15);
+    --yellow: #FFF200;
+    --yellow-dark: #E6D900;
+    --black: #111111;
+    --white: #FFFFFF;
+    --bg: #F7F7F7;
+    --gray: #E5E5E5;
+    --gray-text: #666666;
+  }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    line-height: 1.7;
+    direction: rtl;
+  }
+
+  @media print {
+    body { font-size: 11pt; }
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+    section { break-inside: avoid; }
+  }
+
+  /* Header */
+  .doc-header {
+    background: var(--white);
+    border-bottom: 3px solid var(--pink);
+    padding: 40px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .doc-header .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .doc-header .logo-area img {
+    height: 60px;
+  }
+
+  .doc-header .header-text h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--black);
+  }
+
+  .doc-header .header-text p {
+    font-size: 14px;
+    color: var(--gray-text);
+    font-weight: 400;
+  }
+
+  .doc-meta {
+    text-align: left;
+    font-size: 13px;
+    color: var(--gray-text);
+    line-height: 1.8;
+  }
+
+  .doc-meta .label {
+    font-weight: 600;
+    color: var(--black);
+  }
+
+  /* Content */
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 60px;
+  }
+
+  /* Section Title */
+  .section-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--black);
+    margin-bottom: 6px;
+    padding-right: 16px;
+    border-right: 4px solid var(--pink);
+  }
+
+  .section-subtitle {
+    font-size: 14px;
+    color: var(--gray-text);
+    margin-bottom: 28px;
+    padding-right: 20px;
+  }
+
+  section {
+    margin-bottom: 48px;
+  }
+
+  /* Intro Block */
+  .intro-block {
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 40px;
+    border: 1px solid var(--gray);
+  }
+
+  .intro-block h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .intro-block p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #333;
+  }
+
+  .intro-block .highlight {
+    color: var(--pink);
+    font-weight: 700;
+  }
+
+  /* Definition Box */
+  .definition-box {
+    background: linear-gradient(135deg, var(--pink-light), rgba(255, 242, 0, 0.05));
+    border: 1px solid var(--pink-glow);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 36px;
+    position: relative;
+  }
+
+  .definition-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--pink);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .definition-box p {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.9;
+    color: var(--black);
+  }
+
+  /* Radar Section */
+  .radar-section {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 40px;
+    border: 1px solid var(--gray);
+    margin-bottom: 36px;
+  }
+
+  .radar-title {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .radar-title h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--pink);
+    margin-bottom: 8px;
+  }
+
+  .radar-title .slogan {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--black);
+    letter-spacing: 2px;
+  }
+
+  /* Radar Steps */
+  .radar-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .step-card {
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    border: 1px solid var(--gray);
+    transition: box-shadow 0.2s;
+  }
+
+  .step-card:hover {
+    box-shadow: 0 4px 16px rgba(194, 24, 91, 0.1);
+  }
+
+  .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--pink);
+    color: var(--white);
+    font-weight: 800;
+    font-size: 16px;
+    border-radius: 50%;
+    margin-bottom: 12px;
+  }
+
+  .step-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 8px;
+  }
+
+  .step-card p {
+    font-size: 14px;
+    color: var(--gray-text);
+    line-height: 1.7;
+  }
+
+  /* Schools Table */
+  .schools-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--gray);
+    margin-bottom: 16px;
+  }
+
+  .schools-table thead {
+    background: var(--pink);
+  }
+
+  .schools-table th {
+    color: var(--white);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 14px 20px;
+    text-align: right;
+  }
+
+  .schools-table td {
+    padding: 14px 20px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--gray);
+    color: var(--black);
+  }
+
+  .schools-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .schools-table tbody tr:nth-child(even) {
+    background: var(--bg);
+  }
+
+  .schools-table tbody tr:hover {
+    background: var(--pink-light);
+  }
+
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--gray);
+    border-radius: 12px;
+    padding: 24px 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--pink);
+  }
+
+  .stat-card.yellow::after {
+    background: var(--yellow-dark);
+  }
+
+  .stat-number {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--pink);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .stat-card.yellow .stat-number {
+    color: #B8A600;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--gray-text);
+    font-weight: 500;
+  }
+
+  /* Axes Section */
+  .axes-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 36px;
+  }
+
+  .axis-card {
+    border-radius: 12px;
+    padding: 28px;
+    border: 1px solid var(--gray);
+  }
+
+  .axis-card.pink {
+    background: linear-gradient(135deg, var(--pink-light), var(--white));
+    border-color: rgba(194, 24, 91, 0.2);
+  }
+
+  .axis-card.gold {
+    background: linear-gradient(135deg, rgba(255, 242, 0, 0.08), var(--white));
+    border-color: rgba(230, 217, 0, 0.3);
+  }
+
+  .axis-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .axis-card.pink .axis-badge {
+    background: var(--pink);
+    color: var(--white);
+  }
+
+  .axis-card.gold .axis-badge {
+    background: var(--yellow-dark);
+    color: var(--black);
+  }
+
+  .axis-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .axis-card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .axis-card ul li {
+    font-size: 14px;
+    padding: 6px 0;
+    padding-right: 20px;
+    position: relative;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  .axis-card.pink ul li::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 14px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--pink);
+  }
+
+  .axis-card.gold ul li::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 14px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--yellow-dark);
+  }
+
+  /* Daily Flow */
+  .flow-timeline {
+    position: relative;
+    padding-right: 30px;
+  }
+
+  .flow-timeline::before {
+    content: '';
+    position: absolute;
+    right: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--pink), var(--yellow-dark));
+  }
+
+  .flow-item {
+    position: relative;
+    margin-bottom: 28px;
+    padding-right: 20px;
+  }
+
+  .flow-item::before {
+    content: '';
+    position: absolute;
+    right: -26px;
+    top: 6px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--pink);
+    border: 3px solid var(--white);
+    box-shadow: 0 0 0 2px var(--pink);
+  }
+
+  .flow-item:nth-child(even)::before {
+    background: var(--yellow-dark);
+    box-shadow: 0 0 0 2px var(--yellow-dark);
+  }
+
+  .flow-item h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--black);
+  }
+
+  .flow-item p {
+    font-size: 14px;
+    color: var(--gray-text);
+    line-height: 1.7;
+  }
+
+  /* Differentiators */
+  .diff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+
+  .diff-item {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid var(--gray);
+    text-align: center;
+  }
+
+  .diff-item .diff-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--pink);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .diff-item h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 6px;
+  }
+
+  .diff-item p {
+    font-size: 12px;
+    color: var(--gray-text);
+    line-height: 1.6;
+  }
+
+  /* Categories Table */
+  .categories-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--gray);
+    margin-bottom: 16px;
+  }
+
+  .categories-table thead {
+    background: var(--black);
+  }
+
+  .categories-table th {
+    color: var(--white);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 12px 20px;
+    text-align: right;
+  }
+
+  .categories-table td {
+    padding: 12px 20px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--gray);
+    color: var(--black);
+  }
+
+  .categories-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .categories-table tbody tr:nth-child(even) {
+    background: var(--bg);
+  }
+
+  /* Footer */
+  .doc-footer {
+    background: var(--black);
+    color: var(--white);
+    padding: 28px 60px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .doc-footer .footer-line {
+    opacity: 0.6;
+  }
+
+  .doc-footer .footer-brand {
+    color: var(--pink);
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .doc-header { flex-direction: column; gap: 16px; padding: 24px; text-align: center; }
+    .doc-meta { text-align: center; }
+    .content { padding: 24px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .radar-steps { grid-template-columns: 1fr; }
+    .axes-container { grid-template-columns: 1fr; }
+    .diff-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="doc-header">
+  <div class="logo-area">
+    <img src="assets/logo_small.png" alt="הופה">
+    <div class="header-text">
+      <h1>הופה - תשתית טכנולוגית חברתית</h1>
+      <p>מודל הרדאר | מסמך רשמי</p>
+    </div>
+  </div>
+  <div class="doc-meta">
+    <div><span class="label">תאריך:</span> אפריל 2026</div>
+    <div><span class="label">סוג מסמך:</span> מסמך היכרות רשמי</div>
+    <div><span class="label">סיווג:</span> לשימוש חיצוני</div>
+  </div>
+</header>
+
+<div class="content">
+
+  <!-- Introduction -->
+  <section>
+    <div class="intro-block">
+      <h2>מי אנחנו</h2>
+      <p>
+        הופה היא עמותה שיוצרת <span class="highlight">רצף ליווי לגילאי 14-26</span> דרך מניעת נשירה, ליווי בוגרים, חיבור להזדמנויות ושילוב של קשר אנושי עם תשתית חכמה.
+        הופה פועלת בשתי זירות: <span class="highlight">מניעת נשירה ואיתור מוקדם</span> בתוך בתי ספר, ו<span class="highlight">ליווי בוגרים בצמתי חיים</span> לאחר סיום הלימודים.
+      </p>
+    </div>
+
+    <div class="definition-box">
+      <p>
+        הופה היא פלטפורמה חברתית טכנולוגית הפועלת ליצירת רצף ליווי עבור בני נוער וצעירים בסיכון. הארגון משלב קשר אנושי יזום, מודל סיכון מבוסס נתונים, שימוש יומיומי בוואטסאפ ואוטומציות, ומאגר הולך וגדל של מענים ותוכניות. מטרתה להפוך את התמיכה בצעירים מריאקטיבית ליוזמת, רציפה, ומבוססת התאמה אישית.
+      </p>
+    </div>
+  </section>
+
+  <!-- Key Numbers -->
+  <section>
+    <h2 class="section-title">הופה במספרים</h2>
+    <p class="section-subtitle">נתוני פעילות עדכניים, 2026</p>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-number">6</span>
+        <span class="stat-label">בתי ספר שותפים</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">~1,000</span>
+        <span class="stat-label">תלמידים בתוכניות מניעה</span>
+      </div>
+      <div class="stat-card yellow">
+        <span class="stat-number">~1,500</span>
+        <span class="stat-label">בוגרים בליווי</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">529+</span>
+        <span class="stat-label">מענים במאגר</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Radar Model -->
+  <section>
+    <div class="radar-section">
+      <div class="radar-title">
+        <h2>מודל הרדאר - הלב של הופה</h2>
+        <div class="slogan">מזהים &middot; מכווינים &middot; מלווים</div>
+      </div>
+
+      <p style="text-align:center; color: var(--gray-text); font-size: 15px; margin-bottom: 28px; max-width: 600px; margin-left: auto; margin-right: auto;">
+        מודל חברתי-טכנולוגי: איסוף מידע, זיהוי מוקדם, ניתוח סיכונים, בניית מענה מותאם - לפני שהמשבר מחמיר.
+      </p>
+
+      <div class="radar-steps">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>שידור וקליטה</h3>
+          <p>איסוף מידע שוטף מהשטח בזמן אמת. דיווחי מחנכים, בנות שירות ורכזות על היעדרויות, התנהגות ושינויים אצל תלמידים.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>ניתוח - מודל הרמזור</h3>
+          <p>סיווג לפי רמת סיכון: אדום, כתום, ירוק. ניטור שוטף של נוכחות, התנהגות, שייכות ותפקוד רגשי-חברתי.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>חישוב והתאמה</h3>
+          <p>איתור מענה מדויק מתוך מאגר של 529+ מענים ותוכניות. התאמה אישית לצרכים, לגיל ולמיקום של הצעיר/ה.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <h3>החזרת גלים</h3>
+          <p>ליווי, תיווך, מניעת החרפה ופעולה יזומה. לא מחכים שהצעיר יבקש עזרה, יוצאים אליו בשיחה, הודעה או חיבור לאיש צוות.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Two Axes -->
+  <section>
+    <h2 class="section-title">שני צירי פעולה</h2>
+    <p class="section-subtitle">מניעת נשירה בבתי ספר + ליווי בוגרים בצמתי חיים</p>
+
+    <div class="axes-container">
+      <div class="axis-card pink">
+        <span class="axis-badge">גיל 14-18</span>
+        <h3>מניעת נשירה בבתי ספר</h3>
+        <ul>
+          <li>זיהוי מוקדם של תלמידים בסיכון</li>
+          <li>ניטור מוטיבציה, שייכות ותפקוד</li>
+          <li>עבודה מערכתית עם צוותי בית ספר</li>
+          <li>מעקב אחר ירידה בהתמדה ובמעורבות</li>
+          <li>בניית רצף התערבות בתוך בית הספר</li>
+          <li>חיבור למענים רלוונטיים לפי צורך</li>
+        </ul>
+      </div>
+      <div class="axis-card gold">
+        <span class="axis-badge">גיל 18-26</span>
+        <h3>ליווי בוגרים וצעירים</h3>
+        <ul>
+          <li>שירות צבאי, לאומי או אזרחי</li>
+          <li>תעסוקה והכוונה מקצועית</li>
+          <li>לימודים, הכשרות ומלגות</li>
+          <li>מיצוי זכויות</li>
+          <li>חיים עצמאיים (דיור, כלכלה)</li>
+          <li>קהילה, שייכות והזדמנויות</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schools -->
+  <section>
+    <h2 class="section-title">בתי ספר שותפים</h2>
+    <p class="section-subtitle">6 בתי ספר פעילים ברחבי הארץ</p>
+
+    <table class="schools-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>בית ספר</th>
+          <th>עיר</th>
+          <th>רשת</th>
+          <th>אזור</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>אורט בית הערבה</strong></td>
+          <td>ירושלים</td>
+          <td>אורט</td>
+          <td>מרכז</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>עתיד קריית מוצקין</strong></td>
+          <td>קריית מוצקין</td>
+          <td>עתיד טכנולוגי</td>
+          <td>צפון</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>מרום עכו</strong></td>
+          <td>עכו</td>
+          <td>-</td>
+          <td>צפון</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>אורט אדיבי</strong></td>
+          <td>אשקלון</td>
+          <td>אורט</td>
+          <td>דרום</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>צור ברק</strong></td>
+          <td>צור ברק</td>
+          <td>-</td>
+          <td>מרכז</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>מסגרת בית שאן</strong></td>
+          <td>בית שאן</td>
+          <td>-</td>
+          <td>צפון</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size: 13px; color: var(--gray-text); margin-top: 8px;">
+      אורט בית הערבה משמש כמעבדת פיתוח מרכזית למודלים שהורחבו לכלל בתי הספר.
+    </p>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- Daily Operation -->
+  <section>
+    <h2 class="section-title">יום עבודה בהופה</h2>
+    <p class="section-subtitle">כך נראה רצף הפעולה היומיומי בבתי הספר השותפים</p>
+
+    <div class="flow-timeline">
+      <div class="flow-item">
+        <h4>בוקר - ניטור יומיומי (~10:00)</h4>
+        <p>מחנכים, בנות שירות ורכזות מדווחות בוואטסאפ על היעדרויות ושינויים בהתנהגות תלמידים. המערכת מעבדת ומזהה תלמידים שדורשים תשומת לב.</p>
+      </div>
+      <div class="flow-item">
+        <h4>סיווג - מודל הרמזור</h4>
+        <p>כל תלמיד מסווג לפי רמת סיכון: ירוק (יציב), כתום (דורש מעקב), אדום (דורש התערבות מיידית). הסיווג מתעדכן באופן שוטף.</p>
+      </div>
+      <div class="flow-item">
+        <h4>רדאר 360 - תמונה מלאה</h4>
+        <p>מבט מכל הכיוונים: שייכות, מצב בבית, כוחות, חסמים, הזדמנויות. לא רק "הגיע / לא הגיע" אלא ראייה הוליסטית של הצעיר/ה.</p>
+      </div>
+      <div class="flow-item">
+        <h4>יישוג (Outreach יזום)</h4>
+        <p>לא מחכים שהצעיר יבקש עזרה. יוצאים אליו: שיחה, הודעה, מפגש, חיבור לאיש צוות. התערבות מונעת בזמן אמת.</p>
+      </div>
+      <div class="flow-item">
+        <h4>התאמת מענה</h4>
+        <p>חיפוש במאגר 529+ מענים ותוכניות. התאמה אישית לפי גיל, מיקום, צורך ומאפייני הצעיר/ה. חיבור למענה הרלוונטי ביותר.</p>
+      </div>
+      <div class="flow-item">
+        <h4>מעקב ורצף</h4>
+        <p>תיעוד, שמירה על קשר, מעקב מתמשך. הקשר לא נגמר עם כיתה י"ב. ליווי רציף עד גיל 26 כולל קבוצות וואטסאפ, הודעות אוטומטיות ופניות יזומות.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Categories -->
+  <section>
+    <h2 class="section-title">מאגר המענים</h2>
+    <p class="section-subtitle">529+ מענים ב-6 קטגוריות ראשיות, 34 תת-קטגוריות, 5 אזורים</p>
+
+    <table class="categories-table">
+      <thead>
+        <tr>
+          <th>קטגוריה</th>
+          <th>כמות מענים</th>
+          <th>תת-קטגוריות</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>שירות צבאי / לאומי</strong></td>
+          <td>75</td>
+          <td>מכינות, חיילים בודדים, התנדבות, חונכים</td>
+        </tr>
+        <tr>
+          <td><strong>חינוך ופיתוח קריירה</strong></td>
+          <td>96</td>
+          <td>לימודי יג-יד, מרכזי צעירים, הכוונה תעסוקתית, מלגות, בגרות, יזמות</td>
+        </tr>
+        <tr>
+          <td><strong>אוכלוסיות מגוונות</strong></td>
+          <td>36</td>
+          <td>קהילה אתיופית, ניצולי חרבות ברזל, קהילה גאה, יוצאי חרדיות</td>
+        </tr>
+        <tr>
+          <td><strong>זכויות, דיור, סיוע כלכלי</strong></td>
+          <td>55</td>
+          <td>סיוע כלכלי ודיור, דיור חירום, זכויות משוחררים, סיוע משפטי</td>
+        </tr>
+        <tr>
+          <td><strong>חוסן ותמיכה רגשית</strong></td>
+          <td>58</td>
+          <td>רפואי-רגשי, התמכרויות, מנטורים לחיים, הורות, בטיחות נשים</td>
+        </tr>
+        <tr>
+          <td><strong>חינוך והעשרה (נוער)</strong></td>
+          <td>~37</td>
+          <td>חוגים והעשרה, תמיכה רגשית-חברתית, סיוע כלכלי כללי</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 9 Differentiators -->
+  <section>
+    <h2 class="section-title">9 המבדלים של הופה</h2>
+    <p class="section-subtitle">מה מייחד את הופה מכל ארגון אחר בתחום</p>
+
+    <div class="diff-grid">
+      <div class="diff-item">
+        <div class="diff-num">1</div>
+        <h4>רצף ליווי</h4>
+        <p>מגיל 14 עד 26. לא נקודתי, לא חד-פעמי.</p>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">2</div>
+        <h4>חיבור אדם-מערכת</h4>
+        <p>קשר אנושי + מערכת שמחזיקה מידע לאורך זמן.</p>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">3</div>
+        <h4>זיהוי מוקדם</h4>
+        <p>לא מחכים למשבר. מזהים סימנים מוקדם ופועלים.</p>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">4</div>
+        <h4>עבודה בתוך בתי ספר</h4>
+        <p>הטמעת תשתית, לא רק פרויקט מבחוץ.</p>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">5</div>
+        <h4>המשכיות גורמי קשר</h4>
+        <p>אותה דמות מלווה מבית הספר ועד הבגרות.</p>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">6</div>
+        <h4>חיבור למענים קיימים</h4>
+        <p>ממפה, מנגישה ומתווכת מענים לצעירים.</p>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">7</div>
+        <h4>וואטסאפ ואוטומציות</h4>
+        <p>שימוש חכם בכלים שהצעירים כבר משתמשים בהם.</p>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">8</div>
+        <h4>מדידה ודאטה</h4>
+        <p>תמיכה מבוססת נתונים, לא רק תחושת בטן.</p>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">9</div>
+        <h4>גישה מערכתית לא בירוקרטית</h4>
+        <p>תשתית ידידותית, חכמה ועדכנית.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision -->
+  <section>
+    <h2 class="section-title">לאן פנינו</h2>
+    <p class="section-subtitle">חזון ויעדים אסטרטגיים</p>
+
+    <div class="definition-box">
+      <p>
+        הופה שואפת להפוך למודל לאומי. לא רק עמותה שמפעילה תוכניות, אלא מודל עבודה שמוכיח את עצמו ומתרחב לרמה ארצית. תשתית שהמדינה תאמץ ותטמיע בקנה מידה רחב.
+      </p>
+    </div>
+
+    <table class="categories-table">
+      <thead>
+        <tr>
+          <th>שנה</th>
+          <th>בתי ספר</th>
+          <th>בוגרים בליווי</th>
+          <th>מענים</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>2026</strong></td>
+          <td>6+</td>
+          <td>1,500</td>
+          <td>529+</td>
+        </tr>
+        <tr>
+          <td><strong>2027</strong></td>
+          <td>9+</td>
+          <td>2,100+</td>
+          <td>550+</td>
+        </tr>
+        <tr>
+          <td><strong>2029</strong></td>
+          <td>10+</td>
+          <td>2,500+</td>
+          <td>700+</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Partners -->
+  <section>
+    <h2 class="section-title">שותפויות וקרנות</h2>
+    <p class="section-subtitle">שותפים מרכזיים בפעילות הופה</p>
+    <div class="intro-block" style="margin-bottom: 0;">
+      <ul style="list-style: none; padding: 0;">
+        <li style="padding: 8px 0; border-bottom: 1px solid var(--gray); font-size: 14px;"><strong>קרן ברלוביץ׳</strong> - קרן עוגן מרכזית</li>
+        <li style="padding: 8px 0; border-bottom: 1px solid var(--gray); font-size: 14px;"><strong>מגה אור</strong> - שותפת מענקים</li>
+        <li style="padding: 8px 0; border-bottom: 1px solid var(--gray); font-size: 14px;"><strong>קרן לוי לאסן</strong> - פרויקט קהילה אתיופית</li>
+        <li style="padding: 8px 0; border-bottom: 1px solid var(--gray); font-size: 14px;"><strong>רשת אורט</strong> - בתי ספר שותפים</li>
+        <li style="padding: 8px 0; border-bottom: 1px solid var(--gray); font-size: 14px;"><strong>רשת עתיד טכנולוגי</strong> - בתי ספר שותפים</li>
+        <li style="padding: 8px 0; border-bottom: 1px solid var(--gray); font-size: 14px;"><strong>אדמה</strong> - ליווי מלגאים</li>
+        <li style="padding: 8px 0; font-size: 14px;"><strong>רשויות מקומיות, מרכזי צעירים, גורמי רווחה</strong></li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<!-- Footer -->
+<footer class="doc-footer">
+  <div class="footer-brand">הופה - תשתית טכנולוגית חברתית</div>
+  <div class="footer-line">רצף ליווי לגילאי 14-26 | מזהים &middot; מכווינים &middot; מלווים</div>
+  <div class="footer-line">hopa.org.il | liron@hopa.org.il</div>
+</footer>
+
+</body>
+</html>
