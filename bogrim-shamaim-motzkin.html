@@ -265,6 +265,90 @@
         }
 
         .impact-number.pink { color: var(--pink); }
+
+        /* ===== STATUS STRIP ===== */
+        .status-strip {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .status-chip {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 10px;
+            text-align: center;
+            flex: 1 1 0;
+            min-width: 80px;
+            max-width: 110px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .status-chip:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+
+        .status-chip .chip-num {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #222;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .status-chip .chip-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--muted);
+            line-height: 1.3;
+        }
+
+        .status-chip.chip-total {
+            background: linear-gradient(135deg, rgba(232,52,138,0.06), rgba(245,200,0,0.08));
+            border: 2px solid var(--yellow);
+            box-shadow: 0 0 16px rgba(245,200,0,0.15);
+        }
+
+        .status-chip.chip-total .chip-num {
+            font-size: 2.4rem;
+            color: var(--pink);
+        }
+
+        .status-chip.chip-total .chip-label {
+            color: #555;
+            font-weight: 700;
+        }
+
+        .status-chip.chip-green .chip-num { color: #2e7d32; }
+        .status-chip.chip-orange .chip-num { color: #e65100; }
+        .status-chip.chip-red .chip-num { color: #c62828; }
+
+        .status-section-title {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #555;
+            margin: 6px 0 12px;
+            position: relative;
+        }
+
+        .status-section-title::before,
+        .status-section-title::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 60px;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .status-section-title::before { right: calc(50% + 70px); }
+        .status-section-title::after { left: calc(50% + 70px); }
         .impact-number.yellow-text { color: var(--yellow); }
 
         .impact-label {
@@ -476,6 +560,11 @@
             .cover-hopa .ex { font-size: 3.5rem; }
             .cover-subtitle { font-size: 1.1rem; }
             .stat-number { font-size: 2.2rem; }
+            .status-strip { gap: 6px; }
+            .status-chip { min-width: 60px; max-width: 90px; padding: 12px 6px; border-radius: 10px; }
+            .status-chip .chip-num { font-size: 1.4rem; }
+            .status-chip .chip-label { font-size: 0.65rem; }
+            .status-chip.chip-total .chip-num { font-size: 1.8rem; }
             .contacts-table { font-size: 0.75rem; }
             .contacts-table td, .contacts-table th { padding: 8px 6px; }
             .bottom-bar { flex-direction: column; gap: 8px; text-align: center; }
@@ -775,37 +864,61 @@
         <div class="title-bar"><h3>אימפקט — סטטוס בוגרים</h3></div>
         <div class="card-body">
             <div class="card-body-inner fade-up">
-                <div class="grid-3">
-                    <div class="impact-card highlight-card" style="grid-column: 1 / -1;">
-                        <div class="impact-number pink">24</div>
-                        <div class="impact-label">מסתדרים כרגע — חיילים, עובדים או לומדים</div>
+
+                <div class="status-strip">
+                    <div class="status-chip chip-total">
+                        <div class="chip-num">97</div>
+                        <div class="chip-label">סה"כ</div>
                     </div>
-                    <div class="impact-card yellow-top">
-                        <div class="impact-number">5</div>
-                        <div class="impact-label">הכשרה תעסוקתית</div>
+                    <div class="status-chip chip-green">
+                        <div class="chip-num">40</div>
+                        <div class="chip-label">נוצר קשר</div>
                     </div>
-                    <div class="impact-card">
-                        <div class="impact-number">4</div>
-                        <div class="impact-label">תעסוקה</div>
+                    <div class="status-chip chip-green">
+                        <div class="chip-num">27</div>
+                        <div class="chip-label">חיילים</div>
                     </div>
-                    <div class="impact-card yellow-top">
-                        <div class="impact-number">2</div>
-                        <div class="impact-label">לימודים</div>
+                    <div class="status-chip chip-green">
+                        <div class="chip-num">26</div>
+                        <div class="chip-label">מסתדרים</div>
                     </div>
-                    <div class="impact-card">
-                        <div class="impact-number">1</div>
-                        <div class="impact-label">בתהליך טיפול</div>
+                    <div class="status-chip">
+                        <div class="chip-num">10</div>
+                        <div class="chip-label">טופלו</div>
                     </div>
-                    <div class="impact-card yellow-top">
-                        <div class="impact-number">1</div>
-                        <div class="impact-label">להתקשר אחרי שחרור</div>
+                </div>
+
+                <div class="status-strip">
+                    <div class="status-chip chip-green">
+                        <div class="chip-num">7</div>
+                        <div class="chip-label">עובדים</div>
+                    </div>
+                    <div class="status-chip chip-orange">
+                        <div class="chip-num">2</div>
+                        <div class="chip-label">לא עובדים</div>
+                    </div>
+                    <div class="status-chip">
+                        <div class="chip-num">1</div>
+                        <div class="chip-label">לומדים</div>
+                    </div>
+                    <div class="status-chip chip-orange">
+                        <div class="chip-num">1</div>
+                        <div class="chip-label">בתהליך</div>
+                    </div>
+                    <div class="status-chip chip-orange">
+                        <div class="chip-num">1</div>
+                        <div class="chip-label">לחזור אליהם</div>
+                    </div>
+                    <div class="status-chip chip-red">
+                        <div class="chip-num">59</div>
+                        <div class="chip-label">ללא סטטוס</div>
                     </div>
                 </div>
 
                 <div class="bottom-bar">
                     <div>
                         <div class="bb-label">סה"כ בוגרים שמופו</div>
-                        <div class="bb-value">37 מתוך 97</div>
+                        <div class="bb-value">38 מתוך 97</div>
                     </div>
                     <div>
                         <div class="bb-label">שיטה</div>
