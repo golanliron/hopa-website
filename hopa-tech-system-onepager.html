@@ -297,57 +297,65 @@
 
   /* Research */
   .research-box {
-    background: #1a1a2e;
+    background: #f8f8f8;
     border-radius: 10px;
-    padding: 10px 14px;
-    color: white;
+    padding: 12px 16px;
+    border: 1.5px solid #ddd;
   }
 
   .research-box h3 {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
-    color: #F5C800;
-    margin-bottom: 5px;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+  }
+
+  .research-box h3 span {
+    color: #E8358A;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 2px;
   }
 
   .research-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
+    gap: 8px;
   }
 
   .ri {
-    background: rgba(255,255,255,0.07);
-    border-radius: 6px;
-    padding: 6px 8px;
-    border: 1px solid rgba(255,255,255,0.1);
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 10px;
+    border: 1px solid #eee;
+    border-top: 3px solid #F5C800;
   }
 
   .ri .ri-t {
-    font-size: 10px;
-    font-weight: 600;
-    color: white;
-    margin-bottom: 1px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 3px;
   }
 
   .ri .ri-d {
-    font-size: 9px;
-    color: #aaa;
-    line-height: 1.3;
+    font-size: 10px;
+    color: #666;
+    line-height: 1.4;
   }
 
   /* Footer */
   .footer {
-    position: absolute;
-    bottom: 10px;
-    left: 30px;
-    right: 30px;
     display: flex;
     justify-content: space-between;
     font-size: 8.5px;
     color: #ccc;
     border-top: 1px solid #eee;
     padding-top: 5px;
+    margin-top: 10px;
   }
 
   @media print { body { background: white; } .page { box-shadow: none; } }
@@ -574,7 +582,7 @@
 
   <!-- Research potential -->
   <div class="research-box">
-    <h3>RESEARCH POTENTIAL: כיווני מחקר אפשריים על בסיס הנתונים</h3>
+    <h3><span>Research Potential</span>כיווני מחקר אפשריים על בסיס הנתונים</h3>
     <div class="research-grid">
       <div class="ri">
         <div class="ri-t">טריאנגולציה</div>
