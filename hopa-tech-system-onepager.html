@@ -3,242 +3,223 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>הופה | מבנה נתונים - Inputs & Outputs</title>
+<title>הופה | מבנה הנתונים של המערכת</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap');
+  :root {
+    --primary: #E8358A;
+    --secondary: #F5C800;
+    --foreground: #2A2D38;
+    --bg: #F7F5F2;
+    --white: #FFFFFF;
+    --muted-fg: hsl(220, 10%, 45%);
+    --border: hsl(220, 10%, 88%);
+    --radius: 1rem;
+  }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   @page { size: A4; margin: 0; }
 
   body {
     font-family: 'Heebo', sans-serif;
-    background: #FFFFFF;
-    color: #1a1a2e;
+    background: var(--bg);
+    color: var(--foreground);
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
   .page {
     width: 210mm;
-    min-height: 297mm;
     margin: 0 auto;
-    padding: 20px 28px 16px;
+    padding: 22px 28px 18px;
     position: relative;
+    background: var(--bg);
+    background-image: radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
 
-  /* Header */
+  /* ===== HEADER ===== */
   .header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 5px;
-  }
-
-  .header h1 {
-    font-size: 23px;
-    font-weight: 900;
-    color: #1a1a2e;
-    line-height: 1.2;
-  }
-
-  .header .org-label {
-    font-size: 10.5px;
-    color: #E8358A;
-    font-weight: 600;
-    margin-bottom: 2px;
-  }
-
-  .header .eng-title {
-    font-size: 11px;
-    color: #888;
-    font-weight: 400;
-    margin-top: 1px;
-    font-style: italic;
-  }
-
-  .header img { height: 38px; }
-
-  .divider {
-    height: 2px;
-    background: linear-gradient(to left, #E8358A 50%, #F5C800 50%);
-    border-radius: 2px;
-    margin-bottom: 8px;
-  }
-
-  /* Context + Radar */
-  .context-radar {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
+    align-items: center;
     margin-bottom: 6px;
   }
 
-  .context {
-    background: #f8f8f8;
-    border-radius: 8px;
-    padding: 7px 10px;
-    border-right: 3px solid #1a1a2e;
+  .header-right h1 {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--foreground);
+    line-height: 1.2;
   }
 
-  .context p {
+  .header-right .org-label {
+    font-size: 10px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 2px;
+    letter-spacing: 0.02em;
+  }
+
+  .header img { height: 36px; }
+
+  /* ===== GLOW LINE ===== */
+  .glow-line {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+    margin-bottom: 10px;
+    border-radius: 2px;
+  }
+
+  /* ===== GLASS CARD ===== */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.9);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.04);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 3px;
+    background: var(--primary);
+  }
+
+  .glass-card.yellow-accent::before {
+    background: var(--secondary);
+  }
+
+  /* ===== CONTEXT + RADAR ROW ===== */
+  .context-radar {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .context-card p {
     font-size: 9.5px;
-    color: #333;
-    line-height: 1.5;
+    color: #444;
+    line-height: 1.55;
   }
 
-  .context strong { color: #1a1a2e; }
+  .context-card strong { color: var(--foreground); }
 
-  .radar-box {
-    background: #f8f8f8;
-    border-radius: 8px;
-    padding: 7px 10px;
-    border-right: 3px solid #E8358A;
-  }
-
-  .radar-box .radar-title {
-    font-size: 12px;
-    font-weight: 800;
-    color: #E8358A;
-    margin-bottom: 4px;
-  }
-
-  .radar-box .radar-sub {
-    font-size: 9px;
-    color: #999;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
-  }
-
-  .radar-steps {
+  /* ===== RADAR SVG ===== */
+  .radar-container {
     display: flex;
-    gap: 4px;
-    align-items: stretch;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
-  .radar-step {
-    flex: 1;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 4px;
+  .radar-svg-wrap {
+    width: 140px;
+    height: 140px;
     position: relative;
   }
 
-  .radar-step .rs-num {
-    font-size: 14px;
-    font-weight: 800;
-    line-height: 1;
-  }
+  .radar-svg-wrap svg { width: 100%; height: 100%; }
 
-  .radar-step .rs-label {
-    font-size: 8.5px;
-    font-weight: 600;
-    line-height: 1.2;
-    margin-top: 2px;
-  }
-
-  .radar-step .rs-desc {
-    font-size: 7.5px;
-    margin-top: 1px;
-    line-height: 1.2;
-    opacity: 0.75;
-  }
-
-  .rs-1 { background: #fce4ec; color: #c2185b; }
-  .rs-2 { background: #fff3e0; color: #e65100; }
-  .rs-3 { background: #fff8e1; color: #8a7200; }
-  .rs-4 { background: #e8f5e9; color: #2e7d32; }
-
-  .radar-arrow {
-    display: flex;
-    align-items: center;
-    font-size: 10px;
-    color: #ccc;
-  }
-
-  .radar-bottom {
-    font-size: 9.5px;
-    color: #666;
-    margin-top: 5px;
-    line-height: 1.4;
+  .radar-label {
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--primary);
     text-align: center;
-    font-style: italic;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
   }
 
-  /* Section labels */
+  .radar-slogan {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--muted-fg);
+    text-align: center;
+    margin-top: 1px;
+  }
+
+  /* Radar animations */
+  @keyframes radar-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes radar-pulse { 0%, 100% { opacity: 1; r: 3; } 50% { opacity: 0.5; r: 4.5; } }
+
+  /* ===== SECTION LABELS ===== */
   .section-label {
-    font-size: 8.5px;
+    font-size: 9px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin-bottom: 3px;
   }
-
-  .section-label.pink { color: #E8358A; }
+  .section-label.pink { color: var(--primary); }
   .section-label.yellow { color: #b89600; }
 
   .section-title {
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 800;
-    color: #1a1a2e;
-    margin-bottom: 4px;
-  }
-
-  /* Two axes */
-  .two-axes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
+    color: var(--foreground);
     margin-bottom: 6px;
   }
 
-  .axis-card { border-radius: 8px; overflow: hidden; }
+  /* ===== TWO AXES ===== */
+  .two-axes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .axis-card {
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.9);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.04);
+  }
 
   .axis-head {
-    padding: 6px 10px;
+    padding: 6px 12px;
   }
+  .axis-head h3 { font-size: 11.5px; font-weight: 800; }
+  .axis-head .axis-sub { font-size: 8.5px; font-weight: 400; opacity: 0.85; }
 
-  .axis-head h3 { font-size: 12px; font-weight: 800; }
-  .axis-head .axis-sub { font-size: 9px; font-weight: 400; opacity: 0.85; }
+  .axis-school .axis-head { background: var(--primary); color: white; }
+  .axis-alumni .axis-head { background: var(--secondary); color: var(--foreground); }
 
-  .axis-school .axis-head { background: #E8358A; color: white; }
-  .axis-alumni .axis-head { background: #F5C800; color: #1a1a2e; }
+  .axis-body { padding: 8px 10px; }
 
-  .axis-body {
-    padding: 6px 8px;
-    background: #fff;
-  }
-
-  .axis-school .axis-body { border: 1.5px solid #E8358A; border-top: none; border-radius: 0 0 8px 8px; }
-  .axis-alumni .axis-body { border: 1.5px solid #F5C800; border-top: none; border-radius: 0 0 8px 8px; }
-
-  .var-group { margin-bottom: 3px; }
+  .var-group { margin-bottom: 4px; }
   .var-group:last-child { margin-bottom: 0; }
 
   .var-group-title {
-    font-size: 9px;
+    font-size: 8.5px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.3px;
-    padding: 1.5px 6px;
-    border-radius: 3px;
+    padding: 2px 7px;
+    border-radius: 4px;
     display: inline-block;
     margin-bottom: 2px;
   }
 
-  .vg-source { background: #f0f0f0; color: #888; }
-  .axis-school .vg-output { background: #fce4ec; color: #c2185b; }
-  .axis-alumni .vg-output { background: #fff8e1; color: #9e8600; }
+  .vg-source { background: rgba(0,0,0,0.04); color: var(--muted-fg); }
 
   .var-list { list-style: none; }
 
   .var-list li {
-    font-size: 9.5px;
-    color: #444;
-    padding: 0.5px 0;
-    padding-right: 9px;
+    font-size: 9px;
+    color: #555;
+    padding: 1px 0;
+    padding-right: 10px;
     position: relative;
-    line-height: 1.3;
+    line-height: 1.35;
   }
 
   .var-list li::before {
@@ -251,65 +232,142 @@
     border-radius: 50%;
   }
 
-  .axis-school .var-list li::before { background: #E8358A; }
-  .axis-alumni .var-list li::before { background: #F5C800; }
+  .axis-school .var-list li::before { background: var(--primary); }
+  .axis-alumni .var-list li::before { background: var(--secondary); }
 
-  .var-list li strong { font-weight: 600; color: #1a1a2e; }
+  .var-list li strong { font-weight: 600; color: var(--foreground); }
 
   .var-list li .vt {
-    font-size: 8.5px;
-    color: #aaa;
+    font-size: 8px;
+    color: #bbb;
     margin-right: 2px;
   }
 
-  /* Data table */
+  /* ===== RADAR STEPS (inline) ===== */
+  .radar-steps-row {
+    display: flex;
+    gap: 6px;
+    align-items: stretch;
+    margin-bottom: 10px;
+  }
+
+  .radar-step-card {
+    flex: 1;
+    border-radius: 10px;
+    padding: 7px 8px;
+    text-align: center;
+    position: relative;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.9);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  }
+
+  .radar-step-card .rs-num {
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .radar-step-card .rs-label {
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 2px;
+  }
+
+  .radar-step-card .rs-desc {
+    font-size: 7.5px;
+    margin-top: 2px;
+    line-height: 1.2;
+    opacity: 0.7;
+  }
+
+  .rs-1 { border-top: 3px solid #c2185b; }
+  .rs-1 .rs-num { color: #c2185b; }
+  .rs-2 { border-top: 3px solid #e65100; }
+  .rs-2 .rs-num { color: #e65100; }
+  .rs-3 { border-top: 3px solid #F5C800; }
+  .rs-3 .rs-num { color: #8a7200; }
+  .rs-4 { border-top: 3px solid #2e7d32; }
+  .rs-4 .rs-num { color: #2e7d32; }
+
+  .radar-step-arrow {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #ccc;
+  }
+
+  /* ===== DATA TABLE ===== */
+  .data-table-wrap {
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.9);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.04);
+    margin-bottom: 10px;
+  }
+
   .data-summary {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 6px;
     font-size: 9px;
   }
 
   .data-summary th {
-    background: #1a1a2e;
+    background: var(--foreground);
     color: white;
-    padding: 3px 6px;
+    padding: 5px 8px;
     text-align: right;
     font-weight: 600;
     font-size: 8.5px;
   }
 
   .data-summary td {
-    padding: 2.5px 6px;
-    border-bottom: 1px solid #eee;
-    color: #333;
+    padding: 4px 8px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    color: #444;
   }
 
-  .data-summary tr:nth-child(even) td { background: #fafafa; }
+  .data-summary tr:nth-child(even) td { background: rgba(0,0,0,0.015); }
 
   .data-summary .nc {
     text-align: center;
     font-weight: 700;
-    color: #E8358A;
+    color: var(--primary);
   }
 
-  /* Research */
-  .research-box {
-    background: #f8f8f8;
-    border-radius: 8px;
-    padding: 10px 12px;
-    border: 1.5px solid #ddd;
+  /* ===== RESEARCH SECTION ===== */
+  .research-section {
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.9);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.04);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    position: relative;
+    overflow: hidden;
   }
 
-  .research-box h3 {
+  .research-section::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+  }
+
+  .research-section h3 {
     font-size: 11px;
-    font-weight: 700;
-    color: #1a1a2e;
+    font-weight: 800;
+    color: var(--foreground);
     margin-bottom: 6px;
   }
 
-  .research-box h3 span {
-    color: #E8358A;
+  .research-section h3 span {
+    color: var(--primary);
     font-size: 8px;
     font-weight: 600;
     text-transform: uppercase;
@@ -325,39 +383,47 @@
   }
 
   .ri {
-    background: #fff;
-    border-radius: 6px;
+    background: rgba(0,0,0,0.02);
+    border-radius: 8px;
     padding: 6px 8px;
-    border: 1px solid #eee;
-    border-top: 2px solid #F5C800;
+    border: 1px solid rgba(0,0,0,0.04);
+    border-right: 3px solid var(--secondary);
   }
 
   .ri .ri-t {
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 700;
-    color: #1a1a2e;
+    color: var(--foreground);
     margin-bottom: 2px;
   }
 
   .ri .ri-d {
-    font-size: 9px;
-    color: #666;
+    font-size: 8.5px;
+    color: var(--muted-fg);
     line-height: 1.35;
   }
 
-  /* Footer */
+  /* ===== FOOTER ===== */
   .footer {
     display: flex;
     justify-content: space-between;
-    font-size: 8.5px;
-    color: #ccc;
-    border-top: 1px solid #eee;
-    padding-top: 5px;
+    font-size: 8px;
+    color: var(--muted-fg);
     margin-top: 10px;
+    padding-top: 6px;
+    position: relative;
+  }
+
+  .footer::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
   }
 
   @media print { body { background: white; } .page { box-shadow: none; } }
-  @media screen { body { background: #ddd; padding: 20px 0; } .page { box-shadow: 0 4px 30px rgba(0,0,0,0.12); } }
+  @media screen { body { padding: 20px 0; } .page { box-shadow: 0 8px 40px rgba(0,0,0,0.1); border-radius: 8px; } }
 </style>
 </head>
 <body>
@@ -366,52 +432,89 @@
 
   <!-- Header -->
   <div class="header">
-    <div>
+    <div class="header-right">
       <div class="org-label">הופה | תשתית חברתית טכנולוגית ליצירת מוביליות חברתית בקרב נוער וצעירים 14-26</div>
       <h1>מבנה הנתונים של המערכת</h1>
     </div>
     <img src="assets/logo.png" alt="הופה" onerror="this.style.display='none'">
   </div>
-  <div class="divider"></div>
+  <div class="glow-line"></div>
 
-  <!-- Context + Radar Model -->
+  <!-- Context + Radar SVG -->
   <div class="context-radar">
-    <div class="context">
+    <div class="glass-card context-card">
       <p>
         הופה מפתחת <strong>מודל טכנולוגי-חברתי</strong> שתומך בצעירים ובוגרים ומקל על המערכת הבית-ספרית והרשויות בישראל במניעת נשירה, ליווי צעירים עד גיל 26 וחיבורם להזדמנויות, תוכניות ומענים הקיימים בשטח.
         המודל פועל בשני צירים: <strong>מניעת נשירה</strong> בבתי ספר (14-18) עם <strong>3 מקורות מידע</strong> (תלמיד, הורה, מחנך) + ניטור יומי,
         ו<strong>ליווי בוגרים</strong> (18-26) עם ניטור טכנולוגי, אוטומציות, קשר אישי ושיוך לדמות משמעותית.
       </p>
     </div>
-    <div class="radar-box">
-      <div class="radar-sub">THE HOPA MODEL</div>
-      <div class="radar-title">מודל הרדאר: טכנולוגי-אנושי</div>
-      <div class="radar-steps">
-        <div class="radar-step rs-1">
-          <div class="rs-num">1</div>
-          <div class="rs-label">שידור</div>
-          <div class="rs-desc">איסוף נתונים מכל הכיוונים</div>
-        </div>
-        <div class="radar-arrow">&larr;</div>
-        <div class="radar-step rs-2">
-          <div class="rs-num">2</div>
-          <div class="rs-label">רמזור</div>
-          <div class="rs-desc">סיווג סיכון: ירוק, צהוב, אדום</div>
-        </div>
-        <div class="radar-arrow">&larr;</div>
-        <div class="radar-step rs-3">
-          <div class="rs-num">3</div>
-          <div class="rs-label">התאמה</div>
-          <div class="rs-desc">חיבור צעיר למענה מדויק</div>
-        </div>
-        <div class="radar-arrow">&larr;</div>
-        <div class="radar-step rs-4">
-          <div class="rs-num">4</div>
-          <div class="rs-label">גלים</div>
-          <div class="rs-desc">ליווי רציף ומדידת אימפקט</div>
-        </div>
+    <div class="radar-container">
+      <div class="radar-svg-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <!-- Rings -->
+          <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(232,53,138,0.08)" stroke-width="1"/>
+          <circle cx="100" cy="100" r="70" fill="none" stroke="rgba(232,53,138,0.1)" stroke-width="1"/>
+          <circle cx="100" cy="100" r="50" fill="none" stroke="rgba(232,53,138,0.12)" stroke-width="1"/>
+          <circle cx="100" cy="100" r="30" fill="none" stroke="rgba(232,53,138,0.15)" stroke-width="1"/>
+          <!-- Crosshair -->
+          <line x1="10" y1="100" x2="190" y2="100" stroke="rgba(232,53,138,0.08)" stroke-width="0.5"/>
+          <line x1="100" y1="10" x2="100" y2="190" stroke="rgba(232,53,138,0.08)" stroke-width="0.5"/>
+          <!-- Sweep line -->
+          <g style="transform-origin: 100px 100px; animation: radar-rotate 3s linear infinite;">
+            <line x1="100" y1="100" x2="100" y2="12" stroke="url(#sweep-grad)" stroke-width="1.5" stroke-linecap="round"/>
+          </g>
+          <defs>
+            <linearGradient id="sweep-grad" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="rgba(232,53,138,0)"/>
+              <stop offset="100%" stop-color="rgba(232,53,138,0.8)"/>
+            </linearGradient>
+          </defs>
+          <!-- Center glow -->
+          <circle cx="100" cy="100" r="5" fill="#E8358A" opacity="0.6"/>
+          <circle cx="100" cy="100" r="3" fill="#E8358A"/>
+          <!-- Pink dots (youth 14-18) -->
+          <circle cx="65" cy="45" r="3" fill="#C2185B" style="animation: radar-pulse 2s ease-in-out infinite;"/>
+          <circle cx="140" cy="55" r="3" fill="#C2185B" style="animation: radar-pulse 2s ease-in-out 0.3s infinite;"/>
+          <circle cx="50" cy="110" r="3" fill="#C2185B" style="animation: radar-pulse 2s ease-in-out 0.6s infinite;"/>
+          <circle cx="130" cy="135" r="3" fill="#C2185B" style="animation: radar-pulse 2s ease-in-out 0.9s infinite;"/>
+          <circle cx="85" cy="75" r="3" fill="#C2185B" style="animation: radar-pulse 2s ease-in-out 1.2s infinite;"/>
+          <!-- Yellow dots (alumni 18-26) -->
+          <circle cx="155" cy="90" r="3" fill="#E6D900" style="animation: radar-pulse 2s ease-in-out 0.4s infinite;"/>
+          <circle cx="75" cy="145" r="3" fill="#E6D900" style="animation: radar-pulse 2s ease-in-out 0.7s infinite;"/>
+          <circle cx="120" cy="70" r="3" fill="#E6D900" style="animation: radar-pulse 2s ease-in-out 1s infinite;"/>
+          <circle cx="45" cy="80" r="3" fill="#E6D900" style="animation: radar-pulse 2s ease-in-out 1.3s infinite;"/>
+        </svg>
       </div>
-      <div class="radar-bottom">שילוב של תשתית טכנולוגית עם ליווי אנושי רציף. הטכנולוגיה לא מחליפה את הקשר, היא מחזקת אותו.</div>
+      <div class="radar-label">THE HOPA RADAR MODEL</div>
+      <div class="radar-slogan">מזהים &middot; מכווינים &middot; מלווים</div>
+    </div>
+  </div>
+
+  <!-- Radar 4 Steps -->
+  <div class="radar-steps-row">
+    <div class="radar-step-card rs-1">
+      <div class="rs-num">1</div>
+      <div class="rs-label">שידור</div>
+      <div class="rs-desc">איסוף נתונים מכל הכיוונים</div>
+    </div>
+    <div class="radar-step-arrow">&larr;</div>
+    <div class="radar-step-card rs-2">
+      <div class="rs-num">2</div>
+      <div class="rs-label">רמזור</div>
+      <div class="rs-desc">סיווג סיכון: ירוק, צהוב, אדום</div>
+    </div>
+    <div class="radar-step-arrow">&larr;</div>
+    <div class="radar-step-card rs-3">
+      <div class="rs-num">3</div>
+      <div class="rs-label">התאמה</div>
+      <div class="rs-desc">חיבור צעיר למענה מדויק</div>
+    </div>
+    <div class="radar-step-arrow">&larr;</div>
+    <div class="radar-step-card rs-4">
+      <div class="rs-num">4</div>
+      <div class="rs-label">גלים</div>
+      <div class="rs-desc">ליווי רציף ומדידת אימפקט</div>
     </div>
   </div>
 
@@ -420,14 +523,11 @@
   <div class="section-title">אילו נתונים נאספים, מאילו מקורות, ובאיזו תדירות</div>
 
   <div class="two-axes">
-
     <!-- SCHOOL -->
     <div class="axis-card axis-school">
       <div class="axis-head">
-        <div>
-          <h3>ציר מניעת נשירה | 14-18</h3>
-          <div class="axis-sub">3 שאלונים (תלמיד, הורה, מחנך) + ניטור יומי</div>
-        </div>
+        <h3>ציר מניעת נשירה | 14-18</h3>
+        <div class="axis-sub">3 שאלונים (תלמיד, הורה, מחנך) + ניטור יומי</div>
       </div>
       <div class="axis-body">
         <div class="var-group">
@@ -470,10 +570,8 @@
     <!-- ALUMNI -->
     <div class="axis-card axis-alumni">
       <div class="axis-head">
-        <div>
-          <h3>ציר ליווי בוגרים | 18-26</h3>
-          <div class="axis-sub">טופס אישי (Fillout) + מעקב CRM שוטף</div>
-        </div>
+        <h3>ציר ליווי בוגרים | 18-26</h3>
+        <div class="axis-sub">טופס אישי (Fillout) + מעקב CRM שוטף</div>
       </div>
       <div class="axis-body">
         <div class="var-group">
@@ -501,7 +599,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- OUTPUTS -->
@@ -510,7 +607,7 @@
 
   <div class="two-axes">
     <div class="axis-card axis-school">
-      <div class="axis-head"><div><h3>תפוקות ציר מניעת נשירה</h3></div></div>
+      <div class="axis-head"><h3>תפוקות ציר מניעת נשירה</h3></div>
       <div class="axis-body">
         <ul class="var-list">
           <li><strong>רדאר 360:</strong> פרופיל רב-ממדי לכל תלמיד (שייכות, כוחות, חסמים)</li>
@@ -522,64 +619,66 @@
       </div>
     </div>
     <div class="axis-card axis-alumni">
-      <div class="axis-head"><div><h3>תפוקות ציר ליווי בוגרים</h3></div></div>
+      <div class="axis-head"><h3>תפוקות ציר ליווי בוגרים</h3></div>
       <div class="axis-body">
         <ul class="var-list">
           <li><strong>התאמת מענים:</strong> סינון מ-645 מענים לפי גיל, אזור, צורך, אוכלוסייה</li>
           <li><strong>מדידת אימפקט:</strong> תוצאה בפועל (מלגה, תעסוקה, לימודים, בגרויות)</li>
           <li><strong>אוטומציות:</strong> הודעות לפי גיוס, שחרור, יום הולדת, הזדמנויות</li>
           <li><strong>דשבורדים:</strong> פילוח לפי בי"ס, שירות, תעסוקה, השכלה</li>
-          <li><strong>מעקב אורכי:</strong> כניסה → טיפול → תוצאה (לכל בוגר)</li>
+          <li><strong>מעקב אורכי:</strong> כניסה &rarr; טיפול &rarr; תוצאה (לכל בוגר)</li>
         </ul>
       </div>
     </div>
   </div>
 
   <!-- Data summary table -->
-  <table class="data-summary">
-    <tr>
-      <th>פרמטר</th>
-      <th>ציר מניעת נשירה (14-18)</th>
-      <th>ציר בוגרים (18-26)</th>
-    </tr>
-    <tr>
-      <td><strong>מקורות מידע</strong></td>
-      <td>3 שאלונים (תלמיד, הורה, מחנך) + ניטור יומי</td>
-      <td>טופס בוגרים (Fillout) + מעקב CRM</td>
-    </tr>
-    <tr>
-      <td><strong>סוג דיווח</strong></td>
-      <td>דיווח עצמי + דיווח צד שלישי + תצפית</td>
-      <td>דיווח עצמי + תיעוד צוות</td>
-    </tr>
-    <tr>
-      <td><strong>תדירות</strong></td>
-      <td>שאלונים: תחילת שנה. ניטור: יומי</td>
-      <td>טופס: חד-פעמי. CRM: שוטף</td>
-    </tr>
-    <tr>
-      <td><strong>N (רשומות)</strong></td>
-      <td class="nc">~1,000 תלמידים</td>
-      <td class="nc">~1,870 בוגרים</td>
-    </tr>
-    <tr>
-      <td><strong>בתי ספר</strong></td>
-      <td class="nc" colspan="2">6 בתי ספר פעילים</td>
-    </tr>
-    <tr>
-      <td><strong>משתנים לרשומה</strong></td>
-      <td class="nc">~15 (לכל שאלון)</td>
-      <td class="nc">28+</td>
-    </tr>
-    <tr>
-      <td><strong>מאגר מענים</strong></td>
-      <td class="nc" colspan="2">645 מענים | 6 קטגוריות | 34 תת-קטגוריות | 5 אזורים</td>
-    </tr>
-  </table>
+  <div class="data-table-wrap">
+    <table class="data-summary">
+      <tr>
+        <th>פרמטר</th>
+        <th>ציר מניעת נשירה (14-18)</th>
+        <th>ציר בוגרים (18-26)</th>
+      </tr>
+      <tr>
+        <td><strong>מקורות מידע</strong></td>
+        <td>3 שאלונים (תלמיד, הורה, מחנך) + ניטור יומי</td>
+        <td>טופס בוגרים (Fillout) + מעקב CRM</td>
+      </tr>
+      <tr>
+        <td><strong>סוג דיווח</strong></td>
+        <td>דיווח עצמי + דיווח צד שלישי + תצפית</td>
+        <td>דיווח עצמי + תיעוד צוות</td>
+      </tr>
+      <tr>
+        <td><strong>תדירות</strong></td>
+        <td>שאלונים: תחילת שנה. ניטור: יומי</td>
+        <td>טופס: חד-פעמי. CRM: שוטף</td>
+      </tr>
+      <tr>
+        <td><strong>N (רשומות)</strong></td>
+        <td class="nc">~1,000 תלמידים</td>
+        <td class="nc">~1,870 בוגרים</td>
+      </tr>
+      <tr>
+        <td><strong>בתי ספר</strong></td>
+        <td class="nc" colspan="2">6 בתי ספר פעילים</td>
+      </tr>
+      <tr>
+        <td><strong>משתנים לרשומה</strong></td>
+        <td class="nc">~15 (לכל שאלון)</td>
+        <td class="nc">28+</td>
+      </tr>
+      <tr>
+        <td><strong>מאגר מענים</strong></td>
+        <td class="nc" colspan="2">645 מענים | 6 קטגוריות | 34 תת-קטגוריות | 5 אזורים</td>
+      </tr>
+    </table>
+  </div>
 
   <!-- Research potential -->
-  <div class="research-box">
-    <h3><span>Research Potential</span>כיווני מחקר אפשריים על בסיס הנתונים</h3>
+  <div class="research-section">
+    <h3><span>RESEARCH POTENTIAL</span>כיווני מחקר אפשריים על בסיס הנתונים</h3>
     <div class="research-grid">
       <div class="ri">
         <div class="ri-t">טריאנגולציה</div>
@@ -599,7 +698,7 @@
       </div>
       <div class="ri">
         <div class="ri-t">מוביליות חברתית</div>
-        <div class="ri-d">מעברים בין סטטוסים (לא עובד → מחפש → עובד): גורמים מקדמים</div>
+        <div class="ri-d">מעברים בין סטטוסים (לא עובד &rarr; מחפש &rarr; עובד): גורמים מקדמים</div>
       </div>
       <div class="ri">
         <div class="ri-t">אוכלוסיות ייחודיות</div>
