@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הופה | התשתית הטכנולוגית</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @page { size: A4; margin: 0; }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: #FFFFFF;
+    color: #1a1a2e;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    max-height: 297mm;
+    margin: 0 auto;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: #fafafa;
+    padding: 28px 36px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    width: 220px;
+    height: 220px;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    border: 1px solid #f0f0f0;
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+
+  .hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+    font-weight: 900;
+    color: #1a1a2e;
+    line-height: 1.15;
+  }
+
+  .hero .tagline {
+    font-size: 14px;
+    color: #E8358A;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+
+  .hero .sub-tagline {
+    font-size: 12px;
+    color: #888;
+    margin-top: 2px;
+  }
+
+  .hero img { height: 44px; }
+
+  .hero-line {
+    height: 3px;
+    background: linear-gradient(to left, #E8358A 50%, #F5C800 50%);
+    border-radius: 2px;
+    margin-top: 14px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== WHAT THE SYSTEM DOES ===== */
+  .capabilities {
+    padding: 14px 36px 0;
+  }
+
+  .cap-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #F5C800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+  }
+
+  .cap-headline {
+    font-size: 17px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin-bottom: 10px;
+  }
+
+  .cap-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .cap-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 10px 12px;
+    border-top: 3px solid #E8358A;
+    position: relative;
+  }
+
+  .cap-card:nth-child(4),
+  .cap-card:nth-child(5),
+  .cap-card:nth-child(6) {
+    border-top-color: #F5C800;
+  }
+
+  .cap-num {
+    font-size: 9px;
+    font-weight: 700;
+    color: #ccc;
+    margin-bottom: 3px;
+  }
+
+  .cap-card h3 {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 3px;
+    line-height: 1.3;
+  }
+
+  .cap-card p {
+    font-size: 10.5px;
+    color: #666;
+    line-height: 1.4;
+  }
+
+  /* ===== TWO STAGES ===== */
+  .stages-section {
+    padding: 12px 36px 0;
+  }
+
+  .stages-header {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .stages-header .label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #E8358A;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .stages-header h2 {
+    font-size: 17px;
+    font-weight: 800;
+  }
+
+  .stages-row {
+    display: grid;
+    grid-template-columns: 1fr 36px 1fr;
+    gap: 0;
+    align-items: stretch;
+  }
+
+  /* Stage cards */
+  .stage {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .stage-head {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .stage-head h3 {
+    font-size: 15px;
+    font-weight: 800;
+  }
+
+  .stage-head .stage-sub {
+    font-size: 10px;
+    font-weight: 400;
+    opacity: 0.85;
+  }
+
+  .stage-school .stage-head { background: #E8358A; color: white; }
+  .stage-alumni .stage-head { background: #F5C800; color: #1a1a2e; }
+
+  .stage-content {
+    padding: 10px 12px;
+    background: #fff;
+  }
+
+  .stage-school .stage-content { border: 1.5px solid #E8358A; border-top: none; border-radius: 0 0 12px 12px; }
+  .stage-alumni .stage-content { border: 1.5px solid #F5C800; border-top: none; border-radius: 0 0 12px 12px; }
+
+  .io-block { margin-bottom: 7px; }
+  .io-block:last-child { margin-bottom: 0; }
+
+  .io-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 4px;
+  }
+
+  .io-tag-in { background: #f0f0f0; color: #888; }
+  .stage-school .io-tag-out { background: #fce4ec; color: #c2185b; }
+  .stage-alumni .io-tag-out { background: #fff8e1; color: #9e8600; }
+
+  .io-list {
+    list-style: none;
+  }
+
+  .io-list li {
+    font-size: 10.5px;
+    color: #444;
+    padding: 1.5px 0 1.5px 0;
+    padding-right: 10px;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .io-list li::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 7px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+  }
+
+  .stage-school .io-list li::before { background: #E8358A; }
+  .stage-alumni .io-list li::before { background: #F5C800; }
+
+  .io-list li strong { font-weight: 600; color: #1a1a2e; }
+
+  .stage-bottom {
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 6px;
+    border-radius: 6px;
+    margin-top: 8px;
+  }
+
+  .stage-school .stage-bottom { background: #fce4ec; color: #c2185b; }
+  .stage-alumni .stage-bottom { background: #fff8e1; color: #8a7200; }
+
+  /* Center connector */
+  .mid-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mid-line { width: 2px; flex: 1; background: #e0e0e0; }
+
+  .mid-dot {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #1a1a2e;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.15;
+    flex-shrink: 0;
+  }
+
+  /* ===== NUMBERS + SCALE ===== */
+  .numbers-scale {
+    padding: 12px 36px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .nums-box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+  }
+
+  .n-card {
+    text-align: center;
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 8px 4px;
+    border: 1px solid #eee;
+  }
+
+  .n-card .n { font-size: 20px; font-weight: 800; color: #E8358A; line-height: 1; }
+  .n-card .nl { font-size: 9px; color: #666; margin-top: 2px; font-weight: 500; }
+
+  .scale-box {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 10px 14px;
+    border: 1px solid #eee;
+  }
+
+  .scale-box .scale-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #F5C800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .scale-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .scale-bar {
+    text-align: center;
+    flex: 1;
+  }
+
+  .scale-bar .bar {
+    background: #e8e8e8;
+    border-radius: 6px 6px 0 0;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 50px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 4px;
+  }
+
+  .scale-bar .bar-num {
+    font-size: 13px;
+    font-weight: 800;
+    color: #1a1a2e;
+  }
+
+  .scale-bar:nth-child(4) .bar,
+  .scale-bar:nth-child(5) .bar {
+    background: #F5C800;
+  }
+
+  .scale-bar .bar-label {
+    font-size: 8px;
+    color: #999;
+    margin-top: 2px;
+    font-weight: 500;
+  }
+
+  /* ===== BOTTOM BANNER ===== */
+  .bottom {
+    margin: 12px 36px 0;
+    background: #1a1a2e;
+    border-radius: 12px;
+    padding: 16px 24px;
+    text-align: center;
+    color: white;
+  }
+
+  .bottom p {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .bottom .accent { color: #F5C800; }
+
+  .bottom .bottom-sub {
+    font-size: 11px;
+    font-weight: 400;
+    color: #aaa;
+    margin-top: 4px;
+  }
+
+  /* Footer */
+  .footer {
+    position: absolute;
+    bottom: 12px;
+    left: 36px;
+    right: 36px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: #ccc;
+  }
+
+  @media print { body { background: white; } .page { box-shadow: none; } }
+  @media screen { body { background: #ddd; padding: 20px 0; } .page { box-shadow: 0 4px 30px rgba(0,0,0,0.12); } }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ===== HERO ===== -->
+  <div class="hero">
+    <div class="hero-top">
+      <div>
+        <h1>הטכנולוגיה בשירות האנושיות</h1>
+        <div class="tagline">מונעים את הנפילה השקופה של צעירים ברגעי המעבר הקריטיים של החיים</div>
+        <div class="sub-tagline">מערכת אחת, שני שלבי חיים, רצף אחד של זיהוי, ליווי והזדמנויות</div>
+      </div>
+      <img src="assets/logo.png" alt="הופה" onerror="this.style.display='none'">
+    </div>
+    <div class="hero-line"></div>
+  </div>
+
+  <!-- ===== 6 CAPABILITIES ===== -->
+  <div class="capabilities">
+    <div class="cap-title">PRODUCT</div>
+    <div class="cap-headline">מה המערכת של הופה עושה בפועל</div>
+
+    <div class="cap-grid">
+
+      <div class="cap-card">
+        <div class="cap-num">01</div>
+        <h3>מזהה סיכון מוקדם בתיכון</h3>
+        <p>מרכזת מידע על תלמידים ומסייעת לזהות סימני סיכון לפני נשירה</p>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-num">02</div>
+        <h3>מציגה תמונת מצב עדכנית לצוות</h3>
+        <p>דשבורד אחד שמרכז סטטוסים, התראות, מצב תלמידים ובוגרים והתקדמות בתהליך</p>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-num">03</div>
+        <h3>מפעילה מענים בזמן</h3>
+        <p>מסייעת לחבר בין צורך לבין מענה מתאים, במקום תגובה מאוחרת</p>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-num">04</div>
+        <h3>שומרת על רצף גם אחרי סיום התיכון</h3>
+        <p>הקשר עם הצעיר לא נפסק ביום סיום הלימודים, אלא ממשיך גם בשלבי המעבר לחיים הבוגרים</p>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-num">05</div>
+        <h3>מחברת להזדמנויות דרך וואטסאפ</h3>
+        <p>מלגות, עבודה, שירות, לימודים ומענים מגיעים לצעיר בערוץ שבו הוא באמת נמצא</p>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-num">06</div>
+        <h3>מאפשרת לצוות לעקוב ולפעול</h3>
+        <p>אנשי החינוך והרכזים לא רק מתעדים, אלא יודעים לראות, להבין, להגיב וללוות לאורך זמן</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== TWO STAGES: IN/OUT ===== -->
+  <div class="stages-section">
+    <div class="stages-header">
+      <div class="label">INPUTS &amp; OUTPUTS</div>
+      <h2>מה נכנס למערכת ומה יוצא ממנה</h2>
+    </div>
+
+    <div class="stages-row">
+
+      <!-- RIGHT: School -->
+      <div class="stage stage-school">
+        <div class="stage-head">
+          <div>
+            <h3>בתוך התיכון</h3>
+            <div class="stage-sub">מניעת נשירה וזיהוי מוקדם | 14-18</div>
+          </div>
+        </div>
+        <div class="stage-content">
+          <div class="io-block">
+            <div class="io-tag io-tag-in">INPUT</div>
+            <ul class="io-list">
+              <li><strong>דיווחי נוכחות יומיים</strong> כל בוקר דרך וואטסאפ</li>
+              <li><strong>סיווג רמזור</strong> ירוק / צהוב / אדום לכל תלמיד</li>
+              <li><strong>אינדיקציות רכות</strong> שייכות, בידוד, ירידה בציונים</li>
+              <li><strong>נתוני תלמיד</strong> כיתה, מגמה, מחנך, היסטוריה</li>
+            </ul>
+          </div>
+          <div class="io-block">
+            <div class="io-tag io-tag-out">OUTPUT</div>
+            <ul class="io-list">
+              <li><strong>התראות סיכון בזמן אמת</strong> לצוות החינוכי</li>
+              <li><strong>רדאר 360</strong> שייכות, כוחות, חסמים, מצב בבית</li>
+              <li><strong>התאמת מענים</strong> חיבור לתוכניות לפי צורך</li>
+              <li><strong>עבודה מבוססת נתונים</strong> לא אינטואיציה בלבד</li>
+            </ul>
+          </div>
+          <div class="stage-bottom">מונעת נפילה לפני שהיא קורית</div>
+        </div>
+      </div>
+
+      <!-- Connector -->
+      <div class="mid-connector">
+        <div class="mid-line"></div>
+        <div class="mid-dot">רצף<br>אחד</div>
+        <div class="mid-line"></div>
+      </div>
+
+      <!-- LEFT: Alumni -->
+      <div class="stage stage-alumni">
+        <div class="stage-head">
+          <div>
+            <h3>אחרי התיכון</h3>
+            <div class="stage-sub">ליווי בוגרים והובלת מוביליות | 18-26</div>
+          </div>
+        </div>
+        <div class="stage-content">
+          <div class="io-block">
+            <div class="io-tag io-tag-in">INPUT</div>
+            <ul class="io-list">
+              <li><strong>טופס בוגרים</strong> ת.ז, טלפון, עיר, מגמה, שנת סיום</li>
+              <li><strong>סטטוס שירות</strong> צבא/לאומי, יחידה, תאריכי גיוס ושחרור</li>
+              <li><strong>מצב נוכחי</strong> עובד / לומד / מחפש / חייל / בעל עסק</li>
+              <li><strong>צורך מוצהר</strong> מלגות, תעסוקה, בגרויות, הכשרה, עסק</li>
+              <li><strong>שיוך אוכלוסייה</strong> אתיופית, חייל בודד, עולה, יוצא חרדיות</li>
+            </ul>
+          </div>
+          <div class="io-block">
+            <div class="io-tag io-tag-out">OUTPUT</div>
+            <ul class="io-list">
+              <li><strong>ליווי אישי רציף</strong> סטטוס, שיחות, תזכורות, אחראי</li>
+              <li><strong>התאמת מענים</strong> מתוך 645 מענים לפי גיל, אזור וצורך</li>
+              <li><strong>הודעות אוטומטיות</strong> יום הולדת, גיוס, שחרור, הזדמנויות</li>
+              <li><strong>מדידת אימפקט</strong> מלגה, תעסוקה, לימודים, בגרויות</li>
+              <li><strong>דוחות לשותפים</strong> כמה לוו, מה השתנה, מה התרומה</li>
+            </ul>
+          </div>
+          <div class="stage-bottom">מונעת ניתוק ומקדמת הזדמנויות</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== NUMBERS + SCALE ===== -->
+  <div class="numbers-scale">
+    <div class="nums-box">
+      <div class="n-card"><div class="n">645</div><div class="nl">מענים במאגר</div></div>
+      <div class="n-card"><div class="n">6</div><div class="nl">בתי ספר</div></div>
+      <div class="n-card"><div class="n">~1,500</div><div class="nl">בוגרים בליווי</div></div>
+      <div class="n-card"><div class="n">36</div><div class="nl">קבוצות וואטסאפ</div></div>
+      <div class="n-card"><div class="n">34</div><div class="nl">תת-קטגוריות</div></div>
+      <div class="n-card"><div class="n">24/7</div><div class="nl">בוט + אתר</div></div>
+    </div>
+    <div class="scale-box">
+      <div class="scale-label">סקייל: מפיילוט לתשתית לאומית</div>
+      <div class="scale-row">
+        <div class="scale-bar">
+          <div class="bar" style="height:28px;"><div class="bar-num">1</div></div>
+          <div class="bar-label">בית ספר</div>
+        </div>
+        <div class="scale-bar">
+          <div class="bar" style="height:38px;"><div class="bar-num">5+</div></div>
+          <div class="bar-label">רשת חינוך</div>
+        </div>
+        <div class="scale-bar">
+          <div class="bar" style="height:50px;"><div class="bar-num">10+</div></div>
+          <div class="bar-label">רשות מקומית</div>
+        </div>
+        <div class="scale-bar">
+          <div class="bar" style="height:64px;"><div class="bar-num">50+</div></div>
+          <div class="bar-label">תוכנית ארצית</div>
+        </div>
+        <div class="scale-bar">
+          <div class="bar" style="height:80px;"><div class="bar-num">100+</div></div>
+          <div class="bar-label">שותפויות רחבות</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== BOTTOM ===== -->
+  <div class="bottom">
+    <p>
+      הופה מחברת בין <span class="accent">זיהוי, מעקב, מענים והזדמנויות</span> בתוך מערכת אחת חיה
+    </p>
+    <div class="bottom-sub">
+      השילוב בין ליווי אנושי לבין מערכת טכנולוגית מאפשר סקייל רחב בלי לאבד את המענה האישי
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span>hopa.org.il</span>
+    <span>הופה | תשתית טכנולוגית חברתית | רצף ליווי 14-26</span>
+  </div>
+
+</div>
+
+</body>
+</html>
