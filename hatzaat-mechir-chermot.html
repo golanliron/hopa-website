@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הופה | הצעת מחיר — ליווי נפגעי חרמות וחיזוק חוסן</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: #F7F7F7;
+    color: #2A2D38;
+    line-height: 1.75;
+    font-size: 14px;
+  }
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #FFFFFF;
+    min-height: 100vh;
+  }
+
+  /* — Header — */
+  .doc-header {
+    background: linear-gradient(135deg, #2A2D38 0%, #3a3d4a 100%);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .doc-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #E8358A, #F5C800, #E8358A);
+  }
+  .doc-header img { height: 64px; filter: brightness(10); }
+  .doc-header-text { text-align: left; font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+  .doc-header-text a { color: rgba(255,255,255,0.85); text-decoration: none; }
+
+  .content { padding: 36px 48px 48px; }
+
+  /* — Title area — */
+  .title-area { margin-bottom: 28px; }
+  .doc-date {
+    font-size: 12px;
+    color: #fff;
+    background: #E8358A;
+    display: inline-block;
+    padding: 3px 14px;
+    border-radius: 20px;
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .doc-title {
+    font-size: 26px;
+    font-weight: 900;
+    color: #2A2D38;
+    margin-bottom: 4px;
+    letter-spacing: -0.3px;
+  }
+  .doc-subtitle {
+    font-size: 15px;
+    font-weight: 500;
+    color: #6B7280;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #F0F0F0;
+  }
+
+  /* — Intro — */
+  .intro {
+    background: #FAFAFA;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    border-right: 4px solid #E8358A;
+    font-size: 13.5px;
+    color: #374151;
+  }
+  .intro p { margin-bottom: 10px; text-align: justify; }
+  .intro p:last-child { margin-bottom: 0; }
+
+  /* — Section headers — */
+  h2 {
+    font-size: 17px;
+    font-weight: 800;
+    color: #2A2D38;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2::before {
+    content: '';
+    width: 4px;
+    height: 22px;
+    background: #E8358A;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  p { margin-bottom: 10px; text-align: justify; }
+  .background-text { font-size: 13.5px; color: #374151; }
+
+  /* — Service cards — */
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .service-card {
+    background: #FAFAFA;
+    border-radius: 12px;
+    padding: 18px 20px;
+    border: 1px solid #F0F0F0;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .service-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .service-card.wide {
+    grid-column: 1 / -1;
+  }
+  .service-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: #E8358A;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .service-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2A2D38;
+    margin-bottom: 4px;
+  }
+  .service-body {
+    font-size: 12.5px;
+    color: #6B7280;
+    line-height: 1.6;
+  }
+
+  /* — Table — */
+  .table-wrap {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #E5E7EB;
+    margin: 20px 0;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table thead th {
+    background: #2A2D38;
+    color: #fff;
+    padding: 12px 16px;
+    text-align: right;
+    font-weight: 600;
+    font-size: 12.5px;
+    letter-spacing: 0.3px;
+  }
+  table thead th:last-child { text-align: center; width: 120px; }
+  table tbody td {
+    padding: 11px 16px;
+    border-bottom: 1px solid #F0F0F0;
+    vertical-align: top;
+    font-size: 13px;
+  }
+  table tbody tr:nth-child(even) td { background: #FAFAFA; }
+  table tbody tr:hover td { background: #FFF0F5; }
+  .amount { text-align: center; font-weight: 700; white-space: nowrap; color: #2A2D38; }
+  .total-row td {
+    background: linear-gradient(135deg, #C2185B, #E8358A) !important;
+    color: #fff !important;
+    font-weight: 800;
+    font-size: 15px;
+    padding: 14px 16px !important;
+    border: none !important;
+  }
+  .total-row .amount { color: #fff; }
+
+  .note {
+    font-size: 12px;
+    color: #9CA3AF;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  /* — Signature — */
+  .signature-block {
+    margin-top: 44px;
+    padding-top: 24px;
+    border-top: 2px solid #F0F0F0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .signature-block p { text-align: right; margin-bottom: 2px; }
+  .sig-greeting { font-size: 14px; color: #6B7280; margin-bottom: 12px !important; }
+  .signature-name { font-weight: 800; font-size: 17px; color: #2A2D38; }
+  .signature-title { font-weight: 400; color: #9CA3AF; font-size: 13px; }
+
+  /* — Footer — */
+  .doc-footer {
+    margin-top: 40px;
+    padding: 20px 48px;
+    background: #FAFAFA;
+    border-top: 1px solid #F0F0F0;
+    text-align: center;
+    font-size: 11.5px;
+    color: #9CA3AF;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .page { box-shadow: none; }
+    .service-card:hover { transform: none; box-shadow: none; }
+    table tbody tr:hover td { background: inherit; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="doc-header">
+    <div><img src="assets/logo.png" alt="הופה" onerror="this.style.display='none'"></div>
+    <div class="doc-header-text">מיזם הופה<br>liron@hopa.org.il | hopa.org.il<br>058-558-5991</div>
+  </div>
+
+  <div class="content">
+
+    <div class="title-area">
+      <div class="doc-date">4 במאי 2026</div>
+      <div class="doc-title">הצעת מחיר</div>
+      <div class="doc-subtitle">ליווי תכנית בדגש ליווי נפגעי חרמות וחיזוק חוסן</div>
+    </div>
+
+    <div class="intro">
+      <p>מיזם הופה מפעיל תשתית לזיהוי מוקדם של בני נוער בסיכון וחיבורם למענים מותאמים, באמצעות מודל "רדאר 360" — ניטור יומי, סיווג סיכון והתאמה אישית. הופה מנהלת מאגר של מעל 600 מענים לגילאי 14–26 ב-7 מוקדים ארציים. במסגרת העבודה השוטפת, המודל מזהה גם תלמידים החווים נידוי חברתי, חרמות ובידוד — ומחבר אותם למענים לחיזוק החוסן החברתי-רגשי.</p>
+      <p>את התכנית תלווה <strong>שרון קנטור</strong> — מפתחת תוכנית "ביחדנס" (5 שנים), סדנאות לדינאמיקה חברתית ופיתוח כישורים חברתיים. בוגרת מכון אדלר (מוכר ע"י משרד החינוך), 7 שנים רכזת אזור ירושלים בעמותת מצמיחים. עבודה עם כיתות ד׳–י״ב כולל נוער בסיכון, הכשרת צוותי הוראה והרצאות להורים.</p>
+    </div>
+
+    <h2>הרקע</h2>
+    <p class="background-text">מדברי אליקי, מנהלת תיכון אורט אדיבי אשקלון: 48% מהתלמידים מתמודדים עם קשיים חברתיים עמוקים — חרמות, בידוד ונשירה סמויה. "אנו ניצבים בפני מצב חירום המחייב מענים מיידיים לבנייה מחדש של תחושת השייכות והביטחון החברתי." המשאבים הקיימים אינם מספיקים לשבור את מעגל הניתוק.</p>
+
+    <h2>פירוט ההצעה — מענה מערכתי לכ-4,000 מוטבים</h2>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-title">ליווי יומי — רדאר אנושי</div>
+        <div class="service-body">7 מוקדים, 7 רכזים. ניטור יומי, סיווג רמזור וחיבור למענה.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-title">ליווי קבוצתי</div>
+        <div class="service-body">סדנאות "ביחדנס" — כישורים חברתיים, העצמה ומניעת חרמות. 14 קבוצות × 15 משתתפים × 10 מפגשים.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-title">מענים פרטניים</div>
+        <div class="service-body">80 מוטבים הסובלים מחרמות ופגיעות רגשית. 10 מפגשים למוטב.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <div class="service-title">השתלמויות צוותי חינוך</div>
+        <div class="service-body">כ-400 אנשי צוות — גילוי מוקדם, הובלת כיתה, חוסן. 20 ימים.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">05</div>
+        <div class="service-title">הדרכות הורים</div>
+        <div class="service-body">כ-300 הורים — זיהוי מצוקה חברתית ותמיכה. 60 שעות.</div>
+      </div>
+      <div class="service-card wide">
+        <div class="service-num">06</div>
+        <div class="service-title">"מד חברתי" — כלי דיגיטלי לזיהוי דפוסי נידוי ובדידות</div>
+        <div class="service-body">שאלון קצר (3–5 דקות, מהנייד) בשיעור חינוך — בודק שייכות, חברויות ודינמיקה דיגיטלית, בלי לחשוף שמות. מייצר "מפת חום חברתית" למנהלת ולצוות הייעוצי. הכלי נשאר לשימוש בית הספר לאורך השנה. יופץ תחילה בבתי ספר של הופה, ובמקביל בקידום ממומן לבתי ספר נוספים בכיתות ז׳–י״ב ארצית.</div>
+      </div>
+    </div>
+
+    <h2>ריכוז עלויות</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>סעיף</th>
+            <th>פירוט</th>
+            <th>סה"כ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ליווי יומי — רדאר אנושי</td>
+            <td>7 מוקדים × 40,000 ₪ (3,333 ₪/חודש × 12)</td>
+            <td class="amount">280,000 ₪</td>
+          </tr>
+          <tr>
+            <td>ליווי קבוצתי</td>
+            <td>14 קבוצות × 10 מפגשים × 1,180 ₪</td>
+            <td class="amount">165,200 ₪</td>
+          </tr>
+          <tr>
+            <td>מענים פרטניים</td>
+            <td>80 מוטבים × 10 מפגשים × 250 ₪</td>
+            <td class="amount">200,000 ₪</td>
+          </tr>
+          <tr>
+            <td>השתלמויות צוותי חינוך</td>
+            <td>20 ימים × 1,800 ₪</td>
+            <td class="amount">36,000 ₪</td>
+          </tr>
+          <tr>
+            <td>הדרכות הורים</td>
+            <td>60 שעות × 350 ₪</td>
+            <td class="amount">21,000 ₪</td>
+          </tr>
+          <tr>
+            <td>"מד חברתי" — תכנות ומערכת ניהול</td>
+            <td>שאלון שייכות + מפת חום חברתית לצוות ייעוצי</td>
+            <td class="amount">50,000 ₪</td>
+          </tr>
+          <tr>
+            <td>"מד חברתי" — קידום והפצה</td>
+            <td>קידום ממומן + חשיפה אורגנית לבתי ספר ז׳–י״ב ארצית</td>
+            <td class="amount">50,000 ₪</td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="2" style="text-align: right;">סה"כ כולל מע"מ</td>
+            <td class="amount">802,200 ₪</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note">כל הסכומים כוללים מע"מ</p>
+
+    <div class="signature-block">
+      <p class="sig-greeting">בברכה,</p>
+      <p class="signature-name">לירון גולן</p>
+      <p class="signature-title">מנכ"לית מיזם הופה</p>
+    </div>
+
+  </div>
+
+  <div class="doc-footer">
+    מיזם הופה | liron@hopa.org.il | hopa.org.il | 058-558-5991
+  </div>
+
+</div>
+
+</body>
+</html>
