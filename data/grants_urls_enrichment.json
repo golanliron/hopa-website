@@ -1,0 +1,55 @@
+{
+  "_description": "העשרת URLs לקולות קוראים — מעודכן 2026-05-04",
+  "_note": "הלינקים נמצאו בחיפוש ידני. יש לעדכן בכל סריקה חדשה.",
+  "items": [
+    {
+      "title_match": "קול קורא לתמיכה בפרויקטים לשנת 2026 מוועדת העיזבונות",
+      "url": "https://www.gov.il/he/pages/15-01-2025",
+      "url_alt": "https://www.ezvonot.com/%D7%95%D7%A2%D7%93%D7%AA-%D7%94%D7%A2%D7%96%D7%91%D7%95%D7%A0%D7%95%D7%AA/%D7%A7%D7%95%D7%9C-%D7%A7%D7%95%D7%A8%D7%90-%D7%95%D7%95%D7%A2%D7%93%D7%AA-%D7%94%D7%A2%D7%99%D7%96%D7%91%D7%95%D7%A0%D7%95%D7%AA-%D7%9C%D7%A9%D7%A0%D7%AA-2026/",
+      "submission_portal": "https://www.gov.il/he/service/apply_for_estates_committee",
+      "deadline": "2026-05-06",
+      "funder": "האפוטרופוס הכללי — ועדת העיזבונות"
+    },
+    {
+      "title_match": "קול קורא לתמיכה בשיפוץ, חידוש והצטיידות של מוסדות פנימייתיים ביישובי הנגב המזרחי",
+      "url": "https://www.gov.il/BlobFolder/rfp/kolkora-19376/he/%D7%A7%D7%95%D7%9C%20%D7%A7%D7%95%D7%A8%D7%90%2019376%20-%20%D7%A9%D7%99%D7%A4%D7%95%D7%A5,%D7%97%D7%99%D7%93%D7%95%D7%A9%20%D7%95%D7%94%D7%A6%D7%98%D7%99%D7%99%D7%93%D7%95%D7%AA%20%D7%A9%D7%9C%20%D7%9E%D7%95%D7%A1%D7%93%D7%95%D7%AA%20%D7%A4%D7%A0%D7%99%D7%9E%D7%99%D7%99%D7%AA%D7%99%D7%9D%20%D7%94%D7%9B%D7%9C%D7%95%D7%9C%D7%99%D7%9D%20%D7%91%D7%99%D7%A9%D7%95%D7%91%D7%99%20%D7%94%D7%97%D7%9C%D7%98%D7%AA%20%D7%9E%D7%9E%D7%A9%D7%9C%D7%94%203630%20%D7%91%D7%A0%D7%92%D7%91%20%D7%94%D7%9E%D7%96%D7%A8%D7%97%D7%99.pdf",
+      "deadline": "2026-05-07",
+      "funder": "משרד החינוך — המינהל לחינוך התיישבותי ופנימייתי"
+    },
+    {
+      "title_match": "קול קורא לתקצוב פרויקטים חברתיים לסטודנטים בפריסה ארצית",
+      "url": "https://www.sviva.net/%D7%A7%D7%95%D7%9C-%D7%A7%D7%95%D7%A8%D7%90-%D7%9C%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98%D7%99%D7%9D-%D7%97%D7%91%D7%A8%D7%AA%D7%99%D7%99%D7%9D-%D7%91%D7%AA%D7%A9%D7%A4%D7%96-2026-2027/",
+      "url_alt": "https://impact.tau.ac.il/kol_kore_app_web",
+      "deadline": "2026-05-12",
+      "funder": "ות\"ת / מל\"ג — התוכנית לפרויקטים חברתיים"
+    },
+    {
+      "title_match": "קול קורא לתמיכה בהארכת פעילות קיץ לנוער בסיכון בפנימיות",
+      "url": "https://pob.education.gov.il/kolotkorim/kolkore/",
+      "url_alt": "https://tmichot.mof.gov.il/call-for-proposals/",
+      "deadline": "2026-05-14",
+      "funder": "משרד החינוך — אגף נוער בסיכון"
+    },
+    {
+      "title_match": "קול קורא לתמיכות בארגונים עבור הפעלת תכניות חונכות (מנטורינג) לצעירים במצבי סיכון",
+      "url": "https://www.gov.il/he/pages/kol96",
+      "url_alt": "https://tmichot.mof.gov.il/call-for-proposals/",
+      "deadline": "2026-05-15",
+      "funder": "משרד הרווחה והביטחון החברתי"
+    },
+    {
+      "title_match": "קק\"ל - קול קורא למלגות והטבות לאחים ואחיות שכולים או ליתומים לשנת 2026",
+      "url": "https://www.kkl.org.il/about-us/tenders/call-for-proposals/keren-bauman-2026/",
+      "submission_portal": "https://milga.natansys5.com/bauman261/",
+      "deadline": "2026-12-31",
+      "funder": "קק\"ל + האפוטרופוס הכללי — קרן ניקולא באומן"
+    }
+  ],
+  "general_portals": {
+    "אתר התמיכות הממשלתי": "https://tmichot.mof.gov.il/call-for-proposals/",
+    "משרד החינוך — קולות קוראים": "https://pob.education.gov.il/kolotkorim/kolkore/",
+    "ביטוח לאומי — קרנות": "https://www.btl.gov.il/Funds/kolotkorim/",
+    "קק\"ל — קולות קוראים": "https://www.kkl.org.il/about-us/tenders/call-for-proposals/",
+    "gov.il — כל הקולות הקוראים": "https://www.gov.il/he/departments/dynamicCollectors/kolkoreprocurement"
+  }
+}
