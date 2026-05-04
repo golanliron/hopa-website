@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מחוון בדיקה | כלים שלובים — מקפצה דיגיטלית להוראה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Heebo', sans-serif;
+  background: #f5f5f7;
+  color: #1d1d1f;
+  min-height: 100vh;
+}
+
+/* Top Bar */
+.topbar {
+  background: linear-gradient(135deg, #6C5CE7, #a855f7);
+  padding: 32px 40px 28px;
+  color: #fff;
+}
+.topbar h1 { font-size: 26px; font-weight: 900; }
+.topbar p { font-size: 14px; opacity: 0.8; margin-top: 4px; }
+.topbar .stats {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.topbar .stat-box {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  padding: 14px 22px;
+  min-width: 130px;
+  text-align: center;
+}
+.topbar .stat-box .num {
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+.topbar .stat-box .label {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+/* Container */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 24px;
+}
+
+/* Requirements Card */
+.req-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border-right: 4px solid #6C5CE7;
+}
+.req-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #6C5CE7;
+  margin-bottom: 12px;
+}
+.req-card .req-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+.req-card .req-item {
+  background: #f8f7ff;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+}
+.req-card .req-item strong { color: #6C5CE7; }
+
+/* Search & Filter */
+.toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.search-box {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 16px;
+  border: 2px solid #e8e8ed;
+  border-radius: 12px;
+  font-family: 'Heebo', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-box:focus { border-color: #6C5CE7; }
+.filter-btn {
+  padding: 10px 18px;
+  border: 2px solid #e8e8ed;
+  border-radius: 12px;
+  background: #fff;
+  font-family: 'Heebo', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-btn:hover, .filter-btn.active {
+  border-color: #6C5CE7;
+  background: #f0eeff;
+  color: #6C5CE7;
+}
+.count-label {
+  font-size: 13px;
+  color: #999;
+  margin-right: auto;
+}
+
+/* Table */
+.table-wrap {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+thead th {
+  background: #6C5CE7;
+  color: #fff;
+  padding: 14px 16px;
+  text-align: right;
+  font-weight: 500;
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+}
+thead th:hover { background: #5b4bd6; }
+thead th .sort-arrow { font-size: 10px; margin-right: 4px; opacity: 0.6; }
+tbody td {
+  padding: 14px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f5;
+}
+tbody tr:hover { background: #fafaff; }
+tbody tr:last-child td { border-bottom: none; }
+
+.student-name {
+  font-weight: 700;
+  color: #1d1d1f;
+}
+.student-topic {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  text-align: center;
+  min-width: 55px;
+}
+.badge-high { background: #d4edda; color: #155724; }
+.badge-mid { background: #fff3cd; color: #856404; }
+.badge-low { background: #f8d7da; color: #721c24; }
+.badge-pending { background: #e8e8ed; color: #666; }
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: 6px;
+}
+.dot-ok { background: #27ae60; }
+.dot-partial { background: #f39c12; }
+.dot-broken { background: #e74c3c; }
+.dot-pending { background: #ccc; }
+
+.link-check {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.view-btn {
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: #6C5CE7;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s;
+  font-family: 'Heebo', sans-serif;
+  border: none;
+  cursor: pointer;
+}
+.view-btn:hover { background: #5b4bd6; }
+
+/* Summary row */
+.summary-row td {
+  background: #f8f7ff;
+  font-weight: 700;
+  border-bottom: none;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 28px;
+  font-size: 12px;
+  color: #999;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .topbar { padding: 24px 16px; }
+  .topbar h1 { font-size: 20px; }
+  .container { padding: 16px 12px; }
+  .req-card .req-grid { grid-template-columns: 1fr; }
+  table { font-size: 13px; }
+  thead th, tbody td { padding: 10px 8px; }
+  .toolbar { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="topbar">
+  <p>Lnet | כלים שלובים מקפצה דיגיטלית להוראה</p>
+  <h1>מחוון בדיקת עבודות סיכום</h1>
+  <div class="stats">
+    <div class="stat-box">
+      <div class="num" id="totalCount">1</div>
+      <div class="label">עבודות שהוגשו</div>
+    </div>
+    <div class="stat-box">
+      <div class="num" id="checkedCount">1</div>
+      <div class="label">נבדקו</div>
+    </div>
+    <div class="stat-box">
+      <div class="num" id="avgScore">80</div>
+      <div class="label">ציון ממוצע</div>
+    </div>
+    <div class="stat-box">
+      <div class="num" id="pendingCount">0</div>
+      <div class="label">ממתינות</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Requirements -->
+  <div class="req-card">
+    <h3>דרישות המשימה (4 קריטריונים)</h3>
+    <div class="req-grid">
+      <div class="req-item"><strong>1. נושא</strong> — בחירת נושא לימודי/חברתי (10%)</div>
+      <div class="req-item"><strong>2. יחידת הוראה</strong> — 2 כלים, מטרות, נימוקים, מהלך, שאלות (60%)</div>
+      <div class="req-item"><strong>3. הוראה בפועל</strong> — תיעוד שהשיעור נלמד (10%)</div>
+      <div class="req-item"><strong>4. רפלקציה</strong> — פערים תכנון/ביצוע, השגת מטרות (20%)</div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <input type="text" class="search-box" id="searchInput" placeholder="חיפוש לפי שם, נושא או ת.ז..." oninput="filterTable()">
+    <button class="filter-btn" onclick="filterByStatus('all')" id="btnAll">הכל</button>
+    <button class="filter-btn" onclick="filterByStatus('checked')" id="btnChecked">נבדקו</button>
+    <button class="filter-btn" onclick="filterByStatus('pending')" id="btnPending">ממתינות</button>
+    <span class="count-label" id="countLabel">מציג 1 מתוך 1</span>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <table id="gradesTable">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)">#</th>
+          <th onclick="sortTable(1)">שם</th>
+          <th>ת.ז</th>
+          <th>שם העבודה / נושא</th>
+          <th>PDF</th>
+          <th onclick="sortTable(3)"><span class="sort-arrow">▼</span> ציון</th>
+          <th>קישורים</th>
+          <th>סטטוס</th>
+          <th>מחוון</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <!-- Students will be rendered here by JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    מחוון בדיקה אוטומטי | קורס Lnet — כלים שלובים מקפצה דיגיטלית להוראה | עודכן 04.05.2026
+  </div>
+</div>
+
+<script>
+// ====== DATA — כל העבודות נשמרות כאן ======
+const students = [
+  {
+    id: 1,
+    name: "דלית בן חמו",
+    tz: "025072950",
+    assignmentName: "מטלת הסיכום שלי - מסלולים במרחב",
+    topic: "מסלולים במרחב — חינוך גופני",
+    pdfFile: "PDF_Reader_מטלת הסיכום שלי - מסלולים במרחב - דלית בן חמו 025072950.pdf",
+    score: 85,
+    status: "checked",
+    links: [
+      { label: "מצגת Canva+AI", url: "https://www.canva.com/design/DAG8EDsbz3A/44CpD1hE1r0zHVQzerWNzA/view", ok: "ok" },
+      { label: "משחק זיכרון", url: "https://sports-tracks.my.canva.site/", ok: "ok" }
+    ],
+    rubricFile: "dalit-ben-hamo.html",
+    breakdown: { topic: 10, tools: 15, goals: 7, reasons: 9, steps: 10, activities: 6, teaching: 7, reflection: 13 },
+    notes: "תוצרים דיגיטליים מרשימים; חסרים שלבי שיעור מפורטים ורפלקציה ביקורתית"
+  }
+  // ====== עבודות חדשות יתווספו כאן ======
+];
+
+// Render
+function renderTable(data) {
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = '';
+  data.forEach((s, i) => {
+    const scoreClass = s.status === 'pending' ? 'badge-pending' :
+                       s.score >= 85 ? 'badge-high' :
+                       s.score >= 70 ? 'badge-mid' : 'badge-low';
+
+    const linksHtml = s.links.map(l => {
+      const dotClass = l.ok === 'ok' ? 'dot-ok' : l.ok === 'partial' ? 'dot-partial' : l.ok === 'broken' ? 'dot-broken' : 'dot-pending';
+      return `<div class="link-check"><span class="status-dot ${dotClass}"></span><a href="${l.url}" target="_blank" style="font-size:12px;color:#6C5CE7;">${l.label}</a></div>`;
+    }).join('');
+
+    const statusText = s.status === 'checked' ? 'נבדק' : 'ממתין';
+    const statusBadge = s.status === 'checked' ? 'badge-high' : 'badge-pending';
+
+    const viewBtn = s.status === 'checked'
+      ? `<a href="${s.rubricFile}" class="view-btn">צפה במחוון</a>`
+      : `<span style="color:#999;font-size:12px;">—</span>`;
+
+    const pdfLink = s.pdfFile
+      ? `<a href="file:///C:/Users/golan/Downloads/${encodeURIComponent(s.pdfFile)}" target="_blank" style="font-size:12px;color:#6C5CE7;text-decoration:none;">📄 פתח</a>`
+      : `<span style="color:#999;font-size:12px;">—</span>`;
+
+    tbody.innerHTML += `
+      <tr data-status="${s.status}">
+        <td>${s.id}</td>
+        <td><div class="student-name">${s.name}</div></td>
+        <td style="font-size:13px;color:#666;">${s.tz}</td>
+        <td>
+          <div style="font-size:13px;font-weight:500;">${s.assignmentName || ''}</div>
+          <div style="font-size:12px;color:#888;margin-top:2px;">${s.topic}</div>
+        </td>
+        <td>${pdfLink}</td>
+        <td><span class="badge ${scoreClass}">${s.status === 'pending' ? '—' : s.score}</span></td>
+        <td>${linksHtml}</td>
+        <td><span class="badge ${statusBadge}" style="font-size:11px;">${statusText}</span></td>
+        <td>${viewBtn}</td>
+      </tr>`;
+  });
+  document.getElementById('countLabel').textContent = `מציג ${data.length} מתוך ${students.length}`;
+}
+
+// Stats
+function updateStats() {
+  const checked = students.filter(s => s.status === 'checked');
+  const pending = students.filter(s => s.status === 'pending');
+  const avg = checked.length ? Math.round(checked.reduce((a,b) => a + b.score, 0) / checked.length) : 0;
+
+  document.getElementById('totalCount').textContent = students.length;
+  document.getElementById('checkedCount').textContent = checked.length;
+  document.getElementById('avgScore').textContent = avg || '—';
+  document.getElementById('pendingCount').textContent = pending.length;
+}
+
+// Filter
+let currentFilter = 'all';
+function filterTable() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = students.filter(s => {
+    const matchSearch = !q || s.name.includes(q) || s.tz.includes(q) || s.topic.includes(q);
+    const matchStatus = currentFilter === 'all' || s.status === currentFilter;
+    return matchSearch && matchStatus;
+  });
+  renderTable(filtered);
+}
+
+function filterByStatus(status) {
+  currentFilter = status;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(status === 'all' ? 'btnAll' : status === 'checked' ? 'btnChecked' : 'btnPending').classList.add('active');
+  filterTable();
+}
+
+// Sort
+let sortDir = 1;
+function sortTable(col) {
+  sortDir *= -1;
+  const keys = ['id', 'name', 'tz', 'score'];
+  const key = keys[col];
+  if (!key) return;
+  students.sort((a, b) => {
+    if (typeof a[key] === 'number') return (a[key] - b[key]) * sortDir;
+    return a[key].localeCompare(b[key], 'he') * sortDir;
+  });
+  filterTable();
+}
+
+// Init
+updateStats();
+filterByStatus('all');
+</script>
+
+</body>
+</html>

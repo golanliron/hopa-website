@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מחוון בדיקה — דלית בן חמו | מקפצה דיגיטלית</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Heebo', sans-serif;
+  background: #f5f5f7;
+  color: #1d1d1f;
+  padding: 24px;
+  line-height: 1.7;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #6C5CE7, #a855f7);
+  border-radius: 20px;
+  padding: 40px 36px;
+  color: #fff;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: -40px;
+  width: 160px;
+  height: 160px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+}
+.header h1 {
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+.header .course {
+  font-size: 15px;
+  opacity: 0.85;
+  font-weight: 300;
+}
+.header .student-info {
+  margin-top: 20px;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.header .student-info .tag {
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  backdrop-filter: blur(4px);
+}
+
+/* Score Card */
+.score-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.score-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: conic-gradient(#6C5CE7 0% 85%, #e8e8ed 85% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.score-circle .inner {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.score-circle .number {
+  font-size: 34px;
+  font-weight: 900;
+  color: #6C5CE7;
+  line-height: 1;
+}
+.score-circle .of {
+  font-size: 13px;
+  color: #999;
+}
+.score-summary h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.score-summary p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Requirements Section */
+.section {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.section h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #6C5CE7;
+}
+
+/* Rubric Table */
+.rubric-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid #e8e8ed;
+}
+.rubric-table th {
+  background: #6C5CE7;
+  color: #fff;
+  padding: 12px 16px;
+  text-align: right;
+  font-weight: 500;
+  font-size: 14px;
+}
+.rubric-table td {
+  padding: 14px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f5;
+  vertical-align: top;
+}
+.rubric-table tr:last-child td { border-bottom: none; }
+.rubric-table tr:nth-child(even) { background: #fafafc; }
+
+.grade-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  text-align: center;
+  min-width: 50px;
+}
+.grade-high { background: #d4edda; color: #155724; }
+.grade-mid { background: #fff3cd; color: #856404; }
+.grade-low { background: #f8d7da; color: #721c24; }
+
+/* Detail Sections */
+.detail-block {
+  margin-bottom: 20px;
+}
+.detail-block h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.detail-block h4 .icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #fff;
+  flex-shrink: 0;
+}
+.detail-block ul {
+  padding-right: 20px;
+  font-size: 14px;
+  color: #444;
+}
+.detail-block ul li { margin-bottom: 6px; }
+
+.good { background: #27ae60; }
+.warn { background: #f39c12; }
+.miss { background: #e74c3c; }
+
+/* Links Section */
+.links-card {
+  background: #f0f8ff;
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  border-right: 4px solid #3498db;
+}
+.links-card h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #2980b9;
+}
+.link-item {
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  border: 1px solid #e0e8f0;
+}
+.link-item:last-child { margin-bottom: 0; }
+.link-item .link-title {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.link-item .link-title .status {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #27ae60;
+}
+.link-item .link-detail {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+}
+.link-item a {
+  color: #6C5CE7;
+  font-size: 12px;
+  word-break: break-all;
+}
+
+/* Recommendations */
+.rec-card {
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-top: 16px;
+}
+.rec-card h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #c0392b;
+}
+.rec-card ol {
+  padding-right: 20px;
+  font-size: 14px;
+  color: #5a3e2b;
+}
+.rec-card ol li { margin-bottom: 6px; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 24px;
+  font-size: 12px;
+  color: #999;
+}
+
+/* Guidelines Box */
+.guidelines {
+  background: #f0eeff;
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  border-right: 4px solid #6C5CE7;
+}
+.guidelines h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #6C5CE7;
+}
+.guidelines ol {
+  padding-right: 20px;
+  font-size: 14px;
+  color: #444;
+}
+.guidelines ol li { margin-bottom: 6px; }
+
+@media (max-width: 600px) {
+  body { padding: 12px; }
+  .header { padding: 28px 20px; }
+  .header h1 { font-size: 22px; }
+  .score-card { flex-direction: column; text-align: center; padding: 24px; }
+  .section { padding: 20px; }
+  .rubric-table th, .rubric-table td { padding: 10px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="course">Lnet | כלים שלובים מקפצה דיגיטלית להוראה</div>
+    <h1>מחוון בדיקת משימת סיכום</h1>
+    <div class="student-info">
+      <div class="tag">שם: דלית בן חמו</div>
+      <div class="tag">ת.ז: 025072950</div>
+      <div class="tag">נושא: מסלולים במרחב — חינוך גופני</div>
+    </div>
+  </div>
+
+  <!-- Guidelines -->
+  <div class="section">
+    <h3>דרישות המשימה</h3>
+    <div class="guidelines">
+      <h4>הנחיות הקורס — מה נדרש בעבודה:</h4>
+      <ol>
+        <li><strong>בחירת נושא</strong> — נושא לימודי או חברתי לפיתוח</li>
+        <li><strong>יחידת הוראה</strong> — שיעור אחד עם <u>לפחות 2 כלים דיגיטליים</u> (או כלי אחד ב-2 אופנים). חייב לכלול: מטרות, תיאור הכלים ונימוקים לבחירה, תיאור המהלך לפי שלבי הפעילות, חומרי למידה, שאלות ופעילויות ללומדים</li>
+        <li><strong>הוראה בפועל</strong> — ללמד את הנושא בבית הספר</li>
+        <li><strong>רפלקציה</strong> — התייחסות לפערים בין תכנון לביצוע, פירוט מידת השגת המטרות</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Score -->
+  <div class="score-card">
+    <div class="score-circle">
+      <div class="inner">
+        <div class="number">85</div>
+        <div class="of">/ 100</div>
+      </div>
+    </div>
+    <div class="score-summary">
+      <h2>ציון כולל: 85 — טוב מאוד</h2>
+      <p>עבודה יצירתית ואיכותית עם תוצרים דיגיטליים מרשימים: מצגת אינטראקטיבית ומשחק זיכרון פונקציונלי מלא. חסרים פירוט שלבי השיעור ורפלקציה ביקורתית על פערים.</p>
+    </div>
+  </div>
+
+  <!-- Links Verification -->
+  <div class="section">
+    <h3>בדיקת קישורים ותוצרים דיגיטליים</h3>
+    <div class="links-card">
+      <h4>קישורים שנבדקו</h4>
+
+      <div class="link-item">
+        <div class="link-title"><span class="status"></span> קישור 1 — מצגת Canva + AI</div>
+        <div class="link-detail">
+          <strong>סטטוס:</strong> פעיל ונגיש<br>
+          <strong>כותרת:</strong> "יוצאים לדרך! מגלים מסלולים במרחב."<br>
+          <strong>סוג:</strong> Presentation ב-Canva<br>
+          <strong>התאמה לנושא:</strong> מתאים — מצגת על מסלולים במרחב כפי שתואר בעבודה
+        </div>
+        <a href="https://www.canva.com/design/DAG8EDsbz3A/44CpD1hE1r0zHVQzerWNzA/view" target="_blank">פתח מצגת</a>
+      </div>
+
+      <div class="link-item">
+        <div class="link-title"><span class="status"></span> קישור 2 — משחק זיכרון (Canva Code)</div>
+        <div class="link-detail">
+          <strong>סטטוס:</strong> פעיל ופונקציונלי לחלוטין<br>
+          <strong>כותרת:</strong> "משחק זכרון - מסלולים במרחב"<br>
+          <strong>מבנה המשחק:</strong> 4 זוגות כרטיסיות (8 כרטיסים סה"כ), גריד 4×2<br>
+          <strong>תכני המשחק — 4 מסלולים:</strong><br>
+          &nbsp;&nbsp;➡️ מסלול ישר — "רצים קדימה בקו ישר, כמו רכבת על פסים!"<br>
+          &nbsp;&nbsp;⚡ מסלול זיגזג — "רצים ימינה ושמאלה, כמו ברק בשמיים!"<br>
+          &nbsp;&nbsp;〰️ מסלול מפותל — "נעים בתנועה רכה וגלית, כמו נחש זורח!"<br>
+          &nbsp;&nbsp;🔄 מסלול עגול — "רצים במעגל שלם, כמו קרוסלה בפארק!"<br>
+          <strong>פיצ'רים:</strong> ספירת ניסיונות, הודעות עידוד (10 להצלחה + 10 לעידוד), אנימציית קונפטי, כפתור "משחק חדש", רספונסיבי למובייל<br>
+          <strong>כל כרטיס כולל:</strong> אייקון + ציור SVG של המסלול + הסבר טקסטואלי<br>
+          <strong>הערכה:</strong> תוצר דיגיטלי ברמה גבוהה — אפליקציה אינטראקטיבית אמיתית, לא סתם מצגת
+        </div>
+        <a href="https://sports-tracks.my.canva.site/" target="_blank">שחק במשחק</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rubric Table -->
+  <div class="section">
+    <h3>פירוט ציונים לפי קריטריונים</h3>
+    <table class="rubric-table">
+      <thead>
+        <tr>
+          <th style="width:5%">#</th>
+          <th style="width:22%">קריטריון</th>
+          <th style="width:10%">משקל</th>
+          <th style="width:10%">ציון</th>
+          <th style="width:53%">הערות</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>בחירת נושא</strong></td>
+          <td>10%</td>
+          <td><span class="grade-badge grade-high">10/10</span></td>
+          <td>נושא ברור ומוגדר היטב: "מסלולים במרחב" — מושגי יסוד בתנועה. רלוונטי לחינוך גופני, מתאים לגיל. מקורי — שילוב דיגיטלי בתחום שבדרך כלל פחות טכנולוגי.</td>
+        </tr>
+        <tr>
+          <td>2a</td>
+          <td><strong>שני כלים דיגיטליים</strong></td>
+          <td>15%</td>
+          <td><span class="grade-badge grade-high">15/15</span></td>
+          <td>שני כלים שונים מאותה פלטפורמה ב-2 אופנים שונים (תקין לפי ההנחיות):<br>
+          1. <strong>Canva + AI</strong> — מצגת אינטראקטיבית עם דימויים ויזואליים שנוצרו ב-AI. קישור פעיל.<br>
+          2. <strong>Canva Code</strong> — משחק זיכרון אינטראקטיבי עם 4 זוגות, SVG, אנימציות, הודעות עידוד. קישור פעיל ופונקציונלי. תוצר ברמה גבוהה מאוד.</td>
+        </tr>
+        <tr>
+          <td>2b</td>
+          <td><strong>מטרות</strong></td>
+          <td>10%</td>
+          <td><span class="grade-badge grade-mid">7/10</span></td>
+          <td>מטרות קיימות אך כלליות: "הקניית מושגי יסוד" ו"חיזוק זיכרון חזותי". חסר: מטרות מדידות, יעדי הצלחה, קשר לתוכנית לימודים.</td>
+        </tr>
+        <tr>
+          <td>2c</td>
+          <td><strong>נימוקים לבחירת הכלים</strong></td>
+          <td>10%</td>
+          <td><span class="grade-badge grade-high">9/10</span></td>
+          <td>נימוקים ברורים ואותנטיים: AI מנגיש מושגים מופשטים, משחק הזיכרון מחבר בין ויזואלי לגופני. השילוב "עיניים + גוף בו-זמנית" — משכנע פדגוגית.</td>
+        </tr>
+        <tr>
+          <td>2d</td>
+          <td><strong>מהלך שיעור לפי שלבים</strong></td>
+          <td>15%</td>
+          <td><span class="grade-badge grade-mid">10/15</span></td>
+          <td>תיאור של 2 שיעורים עם מהלך ברור (הקרנה → תרגול תנועתי, משחק → ביצוע באולם), אבל <strong>חסרים</strong>: חלוקת זמן, שלב פתיחה וסיכום, הוראות ספציפיות, התאמות לתלמידים חלשים.</td>
+        </tr>
+        <tr>
+          <td>2e</td>
+          <td><strong>שאלות ופעילויות ללומדים</strong></td>
+          <td>10%</td>
+          <td><span class="grade-badge grade-mid">6/10</span></td>
+          <td>משחק הזיכרון עצמו הוא פעילות אינטראקטיבית ללומדים (התאמת זוגות + ביצוע המסלול באולם). אבל <strong>חסרות שאלות מפורשות</strong> בעבודה הכתובה, אין דפי עבודה, ואין הנחיות מפורטות לתלמיד.</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>הוראה בפועל בביה"ס</strong></td>
+          <td>10%</td>
+          <td><span class="grade-badge grade-mid">7/10</span></td>
+          <td>משתמע מהרפלקציה שהשיעור נלמד בפועל ("ראיתי שהילדים מבינים..."), אך <strong>אין תיעוד מפורש</strong>: באיזו כיתה? כמה תלמידים? תאריך?</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>רפלקציה</strong></td>
+          <td>20%</td>
+          <td><span class="grade-badge grade-mid">13/20</span></td>
+          <td>רפלקציה אישית וכנה עם תובנות ("בהתחלה חששתי... ראיתי כמה זה פשוט"). מתארת את השיא ("לבנות בעצמי את משחק הזיכרון"). אבל:<br>
+          — <strong>חסר:</strong> התייחסות לפערים בין תכנון לביצוע<br>
+          — <strong>חסר:</strong> מה לא עבד? מה הייתי משנה?<br>
+          — <strong>חסר:</strong> פירוט מידת השגת המטרות שהוצבו</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr style="background: #f0eeff; font-weight: 700;">
+          <td colspan="3" style="text-align: center;">סה"כ</td>
+          <td><span class="grade-badge grade-high" style="font-size: 15px;">85/100</span></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- What's Good -->
+  <div class="section">
+    <h3>פירוט הבדיקה</h3>
+
+    <div class="detail-block">
+      <h4><span class="icon good">+</span> מה טוב בעבודה</h4>
+      <ul>
+        <li>נושא מקורי ויצירתי — שילוב דיגיטלי בחינוך גופני, תחום שלרוב פחות "דיגיטלי"</li>
+        <li>שני תוצרים דיגיטליים <strong>פעילים וברמה גבוהה</strong>: מצגת + משחק זיכרון אינטראקטיבי מלא</li>
+        <li>משחק הזיכרון כולל: 4 זוגות, SVG לכל מסלול, הסברים, הודעות עידוד, קונפטי, רספונסיביות — תוצר דיגיטלי מרשים</li>
+        <li>שילוב חכם בין למידה ויזואלית (מסך) לפעילות גופנית (אולם) — "כל פעם שמוצאים זוג, הכיתה מבצעת את המסלול"</li>
+        <li>נימוקים אותנטיים ומשכנעים לבחירת הכלים</li>
+        <li>כתיבה אישית וכנה ברפלקציה</li>
+      </ul>
+    </div>
+
+    <div class="detail-block">
+      <h4><span class="icon warn">!</span> מה חלקי ודורש השלמה</h4>
+      <ul>
+        <li>מטרות כלליות מדי — חסרות מטרות מדידות ויעדי הצלחה</li>
+        <li>מהלך השיעור מתואר בקווים כלליים — חסרים שלבים, זמנים, הוראות מדויקות</li>
+        <li>אין תיעוד מפורש של ההוראה בפועל (כיתה, תאריך)</li>
+      </ul>
+    </div>
+
+    <div class="detail-block">
+      <h4><span class="icon miss">✗</span> מה חסר</h4>
+      <ul>
+        <li><strong>שאלות מפורשות ללומדים</strong> — המשחק עצמו הוא פעילות, אך בעבודה הכתובה אין שאלות או דפי עבודה</li>
+        <li><strong>פערים בין תכנון לביצוע</strong> — הרפלקציה חיובית לחלוטין, ללא התייחסות לקשיים</li>
+        <li><strong>ניתוח השגת מטרות</strong> — לא מפורט באיזו מידה הושגו המטרות שהוגדרו</li>
+      </ul>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="rec-card">
+      <h4>המלצות לשיפור</h4>
+      <ol>
+        <li>להוסיף <strong>מבנה שיעור מפורט</strong>: פתיחה (5 דק') → הצגת מצגת (10 דק') → תרגול (15 דק') → סיכום (5 דק')</li>
+        <li>להוסיף <strong>שאלות/משימות מפורשות</strong>: "זהו את סוג המסלול בתמונה", "צייר מסלול זיגזג", "הדגים מסלול מפותל"</li>
+        <li>ברפלקציה — לציין <strong>לפחות קושי אחד</strong>: מה לא עבד כמתוכנן? מה הפתיע? מה הייתי משנה?</li>
+        <li>להוסיף <strong>משפט מפורש</strong>: "לימדתי את השיעור בכיתה ___ בתאריך ___"</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    מחוון בדיקה | קורס Lnet — כלים שלובים מקפצה דיגיטלית להוראה | נבדק בתאריך 04.05.2026
+  </div>
+
+</div>
+</body>
+</html>
