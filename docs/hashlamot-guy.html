@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מערכת השלמות — שכבת יא׳ | גיא</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary: #1565C0;
+  --primary-light: #E3F2FD;
+  --success: #2E7D32;
+  --success-light: #E8F5E9;
+  --warning: #F57F17;
+  --warning-light: #FFF8E1;
+  --danger: #C62828;
+  --danger-light: #FFEBEE;
+  --gray-50: #FAFAFA;
+  --gray-100: #F5F5F5;
+  --gray-200: #EEEEEE;
+  --gray-300: #E0E0E0;
+  --gray-600: #757575;
+  --gray-800: #424242;
+  --gray-900: #212121;
+  --radius: 12px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-lg: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+body {
+  font-family: 'Heebo', sans-serif;
+  background: var(--gray-100);
+  color: var(--gray-900);
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  background: white;
+  border-bottom: 1px solid var(--gray-200);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.header .subtitle {
+  font-size: 0.85rem;
+  color: var(--gray-600);
+}
+
+.user-badge {
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Stats Row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 24px 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.stat-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.stat-card .number {
+  font-size: 2.2rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-card .label {
+  font-size: 0.85rem;
+  color: var(--gray-600);
+}
+
+.stat-card.total .number { color: var(--primary); }
+.stat-card.done .number { color: var(--success); }
+.stat-card.pending .number { color: var(--warning); }
+.stat-card.overdue .number { color: var(--danger); }
+
+/* Controls */
+.controls {
+  padding: 0 32px 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 16px;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-box:focus { border-color: var(--primary); }
+
+.filter-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  background: white;
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+.filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+.btn-add {
+  padding: 10px 20px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-add:hover { background: #0D47A1; }
+
+/* Table */
+.table-container {
+  padding: 0 32px 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.table-card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: var(--gray-50);
+}
+
+th {
+  padding: 14px 16px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--gray-600);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--gray-200);
+  font-size: 0.9rem;
+}
+
+tr:last-child td { border-bottom: none; }
+tr:hover { background: var(--gray-50); }
+
+.student-name {
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.subject-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-badge::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-done { background: var(--success-light); color: var(--success); }
+.status-done::before { background: var(--success); }
+.status-pending { background: var(--warning-light); color: var(--warning); }
+.status-pending::before { background: var(--warning); }
+.status-overdue { background: var(--danger-light); color: var(--danger); }
+.status-overdue::before { background: var(--danger); }
+.status-submitted { background: #E8EAF6; color: #283593; }
+.status-submitted::before { background: #283593; }
+
+.date-cell {
+  color: var(--gray-600);
+  font-size: 0.85rem;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 6px;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--gray-300);
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.action-btn:hover { border-color: var(--primary); color: var(--primary); }
+.action-btn.approve:hover { border-color: var(--success); color: var(--success); }
+.action-btn.delete:hover { border-color: var(--danger); color: var(--danger); }
+
+/* Modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.show { display: flex; }
+
+.modal {
+  background: white;
+  border-radius: var(--radius);
+  padding: 32px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal h2 {
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-600);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus { border-color: var(--primary); }
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-save {
+  flex: 1;
+  padding: 12px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  padding: 12px 24px;
+  background: var(--gray-100);
+  color: var(--gray-800);
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+/* Progress bar */
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--gray-200);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--success));
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header { padding: 12px 16px; }
+  .stats-row { padding: 16px; }
+  .controls { padding: 0 16px 12px; }
+  .table-container { padding: 0 16px 16px; }
+  .header h1 { font-size: 1.1rem; }
+
+  table { font-size: 0.8rem; }
+  th, td { padding: 10px 8px; }
+
+  .hide-mobile { display: none; }
+}
+
+/* Print */
+@media print {
+  .header { position: static; box-shadow: none; }
+  .controls { display: none; }
+  .btn-add { display: none; }
+  .action-btn { display: none; }
+  body { background: white; }
+  .table-card { box-shadow: none; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-right">
+    <div>
+      <h1>מערכת השלמות — שכבת יא׳</h1>
+      <div class="subtitle">מעקב השלמות תלמידים | שנה"ל תשפ"ו</div>
+    </div>
+  </div>
+  <div class="user-badge">רכז שכבה: גיא</div>
+</header>
+
+<div class="stats-row">
+  <div class="stat-card total">
+    <div class="number" id="stat-total">0</div>
+    <div class="label">סה"כ השלמות</div>
+  </div>
+  <div class="stat-card done">
+    <div class="number" id="stat-done">0</div>
+    <div class="label">הושלמו</div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+  <div class="stat-card pending">
+    <div class="number" id="stat-pending">0</div>
+    <div class="label">ממתינות</div>
+  </div>
+  <div class="stat-card overdue">
+    <div class="number" id="stat-overdue">0</div>
+    <div class="label">באיחור</div>
+  </div>
+</div>
+
+<div class="controls">
+  <input type="text" class="search-box" id="search" placeholder="חיפוש תלמיד או מקצוע...">
+  <button class="filter-btn active" data-filter="all">הכל</button>
+  <button class="filter-btn" data-filter="pending">ממתינות</button>
+  <button class="filter-btn" data-filter="submitted">הוגשו</button>
+  <button class="filter-btn" data-filter="done">הושלמו</button>
+  <button class="filter-btn" data-filter="overdue">באיחור</button>
+  <button class="btn-add" onclick="openModal()">+ הוספת השלמה</button>
+</div>
+
+<div class="table-container">
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>תלמיד/ה</th>
+          <th>כיתה</th>
+          <th>מקצוע</th>
+          <th>נושא ההשלמה</th>
+          <th>מורה</th>
+          <th class="hide-mobile">תאריך יעד</th>
+          <th>סטטוס</th>
+          <th>פעולות</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <h2 id="modal-title">הוספת השלמה חדשה</h2>
+    <div class="form-group">
+      <label>שם התלמיד/ה</label>
+      <input type="text" id="input-student" placeholder="שם מלא">
+    </div>
+    <div class="form-group">
+      <label>כיתה</label>
+      <select id="input-class">
+        <option value="יא1">יא1</option>
+        <option value="יא2">יא2</option>
+        <option value="יא3">יא3</option>
+        <option value="יא4">יא4</option>
+        <option value="יא5">יא5</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>מקצוע</label>
+      <select id="input-subject">
+        <option value="מתמטיקה">מתמטיקה</option>
+        <option value="אנגלית">אנגלית</option>
+        <option value="תנ״ך">תנ״ך</option>
+        <option value="היסטוריה">היסטוריה</option>
+        <option value="ספרות">ספרות</option>
+        <option value="פיזיקה">פיזיקה</option>
+        <option value="כימיה">כימיה</option>
+        <option value="ביולוגיה">ביולוגיה</option>
+        <option value="אזרחות">אזרחות</option>
+        <option value="עברית">עברית</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>נושא ההשלמה</label>
+      <input type="text" id="input-topic" placeholder="למשל: מבחן פרק 3, עבודה מסכמת...">
+    </div>
+    <div class="form-group">
+      <label>שם המורה</label>
+      <input type="text" id="input-teacher" placeholder="שם המורה">
+    </div>
+    <div class="form-group">
+      <label>תאריך יעד</label>
+      <input type="date" id="input-deadline">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-save" onclick="saveItem()">שמירה</button>
+      <button class="btn-cancel" onclick="closeModal()">ביטול</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Data - stored in localStorage
+const STORAGE_KEY = 'hashlamot_yud_alef_guy';
+
+// Sample data for demo
+const sampleData = [
+  { id: 1, student: 'נועם כהן', class: 'יא1', subject: 'מתמטיקה', topic: 'מבחן חדו"א — נגזרות', teacher: 'רונית לוי', deadline: '2026-05-10', status: 'pending' },
+  { id: 2, student: 'מאיה אברהם', class: 'יא1', subject: 'אנגלית', topic: 'חיבור Literature Module E', teacher: 'דנה שרון', deadline: '2026-05-08', status: 'submitted' },
+  { id: 3, student: 'איתי מזרחי', class: 'יא2', subject: 'תנ״ך', topic: 'עבודת חקר — ספר שמואל', teacher: 'משה צברי', deadline: '2026-04-28', status: 'overdue' },
+  { id: 4, student: 'שירה דוד', class: 'יא2', subject: 'היסטוריה', topic: 'מבחן מלחמת העולם השנייה', teacher: 'יוסי ברק', deadline: '2026-05-15', status: 'pending' },
+  { id: 5, student: 'עומר פרץ', class: 'יא3', subject: 'פיזיקה', topic: 'דוח מעבדה — חוק אוהם', teacher: 'אבי גולדשטיין', deadline: '2026-05-01', status: 'done' },
+  { id: 6, student: 'תמר שלום', class: 'יא3', subject: 'ספרות', topic: 'ניתוח שיר — רחל', teacher: 'מיכל רוזן', deadline: '2026-05-12', status: 'pending' },
+  { id: 7, student: 'יונתן אשכנזי', class: 'יא1', subject: 'כימיה', topic: 'בחינה — חומצות ובסיסים', teacher: 'ד"ר נעמי קפלן', deadline: '2026-04-25', status: 'overdue' },
+  { id: 8, student: 'ליאור חדד', class: 'יא4', subject: 'אזרחות', topic: 'עבודה — זכויות אדם', teacher: 'רוני אלון', deadline: '2026-05-20', status: 'pending' },
+  { id: 9, student: 'אגם ביטון', class: 'יא2', subject: 'מתמטיקה', topic: 'השלמת תרגילי אינטגרלים', teacher: 'רונית לוי', deadline: '2026-05-06', status: 'done' },
+  { id: 10, student: 'רועי סויסה', class: 'יא4', subject: 'עברית', topic: 'הבנת הנקרא — מאמר טיעון', teacher: 'ענת כץ', deadline: '2026-05-03', status: 'submitted' },
+  { id: 11, student: 'נועם כהן', class: 'יא1', subject: 'היסטוריה', topic: 'השלמת מצגת — השואה', teacher: 'יוסי ברק', deadline: '2026-05-18', status: 'pending' },
+  { id: 12, student: 'דניאל אוחנה', class: 'יא5', subject: 'ביולוגיה', topic: 'דוח ניסוי — מיטוזה', teacher: 'ד"ר שרה מן', deadline: '2026-04-30', status: 'done' },
+  { id: 13, student: 'הילה נחום', class: 'יא3', subject: 'אנגלית', topic: 'Oral Presentation — Climate', teacher: 'דנה שרון', deadline: '2026-05-22', status: 'pending' },
+  { id: 14, student: 'איתי מזרחי', class: 'יא2', subject: 'מתמטיקה', topic: 'מבחן הסתברות', teacher: 'רונית לוי', deadline: '2026-05-14', status: 'pending' },
+  { id: 15, student: 'מור אזולאי', class: 'יא5', subject: 'תנ״ך', topic: 'חזרה על פרקי נביאים', teacher: 'משה צברי', deadline: '2026-05-09', status: 'submitted' },
+];
+
+function loadData() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) return JSON.parse(saved);
+  // First time — load sample data
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(sampleData));
+  return sampleData;
+}
+
+function saveData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+let data = loadData();
+let currentFilter = 'all';
+let editingId = null;
+
+// Render
+function render() {
+  const search = document.getElementById('search').value.trim();
+  let filtered = data;
+
+  if (currentFilter !== 'all') {
+    filtered = filtered.filter(item => item.status === currentFilter);
+  }
+
+  if (search) {
+    const q = search.toLowerCase();
+    filtered = filtered.filter(item =>
+      item.student.includes(q) || item.subject.includes(q) || item.topic.includes(q) || item.teacher.includes(q)
+    );
+  }
+
+  // Stats
+  const total = data.length;
+  const done = data.filter(i => i.status === 'done').length;
+  const pending = data.filter(i => i.status === 'pending').length;
+  const overdue = data.filter(i => i.status === 'overdue').length;
+
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-done').textContent = done;
+  document.getElementById('stat-pending').textContent = pending;
+  document.getElementById('stat-overdue').textContent = overdue;
+  document.getElementById('progress-fill').style.width = total ? ((done / total) * 100) + '%' : '0%';
+
+  // Table
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = filtered.map(item => `
+    <tr>
+      <td class="student-name">${item.student}</td>
+      <td>${item.class}</td>
+      <td><span class="subject-tag">${item.subject}</span></td>
+      <td>${item.topic}</td>
+      <td>${item.teacher}</td>
+      <td class="date-cell hide-mobile">${formatDate(item.deadline)}</td>
+      <td>${statusBadge(item.status)}</td>
+      <td>
+        <div class="actions-cell">
+          ${item.status !== 'done' ? `<button class="action-btn approve" title="סימון כהושלם" onclick="markDone(${item.id})">&#10003;</button>` : ''}
+          <button class="action-btn" title="עריכה" onclick="editItem(${item.id})">&#9998;</button>
+          <button class="action-btn delete" title="מחיקה" onclick="deleteItem(${item.id})">&#10005;</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function statusBadge(status) {
+  const map = {
+    done: '<span class="status-badge status-done">הושלם</span>',
+    pending: '<span class="status-badge status-pending">ממתין</span>',
+    overdue: '<span class="status-badge status-overdue">באיחור</span>',
+    submitted: '<span class="status-badge status-submitted">הוגש</span>',
+  };
+  return map[status] || status;
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('he-IL', { day: 'numeric', month: 'short' });
+}
+
+// Actions
+function markDone(id) {
+  const item = data.find(i => i.id === id);
+  if (item) { item.status = 'done'; saveData(data); render(); }
+}
+
+function deleteItem(id) {
+  if (!confirm('למחוק את ההשלמה?')) return;
+  data = data.filter(i => i.id !== id);
+  saveData(data);
+  render();
+}
+
+function editItem(id) {
+  editingId = id;
+  const item = data.find(i => i.id === id);
+  document.getElementById('modal-title').textContent = 'עריכת השלמה';
+  document.getElementById('input-student').value = item.student;
+  document.getElementById('input-class').value = item.class;
+  document.getElementById('input-subject').value = item.subject;
+  document.getElementById('input-topic').value = item.topic;
+  document.getElementById('input-teacher').value = item.teacher;
+  document.getElementById('input-deadline').value = item.deadline;
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+function openModal() {
+  editingId = null;
+  document.getElementById('modal-title').textContent = 'הוספת השלמה חדשה';
+  document.getElementById('input-student').value = '';
+  document.getElementById('input-topic').value = '';
+  document.getElementById('input-teacher').value = '';
+  document.getElementById('input-deadline').value = '';
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+}
+
+function saveItem() {
+  const student = document.getElementById('input-student').value.trim();
+  const cls = document.getElementById('input-class').value;
+  const subject = document.getElementById('input-subject').value;
+  const topic = document.getElementById('input-topic').value.trim();
+  const teacher = document.getElementById('input-teacher').value.trim();
+  const deadline = document.getElementById('input-deadline').value;
+
+  if (!student || !topic) { alert('יש למלא שם תלמיד ונושא'); return; }
+
+  if (editingId) {
+    const item = data.find(i => i.id === editingId);
+    Object.assign(item, { student, class: cls, subject, topic, teacher, deadline });
+  } else {
+    const newId = data.length ? Math.max(...data.map(i => i.id)) + 1 : 1;
+    const today = new Date().toISOString().split('T')[0];
+    const status = deadline && deadline < today ? 'overdue' : 'pending';
+    data.push({ id: newId, student, class: cls, subject, topic, teacher, deadline, status });
+  }
+
+  saveData(data);
+  closeModal();
+  render();
+}
+
+// Auto-detect overdue
+function checkOverdue() {
+  const today = new Date().toISOString().split('T')[0];
+  data.forEach(item => {
+    if (item.status === 'pending' && item.deadline && item.deadline < today) {
+      item.status = 'overdue';
+    }
+  });
+  saveData(data);
+}
+
+// Filters
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    render();
+  });
+});
+
+document.getElementById('search').addEventListener('input', render);
+
+// Close modal on overlay click
+document.getElementById('modal-overlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+});
+
+// Init
+checkOverdue();
+render();
+</script>
+</body>
+</html>
