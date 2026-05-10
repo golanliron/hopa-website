@@ -8,260 +8,248 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --g1:#1B4332;--g2:#2D6A4F;--g3:#40916C;--g4:#52B788;--g5:#74C69D;--g6:#B7E4C7;--g7:#D8F3DC;
-  --sand:#F8F6F0;--white:#FFFFFF;
-  --text:#1a1a1a;--text2:#555;--text3:#999;
-  --r:20px;
+  --g1:#1B4332;--g2:#2D6A4F;--g3:#40916C;--g4:#52B788;--g5:#95D5B2;--g6:#D8F3DC;
+  --white:#FFFFFF;--off:#FAFAF8;--sand:#F3F1EC;
+  --text:#1a1a1a;--text2:#4a4a4a;--text3:#8a8a8a;
 }
 html{scroll-behavior:smooth}
-body{font-family:'Rubik',sans-serif;background:var(--white);color:var(--text);line-height:1.75;overflow-x:hidden}
+body{font-family:'Rubik',sans-serif;background:var(--white);color:var(--text);line-height:1.75;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-/* === HERO === */
-.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;padding:40px 20px;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:
-  radial-gradient(ellipse 600px 600px at 20% 20%, rgba(116,198,157,.15), transparent),
-  radial-gradient(ellipse 500px 500px at 80% 80%, rgba(45,106,79,.08), transparent),
-  radial-gradient(ellipse 300px 300px at 50% 50%, rgba(82,183,136,.06), transparent);
-  z-index:0}
+/* ===== HERO ===== */
+.hero{min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;padding:40px 20px;background:var(--white)}
+.hero::before{content:'';position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(to top,var(--off),transparent)}
+.hero-content{position:relative;z-index:1;max-width:560px}
+.hero-eyebrow{font-size:13px;font-weight:600;letter-spacing:2px;color:var(--g3);margin-bottom:24px;text-transform:uppercase}
+.hero h1{font-size:clamp(56px,13vw,88px);font-weight:900;color:var(--g1);line-height:.9;letter-spacing:-3px;margin-bottom:20px}
+.hero h2{font-size:clamp(18px,3.5vw,22px);font-weight:400;color:var(--text2);margin-bottom:12px;line-height:1.5}
+.hero-sub{font-size:15px;color:var(--text3);margin-bottom:40px}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;padding:16px 36px;border-radius:60px;background:var(--g1);color:#fff;font-family:'Rubik',sans-serif;font-size:16px;font-weight:600;text-decoration:none;transition:all .3s;border:none;cursor:pointer}
+.hero-cta:hover{background:var(--g2);transform:translateY(-2px);box-shadow:0 12px 40px rgba(27,67,50,.18)}
+.hero-cta svg{transition:transform .3s}
+.hero-cta:hover svg{transform:translateY(2px)}
 
-/* Floating organic shapes */
-.hero::after{content:'';position:absolute;top:-120px;right:-80px;width:400px;height:400px;border-radius:60% 40% 50% 50%;background:linear-gradient(135deg,rgba(116,198,157,.12),rgba(45,106,79,.05));animation:float 8s ease-in-out infinite;z-index:0}
-.blob{position:absolute;border-radius:50%;opacity:.07;z-index:0}
-.blob-1{width:300px;height:300px;bottom:-60px;left:-60px;background:var(--g3);animation:float 10s ease-in-out infinite reverse}
-.blob-2{width:180px;height:180px;top:20%;left:10%;background:var(--g4);animation:float 12s ease-in-out 2s infinite}
-.blob-3{width:120px;height:120px;bottom:30%;right:5%;background:var(--g5);animation:float 9s ease-in-out 1s infinite reverse}
+/* Decorative line */
+.deco-line{width:48px;height:3px;background:var(--g4);border-radius:3px;margin:0 auto 20px}
 
-@keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(3deg)}}
-
-.hero-content{position:relative;z-index:1;max-width:600px}
-.hero-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 20px;border-radius:100px;background:var(--g7);color:var(--g2);font-size:13px;font-weight:600;letter-spacing:.5px;margin-bottom:28px;border:1px solid var(--g6);animation:fadeUp .8s ease}
-.hero-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--g4);animation:pulse 2s ease infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
-
-.hero h1{font-size:clamp(52px,12vw,80px);font-weight:900;color:var(--g1);line-height:.95;letter-spacing:-2px;margin-bottom:16px;animation:fadeUp .8s ease .1s both}
-.hero h2{font-size:clamp(20px,4vw,26px);font-weight:400;color:var(--g3);margin-bottom:12px;animation:fadeUp .8s ease .2s both}
-.hero .tagline{font-size:16px;color:var(--text2);max-width:400px;margin:0 auto 32px;animation:fadeUp .8s ease .3s both}
-
-.scroll-cta{animation:fadeUp .8s ease .5s both;display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:100px;background:var(--g1);color:#fff;font-family:'Rubik',sans-serif;font-size:16px;font-weight:600;text-decoration:none;transition:all .3s;border:none;cursor:pointer}
-.scroll-cta:hover{background:var(--g2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(27,67,50,.2)}
-.scroll-cta .arrow{transition:transform .3s}
-.scroll-cta:hover .arrow{transform:translateY(3px)}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-
-/* === SECTION LAYOUT === */
-.section{max-width:680px;margin:0 auto;padding:80px 20px}
-.section-label{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--g3);margin-bottom:16px}
-.section-label .line{width:24px;height:2px;background:var(--g5);border-radius:2px}
-.section h3{font-size:clamp(28px,5vw,36px);font-weight:800;color:var(--g1);line-height:1.2;margin-bottom:20px;letter-spacing:-.5px}
-
-/* === LETTER === */
-.letter-section{background:var(--sand);border-top:1px solid rgba(0,0,0,.04);border-bottom:1px solid rgba(0,0,0,.04)}
-.letter{font-size:16px;line-height:1.9;color:var(--text)}
-.letter p{margin-bottom:16px}
-.letter strong{color:var(--g1);font-weight:700}
-.letter .accent-line{display:inline;background:linear-gradient(to top, var(--g7) 35%, transparent 35%);padding:0 4px}
-.addressee{font-size:14px;color:var(--text2);padding:16px 20px;background:var(--white);border-radius:14px;border:1px solid rgba(0,0,0,.06);margin-bottom:24px;display:flex;align-items:center;gap:12px}
-.addressee .addr-icon{width:40px;height:40px;border-radius:12px;background:var(--g7);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-
-/* === VALUES === */
-.values-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--g1);overflow:hidden}
-.val{padding:40px 20px;text-align:center;position:relative;transition:background .3s}
-.val:not(:last-child)::after{content:'';position:absolute;left:0;top:20%;height:60%;width:1px;background:rgba(255,255,255,.1)}
-.val:hover{background:rgba(255,255,255,.05)}
-.val-icon{font-size:32px;margin-bottom:12px;filter:grayscale(0)}
-.val-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
-.val-desc{font-size:12px;color:rgba(255,255,255,.6);line-height:1.5}
-@media(max-width:600px){.values-strip{grid-template-columns:repeat(2,1fr)}.val:nth-child(1),.val:nth-child(2){border-bottom:1px solid rgba(255,255,255,.08)}.val:nth-child(2)::after{display:none}}
-
-/* === VISION === */
-.vision-list{display:flex;flex-direction:column;gap:12px;margin-top:8px}
-.vision-item{display:flex;align-items:flex-start;gap:16px;padding:18px 20px;border-radius:16px;background:var(--sand);border:1px solid rgba(0,0,0,.04);transition:all .25s}
-.vision-item:hover{transform:translateX(-4px);box-shadow:0 4px 20px rgba(0,0,0,.04);border-color:var(--g6)}
-.vi-num{width:32px;height:32px;border-radius:10px;background:var(--g1);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.vi-text{font-size:15px;color:var(--text);line-height:1.7;padding-top:4px}
-
-/* === COVENANT === */
-.covenant-section{background:var(--g1);color:#fff;position:relative;overflow:hidden}
-.covenant-section::before{content:'';position:absolute;top:-100px;left:-100px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.03)}
-.covenant-section h3{color:#fff}
-.covenant-section .section-label{color:var(--g5)}
-.covenant-section .section-label .line{background:var(--g4)}
-.cov-text{font-size:16px;line-height:1.9;color:rgba(255,255,255,.8)}
-.cov-text p{margin-bottom:16px}
-
-/* === SIGN FORM === */
-.sign-section{background:var(--sand);border-top:1px solid rgba(0,0,0,.04)}
-.sign-card{background:var(--white);border-radius:24px;padding:40px 32px;border:1px solid rgba(0,0,0,.06);box-shadow:0 4px 24px rgba(0,0,0,.03);max-width:520px;margin:0 auto}
-.sign-card h3{text-align:center;margin-bottom:4px}
-.sign-subtitle{text-align:center;font-size:14px;color:var(--text2);margin-bottom:28px}
-.field{margin-bottom:16px}
-.field label{display:block;font-size:13px;font-weight:600;color:var(--text2);margin-bottom:6px}
-.field label .req{color:#e53e3e;margin-right:2px}
-.field input,.field textarea{width:100%;padding:12px 16px;border:1.5px solid rgba(0,0,0,.08);border-radius:12px;font-family:'Rubik',sans-serif;font-size:15px;color:var(--text);background:var(--sand);outline:none;transition:all .2s}
-.field input:focus,.field textarea:focus{border-color:var(--g3);box-shadow:0 0 0 4px rgba(64,145,108,.08);background:var(--white)}
-.field textarea{resize:vertical;min-height:70px}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-
-.btn-sign{width:100%;padding:16px;border:none;border-radius:14px;background:var(--g1);color:#fff;font-family:'Rubik',sans-serif;font-size:17px;font-weight:700;cursor:pointer;transition:all .3s;margin-top:8px;position:relative;overflow:hidden}
-.btn-sign::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(255,255,255,.1));opacity:0;transition:opacity .3s}
-.btn-sign:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(27,67,50,.2)}
-.btn-sign:hover::before{opacity:1}
-.btn-sign:active{transform:translateY(0)}
-.btn-sign:disabled{opacity:.5;cursor:not-allowed;transform:none}
-
-.success-msg{display:none;text-align:center;padding:32px 20px}
-.success-msg.show{display:block;animation:fadeUp .5s ease}
-.success-check{width:56px;height:56px;border-radius:50%;background:var(--g7);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:28px}
-.success-msg h4{font-size:20px;font-weight:700;color:var(--g1);margin-bottom:6px}
-.success-msg p{font-size:14px;color:var(--text2)}
-
-/* === SIGNATURES === */
-.sigs-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.sigs-count{display:flex;align-items:center;gap:10px}
-.count-num{font-size:36px;font-weight:900;color:var(--g1);line-height:1}
-.count-label{font-size:13px;color:var(--text2);line-height:1.3}
-.sig-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.04)}
-.sig-item:last-child{border-bottom:none}
-.sig-avatar{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--g6),var(--g7));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--g2);flex-shrink:0}
-.sig-info{flex:1;min-width:0}
-.sig-name{font-size:15px;font-weight:600;color:var(--text)}
-.sig-meta{font-size:12px;color:var(--text3);margin-top:2px}
-.sig-msg{font-size:13px;color:var(--text2);margin-top:4px;font-style:italic}
-
-/* === SHARE === */
-.share-bar{display:flex;gap:10px;justify-content:center;margin-top:32px}
-.share-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:100px;border:1.5px solid rgba(0,0,0,.08);background:var(--white);font-family:'Rubik',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text)}
-.share-btn:hover{border-color:var(--g4);background:var(--g7);color:var(--g1)}
-
-/* === FOOTER === */
-.footer{text-align:center;padding:40px 20px;color:var(--text3);font-size:12px;border-top:1px solid rgba(0,0,0,.04)}
-.footer .f-name{font-size:16px;font-weight:700;color:var(--g3);margin-bottom:4px}
-
-/* === RESPONSIVE === */
-@media(max-width:500px){
-  .section{padding:60px 16px}
-  .sign-card{padding:28px 20px}
-  .field-row{grid-template-columns:1fr}
-  .share-bar{flex-direction:column;align-items:stretch}
-  .hero h1{letter-spacing:-1px}
+/* ===== STRIP ===== */
+.strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(0,0,0,.06);border-bottom:1px solid rgba(0,0,0,.06)}
+.strip-item{padding:40px 24px;text-align:center;position:relative}
+.strip-item:not(:last-child)::after{content:'';position:absolute;left:0;top:24px;bottom:24px;width:1px;background:rgba(0,0,0,.06)}
+.strip-icon{width:44px;height:44px;border-radius:50%;background:var(--off);border:1.5px solid rgba(0,0,0,.06);margin:0 auto 14px;display:flex;align-items:center;justify-content:center}
+.strip-icon svg{width:20px;height:20px;stroke:var(--g2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.strip-title{font-size:15px;font-weight:700;color:var(--g1);margin-bottom:4px}
+.strip-desc{font-size:12.5px;color:var(--text3);line-height:1.5}
+@media(max-width:640px){
+  .strip{grid-template-columns:1fr 1fr}
+  .strip-item:nth-child(1),.strip-item:nth-child(2){border-bottom:1px solid rgba(0,0,0,.06)}
+  .strip-item:nth-child(2)::after{display:none}
+  .strip-item:nth-child(4)::after{display:none}
 }
 
-/* Loading skeleton */
+/* ===== SECTIONS ===== */
+.section{max-width:640px;margin:0 auto;padding:80px 20px}
+.section-eyebrow{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--g3);text-transform:uppercase;margin-bottom:12px}
+.section h3{font-size:clamp(26px,5vw,34px);font-weight:800;color:var(--g1);line-height:1.25;margin-bottom:24px;letter-spacing:-.5px}
+
+/* ===== LETTER ===== */
+.letter-bg{background:var(--off)}
+.addressee{padding:20px 24px;background:var(--white);border-radius:14px;border:1px solid rgba(0,0,0,.06);margin-bottom:28px;font-size:15px;color:var(--text2)}
+.addressee strong{color:var(--text);display:block;margin-bottom:2px}
+.letter-body{font-size:16px;line-height:1.95;color:var(--text2)}
+.letter-body p{margin-bottom:16px}
+.letter-body strong{color:var(--g1);font-weight:600}
+.letter-body .mark{background:linear-gradient(to top,var(--g6) 40%,transparent 40%);padding:0 3px}
+
+/* ===== VISION ===== */
+.vision-list{display:flex;flex-direction:column;gap:1px;background:rgba(0,0,0,.04);border-radius:16px;overflow:hidden;margin-top:8px}
+.vision-item{display:flex;align-items:center;gap:20px;padding:22px 24px;background:var(--white);transition:background .2s}
+.vision-item:hover{background:var(--off)}
+.vi-num{width:36px;height:36px;border-radius:50%;border:2px solid var(--g4);color:var(--g2);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.vi-text{font-size:15px;color:var(--text);line-height:1.6}
+.vi-text strong{color:var(--g1)}
+
+/* ===== COVENANT ===== */
+.covenant-bg{background:var(--g1)}
+.covenant-bg .section-eyebrow{color:var(--g5)}
+.covenant-bg h3{color:var(--white)}
+.covenant-text{font-size:16px;line-height:1.95;color:rgba(255,255,255,.75)}
+.covenant-text p{margin-bottom:16px}
+
+/* ===== FORM ===== */
+.form-bg{background:var(--off)}
+.form-card{background:var(--white);border-radius:20px;padding:44px 36px;border:1px solid rgba(0,0,0,.06);max-width:500px;margin:0 auto}
+.form-card h3{text-align:center;margin-bottom:4px}
+.form-sub{text-align:center;font-size:14px;color:var(--text3);margin-bottom:32px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--text2);margin-bottom:6px}
+.field label .req{color:#c0392b;font-size:11px}
+.field input,.field textarea{width:100%;padding:13px 16px;border:1.5px solid rgba(0,0,0,.08);border-radius:12px;font-family:'Rubik',sans-serif;font-size:15px;color:var(--text);background:var(--off);outline:none;transition:all .2s}
+.field input:focus,.field textarea:focus{border-color:var(--g3);box-shadow:0 0 0 4px rgba(64,145,108,.06);background:var(--white)}
+.field textarea{resize:vertical;min-height:72px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.btn-sign{width:100%;padding:16px;border:none;border-radius:60px;background:var(--g1);color:#fff;font-family:'Rubik',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .3s;margin-top:8px}
+.btn-sign:hover{background:var(--g2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(27,67,50,.18)}
+.btn-sign:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.success-box{display:none;text-align:center;padding:36px 20px}
+.success-box.show{display:block;animation:fadeIn .5s ease}
+.success-box .check{width:52px;height:52px;border-radius:50%;background:var(--g6);margin:0 auto 16px;display:flex;align-items:center;justify-content:center}
+.success-box .check svg{width:24px;height:24px;stroke:var(--g1);fill:none;stroke-width:2.5}
+.success-box h4{font-size:20px;font-weight:700;color:var(--g1);margin-bottom:4px}
+.success-box p{font-size:14px;color:var(--text3)}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== SHARE ===== */
+.share-row{display:flex;gap:10px;justify-content:center;margin-top:28px}
+.share-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:60px;border:1.5px solid rgba(0,0,0,.08);background:var(--white);font-family:'Rubik',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text)}
+.share-btn:hover{border-color:var(--g4);background:var(--g6);color:var(--g1)}
+.share-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* ===== SIGNATURES ===== */
+.sigs-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:16px}
+.sig-counter{text-align:left}
+.sig-counter .num{font-size:40px;font-weight:900;color:var(--g1);line-height:1}
+.sig-counter .lbl{font-size:12px;color:var(--text3)}
+.sig-item{display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid rgba(0,0,0,.04)}
+.sig-item:last-child{border-bottom:none}
+.sig-av{width:42px;height:42px;border-radius:50%;background:var(--off);border:1.5px solid rgba(0,0,0,.06);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;color:var(--g2);flex-shrink:0}
+.sig-info{flex:1;min-width:0}
+.sig-name{font-size:15px;font-weight:600;color:var(--text)}
+.sig-msg{font-size:13px;color:var(--text2);margin-top:3px;font-style:italic}
+.sig-date{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* ===== FOOTER ===== */
+.footer{text-align:center;padding:48px 20px;border-top:1px solid rgba(0,0,0,.04);color:var(--text3);font-size:13px}
+.footer .fname{font-size:18px;font-weight:800;color:var(--g2);margin-bottom:4px;letter-spacing:-.5px}
+
 .loading{text-align:center;padding:24px;color:var(--text3);font-size:14px}
+
+@media(max-width:500px){
+  .section{padding:60px 16px}
+  .form-card{padding:28px 20px}
+  .field-row{grid-template-columns:1fr}
+  .share-row{flex-direction:column;align-items:stretch}
+}
 </style>
 </head>
 <body>
 
-<!-- ====== HERO ====== -->
+<!-- HERO -->
 <section class="hero">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
   <div class="hero-content">
-    <div class="hero-pill"><span class="dot"></span> קהילת הורים, בית ספר גאולים</div>
+    <p class="hero-eyebrow">בית ספר גאולים, שכונת בקעה</p>
     <h1>גאולי</h1>
     <h2>קהילת ההורים של גאולים</h2>
-    <p class="tagline">בונים יחד כיתה חדשה. מתוך חזון, שיתוף וקהילה.</p>
-    <a href="#letter" class="scroll-cta">קראי את הפנייה <span class="arrow">&#x2193;</span></a>
+    <p class="hero-sub">הורי ילדי א'2 בונים יחד כיתה ב'2 חדשה. מתוך חזון, שיתוף וקהילה.</p>
+    <a href="#letter" class="hero-cta">
+      קראי את הפנייה
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+    </a>
   </div>
 </section>
 
-<!-- ====== VALUES STRIP ====== -->
-<div class="values-strip">
-  <div class="val">
-    <div class="val-icon">&#x1F4F5;</div>
-    <div class="val-title">אמנת הקשב</div>
-    <div class="val-desc">כיתה ללא טלפונים חכמים</div>
+<!-- VALUES STRIP -->
+<div class="strip">
+  <div class="strip-item">
+    <div class="strip-icon">
+      <svg viewBox="0 0 24 24"><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64 9 9 0 0 1 18.36 6.64Z"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+    </div>
+    <div class="strip-title">אמנת הקשב</div>
+    <div class="strip-desc">כיתה ללא טלפונים חכמים, מרחב נקי מהסחות</div>
   </div>
-  <div class="val">
-    <div class="val-icon">&#x1F91D;</div>
-    <div class="val-title">שותפות אמיתית</div>
-    <div class="val-desc">הורים, ילדים וצוות — יחד</div>
+  <div class="strip-item">
+    <div class="strip-icon">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </div>
+    <div class="strip-title">שותפות אמיתית</div>
+    <div class="strip-desc">שיתוף פעולה הדדי בין הורים, ילדים וצוות</div>
   </div>
-  <div class="val">
-    <div class="val-icon">&#x1F331;</div>
-    <div class="val-title">קהילה שיתופית</div>
-    <div class="val-desc">תרומה לבית הספר והחוצה</div>
+  <div class="strip-item">
+    <div class="strip-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
+    <div class="strip-title">קהילה שיתופית</div>
+    <div class="strip-desc">תרומה לסביבה הקרובה, לבית הספר והחוצה</div>
   </div>
-  <div class="val">
-    <div class="val-icon">&#x1F49A;</div>
-    <div class="val-title">חינוך ערכי</div>
-    <div class="val-desc">ערכים בחיי היומיום</div>
+  <div class="strip-item">
+    <div class="strip-icon">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </div>
+    <div class="strip-title">חינוך ערכי</div>
+    <div class="strip-desc">הצבת ערכים בחיי היומיום, בדרך שמתאימה לכל ילד</div>
   </div>
 </div>
 
-<!-- ====== LETTER ====== -->
-<section class="section letter-section" id="letter">
-  <div class="section-label"><span class="line"></span> הפנייה שלנו</div>
-  <h3>פנייה למנהלת בית הספר</h3>
+<!-- LETTER -->
+<section class="letter-bg" id="letter">
+  <div class="section">
+    <div class="section-eyebrow">הפנייה שלנו</div>
+    <h3>פנייה למנהלת בית הספר</h3>
 
-  <div class="addressee">
-    <div class="addr-icon">&#x1F3EB;</div>
-    <div><strong>לכבוד גב' אני מלכה</strong><br>מנהלת בית ספר גאולים, שכונת בקעה, ירושלים</div>
-  </div>
-
-  <div class="letter">
-    <p>אנחנו, <strong>החתומות מטה</strong>, הורי הילדים שלמדו בבית ספר גאולים במסלול נביעה, כיתה א'2.</p>
-
-    <p>לאחר שנה שלא היתה פשוטה עבורנו — שנה של חוסר יציבות ואי-ודאות לגבי המשך הדרך — הגענו להבנה כי מסלול נביעה עובר למתחם אחר, ולנו נותרה ההחלטה האם להפריד את ילדינו מחבריהם לכיתה.</p>
-
-    <p>לאחר חשיבה מעמיקה, <span class="accent-line"><strong>החלטנו כי את הערכתנו ומעשינו נרצה לתת לבית ספר גאולים.</strong></span></p>
-
-    <p>יחד עם זאת, ההווי החברתי וההווי הקהילתי שחווינו במסלול נביעה היו לרוחנו מאוד. לכן, <strong>בקשתנו היא לא להשתלב בכיתה הקיימת (כיתה ב'1), אלא להקים כיתה חדשה</strong> — כיתה שתיבנה מלכתחילה מתוך חזון משותף, יחד עם הורים נוספים שירצו לקחת חלק בבנייה של קהילה חינוכית-חברתית.</p>
-
-    <p>אנחנו מעוניינות <strong>לייצר אקלים חברתי משותף עם ההורים והצוות הפדגוגי</strong>, לתת מעצמנו לכיתה ולקהילת בית הספר, ולקחת חלק פעיל בהנהגת הכיתה — מתוך תקווה ליצור רוח חדשה ומרעננת בבית ספר גאולים.</p>
-  </div>
-</section>
-
-<!-- ====== VISION ====== -->
-<section class="section">
-  <div class="section-label"><span class="line"></span> החזון</div>
-  <h3>מה אנחנו רוצות לבנות</h3>
-
-  <div class="vision-list">
-    <div class="vision-item">
-      <div class="vi-num">1</div>
-      <div class="vi-text">להקים <strong>כיתה קהילתית-חברתית חדשה</strong> בבית ספר גאולים לשנת הלימודים הבאה</div>
+    <div class="addressee">
+      <strong>לכבוד גב' אני מלכה</strong>
+      מנהלת בית ספר גאולים, שכונת בקעה, ירושלים
     </div>
-    <div class="vision-item">
-      <div class="vi-num">2</div>
-      <div class="vi-text">לבנות <strong>קהילת הורים מעורבת, פעילה ומחויבת</strong> — גאולי</div>
-    </div>
-    <div class="vision-item">
-      <div class="vi-num">3</div>
-      <div class="vi-text">לאמץ את <strong>אמנת הקשב</strong> — מרחב ללא טלפונים חכמים, המעודד נוכחות וקשרים אמיתיים</div>
-    </div>
-    <div class="vision-item">
-      <div class="vi-num">4</div>
-      <div class="vi-text">לתרום <strong>לקהילת בית הספר ולסביבה הקרובה</strong> מתוך ערכי שיתוף ואחריות</div>
-    </div>
-    <div class="vision-item">
-      <div class="vi-num">5</div>
-      <div class="vi-text">לייצר <strong>הנהגה שיתופית</strong> שתהווה דוגמה ורוח חדשה בבית הספר</div>
+
+    <div class="letter-body">
+      <p>אנחנו, <strong>החתומות מטה</strong>, הורי ילדי כיתה א'2 בבית ספר גאולים, שלמדו במסלול נביעה, המעוניינות בשנה הבאה להקים כיתה חדשה — כיתה ב'2.</p>
+      <p>לאחר שנה שלא היתה פשוטה עבורנו — שנה של חוסר יציבות ואי-ודאות לגבי המשך הדרך — הגענו להבנה כי מסלול נביעה עובר למתחם אחר, ולנו נותרה ההחלטה האם להפריד את ילדינו מחבריהם לכיתה.</p>
+      <p>לאחר חשיבה מעמיקה, <span class="mark"><strong>החלטנו כי את הערכתנו ומעשינו נרצה לתת לבית ספר גאולים.</strong></span></p>
+      <p>יחד עם זאת, ההווי החברתי וההווי הקהילתי שחווינו במסלול נביעה היו לרוחנו מאוד. לכן, <strong>בקשתנו היא לא להשתלב בכיתה הקיימת (כיתה ב'1), אלא להקים כיתה ב'2 חדשה</strong> — כיתה שתיבנה מלכתחילה מתוך חזון משותף, יחד עם הורים נוספים שירצו לקחת חלק בבנייה של קהילה חינוכית-חברתית.</p>
+      <p>אנחנו מעוניינות <strong>לייצר אקלים חברתי משותף עם ההורים והצוות הפדגוגי</strong>, לתת מעצמנו לכיתה ולקהילת בית הספר, ולקחת חלק פעיל בהנהגת הכיתה — מתוך תקווה ליצור רוח חדשה ומרעננת בבית ספר גאולים.</p>
     </div>
   </div>
 </section>
 
-<!-- ====== COVENANT ====== -->
-<section class="covenant-section">
-  <div class="section" style="padding-top:80px;padding-bottom:80px">
-    <div class="section-label"><span class="line"></span> עיקרון מנחה</div>
+<!-- VISION -->
+<section>
+  <div class="section">
+    <div class="section-eyebrow">החזון</div>
+    <h3>מה אנחנו רוצות לבנות</h3>
+    <div class="vision-list">
+      <div class="vision-item">
+        <div class="vi-num">1</div>
+        <div class="vi-text">להקים <strong>כיתה קהילתית-חברתית חדשה</strong> בבית ספר גאולים לשנת הלימודים הבאה</div>
+      </div>
+      <div class="vision-item">
+        <div class="vi-num">2</div>
+        <div class="vi-text">לבנות <strong>קהילת הורים מעורבת, פעילה ומחויבת</strong> — גאולי</div>
+      </div>
+      <div class="vision-item">
+        <div class="vi-num">3</div>
+        <div class="vi-text">לאמץ את <strong>אמנת הקשב</strong> — מרחב ללא טלפונים חכמים, המעודד נוכחות וקשרים אמיתיים</div>
+      </div>
+      <div class="vision-item">
+        <div class="vi-num">4</div>
+        <div class="vi-text">לתרום <strong>לקהילת בית הספר ולסביבה הקרובה</strong> מתוך ערכי שיתוף ואחריות</div>
+      </div>
+      <div class="vision-item">
+        <div class="vi-num">5</div>
+        <div class="vi-text">לייצר <strong>הנהגה שיתופית</strong> שתהווה דוגמה ורוח חדשה בבית הספר</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COVENANT -->
+<section class="covenant-bg">
+  <div class="section">
+    <div class="section-eyebrow">עיקרון מנחה</div>
     <h3>מרחב נקי מהסחות</h3>
-    <div class="cov-text">
+    <div class="covenant-text">
       <p>אנו מאמינות שלילדים שלנו מגיע מרחב שמאפשר נוכחות מלאה, קשרים אמיתיים וריכוז. לכן, חשוב לנו שכיתת בית הספר תהיה מרחב נקי מפלאפונים.</p>
       <p>תוך שיתוף פעולה עם ההורים והצוות, נוכל ליצור סביבה חינוכית מיטבית שמקדמת קשרים, למידה וקהילה איכותית.</p>
     </div>
   </div>
 </section>
 
-<!-- ====== SIGN ====== -->
-<section class="sign-section" id="sign">
+<!-- SIGN FORM -->
+<section class="form-bg" id="sign">
   <div class="section">
-    <div class="sign-card">
+    <div class="form-card">
       <h3>חתמי על הפנייה</h3>
-      <p class="sign-subtitle">הצטרפי אלינו — יחד נבנה את גאולי</p>
-
+      <p class="form-sub">הצטרפי אלינו — יחד נבנה את גאולי</p>
       <form id="signForm">
         <div class="field">
           <label><span class="req">*</span> שם מלא</label>
@@ -281,106 +269,87 @@ body{font-family:'Rubik',sans-serif;background:var(--white);color:var(--text);li
           <label>מילה אישית (רשות)</label>
           <textarea id="message" placeholder="למה חשוב לך להצטרף לגאולי?" rows="2"></textarea>
         </div>
-        <button type="submit" class="btn-sign" id="btnSign">חותמת על הפנייה &#x2192;</button>
+        <button type="submit" class="btn-sign" id="btnSign">חותמת על הפנייה</button>
       </form>
-
-      <div class="success-msg" id="successMsg">
-        <div class="success-check">&#x2714;</div>
-        <h4>החתימה נקלטה!</h4>
+      <div class="success-box" id="successMsg">
+        <div class="check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <h4>החתימה נקלטה</h4>
         <p>תודה שהצטרפת לגאולי. יחד נבנה קהילה.</p>
       </div>
     </div>
-
-    <div class="share-bar">
-      <button class="share-btn" onclick="shareWhatsApp()">&#x1F4AC; שתפי בוואטסאפ</button>
-      <button class="share-btn" onclick="copyLink()">&#x1F517; העתיקי קישור</button>
+    <div class="share-row">
+      <button class="share-btn" onclick="copyLink()">
+        <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        העתיקי קישור
+      </button>
     </div>
   </div>
 </section>
 
-<!-- ====== SIGNATURES ====== -->
-<section class="section">
-  <div class="sigs-header">
-    <div>
-      <div class="section-label"><span class="line"></span> החתומות</div>
-      <h3 style="margin-bottom:0">הקהילה שנבנית</h3>
+<!-- SIGNATURES -->
+<section>
+  <div class="section">
+    <div class="sigs-top">
+      <div>
+        <div class="section-eyebrow">החתומות</div>
+        <h3 style="margin-bottom:0">הקהילה שנבנית</h3>
+      </div>
+      <div class="sig-counter">
+        <div class="num" id="sigCount">0</div>
+        <div class="lbl">חתמו</div>
+      </div>
     </div>
-    <div class="sigs-count">
-      <div class="count-num" id="sigCount">0</div>
-      <div class="count-label">הורים<br>חתמו</div>
-    </div>
-  </div>
-  <div id="signaturesList">
-    <div class="loading">טוען חתימות...</div>
+    <div id="signaturesList"><div class="loading">טוען חתימות...</div></div>
   </div>
 </section>
 
-<!-- ====== FOOTER ====== -->
+<!-- FOOTER -->
 <footer class="footer">
-  <div class="f-name">גאולי</div>
+  <div class="fname">גאולי</div>
   קהילת ההורים של בית ספר גאולים, שכונת בקעה, ירושלים
 </footer>
 
 <script>
-const SUPABASE_URL='https://vhmwijzcrqjjquxomccq.supabase.co';
-const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZobXdpanpjcnFqanF1eG9tY2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1Nzk0MDgsImV4cCI6MjA4OTE1NTQwOH0.rMnAcdMiPddUAoap63tMiqeQQanJoF-HDmzra7P-5Cc';
-
-async function supaFetch(path,options={}){
-  const res=await fetch(`${SUPABASE_URL}/rest/v1/${path}`,{...options,headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':options.method==='POST'?'return=representation':undefined,...options.headers}});
-  return res.json();
+const SB_URL='https://vhmwijzcrqjjquxomccq.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZobXdpanpjcnFqanF1eG9tY2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1Nzk0MDgsImV4cCI6MjA4OTE1NTQwOH0.rMnAcdMiPddUAoap63tMiqeQQanJoF-HDmzra7P-5Cc';
+async function sb(path,opt={}){
+  const r=await fetch(`${SB_URL}/rest/v1/${path}`,{...opt,headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':opt.method==='POST'?'return=representation':undefined,...opt.headers}});
+  return r.json();
 }
-
 function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
 
-async function loadSignatures(){
-  const list=document.getElementById('signaturesList');
-  const countEl=document.getElementById('sigCount');
+async function loadSigs(){
+  const el=document.getElementById('signaturesList'),cnt=document.getElementById('sigCount');
   try{
-    const data=await supaFetch('geuli_signatures?select=parent_name,child_name,message,created_at&order=created_at.desc');
-    countEl.textContent=data.length||0;
-    if(!data.length){list.innerHTML='<div class="loading">היי את הראשונה! חתמי למעלה &#x1F331;</div>';return}
-    list.innerHTML=data.map(s=>{
-      const init=s.parent_name.charAt(0);
-      const date=new Date(s.created_at).toLocaleDateString('he-IL',{day:'numeric',month:'long'});
-      return `<div class="sig-item"><div class="sig-avatar">${init}</div><div class="sig-info"><div class="sig-name">${esc(s.parent_name)}${s.child_name?' — אמא של '+esc(s.child_name):''}</div>${s.message?'<div class="sig-msg">"'+esc(s.message)+'"</div>':''}<div class="sig-meta">${date}</div></div></div>`;
+    const data=await sb('geuli_signatures?select=parent_name,child_name,message,created_at&order=created_at.desc');
+    cnt.textContent=data.length||0;
+    if(!data.length){el.innerHTML='<div class="loading">היי את הראשונה — חתמי למעלה</div>';return}
+    el.innerHTML=data.map(s=>{
+      const d=new Date(s.created_at).toLocaleDateString('he-IL',{day:'numeric',month:'long'});
+      return `<div class="sig-item"><div class="sig-av">${s.parent_name.charAt(0)}</div><div class="sig-info"><div class="sig-name">${esc(s.parent_name)}${s.child_name?' — אמא של '+esc(s.child_name):''}</div>${s.message?'<div class="sig-msg">"'+esc(s.message)+'"</div>':''}<div class="sig-date">${d}</div></div></div>`;
     }).join('');
-  }catch(e){list.innerHTML='<div class="loading">שגיאה בטעינה</div>'}
+  }catch(e){el.innerHTML='<div class="loading">שגיאה בטעינה</div>'}
 }
 
 document.getElementById('signForm').addEventListener('submit',async e=>{
-  e.preventDefault();
-  const btn=document.getElementById('btnSign');
-  btn.disabled=true;btn.textContent='שולח...';
-  const payload={parent_name:document.getElementById('parentName').value.trim(),child_name:document.getElementById('childName').value.trim()||null,phone:document.getElementById('phone').value.trim()||null,message:document.getElementById('message').value.trim()||null};
+  e.preventDefault();const btn=document.getElementById('btnSign');btn.disabled=true;btn.textContent='שולח...';
   try{
-    await supaFetch('geuli_signatures',{method:'POST',body:JSON.stringify(payload)});
+    await sb('geuli_signatures',{method:'POST',body:JSON.stringify({parent_name:document.getElementById('parentName').value.trim(),child_name:document.getElementById('childName').value.trim()||null,phone:document.getElementById('phone').value.trim()||null,message:document.getElementById('message').value.trim()||null})});
     document.getElementById('signForm').style.display='none';
     document.getElementById('successMsg').classList.add('show');
-    loadSignatures();
-  }catch(err){alert('שגיאה, נסי שוב');btn.disabled=false;btn.textContent='חותמת על הפנייה \u2192'}
+    loadSigs();
+  }catch(err){alert('שגיאה, נסי שוב');btn.disabled=false;btn.textContent='חותמת על הפנייה'}
 });
 
-function shareWhatsApp(){
-  const t='\u{1F331} גאולי — קהילת ההורים של גאולים\n\nאנחנו בונות כיתה חדשה עם חזון קהילתי!\nהצטרפי וחתמי:\n\n'+location.href;
-  window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank');
-}
 function copyLink(){
   navigator.clipboard.writeText(location.href).then(()=>{
-    const b=document.querySelectorAll('.share-btn')[1];
-    b.innerHTML='\u2705 הועתק!';setTimeout(()=>{b.innerHTML='\u{1F517} העתיקי קישור'},2000);
+    const b=document.querySelector('.share-btn');
+    b.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> הועתק!';
+    setTimeout(()=>{b.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> העתיקי קישור'},2000);
   });
 }
 
-// Intersection Observer for scroll animations
-const observer=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}});
-},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.vision-item, .addressee, .sign-card').forEach(el=>{
-  el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='all .6s ease';
-  observer.observe(el);
-});
-
-loadSignatures();
+loadSigs();
 </script>
 </body>
 </html>
