@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>גאולי - קהילת ההורים של גאולים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --green1:#2D5A3D;--green2:#3A7D5A;--green3:#4A9B6E;--green-light:#E8F5E9;
+  --cream:#FEFDF8;--warm:#F5F0E8;--gold:#B8860B;--gold-light:#F5E6C8;
+  --text:#2C3E2D;--text2:#5A6B5C;--text3:#8A9B8C;
+  --white:#FFFFFF;--border:#D4E4D6;--red:#C62828;
+}
+body{font-family:'Heebo',sans-serif;background:var(--cream);color:var(--text);line-height:1.7}
+.serif{font-family:'Frank Ruhl Libre',serif}
+
+/* Decorative leaves */
+.leaf-decoration{position:fixed;pointer-events:none;z-index:0;opacity:.12}
+.leaf-top-right{top:-20px;left:-20px;width:280px;height:280px;background:radial-gradient(ellipse at 30% 30%,var(--green3),transparent 70%)}
+.leaf-bottom-left{bottom:-20px;right:-20px;width:250px;height:250px;background:radial-gradient(ellipse at 70% 70%,var(--green3),transparent 70%)}
+
+.container{max-width:720px;margin:0 auto;padding:20px 16px;position:relative;z-index:1}
+
+/* Hero */
+.hero{text-align:center;padding:48px 20px 36px;position:relative}
+.hero-icon{font-size:48px;margin-bottom:8px}
+.hero-badge{display:inline-block;background:var(--green1);color:var(--white);padding:6px 24px;border-radius:20px;font-size:13px;font-weight:600;letter-spacing:1px;margin-bottom:16px}
+.hero h1{font-family:'Frank Ruhl Libre',serif;font-size:clamp(32px,7vw,48px);font-weight:700;color:var(--green1);line-height:1.2;margin-bottom:8px}
+.hero h2{font-size:clamp(18px,4vw,22px);font-weight:400;color:var(--green2);margin-bottom:6px}
+.hero .subtitle{font-size:15px;color:var(--text2);max-width:480px;margin:0 auto}
+
+/* Divider */
+.divider{display:flex;align-items:center;gap:12px;margin:32px 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:linear-gradient(to left,transparent,var(--border),transparent)}
+.divider span{color:var(--green3);font-size:20px}
+
+/* Section card */
+.card{background:var(--white);border-radius:16px;padding:28px 24px;margin-bottom:20px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(45,90,61,.04)}
+.card-green{background:var(--green1);color:var(--white);border-color:var(--green1)}
+.card-green .card-title{color:var(--white)}
+.card-green p,.card-green li{color:rgba(255,255,255,.9)}
+.card-warm{background:var(--warm);border-color:#D4CFC4}
+.card-title{font-family:'Frank Ruhl Libre',serif;font-size:20px;font-weight:700;color:var(--green1);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.card-title .icon{font-size:24px}
+
+/* Letter content */
+.letter{font-size:15.5px;line-height:1.85;color:var(--text)}
+.letter p{margin-bottom:14px}
+.letter strong{color:var(--green1);font-weight:700}
+.letter .highlight{background:linear-gradient(to top,var(--gold-light) 40%,transparent 40%);padding:0 2px}
+
+/* Values grid */
+.values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:16px}
+.value-item{text-align:center;padding:16px 10px;border-radius:12px;background:var(--green-light);border:1px solid var(--border)}
+.value-item .v-icon{font-size:28px;margin-bottom:6px}
+.value-item .v-title{font-size:14px;font-weight:700;color:var(--green1);margin-bottom:2px}
+.value-item .v-desc{font-size:11.5px;color:var(--text2);line-height:1.5}
+
+/* Covenant */
+.covenant-list{list-style:none;padding:0;margin-top:12px}
+.covenant-list li{padding:10px 14px;margin-bottom:8px;background:rgba(255,255,255,.12);border-radius:10px;font-size:14px;display:flex;align-items:flex-start;gap:10px;line-height:1.6}
+.covenant-list li::before{content:'';display:none}
+.covenant-list .li-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+
+/* Signature section */
+.sig-section{background:var(--white);border-radius:16px;padding:28px 24px;margin-bottom:20px;border:2px solid var(--green2);box-shadow:0 4px 20px rgba(45,90,61,.08)}
+.sig-title{font-family:'Frank Ruhl Libre',serif;font-size:22px;font-weight:700;color:var(--green1);text-align:center;margin-bottom:4px}
+.sig-subtitle{text-align:center;font-size:14px;color:var(--text2);margin-bottom:20px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--text2);margin-bottom:4px}
+.form-group input,.form-group textarea{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Heebo',sans-serif;font-size:15px;color:var(--text);background:var(--cream);transition:all .2s;outline:none}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--green2);box-shadow:0 0 0 3px rgba(58,125,90,.1)}
+.form-group textarea{resize:vertical;min-height:60px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.required::after{content:' *';color:var(--red);font-size:11px}
+.btn-sign{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--green1),var(--green2));color:var(--white);font-family:'Heebo',sans-serif;font-size:17px;font-weight:700;cursor:pointer;transition:all .25s;margin-top:8px;letter-spacing:.5px}
+.btn-sign:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(45,90,61,.25)}
+.btn-sign:active{transform:translateY(0)}
+.btn-sign:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+/* Success message */
+.success-msg{display:none;text-align:center;padding:20px;background:var(--green-light);border-radius:12px;margin-top:16px}
+.success-msg.show{display:block;animation:fadeUp .4s ease}
+.success-msg .s-icon{font-size:40px;margin-bottom:8px}
+.success-msg .s-title{font-size:18px;font-weight:700;color:var(--green1);margin-bottom:4px}
+.success-msg .s-text{font-size:14px;color:var(--text2)}
+
+/* Signatures display */
+.signatures-list{margin-top:24px}
+.sig-count{text-align:center;font-size:14px;color:var(--text2);margin-bottom:16px}
+.sig-count strong{color:var(--green1);font-size:20px}
+.sig-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border)}
+.sig-item:last-child{border-bottom:none}
+.sig-avatar{width:36px;height:36px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--green1);font-weight:700;flex-shrink:0}
+.sig-info{flex:1}
+.sig-name{font-size:15px;font-weight:600;color:var(--text)}
+.sig-date{font-size:11px;color:var(--text3)}
+
+/* Quote */
+.quote-block{text-align:center;padding:24px 20px;margin:24px 0}
+.quote-block .q-text{font-family:'Frank Ruhl Libre',serif;font-size:22px;font-weight:700;color:var(--green1);line-height:1.5}
+.quote-block .q-leaf{font-size:28px;margin-top:8px;opacity:.5}
+
+/* Footer */
+.footer{text-align:center;padding:24px;color:var(--text3);font-size:12px}
+.footer a{color:var(--green2);text-decoration:none}
+
+/* Share bar */
+.share-bar{display:flex;gap:10px;justify-content:center;margin:20px 0}
+.share-btn{padding:10px 20px;border-radius:10px;border:1.5px solid var(--border);background:var(--white);font-family:'Heebo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;color:var(--text)}
+.share-btn:hover{background:var(--green-light);border-color:var(--green2)}
+.share-btn .s-ico{font-size:18px}
+
+/* Loading */
+.loading{text-align:center;padding:20px;color:var(--text3);font-size:14px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:500px){
+  .container{padding:12px 10px}
+  .card{padding:20px 16px}
+  .form-row{grid-template-columns:1fr}
+  .hero{padding:32px 12px 24px}
+  .values-grid{grid-template-columns:repeat(2,1fr)}
+  .share-bar{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<div class="leaf-decoration leaf-top-right"></div>
+<div class="leaf-decoration leaf-bottom-left"></div>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-icon">🌿</div>
+    <div class="hero-badge">קהילת הורים</div>
+    <h1>גאולי</h1>
+    <h2>קהילת ההורים של גאולים</h2>
+    <p class="subtitle">בונים יחד. קהילה. חינוך. איכות.</p>
+  </div>
+
+  <div class="divider"><span>🌱</span></div>
+
+  <!-- Letter to principal -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📜</span> פנייה לגב' אני מלכה, מנהלת בית הספר</div>
+    <div class="letter">
+      <p><strong>לכבוד גב' אני מלכה,</strong><br>מנהלת בית ספר גאולים, שכונת בקעה, ירושלים</p>
+
+      <p>שלום רב,</p>
+
+      <p>אנחנו, <strong>החתומות מטה</strong>, הורי הילדים שלמדו בבית ספר גאולים במסלול נביעה, כיתה א'2.</p>
+
+      <p>לאחר שנה שלא היתה פשוטה עבורנו — שנה של חוסר יציבות ואי-ודאות לגבי המשך הדרך — הגענו להבנה כי מסלול נביעה עובר למתחם אחר, ולנו נותרה ההחלטה האם להפריד את ילדינו מחבריהם לכיתה.</p>
+
+      <p>לאחר חשיבה מעמיקה, <span class="highlight"><strong>החלטנו כי את הערכתנו ומעשינו נרצה לתת לבית ספר גאולים.</strong></span></p>
+
+      <p>יחד עם זאת, ההווי החברתי וההווי הקהילתי שחווינו במסלול נביעה היו לרוחנו מאוד. לכן, <strong>בקשתנו היא לא להשתלב בכיתה הקיימת (כיתה ב'1), אלא להקים כיתה חדשה</strong> — כיתה שתיבנה מלכתחילה מתוך חזון משותף, יחד עם הורים נוספים שירצו לקחת חלק בבנייה של קהילה חינוכית-חברתית.</p>
+
+      <p>אנחנו מעוניינות <strong>לייצר אקלים חברתי משותף עם ההורים והצוות הפדגוגי</strong>, לתת מעצמנו לכיתה ולקהילת בית הספר, ולקחת חלק פעיל בהנהגת הכיתה — מתוך תקווה ליצור רוח חדשה ומרעננת בבית ספר גאולים.</p>
+
+      <p>ההורים שיצטרפו אלינו יהיו מוכנים:</p>
+    </div>
+  </div>
+
+  <!-- Values -->
+  <div class="values-grid">
+    <div class="value-item">
+      <div class="v-icon">📵</div>
+      <div class="v-title">אמנת הקשב</div>
+      <div class="v-desc">כיתה ללא טלפונים חכמים, מרחב נקי מהסחות</div>
+    </div>
+    <div class="value-item">
+      <div class="v-icon">🤝</div>
+      <div class="v-title">שותפות אמיתית</div>
+      <div class="v-desc">שיתוף פעולה הדדי בין הורים, ילדים וצוות</div>
+    </div>
+    <div class="value-item">
+      <div class="v-icon">🌱</div>
+      <div class="v-title">קהילה שיתופית</div>
+      <div class="v-desc">תרומה לסביבה הקרובה, לבית הספר והחוצה</div>
+    </div>
+    <div class="value-item">
+      <div class="v-icon">💚</div>
+      <div class="v-title">חינוך ערכי</div>
+      <div class="v-desc">הצבת ערכים בחיי היומיום, בדרך שמתאימה לכל ילד</div>
+    </div>
+  </div>
+
+  <div class="divider"><span>🌿</span></div>
+
+  <!-- Vision -->
+  <div class="card card-green">
+    <div class="card-title"><span class="icon">💡</span> החזון שלנו — גאולי</div>
+    <ul class="covenant-list">
+      <li><span class="li-icon">🏫</span> להקים כיתה קהילתית-חברתית חדשה בבית ספר גאולים לשנת הלימודים הבאה</li>
+      <li><span class="li-icon">👨‍👩‍👧‍👦</span> לבנות קהילת הורים מעורבת, פעילה ומחויבת — "גאולי"</li>
+      <li><span class="li-icon">📵</span> לאמץ את "אמנת הקשב" — מרחב ללא טלפונים חכמים, המעודד נוכחות וקשרים אמיתיים</li>
+      <li><span class="li-icon">🌍</span> לתרום לקהילת בית הספר ולסביבה הקרובה מתוך ערכי שיתוף ואחריות</li>
+      <li><span class="li-icon">✨</span> לייצר הנהגה שיתופית שתהווה דוגמה ורוח חדשה בבית הספר</li>
+    </ul>
+  </div>
+
+  <!-- Important note -->
+  <div class="card card-warm">
+    <div class="card-title"><span class="icon">💛</span> עיקרון חשוב עבורנו</div>
+    <div class="letter">
+      <p>אנו מאמינות שלילדים שלנו מגיע מרחב שמאפשר נוכחות מלאה, קשרים אמיתיים וריכוז. לכן, חשוב לנו שכיתת בית הספר תהיה מרחב נקי מפלאפונים.</p>
+      <p style="margin-bottom:0">תוך שיתוף פעולה עם ההורים והצוות, נוכל ליצור סביבה חינוכית מיטבית שמקדמת קשרים, למידה וקהילה איכותית.</p>
+    </div>
+  </div>
+
+  <!-- Quote -->
+  <div class="quote-block">
+    <div class="q-text">מאולה לא מחכים — יוצרים. 🌿</div>
+  </div>
+
+  <div class="divider"><span>✍️</span></div>
+
+  <!-- Signature form -->
+  <div class="sig-section" id="signSection">
+    <div class="sig-title">חתמי על הפנייה</div>
+    <div class="sig-subtitle">הצטרפי אלינו — יחד נבנה את גאולי</div>
+
+    <form id="signForm">
+      <div class="form-group">
+        <label class="required">שם מלא</label>
+        <input type="text" id="parentName" placeholder="השם שלך" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>שם הילד/ה</label>
+          <input type="text" id="childName" placeholder="שם הילד/ה">
+        </div>
+        <div class="form-group">
+          <label>טלפון</label>
+          <input type="tel" id="phone" placeholder="050-000-0000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>מילה אישית (רשות)</label>
+        <textarea id="message" placeholder="למה חשוב לך להצטרף לגאולי?" rows="2"></textarea>
+      </div>
+      <button type="submit" class="btn-sign" id="btnSign">✍️ חותמת על הפנייה</button>
+    </form>
+
+    <div class="success-msg" id="successMsg">
+      <div class="s-icon">🌿</div>
+      <div class="s-title">החתימה נקלטה בהצלחה!</div>
+      <div class="s-text">תודה שהצטרפת לגאולי. יחד נבנה קהילה.</div>
+    </div>
+  </div>
+
+  <!-- Share -->
+  <div class="share-bar">
+    <button class="share-btn" onclick="shareWhatsApp()"><span class="s-ico">💬</span> שתפי בוואטסאפ</button>
+    <button class="share-btn" onclick="copyLink()"><span class="s-ico">🔗</span> העתיקי קישור</button>
+  </div>
+
+  <!-- Signatures display -->
+  <div class="card" id="signaturesCard">
+    <div class="card-title"><span class="icon">👩‍👧</span> החתומות</div>
+    <div class="sig-count">עד כה חתמו <strong id="sigCount">0</strong> הורים</div>
+    <div id="signaturesList" class="signatures-list">
+      <div class="loading">טוען חתימות...</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    גאולי — קהילת ההורים של בית ספר גאולים, שכונת בקעה, ירושלים<br>
+    בונים יחד. קהילה. חינוך. איכות. 🌿
+  </div>
+
+</div>
+
+<script>
+const SUPABASE_URL = 'https://vhmwijzcrqjjquxomccq.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZobXdpanpjcnFqanF1eG9tY2NxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1Nzk0MDgsImV4cCI6MjA4OTE1NTQwOH0.rMnAcdMiPddUAoap63tMiqeQQanJoF-HDmzra7P-5Cc';
+
+async function supaFetch(path, options = {}) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...options,
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': options.method === 'POST' ? 'return=representation' : undefined,
+      ...options.headers
+    }
+  });
+  return res.json();
+}
+
+// Load signatures
+async function loadSignatures() {
+  const list = document.getElementById('signaturesList');
+  const countEl = document.getElementById('sigCount');
+
+  try {
+    const data = await supaFetch('geuli_signatures?select=parent_name,child_name,message,created_at&order=created_at.desc');
+    countEl.textContent = data.length || 0;
+
+    if (!data.length) {
+      list.innerHTML = '<div class="loading" style="color:var(--text3)">היי את הראשונה! חתמי למעלה 🌱</div>';
+      return;
+    }
+
+    list.innerHTML = data.map(s => {
+      const initials = s.parent_name.charAt(0);
+      const date = new Date(s.created_at).toLocaleDateString('he-IL', {day:'numeric',month:'long'});
+      return `
+        <div class="sig-item">
+          <div class="sig-avatar">${initials}</div>
+          <div class="sig-info">
+            <div class="sig-name">${esc(s.parent_name)}${s.child_name ? ' — אמא של ' + esc(s.child_name) : ''}</div>
+            ${s.message ? '<div class="sig-date" style="color:var(--text2);font-size:12px;margin-top:2px">"' + esc(s.message) + '"</div>' : ''}
+            <div class="sig-date">${date}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch (e) {
+    list.innerHTML = '<div class="loading">שגיאה בטעינה</div>';
+  }
+}
+
+function esc(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+// Submit signature
+document.getElementById('signForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('btnSign');
+  btn.disabled = true;
+  btn.textContent = 'שולח...';
+
+  const payload = {
+    parent_name: document.getElementById('parentName').value.trim(),
+    child_name: document.getElementById('childName').value.trim() || null,
+    phone: document.getElementById('phone').value.trim() || null,
+    message: document.getElementById('message').value.trim() || null
+  };
+
+  try {
+    await supaFetch('geuli_signatures', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+
+    document.getElementById('signForm').style.display = 'none';
+    document.getElementById('successMsg').classList.add('show');
+    loadSignatures();
+  } catch (err) {
+    alert('שגיאה בשליחה, נסי שוב');
+    btn.disabled = false;
+    btn.textContent = '✍️ חותמת על הפנייה';
+  }
+});
+
+// Share
+function shareWhatsApp() {
+  const text = '🌿 גאולי — קהילת ההורים של גאולים\n\nאנחנו בונות כיתה חדשה עם חזון קהילתי בבית ספר גאולים!\nהצטרפי וחתמי על הפנייה:\n\n' + location.href;
+  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(location.href).then(() => {
+    const btns = document.querySelectorAll('.share-btn');
+    btns[1].innerHTML = '<span class="s-ico">✅</span> הקישור הועתק!';
+    setTimeout(() => { btns[1].innerHTML = '<span class="s-ico">🔗</span> העתיקי קישור'; }, 2000);
+  });
+}
+
+// Init
+loadSignatures();
+</script>
+</body>
+</html>
