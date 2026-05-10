@@ -4,17 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>גאולי - קהילת ההורים של גאולים</title>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --green1:#2D5A3D;--green2:#3A7D5A;--green3:#4A9B6E;--green-light:#E8F5E9;
-  --cream:#FEFDF8;--warm:#F5F0E8;--gold:#B8860B;--gold-light:#F5E6C8;
+  --cream:#FFFFFF;--warm:#F5F5F0;--gold:#B8860B;--gold-light:#F5E6C8;
   --text:#2C3E2D;--text2:#5A6B5C;--text3:#8A9B8C;
   --white:#FFFFFF;--border:#D4E4D6;--red:#C62828;
 }
-body{font-family:'Heebo',sans-serif;background:var(--cream);color:var(--text);line-height:1.7}
-.serif{font-family:'Frank Ruhl Libre',serif}
+body{font-family:'Rubik',sans-serif;background:var(--white);color:var(--text);line-height:1.7}
 
 /* Decorative leaves */
 .leaf-decoration{position:fixed;pointer-events:none;z-index:0;opacity:.12}
@@ -27,7 +26,7 @@ body{font-family:'Heebo',sans-serif;background:var(--cream);color:var(--text);li
 .hero{text-align:center;padding:48px 20px 36px;position:relative}
 .hero-icon{font-size:48px;margin-bottom:8px}
 .hero-badge{display:inline-block;background:var(--green1);color:var(--white);padding:6px 24px;border-radius:20px;font-size:13px;font-weight:600;letter-spacing:1px;margin-bottom:16px}
-.hero h1{font-family:'Frank Ruhl Libre',serif;font-size:clamp(32px,7vw,48px);font-weight:700;color:var(--green1);line-height:1.2;margin-bottom:8px}
+.hero h1{font-family:'Rubik',sans-serif;font-size:clamp(32px,7vw,48px);font-weight:700;color:var(--green1);line-height:1.2;margin-bottom:8px}
 .hero h2{font-size:clamp(18px,4vw,22px);font-weight:400;color:var(--green2);margin-bottom:6px}
 .hero .subtitle{font-size:15px;color:var(--text2);max-width:480px;margin:0 auto}
 
@@ -42,7 +41,7 @@ body{font-family:'Heebo',sans-serif;background:var(--cream);color:var(--text);li
 .card-green .card-title{color:var(--white)}
 .card-green p,.card-green li{color:rgba(255,255,255,.9)}
 .card-warm{background:var(--warm);border-color:#D4CFC4}
-.card-title{font-family:'Frank Ruhl Libre',serif;font-size:20px;font-weight:700;color:var(--green1);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.card-title{font-family:'Rubik',sans-serif;font-size:20px;font-weight:700;color:var(--green1);margin-bottom:12px;display:flex;align-items:center;gap:10px}
 .card-title .icon{font-size:24px}
 
 /* Letter content */
@@ -66,16 +65,16 @@ body{font-family:'Heebo',sans-serif;background:var(--cream);color:var(--text);li
 
 /* Signature section */
 .sig-section{background:var(--white);border-radius:16px;padding:28px 24px;margin-bottom:20px;border:2px solid var(--green2);box-shadow:0 4px 20px rgba(45,90,61,.08)}
-.sig-title{font-family:'Frank Ruhl Libre',serif;font-size:22px;font-weight:700;color:var(--green1);text-align:center;margin-bottom:4px}
+.sig-title{font-family:'Rubik',sans-serif;font-size:22px;font-weight:700;color:var(--green1);text-align:center;margin-bottom:4px}
 .sig-subtitle{text-align:center;font-size:14px;color:var(--text2);margin-bottom:20px}
 .form-group{margin-bottom:14px}
 .form-group label{display:block;font-size:13px;font-weight:600;color:var(--text2);margin-bottom:4px}
-.form-group input,.form-group textarea{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Heebo',sans-serif;font-size:15px;color:var(--text);background:var(--cream);transition:all .2s;outline:none}
+.form-group input,.form-group textarea{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Rubik',sans-serif;font-size:15px;color:var(--text);background:var(--cream);transition:all .2s;outline:none}
 .form-group input:focus,.form-group textarea:focus{border-color:var(--green2);box-shadow:0 0 0 3px rgba(58,125,90,.1)}
 .form-group textarea{resize:vertical;min-height:60px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .required::after{content:' *';color:var(--red);font-size:11px}
-.btn-sign{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--green1),var(--green2));color:var(--white);font-family:'Heebo',sans-serif;font-size:17px;font-weight:700;cursor:pointer;transition:all .25s;margin-top:8px;letter-spacing:.5px}
+.btn-sign{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--green1),var(--green2));color:var(--white);font-family:'Rubik',sans-serif;font-size:17px;font-weight:700;cursor:pointer;transition:all .25s;margin-top:8px;letter-spacing:.5px}
 .btn-sign:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(45,90,61,.25)}
 .btn-sign:active{transform:translateY(0)}
 .btn-sign:disabled{opacity:.6;cursor:not-allowed;transform:none}
@@ -100,7 +99,7 @@ body{font-family:'Heebo',sans-serif;background:var(--cream);color:var(--text);li
 
 /* Quote */
 .quote-block{text-align:center;padding:24px 20px;margin:24px 0}
-.quote-block .q-text{font-family:'Frank Ruhl Libre',serif;font-size:22px;font-weight:700;color:var(--green1);line-height:1.5}
+.quote-block .q-text{font-family:'Rubik',sans-serif;font-size:22px;font-weight:700;color:var(--green1);line-height:1.5}
 .quote-block .q-leaf{font-size:28px;margin-top:8px;opacity:.5}
 
 /* Footer */
@@ -109,7 +108,7 @@ body{font-family:'Heebo',sans-serif;background:var(--cream);color:var(--text);li
 
 /* Share bar */
 .share-bar{display:flex;gap:10px;justify-content:center;margin:20px 0}
-.share-btn{padding:10px 20px;border-radius:10px;border:1.5px solid var(--border);background:var(--white);font-family:'Heebo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;color:var(--text)}
+.share-btn{padding:10px 20px;border-radius:10px;border:1.5px solid var(--border);background:var(--white);font-family:'Rubik',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;color:var(--text)}
 .share-btn:hover{background:var(--green-light);border-color:var(--green2)}
 .share-btn .s-ico{font-size:18px}
 
@@ -213,11 +212,6 @@ body{font-family:'Heebo',sans-serif;background:var(--cream);color:var(--text);li
       <p>אנו מאמינות שלילדים שלנו מגיע מרחב שמאפשר נוכחות מלאה, קשרים אמיתיים וריכוז. לכן, חשוב לנו שכיתת בית הספר תהיה מרחב נקי מפלאפונים.</p>
       <p style="margin-bottom:0">תוך שיתוף פעולה עם ההורים והצוות, נוכל ליצור סביבה חינוכית מיטבית שמקדמת קשרים, למידה וקהילה איכותית.</p>
     </div>
-  </div>
-
-  <!-- Quote -->
-  <div class="quote-block">
-    <div class="q-text">מאולה לא מחכים — יוצרים. 🌿</div>
   </div>
 
   <div class="divider"><span>✍️</span></div>
