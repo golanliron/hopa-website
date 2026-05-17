@@ -3,83 +3,162 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>מחוון — לילך אופיר</title>
+<title>מחוון בדיקה — לילך אופיר | מקפצה דיגיטלית</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap');
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Heebo',sans-serif;background:#f5f5f5;padding:20px;color:#1a1a1a}
-.container{max-width:800px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden}
-.header{background:linear-gradient(135deg,#C2185B,#E91E63);color:#fff;padding:28px 32px}
-.header h1{font-size:22px;font-weight:700;margin-bottom:4px}
-.header p{font-size:15px;opacity:.9}
-.info{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:20px 32px;background:#fafafa;border-bottom:1px solid #eee}
-.info div{font-size:14px}.info span{font-weight:600}
-.grade-box{text-align:center;padding:24px;border-bottom:1px solid #eee}
-.grade-num{font-size:56px;font-weight:700;color:#C2185B}
-.grade-label{font-size:14px;color:#666;margin-top:4px}
-table{width:100%;border-collapse:collapse}
-th,td{padding:12px 16px;text-align:right;border-bottom:1px solid #eee;font-size:14px}
-th{background:#fafafa;font-weight:600;color:#555}
-.section-header{background:#f0f0f0;font-weight:700;color:#333}
-.score{font-weight:700;color:#C2185B;text-align:center;min-width:60px}
-.links{padding:20px 32px;border-top:1px solid #eee}
-.links h3{font-size:16px;margin-bottom:12px;color:#333}
-.link-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#f9f9f9;border-radius:8px;margin-bottom:8px;font-size:13px}
-.link-item a{color:#C2185B;text-decoration:none;word-break:break-all}
-.status{padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500}
-.status.ok{background:#e8f5e9;color:#2e7d32}
-.notes{padding:20px 32px;border-top:1px solid #eee}
-.notes h3{font-size:16px;margin-bottom:8px;color:#333}
-.notes p{font-size:14px;color:#555;line-height:1.7}
-.footer{padding:16px 32px;background:#fafafa;text-align:center;font-size:12px;color:#999}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Heebo', sans-serif; background: #f5f5f7; color: #1d1d1f; padding: 24px; line-height: 1.7; }
+.container { max-width: 800px; margin: 0 auto; }
+.header { background: linear-gradient(135deg, #6C5CE7, #a855f7); border-radius: 20px; padding: 40px 36px; color: #fff; margin-bottom: 24px; position: relative; overflow: hidden; }
+.header::after { content: ''; position: absolute; top: -40px; left: -40px; width: 160px; height: 160px; background: rgba(255,255,255,0.1); border-radius: 50%; }
+.header h1 { font-size: 28px; font-weight: 900; margin-bottom: 4px; }
+.header .course { font-size: 15px; opacity: 0.85; font-weight: 300; }
+.header .student-info { margin-top: 20px; display: flex; gap: 24px; flex-wrap: wrap; }
+.header .student-info .tag { background: rgba(255,255,255,0.2); border-radius: 10px; padding: 8px 16px; font-size: 14px; backdrop-filter: blur(4px); }
+.score-card { background: #fff; border-radius: 20px; padding: 32px; margin-bottom: 24px; display: flex; align-items: center; gap: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.score-circle { width: 110px; height: 110px; border-radius: 50%; background: conic-gradient(#6C5CE7 0% 86%, #e8e8ed 86% 100%); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.score-circle .inner { width: 88px; height: 88px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+.score-circle .number { font-size: 34px; font-weight: 900; color: #6C5CE7; line-height: 1; }
+.score-circle .of { font-size: 13px; color: #999; }
+.score-summary h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.score-summary p { font-size: 14px; color: #666; }
+.section { background: #fff; border-radius: 20px; padding: 28px 32px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.section h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: #6C5CE7; }
+.rubric-table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: 12px; border: 1px solid #e8e8ed; }
+.rubric-table th { background: #6C5CE7; color: #fff; padding: 12px 16px; text-align: right; font-weight: 500; font-size: 14px; }
+.rubric-table td { padding: 14px 16px; font-size: 14px; border-bottom: 1px solid #f0f0f5; vertical-align: top; }
+.rubric-table tr:last-child td { border-bottom: none; }
+.rubric-table tr:nth-child(even) { background: #fafafc; }
+.grade-badge { display: inline-block; padding: 3px 12px; border-radius: 8px; font-weight: 700; font-size: 13px; text-align: center; min-width: 50px; }
+.grade-high { background: #d4edda; color: #155724; }
+.grade-mid { background: #fff3cd; color: #856404; }
+.grade-low { background: #f8d7da; color: #721c24; }
+.detail-block { margin-bottom: 20px; }
+.detail-block h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.detail-block h4 .icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff; flex-shrink: 0; }
+.detail-block ul { padding-right: 20px; font-size: 14px; color: #444; }
+.detail-block ul li { margin-bottom: 6px; }
+.good { background: #27ae60; }
+.warn { background: #f39c12; }
+.miss { background: #e74c3c; }
+.guidelines { background: #f0eeff; border-radius: 14px; padding: 20px 24px; margin-bottom: 20px; border-right: 4px solid #6C5CE7; }
+.guidelines h4 { font-size: 15px; font-weight: 700; margin-bottom: 10px; color: #6C5CE7; }
+.guidelines ol { padding-right: 20px; font-size: 14px; color: #444; }
+.guidelines ol li { margin-bottom: 6px; }
+.rec-card { background: linear-gradient(135deg, #ffecd2, #fcb69f); border-radius: 14px; padding: 20px 24px; margin-top: 16px; }
+.rec-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 10px; color: #c0392b; }
+.rec-card ol { padding-right: 20px; font-size: 14px; color: #5a3e2b; }
+.rec-card ol li { margin-bottom: 6px; }
+.footer { text-align: center; padding: 24px; font-size: 12px; color: #999; }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
-    <h1>מחוון בדיקת עבודה — השתלמות כלים שלובים</h1>
-    <p>קורס: כלים שלובים מקפצה דיגיטלית להוראה</p>
-  </div>
-  <div class="info">
-    <div>שם: <span>לילך אופיר</span></div>
-    <div>ת"ז: <span>313116451</span></div>
-    <div>כלים: <span>Gemini, Canva</span></div>
-  </div>
-  <div class="grade-box">
-    <div class="grade-num">83</div>
-    <div class="grade-label">ציון סופי</div>
-  </div>
-  <table>
-    <tr><th>קריטריון</th><th>משקל</th><th class="score">ציון</th><th>הערה</th></tr>
-    <tr class="section-header"><td colspan="4">1. בחירת נושא</td></tr>
-    <tr><td>נושא לימודי/חברתי</td><td>10%</td><td class="score">9</td><td>נושא לימודי ברור</td></tr>
-    <tr class="section-header"><td colspan="4">2. יחידת הוראה (60%)</td></tr>
-    <tr><td>2a — שני כלים דיגיטליים</td><td>15%</td><td class="score">15</td><td>Gemini + Canva. 2 לינקים פעילים</td></tr>
-    <tr><td>2b — מטרות</td><td>10%</td><td class="score">10</td><td>מטרות מפורטות</td></tr>
-    <tr><td>2c — נימוקים לבחירת הכלים</td><td>10%</td><td class="score">9</td><td>נימוקים לבחירת כלים</td></tr>
-    <tr><td>2d — מהלך שיעור לפי שלבים</td><td>15%</td><td class="score">10</td><td>מהלך שיעור מובנה</td></tr>
-    <tr><td>2e — שאלות ופעילויות ללומדים</td><td>10%</td><td class="score">8</td><td>פעילויות מגוונות</td></tr>
-    <tr class="section-header"><td colspan="4">3. הוראה בפועל</td></tr>
-    <tr><td>תיעוד שהשיעור נלמד</td><td>10%</td><td class="score">8</td><td>תיעוד הוראה בפועל</td></tr>
-    <tr class="section-header"><td colspan="4">4. רפלקציה</td></tr>
-    <tr><td>פערים תכנון/ביצוע, השגת מטרות</td><td>20%</td><td class="score">14</td><td>רפלקציה קיימת</td></tr>
-  </table>
-  <div class="links">
-    <h3>לינקים שנבדקו</h3>
-    <div class="link-item">
-      <a href="https://gemini.google.com/share/3addfde58659" target="_blank">Gemini</a>
-      <span class="status ok">תקין</span>
-    </div>
-    <div class="link-item">
-      <a href="https://www.canva.com/design/DAG9ZdKSn3Q/FzRS9hAQ2QVWlJWSryQxRg/view?" target="_blank">Canva</a>
-      <span class="status ok">תקין</span>
+    <div class="course">Lnet | כלים שלובים מקפצה דיגיטלית להוראה</div>
+    <h1>מחוון בדיקת משימת סיכום</h1>
+    <div class="student-info">
+      <div class="tag">שם: לילך אופיר</div>
+      <div class='tag'>ת.ז: 313116451</div>
+      <div class="tag">כלים: Gemini, Canva</div>
     </div>
   </div>
-  <div class="notes">
-    <h3>הערות כלליות</h3>
-    <p>חינוך גופני, 2 לינקים פעילים</p>
+
+  <div class="section">
+    <h3>דרישות המשימה</h3>
+    <div class="guidelines">
+      <h4>הנחיות הקורס — מה נדרש בעבודה:</h4>
+      <ol>
+        <li><strong>בחירת נושא</strong> — נושא לימודי לפיתוח</li>
+        <li><strong>יחידת הוראה</strong> — לפחות 2 כלים דיגיטליים (או כלי אחד ב-2 אופנים). כולל: מטרות, תיאור הכלים ונימוקים, מהלך לפי שלבים, חומרי למידה, שאלות ופעילויות</li>
+        <li><strong>הוראה בפועל</strong> — ללמד את הנושא בבית הספר</li>
+        <li><strong>רפלקציה</strong> — התייחסות לפערים בין תכנון לביצוע, מידת השגת המטרות</li>
+      </ol>
+    </div>
   </div>
-  <div class="footer">נבדק אוטומטית | השתלמות כלים שלובים מקפצה דיגיטלית להוראה</div>
+
+  <div class="score-card">
+    <div class="score-circle">
+      <div class="inner">
+        <div class="number">86</div>
+        <div class="of">/ 100</div>
+      </div>
+    </div>
+    <div class="score-summary">
+      <h2>ציון כולל: 86 — טוב מאוד</h2>
+      <p>עבודה טובה עם Gemini ו-Canva. מהלך שיעור מפורט, נימוקים ברורים, הוראה בפועל. רפלקציה קיימת.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>פירוט ציונים לפי קריטריונים</h3>
+    <table class="rubric-table">
+      <thead>
+        <tr>
+          <th style="width:5%">#</th>
+          <th style="width:30%">קריטריון</th>
+          <th style="width:10%">משקל</th>
+          <th style="width:12%">ציון</th>
+          <th>הערות</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>בחירת נושא</strong></td>
+          <td>10%</td>
+          <td><span class="grade-badge grade-high">10/10</span></td>
+          <td>נושא ברור ומוגדר, רלוונטי לתוכנית הלימודים</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>יחידת הוראה</strong></td>
+          <td>60%</td>
+          <td><span class="grade-badge grade-high">53/60</span></td>
+          <td>כלים: Gemini, Canva. מטרות, נימוקים, מהלך שיעור ופעילויות — קיימים</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>הוראה בפועל</strong></td>
+          <td>10%</td>
+          <td><span class="grade-badge grade-high">9/10</span></td>
+          <td>יש תיאור ברור של ההוראה שהתקיימה בפועל בכיתה</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>רפלקציה</strong></td>
+          <td>20%</td>
+          <td><span class="grade-badge grade-mid">14/20</span></td>
+          <td>רפלקציה קיימת אך חלקית</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr style="background: #f0eeff; font-weight: 700;">
+          <td colspan="3" style="text-align: center;">סה"כ</td>
+          <td><span class="grade-badge grade-high">86/100</span></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>פירוט הבדיקה</h3>
+    <div class="detail-block">
+      <h4><span class="icon good">+</span> מה טוב בעבודה</h4>
+      <ul><li>שני כלים עם לינקים פעילים</li><li>מהלך שיעור מפורט לפי שלבים</li><li>נימוקים ענייניים</li><li>הוראה בפועל ברורה</li></ul>
+    </div>
+    <div class="detail-block">
+      <h4><span class="icon warn">!</span> מה חלקי</h4>
+      <ul><li>רפלקציה קיימת אך ניתן לפרט על פערים</li></ul>
+    </div>
+    <div class="detail-block">
+      <h4><span class="icon miss">✗</span> מה חסר</h4>
+      <ul><li>ניתוח מעמיק של מידת השגת המטרות</li></ul>
+    </div>
+  </div>
+
+  <div class="footer">מחוון בדיקה | קורס Lnet — כלים שלובים מקפצה דיגיטלית להוראה | נבדק בתאריך 17.05.2026</div>
 </div>
 </body>
 </html>
