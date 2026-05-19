@@ -51,34 +51,45 @@ PUBLICATION_TYPES = {
     "9": "קול קורא — משפטי",
 }
 
-SETTLEMENT_KEYWORDS = [
-    "הסדר פשרה", "פשרה", "settlement", "קרן פיצוי",
-    "פיצוי", "compensation", "fund", "תשלום לניזוקים",
-    "הסכם פשרה", "כספים שנפסקו", "תובענה ייצוגית",
-]
-
-
 def normalize_date(raw: str) -> Optional[str]:
-    """Convert ISO datetime string or date string to YYYY-MM-DD, only if future."""
+    """Convert ISO datetime string to YYYY-MM-DD. Returns None if unparseable."""
     if not raw:
         return None
-    today = date.today()
-    # ISO datetime: 2026-06-14T21:00:00Z
-    m = re.match(r"(20\d{2})-(\d{2})-(\d{2})", raw)
+    m = re.match(r"(20\d{2})-(\d{2})-(\d{2})", str(raw))
     if m:
         try:
-            d = date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
-            return d.isoformat()  # return even if past — useful for reporting
+            date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+            return f"{m.group(1)}-{m.group(2)}-{m.group(3)}"
         except ValueError:
             pass
     return None
 
 
-def classify(sub_list: str, number: str) -> str:
-    combined = sub_list + " " + number
-    if any(kw in combined for kw in SETTLEMENT_KEYWORDS):
-        return "settlement_fund"
-    return "class_action_only"
+def classify_item(sub_list: str, number: str, raw_date: Optional[str]) -> dict:
+    """
+    All items from class_action_law_database are settlement-fund distributions
+    by definition — the Committee distributes court-awarded class-action funds.
+    Classification is always settlement_fund / class_action_opportunity.
+
+    active=True only if deadline is in the future.
+    """
+    today = date.today().isoformat()
+    deadline = normalize_date(raw_date)
+    active = bool(deadline and deadline >= today)
+
+    return {
+        "classification": "settlement_fund",
+        "sub_classification": "class_action_opportunity",
+        "tags": ["class_action", "settlement_fund", "public_benefit_distribution"],
+        "category": "social",
+        "region": "israel",
+        "active": active,
+        "deadline": deadline,
+        "deadline_status": (
+            "future" if active
+            else ("expired" if deadline else "no_deadline")
+        ),
+    }
 
 
 def scrape_class_action_playwright(pages: int = 1) -> dict:
@@ -161,7 +172,6 @@ def scrape_class_action_playwright(pages: int = 1) -> dict:
                         sub_list = d.get("sub_list", "").strip()
                         number = d.get("number", "").strip()
                         raw_date = d.get("date", "")
-                        deadline = normalize_date(raw_date)
                         pub_codes = d.get("publication", [])
                         pub_types = [PUBLICATION_TYPES.get(str(c), c) for c in pub_codes]
 
@@ -169,15 +179,17 @@ def scrape_class_action_playwright(pages: int = 1) -> dict:
                         title_val = f"{number} — {sub_list}" if number else sub_list
                         detail_url = DETAIL_BASE + url_name if url_name else PAGE_URL
 
+                        cl = classify_item(sub_list, number, raw_date)
+
                         all_items.append({
                             "title": title_val,
                             "number": number,
                             "sub_list": sub_list,
                             "url": detail_url,
-                            "deadline": deadline,
                             "raw_date": raw_date[:10] if raw_date else None,
                             "publication_types": pub_types,
                             "has_file": bool(d.get("file")),
+                            **cl,  # classification, tags, active, deadline, deadline_status, category, region
                         })
                 except Exception as e:
                     error = f"API parse error: {e}"
@@ -188,19 +200,27 @@ def scrape_class_action_playwright(pages: int = 1) -> dict:
 
         browser.close()
 
-    # Classify
-    accepted = []
-    rejected = []
-    for item in all_items:
-        cl = classify(item["sub_list"], item["number"])
-        item["classification"] = cl
-        if cl == "settlement_fund":
-            accepted.append(item)
-        else:
-            rejected.append(item)
-
     today = date.today().isoformat()
-    future_items = [i for i in all_items if i.get("deadline") and i["deadline"] >= today]
+
+    future_items  = [i for i in all_items if i.get("deadline_status") == "future"]
+    expired_items = [i for i in all_items if i.get("deadline_status") == "expired"]
+    no_date_items = [i for i in all_items if i.get("deadline_status") == "no_deadline"]
+
+    # "would insert" = only future items, ready for DB (if approved)
+    would_insert = [
+        {
+            "title": i["title"],
+            "source": "gov.il — הוועדה לחלוקת כספים שנפסקו בתובענות ייצוגיות",
+            "url": i["url"],
+            "deadline": i["deadline"],
+            "category": i["category"],
+            "region": i["region"],
+            "tags": i["tags"],
+            "classification": i["classification"],
+            "active": True,
+        }
+        for i in future_items
+    ]
 
     report = {
         "dry_run": True,
@@ -209,13 +229,14 @@ def scrape_class_action_playwright(pages: int = 1) -> dict:
         "scanned_at": today,
         "total_available": total_available,
         "raw_count": len(all_items),
-        "future_deadline_count": len(future_items),
-        "accepted_count": len(accepted),
-        "rejected_count": len(rejected),
+        "future_count": len(future_items),
+        "expired_count": len(expired_items),
+        "no_date_count": len(no_date_items),
+        "would_insert_count": len(would_insert),
         "samples": all_items[:20],
-        "accepted": accepted,
-        "rejected_sample": rejected[:5],
-        "recommended_classification": "settlement_fund",
+        "would_insert": would_insert,
+        "future_items": future_items,
+        "recommended_classification": "settlement_fund / class_action_opportunity",
         "note": "לא הוכנס ל-DB. יש לאשר ידנית לפני שמירה.",
         "api_intercepted": api_intercepted,
         "cf_blocked": cf_blocked,
@@ -244,24 +265,28 @@ def main():
         print("   Screenshot: outputs/class_action_cf.png")
         return
 
-    print(f"\ntotal_available:  {report['total_available']}")
-    print(f"raw_count:        {report['raw_count']}  (עמוד ראשון בלבד)")
-    print(f"future_deadline:  {report['future_deadline_count']}")
-    print(f"accepted:         {report['accepted_count']}  (settlement_fund)")
-    print(f"rejected:         {report['rejected_count']}  (class_action_only)")
+    print(f"\ntotal_available:  {report['total_available']}  (כל המאגר)")
+    print(f"raw_count:        {report['raw_count']}  (עמוד ראשון, 20 פריטים)")
+    print(f"future:           {report['future_count']}  ← יוכנסו ל-DB אם יאושר")
+    print(f"expired:          {report['expired_count']}")
+    print(f"no_date:          {report['no_date_count']}")
+    print(f"would_insert:     {report['would_insert_count']}")
     print(f"api_intercepted:  {report['api_intercepted']}")
 
-    print(f"\n--- {min(20, report['raw_count'])} דוגמאות ---")
+    print(f"\n--- {min(20, report['raw_count'])} דוגמאות (כל הסיווגים settlement_fund) ---")
     for item in report["samples"]:
-        dl = item.get("raw_date") or "no date"
-        cl = item.get("classification", "?")
-        print(f"  [{dl}] [{cl[:12]}] {item['title'][:65]}")
-        print(f"         {item['url']}")
+        dl = item.get("raw_date") or "----"
+        status = item.get("deadline_status", "?")
+        marker = "✓" if status == "future" else ("✗" if status == "expired" else "–")
+        print(f"  {marker} [{dl}] {item['title'][:68]}")
+        print(f"      tags: {', '.join(item.get('tags', []))}  active={item.get('active')}")
 
-    if report["accepted"]:
-        print(f"\n--- Accepted settlement funds ({report['accepted_count']}) ---")
-        for item in report["accepted"]:
-            print(f"  [{item.get('raw_date','?')}] {item['title'][:70]}")
+    if report["would_insert"]:
+        print(f"\n--- יוכנסו ל-DB אם יאושר ({report['would_insert_count']}) ---")
+        for item in report["would_insert"]:
+            print(f"  [{item['deadline']}] {item['title'][:72]}")
+            print(f"      {item['url']}")
+            print(f"      tags: {', '.join(item['tags'])}")
 
     print(f"\nNOTE: {report['note']}")
 
