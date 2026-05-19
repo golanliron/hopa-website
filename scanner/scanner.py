@@ -217,6 +217,8 @@ def main():
         for item in report["accepted"]:
             print(f"  [{item.get('classification')}] {item['title'][:70]}")
         print(f"\nNOTE: {report['note']}")
+        if report.get("fetch_error"):
+            print(f"FETCH ERROR: {report['fetch_error']}")
         return
 
     region = "all"

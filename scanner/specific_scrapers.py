@@ -869,80 +869,172 @@ def scrape_data_govil() -> list[Call]:
 # SAFETY: these sources are DRY-RUN ONLY — never saved to DB automatically.
 # Call scrape_class_action_dryrun() explicitly for inspection.
 
-def scrape_class_action_dryrun() -> dict:
+def _fetch_govil_dynamic_collector(template_id: str, skip: int = 0, limit: int = 50) -> list[dict]:
     """
-    Scrape Israeli class-action settlement fund announcements.
-    Returns a dry-run report dict — NOT a list of Calls to save.
-    Sources: psagot.co.il, takbull.co.il, legalinfo.co.il
+    Call gov.il DynamicCollector API.
+    Returns list of raw item dicts, or [] on failure.
+    gov.il uses Cloudflare — we need a real browser session cookie to bypass it.
+    Falls back to HTML scraping of the listing page.
     """
     import json as _json
+
+    base_page = f"https://www.gov.il/he/Departments/DynamicCollectors/{template_id}?skip={skip}"
+    api_url   = "https://www.gov.il/he/api/DynamicCollector"
+
+    # Step 1: fetch listing page to get cookies + extract client metadata
+    session = requests.Session()
+    session.headers.update({
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/124.0.0.0 Safari/537.36"
+        ),
+        "Accept-Language": "he-IL,he;q=0.9,en-US;q=0.8",
+    })
+
+    try:
+        r = session.get(base_page, timeout=15)
+    except Exception as e:
+        logger.warning("govil dynamic: page fetch failed: %s", e)
+        return []
+
+    if r.status_code == 403:
+        logger.warning("govil dynamic: Cloudflare 403 on page — cannot bypass without browser")
+        return []
+
+    # Parse page for DynamicTemplateID / x-client-id
+    client_id = "HeGovIL"  # default known value
+    m = re.search(r'["\']?x-client-id["\']?\s*[:=]\s*["\']([^"\']+)["\']', r.text, re.IGNORECASE)
+    if m:
+        client_id = m.group(1)
+    m = re.search(r'DynamicTemplateID["\']?\s*[:=]\s*["\']([^"\']+)["\']', r.text, re.IGNORECASE)
+    actual_template = m.group(1) if m else template_id
+
+    # Step 2: POST to API with session cookies
+    try:
+        api_r = session.post(
+            api_url,
+            json={"DynamicTemplateID": actual_template, "skip": skip, "limit": limit},
+            headers={
+                "Accept": "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+                "Referer": base_page,
+                "x-client-id": client_id,
+            },
+            timeout=15,
+        )
+        if api_r.status_code == 200 and "json" in api_r.headers.get("content-type", ""):
+            data = api_r.json()
+            if isinstance(data, list):
+                return data
+            for key in ("results", "data", "items", "Records"):
+                if key in data and isinstance(data[key], list):
+                    return data[key]
+            return data if isinstance(data, list) else []
+        logger.warning("govil dynamic API: status %d", api_r.status_code)
+    except Exception as e:
+        logger.warning("govil dynamic API POST failed: %s", e)
+
+    # Step 3: HTML fallback — parse the listing page directly
+    logger.info("govil dynamic: falling back to HTML parse of listing page")
+    soup = BeautifulSoup(r.text, "lxml")
+    items = []
+    for a in soup.select("a[href]"):
+        href = a.get("href", "")
+        title = a.get_text(strip=True)
+        if not href or not title or len(title) < 8:
+            continue
+        if not any(k in href for k in ["/pages/", "/departments/publications/", "/service/", "/BlobFolder/", "/rfp/"]):
+            continue
+        if not href.startswith("http"):
+            href = urljoin("https://www.gov.il", href)
+        parent = a.find_parent(["li", "div", "tr", "article"])
+        ctx = parent.get_text(" ", strip=True) if parent else title
+        items.append({"title": title, "url": href, "ctx": ctx})
+    return items
+
+
+def scrape_class_action_dryrun() -> dict:
+    """
+    Dry-run scrape of gov.il class_action_law_database DynamicCollector.
+    Returns report dict — NOT saved to DB.
+    Source: https://www.gov.il/he/Departments/DynamicCollectors/class_action_law_database
+    """
     from datetime import date
 
-    sources = [
-        ("https://www.psagot.co.il/class-action/", "Psagot — תביעות ייצוגיות"),
-        ("https://takbull.co.il/category/class-action/", "Takbull — תביעות ייצוגיות"),
-        ("https://www.legalinfo.co.il/tvioteraionit/", "LegalInfo — תביעות ייצוגיות"),
-    ]
+    SOURCE_NAME = "gov.il — מאגר תובענות ייצוגיות"
+    TEMPLATE_ID = "class_action_law_database"
 
     raw_items = []
     accepted = []
     rejected = []
+    fetch_error = None
 
-    for url, source_name in sources:
-        soup = fetch(url)
-        if not soup:
-            logger.info("class_action dryrun: could not fetch %s", url)
-            continue
+    raw = _fetch_govil_dynamic_collector(TEMPLATE_ID, skip=0, limit=50)
+    if not raw:
+        fetch_error = "Cloudflare 403 — gov.il requires browser session. Run with a real browser or use Playwright."
+        logger.warning("class_action dryrun: %s", fetch_error)
+    else:
+        for entry in raw:
+            # Normalize — API returns dicts, HTML fallback returns {"title","url","ctx"}
+            title = (
+                entry.get("title") or entry.get("Title") or
+                entry.get("name") or entry.get("Name") or ""
+            ).strip()
+            href = (
+                entry.get("url") or entry.get("URL") or entry.get("link") or
+                entry.get("PageURL") or ""
+            ).strip()
+            ctx = entry.get("ctx", "") + " " + str(entry.get("description", "")) + " " + title
+            deadline = (
+                entry.get("deadline") or entry.get("Deadline") or
+                entry.get("closingDate") or entry.get("ClosingDate") or
+                extract_date(ctx) or None
+            )
+            if deadline and len(str(deadline)) > 10:
+                deadline = str(deadline)[:10]
 
-        for a in soup.select("h2 a, h3 a, .entry-title a, article a"):
-            href = a.get("href", "")
-            title = a.get_text(strip=True)
-            if not href or not title or len(title) < 8:
+            if not title:
                 continue
-            if not href.startswith("http"):
-                href = urljoin(url, href)
-
-            parent = a.find_parent(["article", "div", "li"])
-            ctx = (parent.get_text(" ", strip=True) if parent else "") + " " + title
-            deadline = extract_date(ctx)
+            if href and not href.startswith("http"):
+                href = urljoin("https://www.gov.il", href)
 
             item = {
                 "title": title,
                 "url": href,
-                "source": source_name,
+                "source": SOURCE_NAME,
                 "deadline": deadline,
                 "context_snippet": ctx[:200],
             }
             raw_items.append(item)
 
-            # Classification heuristic
             is_settlement = any(kw in title + ctx for kw in [
-                "הסדר פשרה", "פשרה", "settlement", "הסכם", "קרן", "פיצוי",
-                "תשלום", "compensation", "fund",
+                "הסדר פשרה", "פשרה", "settlement", "הסכם", "קרן פיצוי",
+                "פיצוי", "compensation", "fund", "תשלום לניזוקים",
             ])
             if is_settlement and deadline:
-                accepted.append(item)
                 item["classification"] = "settlement_fund"
-            elif is_settlement:
                 accepted.append(item)
+            elif is_settlement:
                 item["classification"] = "settlement_no_deadline"
+                accepted.append(item)
             else:
-                rejected.append(item)
                 item["classification"] = "class_action_only"
-
-        time.sleep(0.5)
+                rejected.append(item)
 
     report = {
         "dry_run": True,
+        "source": SOURCE_NAME,
+        "template_id": TEMPLATE_ID,
         "scanned_at": date.today().isoformat(),
         "raw_count": len(raw_items),
         "accepted_count": len(accepted),
         "rejected_count": len(rejected),
         "samples": raw_items[:20],
         "accepted": accepted,
-        "rejected_count_detail": len(rejected),
         "recommended_classification": "settlement_fund",
         "note": "לא הוכנס ל-DB. יש לאשר ידנית לפני שמירה.",
+        "fetch_error": fetch_error,
     }
 
     logger.info(
