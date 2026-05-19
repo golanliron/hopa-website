@@ -31,6 +31,7 @@ from config import (
     OUTPUT_DIR, SUPABASE_URL, SUPABASE_KEY,
 )
 from base_scanner import BaseScanner, Call, calc_match_score
+from specific_scrapers import scrape_all_specific, scrape_class_action_dryrun
 
 logging.basicConfig(
     level=logging.INFO,
@@ -164,6 +165,12 @@ def scan_all(region: str = "all") -> list[Call]:
             all_calls.extend(calls)
             logger.info("     found %d calls", len(calls))
 
+    # Run specific scrapers (always, regardless of region)
+    print("\n--- Specific scrapers (deadline-aware) ---")
+    specific = scrape_all_specific()
+    all_calls.extend(specific)
+    logger.info("specific scrapers total: %d", len(specific))
+
     # Deduplicate globally by URL
     seen, unique = set(), []
     for c in all_calls:
@@ -187,7 +194,30 @@ def main():
     parser.add_argument("--israel",  action="store_true", help="ישראל בלבד")
     parser.add_argument("--intl",    action="store_true", help="בינלאומי בלבד")
     parser.add_argument("--json",    action="store_true", help="שמור גם ל-JSON")
+    parser.add_argument("--source",  type=str, default="", help="הרץ מקור ספציפי (למשל: class_action)")
     args = parser.parse_args()
+
+    # ── class_action source — always dry-run, never saves to DB ──
+    if args.source == "class_action":
+        print("=" * 50)
+        print("  Class Action DRY-RUN (no DB write)")
+        print(f"  {datetime.now().strftime('%d/%m/%Y %H:%M')}")
+        print("=" * 50)
+        report = scrape_class_action_dryrun()
+        print(f"\nraw_count:      {report['raw_count']}")
+        print(f"accepted:       {report['accepted_count']}")
+        print(f"rejected:       {report['rejected_count']}")
+        print(f"recommended:    {report['recommended_classification']}")
+        print(f"\n--- 20 דוגמאות ---")
+        for item in report["samples"]:
+            deadline_str = item.get("deadline") or "no deadline"
+            print(f"  [{deadline_str}] {item['title'][:60]}")
+            print(f"       {item['url'][:80]}")
+        print(f"\n--- Accepted ({report['accepted_count']}) ---")
+        for item in report["accepted"]:
+            print(f"  [{item.get('classification')}] {item['title'][:70]}")
+        print(f"\nNOTE: {report['note']}")
+        return
 
     region = "all"
     if args.israel: region = "israel"
@@ -213,10 +243,63 @@ def main():
 
     if calls:
         save_to_supabase(calls)
+        run_data_steward()
+        trigger_agent_pipeline()
     else:
         print("\nNo calls found - nothing saved")
 
     print("\nDone!")
+
+
+def run_data_steward():
+    """Run the Data Steward after the main scan to enrich + dedup the DB."""
+    import subprocess
+    steward_path = os.path.join(os.path.dirname(__file__), "data_steward.py")
+    if not os.path.exists(steward_path):
+        logger.warning("data_steward.py not found — skipping")
+        return
+    try:
+        result = subprocess.run(
+            [sys.executable, steward_path, "--no-enrich"],  # fast mode: dedup+sanitize only
+            capture_output=True, text=True, timeout=120, encoding="utf-8"
+        )
+        if result.returncode == 0:
+            logger.info("Data Steward completed successfully")
+        else:
+            logger.warning("Data Steward exited %d: %s", result.returncode, result.stderr[:300])
+    except subprocess.TimeoutExpired:
+        logger.warning("Data Steward timed out (120s)")
+    except Exception as e:
+        logger.warning("Data Steward failed (non-fatal): %s", e)
+
+
+def trigger_agent_pipeline():
+    """After saving raw calls, wake up the TS Research Agent pipeline."""
+    import os
+    goldfish_url = os.getenv("GOLDFISH_URL", "http://localhost:3002")
+    cron_secret = os.getenv("CRON_SECRET", "")
+
+    if not cron_secret:
+        logger.warning("CRON_SECRET חסר — לא מפעיל agent pipeline")
+        return
+
+    try:
+        r = requests.post(
+            f"{goldfish_url}/api/process-grants",
+            headers={
+                "Authorization": f"Bearer {cron_secret}",
+                "Content-Type": "application/json",
+            },
+            json={"org_id": os.getenv("DEV_ORG_ID", "")},
+            timeout=15,
+        )
+        if r.status_code == 200:
+            logger.info("Research Agent pipeline triggered successfully")
+        else:
+            logger.warning("Agent pipeline returned %d: %s", r.status_code, r.text[:200])
+    except Exception as e:
+        # לא קריטי — הסורק הצליח, הסוכן ירוץ בפעם הבאה
+        logger.warning("Agent pipeline trigger failed (non-fatal): %s", e)
 
 
 if __name__ == "__main__":
