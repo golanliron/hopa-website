@@ -21,6 +21,8 @@
     "expected_deadline": null,
     "expected_funder": null,
     "expected_should_save": "true_if_open_and_deadline_valid",
+    "local_file": "files/gov-climate-2026-form.docx",
+    "local_background_file": "files/gov-climate-2026-background.pdf",
     "notes": "דוגמת gov.il — דף JS-rendered, דורש Puppeteer. יש טופס DOCX ומסמך רקע PDF"
   },
   {
@@ -45,6 +47,7 @@
     "expected_deadline": null,
     "expected_funder": "המוסד לביטוח לאומי",
     "expected_should_save": "only_verified_open_calls",
+    "local_file": "files/btl-maanimim-technology.pdf",
     "notes": "מקור רשימה — Goldfish צריך לאתר את ה-PDF הספציפי בתחתית הדף ולחלץ ממנו את פרטי הקול קורא"
   },
   {
@@ -78,6 +81,7 @@
     "expected_deadline": null,
     "expected_funder": null,
     "expected_should_save": "true_if_open_and_deadline_valid",
+    "local_file": "files/sviva-researchers-2026.pdf",
     "notes": "דוגמה לקריאת PDF ישיר"
   },
   {
