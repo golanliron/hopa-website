@@ -15,22 +15,25 @@
     "name": "קול קורא אקלים gov.il 2026",
     "type": "url",
     "source": "https://www.gov.il/he/pages/kolkore-climate-2026",
+    "expected_attachment_url": "https://www.gov.il/BlobFolder/rfp/kolkore-climate-2026/he/open-spaces_open-spaces_form-climate-kolkore4.2026.docx",
+    "expected_background_url": "https://www.gov.il/BlobFolder/rfp/kolkore-climate-2026/he/open-spaces_open-spaces_background-kolkore4.2026.pdf",
     "expected_status": "open_or_unknown",
     "expected_deadline": null,
     "expected_funder": null,
     "expected_should_save": "true_if_open_and_deadline_valid",
-    "notes": "דוגמת gov.il שבה צריך לזהות קובץ/לינק הגשה מתוך הדף"
+    "notes": "דוגמת gov.il — דף JS-rendered, דורש Puppeteer. יש טופס DOCX ומסמך רקע PDF"
   },
   {
     "id": "gov-class-action-law",
     "name": "קול קורא תביעות ייצוגיות gov.il",
     "type": "url",
     "source": "https://www.gov.il/he/pages/class_action_law",
+    "expected_attachment_url": "https://www.gov.il/BlobFolder/dynamiccollectorresultitem/133-2026/he/133-2026.pdf",
     "expected_status": "open_or_unknown",
     "expected_deadline": null,
     "expected_funder": null,
     "expected_should_save": "true_if_open_and_deadline_valid",
-    "notes": "דוגמת gov.il נוספת לבדיקה של קריאת דף ממשלתי"
+    "notes": "דוגמת gov.il — דף JS-rendered, דורש Puppeteer. רשימת PDFs היסטורית, expected_attachment_url = הפריט העדכני ביותר (133-2026)"
   },
   {
     "id": "btl-funds",
@@ -86,7 +89,7 @@
     "expected_deadline": null,
     "expected_funder": "משרד האוצר",
     "expected_should_save": "only_verified_open_calls",
-    "notes": "מקור רשימה ממשלתי, צריך להיכנס ללינקים ולחלץ קבצים/טפסים"
+    "notes": "SPA עמוק — Puppeteer נכנס אבל לא מוצא קבצים כי התוכן נטען דינמית דרך API. דורש טיפול מיוחד"
   },
   {
     "id": "weitz-calls",
@@ -137,7 +140,7 @@
     "name": "קול קורא 11 קולאב",
     "type": "url",
     "source": "https://colab.org.il/invite/kol_kore_11/",
-    "expected_application_url": "https://docs.google.com/forms/d/e/1FAIpQLSfSAozX661Qd9Rfa14gUUfBeDFMMNsg0pdyxSBTlTwCLKwGYg/viewform",
+    "expected_application_url": "https://forms.gle/kL7UpVyzEHHLhHSb6",
     "expected_status": "open_or_unknown",
     "expected_deadline": null,
     "expected_funder": "קולאב",
