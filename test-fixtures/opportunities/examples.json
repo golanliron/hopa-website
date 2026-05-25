@@ -59,7 +59,21 @@
     "expected_deadline": null,
     "expected_funder": null,
     "expected_should_save": "only_verified_open_calls",
-    "notes": "מקור רשימה עם לינק בתוך לינק וקבצים פנימיים"
+    "notes": "מקור רשימה — לחצן על קול קורא ספציפי כדי לראות דוגמת לינק בתוך לינק"
+  },
+  {
+    "id": "shatil-kvim-leshinui-2026",
+    "name": "קול קורא 2026 קרן קווים לשינוי",
+    "type": "url",
+    "source": "https://shatil.org.il/kol/%d7%a7%d7%95%d7%9c-%d7%a7%d7%95%d7%a8%d7%90-2026-%d7%a9%d7%9c-%d7%94%d7%a7%d7%a8%d7%9f-%d7%a7%d7%95%d7%95%d7%99%d7%9d-%d7%9c%d7%a9%d7%99%d7%a0%d7%95%d7%99/",
+    "expected_attachment_url": "https://shatil.org.il/wp-content/uploads/2026/05/קול-קורא-קרן-קווים-לשינוי-סבב-מענקים-רביעי.pdf",
+    "expected_application_url": "https://docs.google.com/document/d/1-yvaoUajXd226TSZkCk3jIkMcuT5h1bZ/edit",
+    "expected_status": "open_or_unknown",
+    "expected_deadline": null,
+    "expected_funder": "קרן קווים לשינוי",
+    "expected_should_save": "true_if_open_and_deadline_valid",
+    "local_file": "files/shatil-kvim-leshinui-2026.pdf",
+    "notes": "דוגמה קלאסית: דף שתיל → PDF קול קורא + Google Doc לכתיבת הבקשה. ה-Doc הוא החשוב — Goldfish קורא אותו כדי לכתוב את ההגשה"
   },
   {
     "id": "artcenter-air-givat-haviva",
