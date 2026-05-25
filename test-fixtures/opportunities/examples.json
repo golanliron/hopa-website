@@ -9,5 +9,137 @@
     "expected_funder": "קרן האני",
     "expected_should_save": false,
     "notes": "קול קורא שנקרא אך לא נשמר כי הדדליין עבר"
+  },
+  {
+    "id": "gov-climate-2026",
+    "name": "קול קורא אקלים gov.il 2026",
+    "type": "url",
+    "source": "https://www.gov.il/he/pages/kolkore-climate-2026",
+    "expected_status": "open_or_unknown",
+    "expected_deadline": null,
+    "expected_funder": null,
+    "expected_should_save": "true_if_open_and_deadline_valid",
+    "notes": "דוגמת gov.il שבה צריך לזהות קובץ/לינק הגשה מתוך הדף"
+  },
+  {
+    "id": "gov-class-action-law",
+    "name": "קול קורא תביעות ייצוגיות gov.il",
+    "type": "url",
+    "source": "https://www.gov.il/he/pages/class_action_law",
+    "expected_status": "open_or_unknown",
+    "expected_deadline": null,
+    "expected_funder": null,
+    "expected_should_save": "true_if_open_and_deadline_valid",
+    "notes": "דוגמת gov.il נוספת לבדיקה של קריאת דף ממשלתי"
+  },
+  {
+    "id": "btl-funds",
+    "name": "קולות קוראים ביטוח לאומי BTL",
+    "type": "url",
+    "source": "https://www.btl.gov.il/Funds/kolotkorim/Pages/default.aspx",
+    "expected_status": "open_or_unknown",
+    "expected_deadline": null,
+    "expected_funder": "המוסד לביטוח לאומי",
+    "expected_should_save": "only_verified_open_calls",
+    "notes": "מקור רשימה, צריך לזהות רק קולות קוראים פתוחים ולחלץ קובץ הגשה אם קיים"
+  },
+  {
+    "id": "shatil-funds",
+    "name": "קרנות וקולות קוראים שתיל",
+    "type": "url",
+    "source": "https://shatil.org.il/קרנות-וקולות-קוראים/",
+    "expected_status": "open_or_unknown",
+    "expected_deadline": null,
+    "expected_funder": null,
+    "expected_should_save": "only_verified_open_calls",
+    "notes": "מקור רשימה עם לינק בתוך לינק וקבצים פנימיים"
+  },
+  {
+    "id": "artcenter-air-givat-haviva",
+    "name": "קול קורא AIR מרכז לאמנות גבעת חביבה",
+    "type": "url",
+    "source": "https://www.artcenter.org.il/cgi-webaxy/item?air1",
+    "expected_status": "open_or_unknown",
+    "expected_deadline": null,
+    "expected_funder": "מרכז לאמנות גבעת חביבה",
+    "expected_should_save": "true_if_open_and_deadline_valid",
+    "notes": "דוגמה לקול קורא עם לינק הגשה פנימי / Google Form"
+  },
+  {
+    "id": "sviva-pdf-2026",
+    "name": "קול קורא חוקרים יחד למען הסביבה תשפ\"ז",
+    "type": "url",
+    "source": "https://www.sviva.net/wp-content/uploads/2026/05/%D7%A7%D7%95%D7%9C-%D7%A7%D7%95%D7%A8%D7%90-%D7%97%D7%95%D7%A7%D7%A8%D7%99%D7%9D-%D7%99%D7%97%D7%93-%D7%9C%D7%9E%D7%A2%D7%9F-%D7%94%D7%A1%D7%91%D7%99%D7%91%D7%94-%D7%AA%D7%A9%D7%A4_%D7%96.pdf",
+    "expected_status": "open_or_unknown",
+    "expected_deadline": null,
+    "expected_funder": null,
+    "expected_should_save": "true_if_open_and_deadline_valid",
+    "notes": "דוגמה לקריאת PDF ישיר"
+  },
+  {
+    "id": "mof-tmichot-portal",
+    "name": "פורטל תמיכות משרד האוצר",
+    "type": "url",
+    "source": "https://tmichot.mof.gov.il/call-for-proposals/",
+    "expected_status": "open_or_unknown",
+    "expected_deadline": null,
+    "expected_funder": "משרד האוצר",
+    "expected_should_save": "only_verified_open_calls",
+    "notes": "מקור רשימה ממשלתי, צריך להיכנס ללינקים ולחלץ קבצים/טפסים"
+  },
+  {
+    "id": "weitz-calls",
+    "name": "קולות קוראים מכון ויצמן / ויץ",
+    "type": "url",
+    "source": "https://weitz.org.il/he/קולות-קוראים/",
+    "expected_status": "open_or_unknown",
+    "expected_deadline": null,
+    "expected_funder": null,
+    "expected_should_save": "only_verified_open_calls",
+    "notes": "מקור רשימה של קולות קוראים"
+  },
+  {
+    "id": "edrf-requests",
+    "name": "בקשות EDRF",
+    "type": "url",
+    "source": "https://www.edrf.org.il/requests/",
+    "expected_status": "open_or_unknown",
+    "expected_deadline": null,
+    "expected_funder": "EDRF",
+    "expected_should_save": "true_if_open_and_deadline_valid",
+    "notes": "דוגמה לקול קורא/בקשה בתוך לינק"
+  },
+  {
+    "id": "kshalem-ambassador-program",
+    "name": "קול קורא תוכנית השגריר קשלם",
+    "type": "url",
+    "source": "https://www.kshalem.org.il/קול-קורא-להגשת-מועמדות-לתוכנית-השגריר-2/",
+    "expected_status": "open_or_unknown",
+    "expected_deadline": null,
+    "expected_funder": "קשלם",
+    "expected_should_save": "true_if_open_and_deadline_valid",
+    "notes": "לינק נקי מתוך redirect של Facebook"
+  },
+  {
+    "id": "rashi-reshit",
+    "name": "תוכנית רשית קרן רש\"י",
+    "type": "url",
+    "source": "https://rashi.org.il/reshit/",
+    "expected_status": "open_or_unknown",
+    "expected_deadline": null,
+    "expected_funder": "קרן רש\"י",
+    "expected_should_save": "true_if_open_and_deadline_valid",
+    "notes": "דוגמת תוכנית/קול קורא מקרן רש\"י"
+  },
+  {
+    "id": "colab-invite-11",
+    "name": "קול קורא 11 קולאב",
+    "type": "url",
+    "source": "https://colab.org.il/invite/kol_kore_11/",
+    "expected_status": "open_or_unknown",
+    "expected_deadline": null,
+    "expected_funder": "קולאב",
+    "expected_should_save": "true_if_open_and_deadline_valid",
+    "notes": "דוגמת קול קורא עם UTM/Facebook שהוסר"
   }
 ]
