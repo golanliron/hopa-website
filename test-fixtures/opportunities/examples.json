@@ -34,14 +34,15 @@
   },
   {
     "id": "btl-funds",
-    "name": "קולות קוראים ביטוח לאומי BTL",
+    "name": "קולות קוראים ביטוח לאומי — מענים טכנולוגיים לרשויות",
     "type": "url",
     "source": "https://www.btl.gov.il/Funds/kolotkorim/Pages/default.aspx",
+    "expected_attachment_url": "https://www.btl.gov.il/Funds/kolotkorim/kolotKorimList/KKMaanimTechnologyimRashuyotEzrachimVatikim-AnashimImMugbalut%20%d7%9e%d7%95%d7%a0%d7%92%d7%a9.pdf",
     "expected_status": "open_or_unknown",
     "expected_deadline": null,
     "expected_funder": "המוסד לביטוח לאומי",
     "expected_should_save": "only_verified_open_calls",
-    "notes": "מקור רשימה, צריך לזהות רק קולות קוראים פתוחים ולחלץ קובץ הגשה אם קיים"
+    "notes": "מקור רשימה — Goldfish צריך לאתר את ה-PDF הספציפי בתחתית הדף ולחלץ ממנו את פרטי הקול קורא"
   },
   {
     "id": "shatil-funds",
