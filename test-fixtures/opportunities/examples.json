@@ -1,0 +1,13 @@
+[
+  {
+    "id": "honey-foundation-2027",
+    "name": "תוכנית עמיתי קרן האני 2027",
+    "type": "url",
+    "source": "https://honeyfoundation2027.co.il/",
+    "expected_status": "expired",
+    "expected_deadline": "2026-05-10",
+    "expected_funder": "קרן האני",
+    "expected_should_save": false,
+    "notes": "קול קורא שנקרא אך לא נשמר כי הדדליין עבר"
+  }
+]
