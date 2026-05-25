@@ -137,10 +137,11 @@
     "name": "קול קורא 11 קולאב",
     "type": "url",
     "source": "https://colab.org.il/invite/kol_kore_11/",
+    "expected_application_url": "https://docs.google.com/forms/d/e/1FAIpQLSfSAozX661Qd9Rfa14gUUfBeDFMMNsg0pdyxSBTlTwCLKwGYg/viewform",
     "expected_status": "open_or_unknown",
     "expected_deadline": null,
     "expected_funder": "קולאב",
     "expected_should_save": "true_if_open_and_deadline_valid",
-    "notes": "דוגמת קול קורא עם UTM/Facebook שהוסר"
+    "notes": "דוגמת קול קורא עם UTM/Facebook שהוסר — Goldfish צריך לזהות את טופס Google Forms כלינק ההגשה"
   }
 ]
