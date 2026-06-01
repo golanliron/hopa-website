@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מחוון בדיקה — דורין ליבי אלמיהו | מקפצה דיגיטלית</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Heebo', sans-serif; background: #f5f5f7; color: #1d1d1f; padding: 24px; line-height: 1.7; }
+.container { max-width: 800px; margin: 0 auto; }
+.header { background: linear-gradient(135deg, #6C5CE7, #a855f7); border-radius: 20px; padding: 40px 36px; color: #fff; margin-bottom: 24px; position: relative; overflow: hidden; }
+.header::after { content: ''; position: absolute; top: -40px; left: -40px; width: 160px; height: 160px; background: rgba(255,255,255,0.1); border-radius: 50%; }
+.header h1 { font-size: 28px; font-weight: 900; margin-bottom: 4px; }
+.header .course { font-size: 15px; opacity: 0.85; font-weight: 300; }
+.header .student-info { margin-top: 20px; display: flex; gap: 24px; flex-wrap: wrap; }
+.header .student-info .tag { background: rgba(255,255,255,0.2); border-radius: 10px; padding: 8px 16px; font-size: 14px; backdrop-filter: blur(4px); }
+.score-card { background: #fff; border-radius: 20px; padding: 32px; margin-bottom: 24px; display: flex; align-items: center; gap: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.score-circle { width: 110px; height: 110px; border-radius: 50%; background: conic-gradient(#6C5CE7 0% 83%, #e8e8ed 83% 100%); display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; }
+.score-circle .inner { width: 88px; height: 88px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+.score-circle .number { font-size: 34px; font-weight: 900; color: #6C5CE7; line-height: 1; }
+.score-circle .of { font-size: 13px; color: #999; }
+.score-summary h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.score-summary p { font-size: 14px; color: #666; }
+.section { background: #fff; border-radius: 20px; padding: 28px 32px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.section h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: #6C5CE7; }
+.rubric-table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: 12px; border: 1px solid #e8e8ed; }
+.rubric-table th { background: #6C5CE7; color: #fff; padding: 12px 16px; text-align: right; font-weight: 500; font-size: 14px; }
+.rubric-table td { padding: 14px 16px; font-size: 14px; border-bottom: 1px solid #f0f0f5; vertical-align: top; }
+.rubric-table tr:last-child td { border-bottom: none; }
+.rubric-table tr:nth-child(even) { background: #fafafc; }
+.grade-badge { display: inline-block; padding: 3px 12px; border-radius: 8px; font-weight: 700; font-size: 13px; text-align: center; min-width: 50px; }
+.grade-high { background: #d4edda; color: #155724; }
+.grade-mid { background: #fff3cd; color: #856404; }
+.grade-low { background: #f8d7da; color: #721c24; }
+.detail-block { margin-bottom: 20px; }
+.detail-block h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.detail-block h4 .icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff; flex-shrink: 0; }
+.detail-block ul { padding-right: 20px; font-size: 14px; color: #444; }
+.detail-block ul li { margin-bottom: 6px; }
+.good { background: #27ae60; }
+.warn { background: #f39c12; }
+.miss { background: #e74c3c; }
+.links-card { background: #f0f8ff; border-radius: 14px; padding: 20px 24px; margin-bottom: 20px; border-right: 4px solid #3498db; }
+.links-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: #2980b9; }
+.link-item { background: #fff; border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; border: 1px solid #e0e8f0; }
+.link-item:last-child { margin-bottom: 0; }
+.link-item .link-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.link-item .link-title .status { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #27ae60; }
+.link-item .link-detail { font-size: 13px; color: #555; line-height: 1.6; }
+.link-item a { color: #6C5CE7; font-size: 12px; word-break: break-all; }
+.rec-card { background: linear-gradient(135deg, #ffecd2, #fcb69f); border-radius: 14px; padding: 20px 24px; margin-top: 16px; }
+.rec-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 10px; color: #c0392b; }
+.rec-card ol { padding-right: 20px; font-size: 14px; color: #5a3e2b; }
+.rec-card ol li { margin-bottom: 6px; }
+.guidelines { background: #f0eeff; border-radius: 14px; padding: 20px 24px; margin-bottom: 20px; border-right: 4px solid #6C5CE7; }
+.guidelines h4 { font-size: 15px; font-weight: 700; margin-bottom: 10px; color: #6C5CE7; }
+.guidelines ol { padding-right: 20px; font-size: 14px; color: #444; }
+.guidelines ol li { margin-bottom: 6px; }
+.footer { text-align: center; padding: 24px; font-size: 12px; color: #999; }
+@media (max-width: 600px) {
+  body { padding: 12px; }
+  .header { padding: 28px 20px; }
+  .header h1 { font-size: 22px; }
+  .score-card { flex-direction: column; text-align: center; padding: 24px; }
+  .section { padding: 20px; }
+  .rubric-table th, .rubric-table td { padding: 10px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="course">Lnet | כלים שלובים מקפצה דיגיטלית להוראה</div>
+    <h1>מחוון בדיקת משימת סיכום</h1>
+    <div class="student-info">
+      <div class="tag">שם: דורין ליבי אלמיהו</div>
+      <div class="tag">ת.ז: 200903318</div>
+      <div class="tag">נושא: סיכום גיחה מחנאית</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>דרישות המשימה</h3>
+    <div class="guidelines">
+      <h4>הנחיות הקורס — מה נדרש בעבודה:</h4>
+      <ol>
+        <li><strong>בחירת נושא</strong> — נושא לימודי או חברתי לפיתוח</li>
+        <li><strong>יחידת הוראה</strong> — שיעור אחד עם <u>לפחות 2 כלים דיגיטליים</u> (או כלי אחד ב-2 אופנים). חייב לכלול: מטרות, תיאור הכלים ונימוקים לבחירה, תיאור המהלך לפי שלבי הפעילות, חומרי למידה, שאלות ופעילויות ללומדים</li>
+        <li><strong>הוראה בפועל</strong> — ללמד את הנושא בבית הספר</li>
+        <li><strong>רפלקציה</strong> — התייחסות לפערים בין תכנון לביצוע, פירוט מידת השגת המטרות</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="score-card">
+    <div class="score-circle">
+      <div class="inner">
+        <div class="number">83</div>
+        <div class="of">/ 100</div>
+      </div>
+    </div>
+    <div class="score-summary">
+      <h2>ציון כולל: 83 — טוב מאוד</h2>
+      <p>עבודה מסודרת עם 3 כלים דיגיטליים (Google Forms, NotebookLM, Canva), מטרות ברורות ורפלקציה כנה. חסרת חלוקת זמן מפורשת במהלך השיעור.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>קישורים ותוצרים דיגיטליים</h3>
+    <div class="links-card">
+      <h4>קישורים שצורפו לעבודה</h4>
+
+      <div class="link-item">
+        <div class="link-title"><span class="status"></span> מצגת Canva לכיתה</div>
+        <div class="link-detail">
+          <strong>סוג:</strong> מצגת סיכום גיחה מחנאית ב-Canva<br>
+          <strong>תוכן:</strong> אלמנטים עיצוביים צבעוניים, סיכום חוויות הגיחה
+        </div>
+        <a href="https://canva.link/sev0qfs24fcdhyr" target="_blank">פתח מצגת Canva</a>
+      </div>
+
+      <div class="link-item">
+        <div class="link-title"><span class="status"></span> Google Forms — משוב תלמידים</div>
+        <div class="link-detail">
+          <strong>סוג:</strong> טופס משוב דיגיטלי שנוצר בעזרת Gemini<br>
+          <strong>תוכן:</strong> שאלות על חווית הגיחה, עיבוד אישי וקבוצתי
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfS1hX2fH0Yrn1yY5qIBRamc9Pnl0r_iP_KPSVO-5IFi0El9Q/viewform?c=0&w=1" target="_blank">פתח Google Forms</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>פירוט ציונים לפי קריטריונים</h3>
+    <table class="rubric-table">
+      <thead>
+        <tr>
+          <th style="width:5%">#</th>
+          <th style="width:22%">קריטריון</th>
+          <th style="width:10%">משקל</th>
+          <th style="width:10%">ציון</th>
+          <th style="width:53%">הערות</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>בחירת נושא</strong></td>
+          <td>10%</td>
+          <td><span class="grade-badge grade-high">9/10</span></td>
+          <td>נושא רלוונטי ומוגדר: סיכום גיחה מחנאית בשל"ח. ברקע מוסבר הקשר — שיעורי הכנה לגיחה ורצון לחדש את שיעור הסיכום. מנומק היטב.</td>
+        </tr>
+        <tr>
+          <td>2a</td>
+          <td><strong>שני כלים דיגיטליים</strong></td>
+          <td>15%</td>
+          <td><span class="grade-badge grade-high">15/15</span></td>
+          <td>
+            3 כלים (מעבר לדרישה המינימלית):<br>
+            1. <strong>Google Forms</strong> (נוצר עם Gemini) — <a href="https://docs.google.com/forms/d/e/1FAIpQLSfS1hX2fH0Yrn1yY5qIBRamc9Pnl0r_iP_KPSVO-5IFi0El9Q/viewform?c=0&w=1" target="_blank">קישור פעיל</a><br>
+            2. <strong>NotebookLM</strong> — אינפוגרפיקה בסגנון חימר<br>
+            3. <strong>Canva</strong> — מצגת משודרגת — <a href="https://canva.link/sev0qfs24fcdhyr" target="_blank">קישור פעיל</a>
+          </td>
+        </tr>
+        <tr>
+          <td>2b</td>
+          <td><strong>מטרות</strong></td>
+          <td>10%</td>
+          <td><span class="grade-badge grade-high">10/10</span></td>
+          <td>3 מטרות ברורות: עיבוד חווית הגיחה (אישי וקבוצתי), בחינת ערכי הגיחה (אחריות, ערבות הדדית), כתיבת משוב בונה. מטרות מדידות ומנוסחות.</td>
+        </tr>
+        <tr>
+          <td>2c</td>
+          <td><strong>נימוקים לבחירת הכלים</strong></td>
+          <td>10%</td>
+          <td><span class="grade-badge grade-high">9/10</span></td>
+          <td>נימוקים אותנטיים לכל כלי: Forms — נוח לתלמידים, נתונים ממוקדים. NotebookLM — תמונה גרפית אחת של כל החוויות. Canva — צבעוני ועניין חזותי.</td>
+        </tr>
+        <tr>
+          <td>2d</td>
+          <td><strong>מהלך שיעור לפי שלבים</strong></td>
+          <td>15%</td>
+          <td><span class="grade-badge grade-mid">10/15</span></td>
+          <td>שלבים קיימים (מצגת → אינפוגרפיקה → פורמס), אך <strong>חסרים זמנים</strong> לכל שלב. אין הוראות מפורטות לתלמיד.</td>
+        </tr>
+        <tr>
+          <td>2e</td>
+          <td><strong>שאלות ופעילויות ללומדים</strong></td>
+          <td>10%</td>
+          <td><span class="grade-badge grade-high">8/10</span></td>
+          <td>Google Forms עם שאלות משוב על הגיחה + פאזל בפעילות. פעילויות קיימות, אך שאלות הפורמס לא פורטו בגוף העבודה.</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>הוראה בפועל בביה"ס</strong></td>
+          <td>10%</td>
+          <td><span class="grade-badge grade-high">8/10</span></td>
+          <td>מתועד שהשיעור בוצע בפועל ("הצלחתי להשיג את המטרות... ראיתי שהם כן בחנו"). אין תיעוד מפורש של כיתה ותאריך.</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>רפלקציה</strong></td>
+          <td>20%</td>
+          <td><span class="grade-badge grade-mid">14/20</span></td>
+          <td>רפלקציה כנה עם ציון פערים: צוות תיעוד לא הכין סרטון, הפאזל לא נלקח ברצינות. מציינת הצלחות. חסר ניתוח עמוק יותר של השגת כל מטרה.</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr style="background: #f0eeff; font-weight: 700;">
+          <td colspan="3" style="text-align: center;">סה"כ</td>
+          <td><span class="grade-badge grade-high" style="font-size: 15px;">83/100</span></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>פירוט הבדיקה</h3>
+
+    <div class="detail-block">
+      <h4><span class="icon good">+</span> מה טוב בעבודה</h4>
+      <ul>
+        <li>שימוש ב-3 כלים דיגיטליים — מעבר לדרישה המינימלית</li>
+        <li>נימוקים אותנטיים ומפורטים לכל כלי</li>
+        <li>רפלקציה כנה שמציינת גם פערים וקשיים</li>
+        <li>2 קישורים פעילים — Canva + Google Forms</li>
+        <li>שיעור הועבר בפועל עם תיעוד ברפלקציה</li>
+        <li>אינפוגרפיקה ב-NotebookLM — רעיון יצירתי לסיכום חוויה גיחה</li>
+      </ul>
+    </div>
+
+    <div class="detail-block">
+      <h4><span class="icon warn">!</span> מה חלקי ודורש השלמה</h4>
+      <ul>
+        <li>מהלך השיעור ללא חלוקת זמן</li>
+        <li>שאלות הפורמס לא פורטו בגוף העבודה הכתובה</li>
+        <li>אין תיעוד מפורש — כיתה, תאריך, מספר תלמידים</li>
+      </ul>
+    </div>
+
+    <div class="detail-block">
+      <h4><span class="icon miss">✗</span> מה חסר</h4>
+      <ul>
+        <li><strong>זמנים</strong> — כל שלב ללא הקצאת זמן</li>
+        <li><strong>ניתוח השגת מטרות</strong> — לא מפורט לכל מטרה בנפרד</li>
+      </ul>
+    </div>
+
+    <div class="rec-card">
+      <h4>המלצות לשיפור</h4>
+      <ol>
+        <li>להוסיף <strong>חלוקת זמן</strong> לכל שלב בשיעור</li>
+        <li>לפרט את <strong>שאלות הפורמס</strong> בגוף העבודה</li>
+        <li>להוסיף <strong>משפט מפורש</strong>: "לימדתי את השיעור בכיתה ___ בתאריך ___"</li>
+        <li>ברפלקציה — לציין לכל מטרה באיזו מידה הושגה</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="footer">
+    מחוון בדיקה | קורס Lnet — כלים שלובים מקפצה דיגיטלית להוראה | נבדק בתאריך 01.06.2026
+  </div>
+
+</div>
+</body>
+</html>
