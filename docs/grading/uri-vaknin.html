@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מחוון בדיקה — אורי וקנין | מקפצה דיגיטלית</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Heebo', sans-serif; background: #f5f5f7; color: #1d1d1f; padding: 24px; line-height: 1.7; }
+.container { max-width: 800px; margin: 0 auto; }
+.header { background: linear-gradient(135deg, #7B2D8B, #C05FC0); border-radius: 20px; padding: 40px 36px; color: #fff; margin-bottom: 24px; position: relative; overflow: hidden; }
+.header::after { content: ''; position: absolute; top: -40px; left: -40px; width: 160px; height: 160px; background: rgba(255,255,255,0.1); border-radius: 50%; }
+.header h1 { font-size: 28px; font-weight: 900; margin-bottom: 4px; }
+.header .course { font-size: 15px; opacity: 0.85; font-weight: 300; }
+.header .student-info { margin-top: 20px; display: flex; gap: 24px; flex-wrap: wrap; }
+.header .student-info .tag { background: rgba(255,255,255,0.2); border-radius: 10px; padding: 8px 16px; font-size: 14px; backdrop-filter: blur(4px); }
+.score-card { background: #fff; border-radius: 20px; padding: 32px; margin-bottom: 24px; display: flex; align-items: center; gap: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.score-circle { width: 110px; height: 110px; border-radius: 50%; background: conic-gradient(#7B2D8B 0% 75%, #e8e8ed 75% 100%); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.score-circle .inner { width: 88px; height: 88px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+.score-circle .number { font-size: 34px; font-weight: 900; color: #7B2D8B; line-height: 1; }
+.score-circle .of { font-size: 13px; color: #999; }
+.score-summary h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.score-summary p { font-size: 14px; color: #666; }
+.section { background: #fff; border-radius: 20px; padding: 28px 32px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.section h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: #7B2D8B; }
+.rubric-table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: 12px; border: 1px solid #e8e8ed; }
+.rubric-table th { background: #7B2D8B; color: #fff; padding: 12px 16px; text-align: right; font-weight: 500; font-size: 14px; }
+.rubric-table td { padding: 14px 16px; font-size: 14px; border-bottom: 1px solid #f0f0f5; vertical-align: top; }
+.rubric-table tr:last-child td { border-bottom: none; }
+.rubric-table tr:nth-child(even) td { background: #fafafa; }
+.score-badge { display: inline-block; background: #7B2D8B; color: #fff; border-radius: 20px; padding: 3px 12px; font-size: 13px; font-weight: 700; }
+.grade-badge { display: inline-block; border-radius: 12px; padding: 6px 20px; font-size: 16px; font-weight: 700; }
+.grade-b { background: #fef9c3; color: #713f12; }
+.links-section a { display: inline-block; margin-left: 12px; margin-bottom: 8px; color: #7B2D8B; text-decoration: none; font-size: 14px; border-bottom: 1px solid #C05FC0; }
+.notes { background: #fdf4ff; border-right: 4px solid #7B2D8B; border-radius: 8px; padding: 16px 20px; font-size: 14px; color: #444; margin-top: 16px; }
+.alert { background: #fff3cd; border-right: 4px solid #f0ad4e; border-radius: 8px; padding: 16px 20px; font-size: 14px; color: #444; margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>אורי וקנין</h1>
+  <div class="course">כלים שלובים מקפצה דיגיטלית להוראה — מחוון בדיקה</div>
+  <div class="student-info">
+    <div class="tag">ת"ז: 028964732</div>
+    <div class="tag">נושא: מפת ארץ ישראל — 5 שיעורים</div>
+  </div>
+</div>
+
+<div class="score-card">
+  <div class="score-circle">
+    <div class="inner">
+      <div class="number">75</div>
+      <div class="of">מתוך 100</div>
+    </div>
+  </div>
+  <div class="score-summary">
+    <h2>ציון סופי: <span class="grade-badge grade-b">75 — טוב</span></h2>
+    <p>יחידת הוראה מקיפה ל-5 שיעורים עם תוכן עשיר. הוגשה עבודה זהה עם עירית הראל — גוף משותף, רפלקציות שונות.</p>
+  </div>
+</div>
+
+<div class="section">
+  <h3>פירוט ציונים לפי קריטריון</h3>
+  <table class="rubric-table">
+    <thead>
+      <tr>
+        <th>קריטריון</th>
+        <th>משקל</th>
+        <th>ציון</th>
+        <th>הערה</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>בחירת נושא</td>
+        <td>10%</td>
+        <td><span class="score-badge">9</span></td>
+        <td>נושא גיאוגרפי רלוונטי ומוצדק — מפת ארץ ישראל לכיתה ח׳</td>
+      </tr>
+      <tr>
+        <td>כלים דיגיטליים</td>
+        <td>15%</td>
+        <td><span class="score-badge">13</span></td>
+        <td>Gemini + NotebookLM — 2 כלים, 1 לינק לאותפוט NotebookLM</td>
+      </tr>
+      <tr>
+        <td>מטרות השיעור</td>
+        <td>10%</td>
+        <td><span class="score-badge">10</span></td>
+        <td>מטרה מרכזית + מטרות נפרדות לכל שיעור מתוך 5 — מפורטות</td>
+      </tr>
+      <tr>
+        <td>נימוקים לשימוש בכלים</td>
+        <td>10%</td>
+        <td><span class="score-badge">8</span></td>
+        <td>מסביר שימוש ב-Gemini לבניית מערך ו-NotebookLM למצגת</td>
+      </tr>
+      <tr>
+        <td>מהלך השיעור</td>
+        <td>15%</td>
+        <td><span class="score-badge">13</span></td>
+        <td>5 שיעורים מפורטים עם תוכן, שאלות ופעילויות לכל שיעור</td>
+      </tr>
+      <tr>
+        <td>פעילויות תלמידים</td>
+        <td>10%</td>
+        <td><span class="score-badge">8</span></td>
+        <td>דפי עבודה, שאלות, משימת "מסע לאילת" קבוצתית — מגוון</td>
+      </tr>
+      <tr>
+        <td>הוראה בפועל</td>
+        <td>10%</td>
+        <td><span class="score-badge">6</span></td>
+        <td>מציין שלא העביר בכיתה עדיין ("אנסה בשנה הבאה") — לא הועבר בפועל</td>
+      </tr>
+      <tr>
+        <td>רפלקציה</td>
+        <td>20%</td>
+        <td><span class="score-badge">8</span></td>
+        <td>רפלקציה קצרה מאוד (~80 מילים), לא מעמיקה</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h3>תוצרים מקושרים</h3>
+  <div class="links-section">
+    <a href="https://notebooklm.google.com/notebook/972d88cf-1408-43be-a707-6060bd81cef3/artifact/7cd37b54-ce61-4af4-9e69-bad45041ad92?utm_source=nlm_web_share" target="_blank">NotebookLM — מערך 5 שיעורים</a>
+  </div>
+</div>
+
+<div class="section">
+  <h3>הערות הבודק</h3>
+  <div class="alert">
+    שים לב: אותה עבודה הוגשה גם על ידי עירית הראל (307779678) — גוף זהה, אותה NotebookLM artifact, אותו לינק. הרפלקציות שונות. ציון זהה לשניהם: 75.
+  </div>
+  <div class="notes">
+    יחידת ההוראה עצמה עשירה ומפורטת — 5 שיעורים עם תוכן אמיתי. חסרים: ביצוע בפועל ורפלקציה עמוקה.
+  </div>
+</div>
+
+</div>
+</body>
+</html>
