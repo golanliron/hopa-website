@@ -9,32 +9,33 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Heebo', sans-serif; background: #f5f5f7; color: #1d1d1f; padding: 24px; line-height: 1.7; }
 .container { max-width: 800px; margin: 0 auto; }
-.header { background: linear-gradient(135deg, #7f1d1d, #b91c1c); border-radius: 20px; padding: 40px 36px; color: #fff; margin-bottom: 24px; position: relative; overflow: hidden; }
+.header { background: linear-gradient(135deg, #6C5CE7, #a855f7); border-radius: 20px; padding: 40px 36px; color: #fff; margin-bottom: 24px; position: relative; overflow: hidden; }
 .header::after { content: ''; position: absolute; top: -40px; left: -40px; width: 160px; height: 160px; background: rgba(255,255,255,0.1); border-radius: 50%; }
 .header h1 { font-size: 28px; font-weight: 900; margin-bottom: 4px; }
 .header .course { font-size: 15px; opacity: 0.85; font-weight: 300; }
 .header .student-info { margin-top: 20px; display: flex; gap: 24px; flex-wrap: wrap; }
 .header .student-info .tag { background: rgba(255,255,255,0.2); border-radius: 10px; padding: 8px 16px; font-size: 14px; backdrop-filter: blur(4px); }
 .score-card { background: #fff; border-radius: 20px; padding: 32px; margin-bottom: 24px; display: flex; align-items: center; gap: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-.score-circle { width: 110px; height: 110px; border-radius: 50%; background: conic-gradient(#b91c1c 0% 13%, #e8e8ed 13% 100%); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.score-circle { width: 110px; height: 110px; border-radius: 50%; background: conic-gradient(#6C5CE7 0% 77%, #e8e8ed 77% 100%); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .score-circle .inner { width: 88px; height: 88px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; flex-direction: column; }
-.score-circle .number { font-size: 34px; font-weight: 900; color: #b91c1c; line-height: 1; }
+.score-circle .number { font-size: 34px; font-weight: 900; color: #6C5CE7; line-height: 1; }
 .score-circle .of { font-size: 13px; color: #999; }
 .score-summary h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
 .score-summary p { font-size: 14px; color: #666; }
 .section { background: #fff; border-radius: 20px; padding: 28px 32px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-.section h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: #b91c1c; }
+.section h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: #6C5CE7; }
 .rubric-table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: 12px; border: 1px solid #e8e8ed; }
-.rubric-table th { background: #b91c1c; color: #fff; padding: 12px 16px; text-align: right; font-weight: 500; font-size: 14px; }
+.rubric-table th { background: #6C5CE7; color: #fff; padding: 12px 16px; text-align: right; font-weight: 500; font-size: 14px; }
 .rubric-table td { padding: 14px 16px; font-size: 14px; border-bottom: 1px solid #f0f0f5; vertical-align: top; }
 .rubric-table tr:last-child td { border-bottom: none; }
 .rubric-table tr:nth-child(even) td { background: #fafafa; }
-.score-badge { display: inline-block; background: #b91c1c; color: #fff; border-radius: 20px; padding: 3px 12px; font-size: 13px; font-weight: 700; }
-.score-badge-zero { display: inline-block; background: #e5e7eb; color: #6b7280; border-radius: 20px; padding: 3px 12px; font-size: 13px; font-weight: 700; }
+.score-badge { display: inline-block; background: #6C5CE7; color: #fff; border-radius: 20px; padding: 3px 12px; font-size: 13px; font-weight: 700; }
+.score-badge-low { display: inline-block; background: #f59e0b; color: #fff; border-radius: 20px; padding: 3px 12px; font-size: 13px; font-weight: 700; }
 .grade-badge { display: inline-block; border-radius: 12px; padding: 6px 20px; font-size: 16px; font-weight: 700; }
-.grade-f { background: #fee2e2; color: #7f1d1d; }
-.links-section a { display: inline-block; margin-left: 12px; margin-bottom: 8px; color: #b91c1c; text-decoration: none; font-size: 14px; border-bottom: 1px solid #b91c1c; }
-.alert { background: #fee2e2; border-right: 4px solid #b91c1c; border-radius: 8px; padding: 16px 20px; font-size: 14px; color: #444; margin-top: 16px; }
+.grade-mid { background: #e0e7ff; color: #3730a3; }
+.links-section a { display: inline-block; margin-left: 12px; margin-bottom: 8px; color: #6C5CE7; text-decoration: none; font-size: 14px; border-bottom: 1px solid #6C5CE7; }
+.note-box { background: #f0fdf4; border-right: 4px solid #22c55e; border-radius: 8px; padding: 16px 20px; font-size: 14px; color: #444; margin-top: 16px; }
+.prev-note { background: #fef3c7; border-right: 4px solid #f59e0b; border-radius: 8px; padding: 16px 20px; font-size: 14px; color: #444; margin-top: 16px; }
 </style>
 </head>
 <body>
@@ -45,20 +46,21 @@ body { font-family: 'Heebo', sans-serif; background: #f5f5f7; color: #1d1d1f; pa
   <div class="course">כלים שלובים מקפצה דיגיטלית להוראה — מחוון בדיקה</div>
   <div class="student-info">
     <div class="tag">ת"ז: 308142082</div>
-    <div class="tag">נושא: יהדות פרס — מצגת Canva</div>
+    <div class="tag">נושא: יהדות פרס — Gemini + Canva</div>
+    <div class="tag">הגשה חוזרת</div>
   </div>
 </div>
 
 <div class="score-card">
   <div class="score-circle">
     <div class="inner">
-      <div class="number">13</div>
+      <div class="number">77</div>
       <div class="of">מתוך 100</div>
     </div>
   </div>
   <div class="score-summary">
-    <h2>ציון סופי: <span class="grade-badge grade-f">13 — לא עומד בדרישות</span></h2>
-    <p>הוגשה מצגת Canva בלבד (PDF + לינק). חסרים: יחידת הוראה, מטרות, מהלך שיעור, נימוקים, הוראה בפועל, ורפלקציה.</p>
+    <h2>ציון סופי: <span class="grade-badge grade-mid">77 — עובר</span></h2>
+    <p>הגשה חוזרת — מצגת Canva מקיפה (10 שקופיות) על יהדות פרס, כולל מטרות, תיאור כלים ורפלקציה. שיפור משמעותי מההגשה הראשונה (13).</p>
   </div>
 </div>
 
@@ -77,50 +79,50 @@ body { font-family: 'Heebo', sans-serif; background: #f5f5f7; color: #1d1d1f; pa
       <tr>
         <td>בחירת נושא</td>
         <td>10%</td>
-        <td><span class="score-badge">8</span></td>
-        <td>נושא "יהדות פרס" — מעניין ורלוונטי. מוצג בצורה ויזואלית</td>
+        <td><span class="score-badge">9</span></td>
+        <td>נושא "יהדות פרס" — מעניין, רלוונטי, מוצג בצורה ויזואלית מרשימה עם תמונות היסטוריות</td>
       </tr>
       <tr>
         <td>כלים דיגיטליים</td>
         <td>15%</td>
-        <td><span class="score-badge">5</span></td>
-        <td>Canva בלבד — כלי יחיד, 1 לינק. אין עדות לשימוש בכלים נוספים</td>
+        <td><span class="score-badge">13</span></td>
+        <td>Gemini — יצירת משחק טריוויה, הגדרת קהל יעד ומטרות. Canva — עיצוב מצגת בתבניות. 2 כלים עם לינק</td>
       </tr>
       <tr>
         <td>מטרות השיעור</td>
         <td>10%</td>
-        <td><span class="score-badge-zero">0</span></td>
-        <td>לא הוגשו מטרות כלל</td>
+        <td><span class="score-badge-low">7</span></td>
+        <td>עמ' 8: "לחבר את הילדים לאקטואליה... לדבר על ההיסטוריה" — מטרה כללית אחת, ללא פירוט ידע/מיומנות/חשיבה</td>
       </tr>
       <tr>
         <td>נימוקים לשימוש בכלים</td>
         <td>10%</td>
-        <td><span class="score-badge-zero">0</span></td>
-        <td>לא הוגשו נימוקים כלל</td>
+        <td><span class="score-badge-low">7</span></td>
+        <td>עמ' 9: מסביר למה Gemini (טריוויה) ולמה Canva (תבניות, עריכה) — הסבר בסיסי אך קצר</td>
       </tr>
       <tr>
         <td>מהלך השיעור</td>
         <td>15%</td>
-        <td><span class="score-badge-zero">0</span></td>
-        <td>לא הוגש מהלך שיעור כלל</td>
+        <td><span class="score-badge-low">8</span></td>
+        <td>המצגת עצמה (עמ' 1-7) משמשת כתוצר, אך אין מהלך שיעור מפורט עם שלבים וזמנים</td>
       </tr>
       <tr>
         <td>פעילויות תלמידים</td>
         <td>10%</td>
-        <td><span class="score-badge-zero">0</span></td>
-        <td>לא הוגשו פעילויות כלל</td>
+        <td><span class="score-badge-low">6</span></td>
+        <td>עמ' 7: טריוויה ומשחק לסיכום — מוזכרים אך לא מפורטים</td>
       </tr>
       <tr>
         <td>הוראה בפועל</td>
         <td>10%</td>
-        <td><span class="score-badge-zero">0</span></td>
-        <td>אין תיאור של ביצוע בפועל</td>
+        <td><span class="score-badge">8</span></td>
+        <td>מהרפלקציה (עמ' 10): "ברגע שהעברתי לכיתה..." — ברור שהתקיימה הוראה בפועל</td>
       </tr>
       <tr>
         <td>רפלקציה</td>
         <td>20%</td>
-        <td><span class="score-badge-zero">0</span></td>
-        <td>אין רפלקציה כלל</td>
+        <td><span class="score-badge">14</span></td>
+        <td>עמ' 10: רפלקציה כנה — מה היה צריך לשפר (קישורים למקורות), מה הצליח (המצגת), תובנה על חוויית התלמידים</td>
       </tr>
     </tbody>
   </table>
@@ -129,14 +131,18 @@ body { font-family: 'Heebo', sans-serif; background: #f5f5f7; color: #1d1d1f; pa
 <div class="section">
   <h3>תוצרים מקושרים</h3>
   <div class="links-section">
-    <a href="https://www.canva.com/design/DAHHLeesu1U/kToTPATUPm6toynMCq8lQA/edit" target="_blank">מצגת Canva — יהדות פרס</a>
+    <a href="https://www.canva.com/design/DAHHLeesu1U/kToTPATUPm6toynMCq8lQA/edit" target="_blank">מצגת Canva — יהדות פרס (10 שקופיות)</a>
   </div>
 </div>
 
 <div class="section">
   <h3>הערות הבודק</h3>
-  <div class="alert">
-    הוגשה מצגת Canva בלבד (7 שקופיות על יהדות פרס). קובץ הדוקס מכיל 6 מילים בלבד + לינק. אין יחידת הוראה, אין מטרות, אין מהלך שיעור, אין נימוקים, אין רפלקציה. המצגת עצמה איכותית ויזואלית, אך אינה מהווה עבודת סיכום לפי דרישות הקורס. מומלץ לפנות לסטודנט ולאפשר השלמה.
+  <div class="note-box">
+    <strong>הגשה חוזרת — שיפור משמעותי מ-13 ל-77.</strong><br>
+    המצגת כוללת 10 שקופיות מעוצבות היטב על יהדות פרס: היסטוריה, שורשים, תור הזהב, המהפכה האסלאמית, והמצב כיום. בנוסף נוספו 3 שקופיות חדשות: מטרות יחידת ההוראה, תיאור הכלים (Gemini + Canva), ורפלקציה על ההתנסות בכיתה. הרפלקציה כנה ומשמעותית — הסטודנטית מזהה מה היה חסר ומה הצליח.
+  </div>
+  <div class="prev-note">
+    <strong>הגשה ראשונה (ציון 13):</strong> הוגשה מצגת Canva בלבד (7 שקופיות). קובץ הדוקס הכיל 6 מילים + לינק. לא היו מטרות, מהלך שיעור, נימוקים או רפלקציה.
   </div>
 </div>
 
