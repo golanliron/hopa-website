@@ -30,21 +30,7 @@ body {
 .bg-9  { background: linear-gradient(135deg, #d4fc79, #96e6a1); }
 .bg-10 { background: linear-gradient(135deg, #f093fb, #f5576c); }
 
-/* Hearts */
-.hearts-bg {
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  pointer-events: none; z-index: 1; overflow: hidden;
-}
-.hearts-bg span {
-  position: absolute; font-size: 1.8rem; opacity: 0.12;
-  animation: floatHeart 14s ease-in-out infinite;
-}
-@keyframes floatHeart {
-  0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-  10%  { opacity: 0.12; }
-  90%  { opacity: 0.12; }
-  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-}
+/* Hearts — disabled */
 
 /* START SCREEN */
 #start-screen {
@@ -134,17 +120,18 @@ body {
 
 /* Caption */
 .caption {
-  position: absolute; bottom: 6vh; left: 50%; transform: translateX(-50%);
-  text-align: center; padding: 0.5rem 1.8rem; border-radius: 50px;
+  position: absolute; bottom: 5vh; left: 50%; transform: translateX(-50%);
+  text-align: center; padding: 0.8rem 2.5rem; border-radius: 50px;
   z-index: 10; opacity: 0; animation: captionEnter 0.4s ease 0.2s both;
-  backdrop-filter: blur(12px); background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(14px); background: rgba(0,0,0,0.55);
+  min-width: 240px;
 }
 @keyframes captionEnter {
   0%   { transform: translateX(-50%) translateY(20px); opacity: 0; }
   100% { transform: translateX(-50%) translateY(0); opacity: 1; }
 }
-.caption-month { font-size: 0.7rem; font-weight: 300; opacity: 0.8; letter-spacing: 2px; }
-.caption-title { font-size: 1.2rem; font-weight: 700; text-shadow: 1px 2px 6px rgba(0,0,0,0.3); }
+.caption-month { font-size: 1rem; font-weight: 400; opacity: 0.9; letter-spacing: 2px; }
+.caption-title { font-size: 1.8rem; font-weight: 900; text-shadow: 1px 2px 8px rgba(0,0,0,0.4); }
 
 /* Text slides */
 .text-slide { z-index: 2; }
@@ -219,7 +206,6 @@ body {
   <div class="year">תשפ"ו &#8226; 2025-2026</div>
 </div>
 
-<div class="hearts-bg" id="hearts-bg"></div>
 
 <div id="slideshow"></div>
 
@@ -283,20 +269,6 @@ function preloadAhead(n) {
   }
 }
 
-// Hearts
-(function() {
-  const c = document.getElementById('hearts-bg');
-  const h = ['\u2764\uFE0F','\uD83D\uDC9B','\uD83D\uDC99','\uD83D\uDC9C','\uD83E\uDDE1'];
-  for (let i = 0; i < 18; i++) {
-    const s = document.createElement('span');
-    s.textContent = h[i % h.length];
-    s.style.left = (Math.random() * 100) + '%';
-    s.style.animationDelay = (Math.random() * 14) + 's';
-    s.style.animationDuration = (10 + Math.random() * 8) + 's';
-    s.style.fontSize = (1.2 + Math.random() * 1.5) + 'rem';
-    c.appendChild(s);
-  }
-})();
 
 // Music
 const songEl = document.getElementById('song');
@@ -345,7 +317,6 @@ function showSlide(n) {
   if (n >= TOTAL) {
     document.getElementById('outro').style.display = 'flex';
     document.getElementById('counter').style.display = 'none';
-    document.getElementById('hearts-bg').style.display = 'none';
     clearInterval(timer);
     return;
   }
