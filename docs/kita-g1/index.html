@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>תודה לאסתי — כיתה ג'1</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Heebo', sans-serif;
+  color: white;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  background: #111;
+}
+
+/* BACKGROUNDS */
+.bg-1  { background: linear-gradient(135deg, #ff9a9e, #fecfef, #fdfcfb); }
+.bg-2  { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+.bg-3  { background: linear-gradient(135deg, #fbc2eb, #a6c1ee); }
+.bg-4  { background: linear-gradient(135deg, #fdcbf1, #e6dee9, #a1c4fd); }
+.bg-5  { background: linear-gradient(135deg, #f6d365, #fda085); }
+.bg-6  { background: linear-gradient(135deg, #89f7fe, #66a6ff); }
+.bg-7  { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+.bg-8  { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); }
+.bg-9  { background: linear-gradient(135deg, #d4fc79, #96e6a1); }
+.bg-10 { background: linear-gradient(135deg, #f093fb, #f5576c); }
+
+/* Hearts */
+.hearts-bg {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none; z-index: 1; overflow: hidden;
+}
+.hearts-bg span {
+  position: absolute; font-size: 1.8rem; opacity: 0.12;
+  animation: floatHeart 14s ease-in-out infinite;
+}
+@keyframes floatHeart {
+  0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.12; }
+  90%  { opacity: 0.12; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* START SCREEN */
+#start-screen {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 200; cursor: pointer;
+}
+#start-screen h1 { font-size: 3.5rem; font-weight: 900; text-shadow: 2px 4px 12px rgba(0,0,0,0.4); animation: pulse 2s ease infinite; }
+#start-screen .play-icon { font-size: 5rem; margin: 1.5rem 0; animation: pulse 1.5s ease infinite; }
+#start-screen p { font-size: 1.3rem; font-weight: 300; opacity: 0.8; }
+
+/* INTRO */
+#intro {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 100;
+}
+#intro h1 { font-size: 4rem; font-weight: 900; text-shadow: 2px 4px 12px rgba(0,0,0,0.4); opacity: 0; }
+#intro h2 { font-size: 2.2rem; font-weight: 300; margin-top: 0.8rem; opacity: 0; }
+#intro .heart { font-size: 5rem; margin-top: 1.5rem; opacity: 0; }
+#intro .school { font-size: 1.4rem; font-weight: 400; margin-top: 1rem; opacity: 0; }
+#intro .year { font-size: 1.1rem; font-weight: 300; margin-top: 0.5rem; opacity: 0; }
+
+/* OUTRO */
+#outro {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, #f093fb, #f5576c, #fda085);
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 100;
+}
+#outro h1 { font-size: 3.2rem; font-weight: 900; text-shadow: 2px 4px 12px rgba(0,0,0,0.3); animation: slideUp 0.8s ease 0.3s both; }
+#outro h2 { font-size: 1.8rem; font-weight: 400; margin-top: 1rem; animation: slideUp 0.8s ease 0.8s both; text-align: center; line-height: 1.6; }
+#outro .hearts { font-size: 3.5rem; margin-top: 1.5rem; animation: pulse 1.2s ease infinite, slideUp 0.8s ease 1.3s both; }
+#outro .from { font-size: 1.5rem; font-weight: 300; margin-top: 2rem; animation: slideUp 0.8s ease 1.8s both; text-align: center; line-height: 2; }
+
+/* SLIDESHOW */
+#slideshow {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  transition: background 0.6s ease;
+}
+
+.slide {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  display: none; align-items: center; justify-content: center; flex-direction: column;
+  z-index: 2; overflow: hidden;
+}
+
+/* ===== PHOTO — Ken Burns fullscreen ===== */
+.photo-wrap {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+}
+
+.photo-wrap img {
+  position: absolute;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* 8 Ken Burns variants */
+.kb-0 img { animation: kb0 2s ease-in-out forwards; }
+.kb-1 img { animation: kb1 2s ease-in-out forwards; }
+.kb-2 img { animation: kb2 2s ease-in-out forwards; }
+.kb-3 img { animation: kb3 2s ease-in-out forwards; }
+.kb-4 img { animation: kb4 2s ease-in-out forwards; }
+.kb-5 img { animation: kb5 2s ease-in-out forwards; }
+.kb-6 img { animation: kb6 2s ease-in-out forwards; }
+.kb-7 img { animation: kb7 2s ease-in-out forwards; }
+
+@keyframes kb0 { 0% { transform: scale(1.15); } 100% { transform: scale(1.0); } }
+@keyframes kb1 { 0% { transform: scale(1.0) translate(3%,0); } 100% { transform: scale(1.12) translate(-2%,0); } }
+@keyframes kb2 { 0% { transform: scale(1.2) translate(0,3%); } 100% { transform: scale(1.05) translate(0,-2%); } }
+@keyframes kb3 { 0% { transform: scale(1.0); } 100% { transform: scale(1.18) translate(2%,2%); } }
+@keyframes kb4 { 0% { transform: scale(1.2) translate(-3%,-2%); } 100% { transform: scale(1.0) translate(0,0); } }
+@keyframes kb5 { 0% { transform: scale(1.05) translate(2%,-2%); } 100% { transform: scale(1.15) translate(-1%,1%); } }
+@keyframes kb6 { 0% { transform: scale(1.18) translate(0,3%); } 100% { transform: scale(1.0) translate(0,0); } }
+@keyframes kb7 { 0% { transform: scale(1.0) translate(-2%,0); } 100% { transform: scale(1.15) translate(2%,0); } }
+
+/* Slide entrance */
+.slide-enter { animation: fadeSlideIn 0.4s ease both; }
+@keyframes fadeSlideIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Caption */
+.caption {
+  position: absolute; bottom: 6vh; left: 50%; transform: translateX(-50%);
+  text-align: center; padding: 0.5rem 1.8rem; border-radius: 50px;
+  z-index: 10; opacity: 0; animation: captionEnter 0.4s ease 0.2s both;
+  backdrop-filter: blur(12px); background: rgba(0,0,0,0.45);
+}
+@keyframes captionEnter {
+  0%   { transform: translateX(-50%) translateY(20px); opacity: 0; }
+  100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+.caption-month { font-size: 0.7rem; font-weight: 300; opacity: 0.8; letter-spacing: 2px; }
+.caption-title { font-size: 1.2rem; font-weight: 700; text-shadow: 1px 2px 6px rgba(0,0,0,0.3); }
+
+/* Text slides */
+.text-slide { z-index: 2; }
+.text-message {
+  font-size: 3.5rem; font-weight: 900; text-align: center;
+  text-shadow: 3px 6px 20px rgba(0,0,0,0.3); padding: 2rem 3rem; line-height: 1.4;
+  animation: textPop 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+@keyframes textPop {
+  0%   { transform: scale(0.3) rotate(-5deg); opacity: 0; }
+  60%  { transform: scale(1.08) rotate(1deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Controls */
+#music-controls {
+  position: fixed; top: 2vh; right: 3vw; z-index: 60;
+  display: flex; align-items: center; gap: 8px;
+}
+#music-btn {
+  background: rgba(255,255,255,0.25); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.3); color: white;
+  width: 44px; height: 44px; border-radius: 50%;
+  font-size: 1.3rem; cursor: pointer; display: flex;
+  align-items: center; justify-content: center; transition: all 0.3s;
+}
+#music-btn:hover { background: rgba(255,255,255,0.4); }
+#song-name {
+  font-size: 0.75rem; color: rgba(255,255,255,0.7);
+  background: rgba(0,0,0,0.2); padding: 4px 12px;
+  border-radius: 12px; backdrop-filter: blur(8px); white-space: nowrap;
+}
+
+#progress-bar {
+  position: fixed; bottom: 0; left: 0; height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+  background-size: 200% 100%; animation: gradientFlow 3s ease infinite;
+  z-index: 50; transition: width 0.3s ease;
+}
+#counter {
+  position: fixed; top: 2vh; left: 3vw;
+  font-size: 0.85rem; font-weight: 300; opacity: 0.5; z-index: 50; color: white;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes fadeOut { to { opacity: 0; pointer-events: none; } }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+</style>
+</head>
+<body>
+
+<div id="start-screen" onclick="startShow()">
+  <h1>תודה לאסתי</h1>
+  <div class="play-icon">&#9654;&#65039;</div>
+  <p>לחצו להתחיל</p>
+</div>
+
+<div id="intro">
+  <h1>תודה לאסתי</h1>
+  <h2>על שנה מופלאה</h2>
+  <div class="heart">&#10084;&#65039;</div>
+  <div class="school">כיתה ג'1 &#8226; בית ספר גאולים</div>
+  <div class="year">תשפ"ו &#8226; 2025-2026</div>
+</div>
+
+<div class="hearts-bg" id="hearts-bg"></div>
+
+<div id="slideshow"></div>
+
+<div id="outro">
+  <h1>תודה אסתי היקרה!</h1>
+  <h2>על שנה מלאה באהבה,<br>למידה, יצירה והשראה</h2>
+  <div class="hearts">&#10084;&#65039;&#127775;&#10084;&#65039;</div>
+  <div class="from">באהבה,<br>מכל ההורים והילדים<br>כיתה ג'1</div>
+</div>
+
+<div id="music-controls">
+  <span id="song-name"></span>
+  <button id="music-btn" onclick="toggleMusic(event)">&#9835;</button>
+</div>
+
+<div id="progress-bar"></div>
+<div id="counter"></div>
+
+<audio id="song" preload="auto" loop src="song1.mp3"></audio>
+
+<script>
+const SLIDES = [{"title": "שיעור כישורי חיים עם תיקי", "month": "ספטמבר", "image": "IMG-20250918-WA0059.jpg", "type": "photo"}, {"title": "שיעור כישורי חיים עם תיקי", "month": "ספטמבר", "image": "IMG-20250918-WA0060.jpg", "type": "photo"}, {"title": "שיעור כישורי חיים עם תיקי", "month": "ספטמבר", "image": "IMG-20250918-WA0061.jpg", "type": "photo"}, {"title": "שיעור כישורי חיים עם תיקי", "month": "ספטמבר", "image": "IMG-20250918-WA0062.jpg", "type": "photo"}, {"title": "שיעור כישורי חיים עם תיקי", "month": "ספטמבר", "image": "IMG-20250918-WA0063.jpg", "type": "photo"}, {"title": "שיעור כישורי חיים עם תיקי", "month": "ספטמבר", "image": "IMG-20250918-WA0065.jpg", "type": "photo"}, {"title": "שיעור כישורי חיים עם תיקי", "month": "ספטמבר", "image": "IMG-20250918-WA0066.jpg", "type": "photo"}, {"title": "שיעור כישורי חיים עם תיקי", "month": "ספטמבר", "image": "IMG-20250918-WA0067.jpg", "type": "photo"}, {"title": "שיעור כישורי חיים עם תיקי", "month": "ספטמבר", "image": "IMG-20250918-WA0069.jpg", "type": "photo"}, {"title": "שיעור כישורי חיים עם תיקי", "month": "ספטמבר", "image": "IMG-20250918-WA0071.jpg", "type": "photo"}, {"title": "שיעור כישורי חיים עם תיקי", "month": "ספטמבר", "image": "IMG-20250918-WA0072.jpg", "type": "photo"}, {"title": "מופע חליל הקסם", "month": "ספטמבר", "image": "IMG-20250917-WA0022.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0050.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0051.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0049.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0052.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0053.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0054.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0055.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0056.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0057.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0058.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0059.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0060.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0061.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0062.jpg", "type": "photo"}, {"title": "חגיגת הסיגד", "month": "נובמבר", "image": "IMG-20251121-WA0063.jpg", "type": "photo"}, {"title": "אתם כיתה של אלופים!", "month": "", "image": "", "type": "text"}, {"title": "מוזיאון המדע", "month": "נובמבר", "image": "IMG-20251124-WA0095.jpg", "type": "photo"}, {"title": "מוזיאון המדע", "month": "נובמבר", "image": "IMG-20251124-WA0097.jpg", "type": "photo"}, {"title": "מוזיאון המדע", "month": "נובמבר", "image": "IMG-20251124-WA0100.jpg", "type": "photo"}, {"title": "מוזיאון המדע", "month": "נובמבר", "image": "IMG-20251124-WA0103.jpg", "type": "photo"}, {"title": "מוזיאון המדע", "month": "נובמבר", "image": "IMG-20251124-WA0106.jpg", "type": "photo"}, {"title": "מוזיאון המדע", "month": "נובמבר", "image": "IMG-20251124-WA0110.jpg", "type": "photo"}, {"title": "מוזיאון המדע", "month": "נובמבר", "image": "IMG-20251124-WA0115.jpg", "type": "photo"}, {"title": "מוזיאון המדע", "month": "נובמבר", "image": "IMG-20251124-WA0120.jpg", "type": "photo"}, {"title": "מוזיאון המדע", "month": "נובמבר", "image": "IMG-20251124-WA0125.jpg", "type": "photo"}, {"title": "מוזיאון המדע", "month": "נובמבר", "image": "IMG-20251124-WA0130.jpg", "type": "photo"}, {"title": "סיור בכנסת", "month": "דצמבר", "image": "IMG-20251202-WA0079.jpg", "type": "photo"}, {"title": "סיור בכנסת", "month": "דצמבר", "image": "IMG-20251202-WA0080.jpg", "type": "photo"}, {"title": "סיור בכנסת", "month": "דצמבר", "image": "IMG-20251202-WA0082.jpg", "type": "photo"}, {"title": "סיור בכנסת", "month": "דצמבר", "image": "IMG-20251202-WA0085.jpg", "type": "photo"}, {"title": "סיור בכנסת", "month": "דצמבר", "image": "IMG-20251202-WA0088.jpg", "type": "photo"}, {"title": "סיור בכנסת", "month": "דצמבר", "image": "IMG-20251202-WA0090.jpg", "type": "photo"}, {"title": "סיור בכנסת", "month": "דצמבר", "image": "IMG-20251202-WA0093.jpg", "type": "photo"}, {"title": "סיור בכנסת", "month": "דצמבר", "image": "IMG-20251202-WA0096.jpg", "type": "photo"}, {"title": "תחרות אליפות העברית", "month": "ינואר", "image": "IMG-20260123-WA0040.jpg", "type": "photo"}, {"title": "תחרות אליפות העברית", "month": "ינואר", "image": "IMG-20260123-WA0042.jpg", "type": "photo"}, {"title": "תחרות אליפות העברית", "month": "ינואר", "image": "IMG-20260123-WA0044.jpg", "type": "photo"}, {"title": "תחרות אליפות העברית", "month": "ינואר", "image": "IMG-20260123-WA0045.jpg", "type": "photo"}, {"title": "תחרות אליפות העברית", "month": "ינואר", "image": "IMG-20260123-WA0048.jpg", "type": "photo"}, {"title": "תחרות אליפות העברית", "month": "ינואר", "image": "IMG-20260123-WA0050.jpg", "type": "photo"}, {"title": "תחרות אליפות העברית", "month": "ינואר", "image": "IMG-20260123-WA0054.jpg", "type": "photo"}, {"title": "תחרות אליפות העברית", "month": "ינואר", "image": "IMG-20260123-WA0058.jpg", "type": "photo"}, {"title": "תודה לצוות המורים!", "month": "", "image": "", "type": "text"}, {"title": "חדר החלל", "month": "ינואר", "image": "IMG-20260128-WA0090.jpg", "type": "photo"}, {"title": "חדר החלל", "month": "ינואר", "image": "IMG-20260128-WA0091.jpg", "type": "photo"}, {"title": "חדר החלל", "month": "ינואר", "image": "IMG-20260128-WA0093.jpg", "type": "photo"}, {"title": "חדר החלל", "month": "ינואר", "image": "IMG-20260128-WA0095.jpg", "type": "photo"}, {"title": "חדר החלל", "month": "ינואר", "image": "IMG-20260128-WA0097.jpg", "type": "photo"}, {"title": "חדר החלל", "month": "ינואר", "image": "IMG-20260128-WA0099.jpg", "type": "photo"}, {"title": "חדר החלל", "month": "ינואר", "image": "IMG-20260128-WA0101.jpg", "type": "photo"}, {"title": "לימון ללימונדה — כישורי חיים", "month": "פברואר", "image": "IMG-20260212-WA0049.jpg", "type": "photo"}, {"title": "לימון ללימונדה — כישורי חיים", "month": "פברואר", "image": "IMG-20260212-WA0050.jpg", "type": "photo"}, {"title": "לימון ללימונדה — כישורי חיים", "month": "פברואר", "image": "IMG-20260212-WA0051.jpg", "type": "photo"}, {"title": "משלוחי מנות לפורים", "month": "פברואר", "image": "IMG-20260224-WA0030.jpg", "type": "photo"}, {"title": "משלוחי מנות לפורים", "month": "פברואר", "image": "IMG-20260224-WA0029.jpg", "type": "photo"}, {"title": "כיתה מגובשת וכיפית!", "month": "", "image": "", "type": "text"}, {"title": "יום תחפושות", "month": "אפריל", "image": "IMG-20260424-WA0010.jpg", "type": "photo"}, {"title": "יום תחפושות", "month": "אפריל", "image": "IMG-20260424-WA0011.jpg", "type": "photo"}, {"title": "יום תחפושות", "month": "אפריל", "image": "IMG-20260424-WA0013.jpg", "type": "photo"}, {"title": "יום תחפושות", "month": "אפריל", "image": "IMG-20260424-WA0015.jpg", "type": "photo"}, {"title": "יום תחפושות", "month": "אפריל", "image": "IMG-20260424-WA0017.jpg", "type": "photo"}, {"title": "יום תחפושות", "month": "אפריל", "image": "IMG-20260424-WA0019.jpg", "type": "photo"}, {"title": "יום תחפושות", "month": "אפריל", "image": "IMG-20260424-WA0021.jpg", "type": "photo"}, {"title": "יום תחפושות", "month": "אפריל", "image": "IMG-20260424-WA0024.jpg", "type": "photo"}, {"title": "יום תחפושות", "month": "אפריל", "image": "IMG-20260424-WA0027.jpg", "type": "photo"}, {"title": "יום תחפושות", "month": "אפריל", "image": "IMG-20260424-WA0030.jpg", "type": "photo"}, {"title": "מבצע קריאה בכיתה", "month": "מאי", "image": "IMG-20260512-WA0007.jpg", "type": "photo"}, {"title": "סדנת יצירה", "month": "מאי", "image": "IMG-20260526-WA0040.jpg", "type": "photo"}, {"title": "סדנת יצירה", "month": "מאי", "image": "IMG-20260526-WA0045.jpg", "type": "photo"}, {"title": "סדנת יצירה", "month": "מאי", "image": "IMG-20260526-WA0050.jpg", "type": "photo"}, {"title": "סדנת יצירה", "month": "מאי", "image": "IMG-20260526-WA0055.jpg", "type": "photo"}, {"title": "סדנת יצירה", "month": "מאי", "image": "IMG-20260526-WA0060.jpg", "type": "photo"}, {"title": "סדנת יצירה", "month": "מאי", "image": "IMG-20260526-WA0065.jpg", "type": "photo"}, {"title": "סדנת יצירה", "month": "מאי", "image": "IMG-20260526-WA0070.jpg", "type": "photo"}, {"title": "סדנת יצירה", "month": "מאי", "image": "IMG-20260526-WA0080.jpg", "type": "photo"}, {"title": "סדנת יצירה", "month": "מאי", "image": "IMG-20260526-WA0090.jpg", "type": "photo"}, {"title": "סדנת יצירה", "month": "מאי", "image": "IMG-20260526-WA0100.jpg", "type": "photo"}, {"title": "סדנת יצירה", "month": "מאי", "image": "IMG-20260526-WA0110.jpg", "type": "photo"}, {"title": "איזה כיף של תלמידים!", "month": "", "image": "", "type": "text"}, {"title": "יום ספורט", "month": "יוני", "image": "IMG-20260616-WA0041.jpg", "type": "photo"}, {"title": "יום ספורט", "month": "יוני", "image": "IMG-20260616-WA0042.jpg", "type": "photo"}, {"title": "יום ספורט", "month": "יוני", "image": "IMG-20260616-WA0043.jpg", "type": "photo"}, {"title": "יום ספורט", "month": "יוני", "image": "IMG-20260616-WA0044.jpg", "type": "photo"}, {"title": "יום ספורט", "month": "יוני", "image": "IMG-20260616-WA0045.jpg", "type": "photo"}, {"title": "יום ספורט", "month": "יוני", "image": "IMG-20260616-WA0046.jpg", "type": "photo"}, {"title": "יום ספורט", "month": "יוני", "image": "IMG-20260616-WA0047.jpg", "type": "photo"}, {"title": "יום ספורט", "month": "יוני", "image": "IMG-20260616-WA0048.jpg", "type": "photo"}, {"title": "יום ספורט", "month": "יוני", "image": "IMG-20260616-WA0049.jpg", "type": "photo"}, {"title": "יום ספורט", "month": "יוני", "image": "IMG-20260616-WA0050.jpg", "type": "photo"}, {"title": "יום ספורט", "month": "יוני", "image": "IMG-20260616-WA0051.jpg", "type": "photo"}, {"title": "חברים שיודעים להיות חברים!", "month": "", "image": "", "type": "text"}, {"title": "יום ספורט", "month": "יוני", "image": "IMG-20260616-WA0052.jpg", "type": "photo"}, {"title": "יום ספורט", "month": "יוני", "image": "IMG-20260616-WA0053.jpg", "type": "photo"}, {"title": "יום ספורט", "month": "יוני", "image": "IMG-20260616-WA0054.jpg", "type": "photo"}];
+const TOTAL = SLIDES.length;
+const KB_COUNT = 8;
+const BG_COUNT = 10;
+const SLIDE_DURATION = 1800;
+let current = 0;
+let autoPlay = true;
+let timer = null;
+let musicMuted = false;
+
+// Build slide DOM elements on load
+const slideshow = document.getElementById('slideshow');
+SLIDES.forEach((s, i) => {
+  const div = document.createElement('div');
+  div.className = 'slide' + (s.type === 'text' ? ' text-slide' : '');
+  div.id = 'slide-' + i;
+  if (s.type === 'text') {
+    div.innerHTML = '<div class="text-message">' + s.title + '</div>';
+  } else {
+    const kb = 'kb-' + (i % KB_COUNT);
+    div.innerHTML =
+      '<div class="photo-wrap ' + kb + '">' +
+        '<img src="img/' + s.image + '" alt="' + s.title + '" loading="lazy">' +
+      '</div>' +
+      '<div class="caption">' +
+        '<div class="caption-month">' + s.month + '</div>' +
+        '<div class="caption-title">' + s.title + '</div>' +
+      '</div>';
+  }
+  slideshow.appendChild(div);
+});
+
+// Preload next few images
+function preloadAhead(n) {
+  for (let i = n; i < Math.min(n + 4, TOTAL); i++) {
+    if (SLIDES[i].type === 'photo') {
+      const img = new window.Image();
+      img.src = 'img/' + SLIDES[i].image;
+    }
+  }
+}
+
+// Hearts
+(function() {
+  const c = document.getElementById('hearts-bg');
+  const h = ['\u2764\uFE0F','\uD83D\uDC9B','\uD83D\uDC99','\uD83D\uDC9C','\uD83E\uDDE1'];
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElement('span');
+    s.textContent = h[i % h.length];
+    s.style.left = (Math.random() * 100) + '%';
+    s.style.animationDelay = (Math.random() * 14) + 's';
+    s.style.animationDuration = (10 + Math.random() * 8) + 's';
+    s.style.fontSize = (1.2 + Math.random() * 1.5) + 'rem';
+    c.appendChild(s);
+  }
+})();
+
+// Music
+const songEl = document.getElementById('song');
+function playMusic() {
+  songEl.volume = 0.5;
+  songEl.play().then(() => {
+    document.getElementById('song-name').textContent = 'מישל — נועם בתן';
+  }).catch(() => {});
+}
+function toggleMusic(e) {
+  e.stopPropagation();
+  if (musicMuted) {
+    songEl.play();
+    document.getElementById('music-btn').innerHTML = '&#9835;';
+    musicMuted = false;
+  } else {
+    songEl.pause();
+    document.getElementById('music-btn').innerHTML = '&#128263;';
+    musicMuted = true;
+  }
+}
+
+// Start
+let showStarted = false;
+function startShow() {
+  if (showStarted) return;
+  showStarted = true;
+  document.getElementById('start-screen').style.display = 'none';
+  const intro = document.getElementById('intro');
+  intro.style.display = 'flex';
+  intro.style.animation = 'fadeOut 1s ease 4s forwards';
+  intro.querySelector('h1').style.animation = 'slideUp 0.8s ease 0.3s both';
+  intro.querySelector('h2').style.animation = 'slideUp 0.8s ease 0.7s both';
+  intro.querySelector('.heart').style.animation = 'pulse 1.2s ease infinite, slideUp 0.8s ease 1.1s both';
+  intro.querySelector('.school').style.animation = 'slideUp 0.8s ease 1.8s both';
+  intro.querySelector('.year').style.animation = 'slideUp 0.8s ease 2.2s both';
+  playMusic();
+  preloadAhead(0);
+  setTimeout(() => { showSlide(0); startAuto(); }, 4500);
+}
+
+// Slideshow
+function showSlide(n) {
+  document.querySelectorAll('.slide').forEach(s => s.style.display = 'none');
+
+  if (n >= TOTAL) {
+    document.getElementById('outro').style.display = 'flex';
+    document.getElementById('counter').style.display = 'none';
+    document.getElementById('hearts-bg').style.display = 'none';
+    clearInterval(timer);
+    return;
+  }
+
+  // Background
+  for (let i = 1; i <= BG_COUNT; i++) slideshow.classList.remove('bg-' + i);
+  slideshow.classList.add('bg-' + ((n % BG_COUNT) + 1));
+
+  const slide = document.getElementById('slide-' + n);
+  if (slide) {
+    slide.style.display = 'flex';
+    slide.classList.remove('slide-enter');
+    void slide.offsetHeight;
+    slide.classList.add('slide-enter');
+
+    // Re-trigger Ken Burns
+    const wrap = slide.querySelector('.photo-wrap');
+    if (wrap) {
+      const cls = 'kb-' + (n % KB_COUNT);
+      wrap.className = 'photo-wrap';
+      void wrap.offsetHeight;
+      wrap.className = 'photo-wrap ' + cls;
+    }
+
+    // Re-trigger text animation
+    const tm = slide.querySelector('.text-message');
+    if (tm) { tm.style.animation = 'none'; void tm.offsetHeight; tm.style.animation = 'textPop 0.6s cubic-bezier(0.23,1,0.32,1) both'; }
+
+    // Re-trigger caption
+    const cap = slide.querySelector('.caption');
+    if (cap) { cap.style.animation = 'none'; void cap.offsetHeight; cap.style.animation = 'captionEnter 0.4s ease 0.2s both'; }
+  }
+
+  preloadAhead(n + 1);
+  document.getElementById('progress-bar').style.width = ((n + 1) / TOTAL * 100) + '%';
+  document.getElementById('counter').textContent = (n + 1) + ' / ' + TOTAL;
+  current = n;
+}
+
+function next() { showSlide(current + 1); }
+function prev() { if (current > 0) showSlide(current - 1); }
+function startAuto() { timer = setInterval(next, SLIDE_DURATION); }
+
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' || e.code === 'ArrowRight') { e.preventDefault(); next(); }
+  else if (e.code === 'ArrowLeft') { e.preventDefault(); prev(); }
+  else if (e.code === 'KeyP') {
+    if (autoPlay) { clearInterval(timer); autoPlay = false; }
+    else { startAuto(); autoPlay = true; }
+  }
+  else if (e.code === 'KeyM') { toggleMusic(e); }
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target.id === 'music-btn') return;
+  next();
+});
+</script>
+</body>
+</html>
