@@ -104,21 +104,29 @@ body {
   align-items: center;
   justify-content: center;
   gap: 2vw;
+  max-height: 75vh;
 }
 .photo-cell {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 }
 
-/* PHOTO — centered, not fullscreen, same size as before */
+/* PHOTO — centered, not fullscreen */
 .slide img {
-  max-width: 40vw;
+  max-width: 44vw;
   max-height: 70vh;
   object-fit: contain;
   border-radius: 16px;
   box-shadow: 0 8px 40px rgba(0,0,0,0.3);
   animation: kenBurns 4s ease-in-out both;
+}
+
+/* Dual photo slide — smaller images to fit both */
+.slide.dual-photo img {
+  max-width: 42vw;
+  max-height: 65vh;
 }
 
 @keyframes kenBurns {
@@ -129,7 +137,7 @@ body {
 /* Single photo slide — larger image */
 .slide.single-photo img {
   max-width: 85vw;
-  max-height: 70vh;
+  max-height: 80vh;
 }
 
 /* Slide transition animations */
@@ -258,8 +266,9 @@ body {
 /* Mobile: stack vertically */
 @media (max-width: 700px) {
   .photo-row { flex-direction: column; gap: 1.5vh; }
-  .slide img { max-width: 85vw; max-height: 38vh; }
-  .slide.single-photo img { max-width: 85vw; max-height: 70vh; }
+  .slide img { max-width: 90vw; max-height: 35vh; }
+  .slide.dual-photo img { max-width: 90vw; max-height: 32vh; }
+  .slide.single-photo img { max-width: 92vw; max-height: 75vh; }
 }
 </style>
 </head>
@@ -375,7 +384,7 @@ SLIDES.forEach((s, idx) => {
 
 // Preload
 function preloadAhead(n) {
-  for (let j = n; j < Math.min(n + 4, TOTAL); j++) {
+  for (let j = n; j < Math.min(n + 8, TOTAL); j++) {
     const s = SLIDES[j];
     if (s.type === 'dual') {
       new window.Image().src = 'img/' + s.photo1.image;
@@ -385,6 +394,16 @@ function preloadAhead(n) {
     }
   }
 }
+
+// Preload ALL images in background on page load
+(function() {
+  PHOTOS.forEach(function(p) {
+    if (p.type === 'photo' && p.image) {
+      var img = new window.Image();
+      img.src = 'img/' + p.image;
+    }
+  });
+})();
 
 // Hearts
 (function() {
