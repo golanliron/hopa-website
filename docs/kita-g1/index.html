@@ -118,6 +118,12 @@ body {
   object-fit: contain;
   border-radius: 16px;
   box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  animation: kenBurns 4s ease-in-out both;
+}
+
+@keyframes kenBurns {
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.06); }
 }
 
 /* Single photo slide — larger image */
@@ -327,7 +333,7 @@ const TOTAL = SLIDES.length;
 const TRANSITIONS = ['enterZoomRotate','enterSlideRight','enterFlip','enterZoomBounce','enterSlideUp','enterSwing'];
 const BG_COUNT = 10;
 const CAP_COUNT = 10;
-const SLIDE_DURATION = 1800;
+const SLIDE_DURATION = 4000;
 let current = 0;
 let autoPlay = true;
 let timer = null;
@@ -468,7 +474,7 @@ function showSlide(n) {
     imgs.forEach((imgEl, idx) => {
       imgEl.style.animation = 'none';
       void imgEl.offsetHeight;
-      imgEl.style.animation = trans + ' 0.7s cubic-bezier(0.23, 1, 0.32, 1) ' + (idx * 0.15) + 's both';
+      imgEl.style.animation = trans + ' 1.2s cubic-bezier(0.23, 1, 0.32, 1) ' + (idx * 0.2) + 's both, kenBurns 4s ease-in-out ' + (idx * 0.2) + 's both';
     });
 
     if (cap) {
@@ -476,7 +482,7 @@ function showSlide(n) {
       cap.classList.add('cap-' + ((n % CAP_COUNT) + 1));
       cap.style.animation = 'none';
       void cap.offsetHeight;
-      cap.style.animation = 'captionEnter 0.5s ease 0.3s both';
+      cap.style.animation = 'captionEnter 0.8s ease 0.5s both';
     }
   }
 
