@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Board Meeting Update — Berelowitz Family Foundation — April 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-snap-type: y mandatory; overflow-y: scroll; scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: #F0EDED; color: #2B2D42; }
+
+.font-heading { font-family: 'Cormorant Garamond', serif; }
+.font-body { font-family: 'Inter', sans-serif; }
+
+/* Slides */
+.slide {
+  height: 100vh; min-height: 100vh;
+  scroll-snap-align: start; scroll-snap-stop: always;
+  position: relative; overflow: hidden;
+}
+
+/* Header bar */
+.slide-header {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 24px;
+}
+@media (min-width: 768px) { .slide-header { padding: 16px 64px; } }
+.slide-header.light { border-bottom: 1px solid rgba(43,45,66,0.08); }
+.slide-header.dark { border-bottom: 1px solid rgba(196,184,155,0.15); }
+.header-left { display: flex; align-items: center; gap: 12px; }
+.header-logo-box {
+  width: 32px; height: 32px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.header-logo-box.light { background: #fff; border: 1px solid rgba(43,45,66,0.08); }
+.header-logo-box.dark { background: rgba(255,255,255,0.1); border: 1px solid rgba(196,184,155,0.2); }
+.header-logo-box img { width: 24px; height: 24px; object-fit: contain; }
+.header-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #8D8D8D; }
+.header-date-light { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #8D8D8D; }
+.header-date-dark { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: rgba(196,184,155,0.5); }
+
+/* Animations */
+.anim { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.anim.visible { opacity: 1; transform: translateY(0); }
+.anim-photo { opacity: 0; transform: scale(0.95); transition: opacity 0.8s ease, transform 0.8s ease; }
+.anim-photo.visible { opacity: 1; transform: scale(1); }
+.anim-row { opacity: 0; transform: translateX(-10px); transition: opacity 0.4s ease, transform 0.4s ease; }
+.anim-row.visible { opacity: 1; transform: translateX(0); }
+
+/* Vignette */
+.vignette::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.35) 100%);
+  pointer-events: none; z-index: 1;
+}
+/* Linen texture */
+.linen::after {
+  content: ''; position: absolute; inset: 0; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Cpath d='M1 3h1v1H1V3zm2-2h1v1H3V1z' fill='%23ffffff' fill-opacity='0.4'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 1;
+}
+
+/* Corner accents */
+.corner { position: absolute; width: 64px; height: 64px; opacity: 0.2; }
+.corner.tl { top: 32px; left: 32px; border-top: 1px solid #C4B89B; border-left: 1px solid #C4B89B; }
+.corner.tr { top: 32px; right: 32px; border-top: 1px solid #C4B89B; border-right: 1px solid #C4B89B; }
+.corner.bl { bottom: 32px; left: 32px; border-bottom: 1px solid #C4B89B; border-left: 1px solid #C4B89B; }
+.corner.br { bottom: 32px; right: 32px; border-bottom: 1px solid #C4B89B; border-right: 1px solid #C4B89B; }
+
+/* Dot indicator */
+.dot-nav {
+  position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
+  z-index: 50; display: flex; flex-direction: column; gap: 12px;
+}
+.dot-nav button {
+  width: 10px; height: 10px; border-radius: 50%; border: none; cursor: pointer;
+  background: #8D8D8D; transition: all 0.3s;
+}
+.dot-nav button.active { background: #C4B89B; transform: scale(1.25); }
+
+/* Budget table */
+.budget-table { width: 100%; font-size: 14px; border-collapse: collapse; }
+.budget-table td { padding: 10px 16px; }
+.budget-table tr:nth-child(even) { background: #F7F5F3; }
+.budget-table tr:nth-child(odd) { background: #FFFFFF; }
+.budget-table .total-row { background: #2B2D42 !important; color: #F0EDED; }
+.budget-table .total-row td { font-weight: 700; padding: 12px 16px; }
+.budget-table .amount { text-align: right; white-space: nowrap; font-weight: 500; font-variant-numeric: tabular-nums; }
+
+/* Bar chart */
+.bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.bar-label { font-size: 10px; width: 110px; text-align: right; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #2B2D42; }
+.bar-track { flex: 1; height: 20px; background: #E5E3E0; border-radius: 2px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 2px; transition: width 0.7s ease-out; }
+.bar-amount { font-size: 10px; width: 70px; flex-shrink: 0; font-variant-numeric: tabular-nums; color: #8D8D8D; }
+
+/* Discussion items */
+.agenda-item {
+  display: flex; align-items: flex-start; gap: 20px;
+  background: #fff; padding: 20px 24px;
+  border-left: 3px solid #2B2D42; border-radius: 2px;
+  transition: border-color 0.3s;
+}
+.agenda-item:hover { border-left-color: #C4B89B; }
+.agenda-num { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: #C4B89B; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+.agenda-title { font-size: 15px; line-height: 1.6; color: #2B2D42; }
+.agenda-subtitle { font-size: 14px; font-style: italic; color: #8D8D8D; margin-top: 4px; }
+
+/* Flagship cards */
+.flagship-card {
+  padding: 32px; background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(196,184,155,0.2); border-radius: 3px;
+}
+.flagship-num { font-family: 'Cormorant Garamond', serif; font-size: 60px; font-weight: 300; color: #C4B89B; opacity: 0.7; line-height: 1; margin-bottom: 16px; }
+.flagship-line { width: 48px; height: 1px; background: #C4B89B; margin-bottom: 16px; }
+.flagship-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: #F0EDED; margin-bottom: 12px; }
+.flagship-desc { font-size: 14px; line-height: 1.6; color: #A8A8A8; }
+
+/* Layout helpers */
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-col { display: flex; flex-direction: column; }
+.text-center { text-align: center; }
+.gap-4 { gap: 16px; }
+.gap-5 { gap: 20px; }
+
+/* Grants table */
+.grants-table { width: 100%; font-size: 11px; border-collapse: collapse; }
+.grants-table th {
+  padding: 6px 8px; text-align: left; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: 1px; color: #F0EDED;
+  background: #2B2D42; position: sticky; top: 0; z-index: 5;
+}
+.grants-table td { padding: 5px 8px; border-bottom: 1px solid #E5E3E0; vertical-align: top; line-height: 1.4; }
+.grants-table tr:nth-child(even) { background: #F7F5F3; }
+.grants-table tr:nth-child(odd) { background: #FFFFFF; }
+.grants-table .org { font-weight: 600; color: #2B2D42; white-space: nowrap; }
+.grants-table .amt { text-align: right; white-space: nowrap; font-weight: 500; font-variant-numeric: tabular-nums; }
+.grants-table .cat-badge {
+  display: inline-block; padding: 2px 6px; border-radius: 10px;
+  font-size: 9px; font-weight: 500; white-space: nowrap;
+}
+.cat-kalvia { background: #e8f5e9; color: #2e7d32; }
+.cat-shaagat { background: #fff3e0; color: #e65100; }
+.cat-kolkore25 { background: #e3f2fd; color: #1565c0; }
+.cat-hashlamat { background: #f3e5f5; color: #7b1fa2; }
+.cat-doch25 { background: #fce4ec; color: #c62828; }
+.grants-scroll {
+  flex: 1; overflow-y: auto; border-radius: 4px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08); min-height: 0;
+}
+.grants-scroll::-webkit-scrollbar { width: 6px; }
+.grants-scroll::-webkit-scrollbar-track { background: #E5E3E0; }
+.grants-scroll::-webkit-scrollbar-thumb { background: #C4B89B; border-radius: 3px; }
+
+/* Print */
+@media print {
+  html { scroll-snap-type: none; }
+  .slide { height: auto; min-height: auto; scroll-snap-align: none; page-break-after: always; }
+  .dot-nav, .vignette::before, .linen::after { display: none !important; }
+  .anim, .anim-photo, .anim-row { opacity: 1 !important; transform: none !important; }
+  @page { size: landscape; margin: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- Dot Navigation -->
+<div class="dot-nav" id="dotNav">
+  <button onclick="goTo(0)" class="active" aria-label="Slide 1"></button>
+  <button onclick="goTo(1)" aria-label="Slide 2"></button>
+  <button onclick="goTo(2)" aria-label="Slide 3"></button>
+  <button onclick="goTo(3)" aria-label="Slide 4"></button>
+  <button onclick="goTo(4)" aria-label="Slide 5"></button>
+  <button onclick="goTo(5)" aria-label="Slide 6"></button>
+</div>
+
+<!-- ========== SLIDE 1: COVER ========== -->
+<div class="slide vignette linen flex-center" id="slide0" style="background:#2B2D42;">
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+  <div class="flex-col gap-5 text-center" style="position:relative;z-index:10;padding:0 16px;align-items:center;">
+    <img src="logo-berelovitz.jpg" alt="Berelowitz Family Foundation"
+      class="anim-photo" data-delay="200"
+      style="height:96px;width:96px;object-fit:contain;border-radius:4px;box-shadow:0 2px 20px rgba(0,0,0,0.2);">
+    <p class="font-heading anim" data-delay="400"
+      style="font-size:14px;text-transform:uppercase;letter-spacing:6px;color:#C4B89B;">
+      Berelowitz Family Foundation</p>
+    <div class="anim" data-delay="500" style="width:180px;height:1px;background:#C4B89B;opacity:0.4;"></div>
+    <div class="anim-photo" data-delay="600"
+      style="width:180px;height:180px;border-radius:50%;overflow:hidden;border:3px solid #C4B89B;box-shadow:0 0 40px rgba(196,184,155,0.15);">
+      <img src="beri-berelovitz.jpg" alt="Beri Berelovitz z'l" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+    <p class="font-heading anim" data-delay="900" style="font-style:italic;font-size:16px;letter-spacing:1px;color:#C4B89B;">
+      In memory of Beri Berelovitz z"l</p>
+    <div style="height:16px;"></div>
+    <h1 class="font-heading anim" data-delay="1100"
+      style="font-size:44px;font-weight:300;letter-spacing:3px;color:#F0EDED;">Board Meeting Update</h1>
+    <p class="font-body anim" data-delay="1300" style="font-size:18px;color:#8D8D8D;">April 2026</p>
+    <p class="font-body anim" data-delay="1500"
+      style="font-size:11px;text-transform:uppercase;letter-spacing:4px;color:#8D8D8D;margin-top:24px;">
+      Prepared for the Board of Directors</p>
+  </div>
+</div>
+
+<!-- ========== SLIDE 2: BUDGET ========== -->
+<div class="slide flex-col" id="slide1" style="background:#F0EDED;justify-content:center;padding:48px 24px 48px;padding-top:80px;">
+  <div class="slide-header light">
+    <div class="header-left">
+      <div class="header-logo-box light"><img src="logo-berelovitz.jpg" alt=""></div>
+      <span class="header-label">Berelowitz Family Foundation</span>
+    </div>
+    <span class="header-date-light">Board Meeting · April 2026</span>
+  </div>
+
+  <div class="anim" data-delay="0" style="margin-bottom:32px;">
+    <h2 class="font-heading" style="font-size:36px;font-weight:300;color:#2B2D42;">Proposed Budget for 2026</h2>
+    <p class="font-body" style="font-size:18px;color:#8D8D8D;margin-top:8px;">Approximately $1.75M (&#8362;5,470,000)</p>
+  </div>
+
+  <div style="display:flex;gap:32px;flex:1;min-height:0;" class="budget-layout">
+    <!-- Table -->
+    <div style="flex:0 0 55%;overflow:auto;">
+      <table class="budget-table" id="budgetTable"></table>
+      <p class="font-body anim" data-delay="800" style="font-style:italic;font-size:14px;color:#8D8D8D;margin-top:12px;">
+        &#8362;240,000 will currently appear as a remaining balance.</p>
+    </div>
+    <!-- Chart -->
+    <div style="flex:0 0 45%;display:flex;flex-direction:column;justify-content:center;gap:4px;" id="barChart"></div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 3: DISCUSSION ========== -->
+<div class="slide flex-col" id="slide2" style="background:#F0EDED;justify-content:center;padding:48px 24px;padding-top:80px;">
+  <div class="slide-header light">
+    <div class="header-left">
+      <div class="header-logo-box light"><img src="logo-berelovitz.jpg" alt=""></div>
+      <span class="header-label">Berelowitz Family Foundation</span>
+    </div>
+    <span class="header-date-light">Board Meeting · April 2026</span>
+  </div>
+
+  <h2 class="font-heading anim" data-delay="0" style="font-size:36px;font-weight:300;color:#2B2D42;margin-bottom:40px;">
+    For Discussion &mdash; April 2026</h2>
+
+  <div class="flex-col gap-4" style="max-width:900px;" id="agendaList"></div>
+</div>
+
+<!-- ========== SLIDE 4: GRANTS IMPACT TABLE ========== -->
+<div class="slide flex-col" id="slide3" style="background:#F0EDED;justify-content:center;padding:48px 24px;padding-top:80px;">
+  <div class="slide-header light">
+    <div class="header-left">
+      <div class="header-logo-box light"><img src="logo-berelovitz.jpg" alt=""></div>
+      <span class="header-label">Berelowitz Family Foundation</span>
+    </div>
+    <span class="header-date-light">Board Meeting · April 2026</span>
+  </div>
+
+  <div class="anim" data-delay="0" style="margin-bottom:16px;">
+    <h2 class="font-heading" style="font-size:32px;font-weight:300;color:#2B2D42;">2025 Grants &amp; Impact</h2>
+    <p class="font-body" style="font-size:15px;color:#8D8D8D;margin-top:6px;">37 organizations supported &mdash; &#8362;1,193,000 ($400,470) total</p>
+  </div>
+
+  <div class="grants-scroll anim" data-delay="100">
+    <table class="grants-table" id="grantsTable"></table>
+  </div>
+</div>
+
+<!-- ========== SLIDE 5: FLAGSHIP ========== -->
+<div class="slide vignette linen flex-col" id="slide4" style="background:#2B2D42;justify-content:center;padding:48px 24px;padding-top:80px;">
+  <div class="slide-header dark">
+    <div class="header-left">
+      <div class="header-logo-box dark"><img src="logo-berelovitz.jpg" alt=""></div>
+      <span class="header-label">Berelowitz Family Foundation</span>
+    </div>
+    <span class="header-date-dark">Board Meeting · April 2026</span>
+  </div>
+
+  <div style="position:relative;z-index:10;">
+    <div class="anim" data-delay="0" style="margin-bottom:48px;">
+      <p class="font-body" style="font-size:11px;text-transform:uppercase;letter-spacing:6px;color:#C4B89B;margin-bottom:16px;">Strategic Direction</p>
+      <h2 class="font-heading" style="font-size:44px;font-weight:300;line-height:1.2;color:#F0EDED;">
+        Recommendations for Strategic<br>Flagship Investments</h2>
+      <div style="display:flex;align-items:center;gap:16px;margin-top:16px;">
+        <div style="width:64px;height:1px;background:#C4B89B;"></div>
+        <p class="font-heading" style="font-style:italic;font-size:20px;color:#C4B89B;">2027&ndash;2028</p>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:1000px;" id="flagshipCards"></div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 6: THANK YOU + IMPACT ========== -->
+<div class="slide vignette linen flex-center" id="slide5" style="background:#2B2D42;">
+  <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+  <div class="slide-header dark">
+    <div class="header-left">
+      <div class="header-logo-box dark"><img src="logo-berelovitz.jpg" alt=""></div>
+      <span class="header-label">Berelowitz Family Foundation</span>
+    </div>
+    <span class="header-date-dark">Board Meeting · April 2026</span>
+  </div>
+
+  <div class="flex-col text-center" style="position:relative;z-index:10;align-items:center;gap:24px;padding:0 24px;max-width:800px;">
+
+    <!-- Logo -->
+    <img src="logo-berelovitz.jpg" alt="Berelowitz Family Foundation"
+      class="anim-photo" data-delay="200"
+      style="height:80px;width:80px;object-fit:contain;border-radius:4px;box-shadow:0 2px 20px rgba(0,0,0,0.2);">
+
+    <!-- Thank You -->
+    <h2 class="font-heading anim" data-delay="400"
+      style="font-size:48px;font-weight:300;letter-spacing:3px;color:#F0EDED;">Thank You</h2>
+
+    <!-- Warm divider -->
+    <div class="anim" data-delay="600" style="width:120px;height:1px;background:#C4B89B;opacity:0.5;"></div>
+
+    <!-- Impact stats -->
+    <p class="font-body anim" data-delay="700"
+      style="font-size:11px;text-transform:uppercase;letter-spacing:6px;color:#C4B89B;margin-top:8px;">
+      2025 Impact at a Glance</p>
+
+    <div style="display:flex;gap:40px;flex-wrap:wrap;justify-content:center;margin-top:8px;">
+      <div class="anim" data-delay="800" style="text-align:center;">
+        <div class="font-heading" style="font-size:44px;font-weight:300;color:#F0EDED;">37</div>
+        <div class="font-body" style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#8D8D8D;margin-top:4px;">Organizations<br>Supported</div>
+      </div>
+      <div class="anim" data-delay="900" style="text-align:center;">
+        <div class="font-heading" style="font-size:44px;font-weight:300;color:#F0EDED;">&#8362;1.19M</div>
+        <div class="font-body" style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#8D8D8D;margin-top:4px;">Total<br>Grants</div>
+      </div>
+      <div class="anim" data-delay="1000" style="text-align:center;">
+        <div class="font-heading" style="font-size:44px;font-weight:300;color:#F0EDED;">20K+</div>
+        <div class="font-body" style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#8D8D8D;margin-top:4px;">Lives<br>Impacted</div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="anim" data-delay="1100" style="width:60px;height:1px;background:#C4B89B;opacity:0.3;margin-top:8px;"></div>
+
+    <!-- Memorial photo -->
+    <div class="anim-photo" data-delay="1200"
+      style="width:100px;height:100px;border-radius:50%;overflow:hidden;border:2px solid #C4B89B;box-shadow:0 0 30px rgba(196,184,155,0.12);margin-top:8px;">
+      <img src="beri-berelovitz.jpg" alt="Beri Berelovitz z'l" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+
+    <!-- Closing message -->
+    <p class="font-heading anim" data-delay="1400"
+      style="font-style:italic;font-size:18px;letter-spacing:1px;color:#C4B89B;line-height:1.6;">
+      Continuing Beri's legacy of compassion,<br>education, and community impact.</p>
+
+    <!-- Foundation label -->
+    <p class="font-body anim" data-delay="1600"
+      style="font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#8D8D8D;margin-top:16px;">
+      Berelowitz Family Foundation</p>
+  </div>
+</div>
+
+<script>
+// === DATA ===
+const budgetItems = [
+  { label: "Outstanding commitments from 2025", short: "2025 Commitments", amount: "\u20AA700,000", value: 700 },
+  { label: "Berelovitz Center in Yad Mordechai \u2013 second-year commitment", short: "Berelovitz Center", amount: "\u20AA1,000,000", value: 1000 },
+  { label: "HOPA Program \u2013 flagship program reducing social gaps among youth and young adults living in poverty", short: "HOPA Program", amount: "\u20AA650,000", value: 650 },
+  { label: "Berelovitz Prize", short: "Berelovitz Prize", amount: "\u20AA380,000", value: 380 },
+  { label: "Strategic Grants in the Foundation\u2019s priority areas", short: "Strategic Grants", amount: "\u20AA1,400,000", value: 1400 },
+  { label: "Nonprofit capacity-building grants \u2013 consulting and lobbying support", short: "Capacity Building", amount: "\u20AA200,000", value: 200 },
+  { label: "Alumot operational expenses \u2013 salaries, hosting, gifts, etc.", short: "Alumot Operations", amount: "\u20AA300,000", value: 300 },
+  { label: "Beri Berelovitz legacy initiatives \u2013 allocated by the Foundation\u2019s donations committee", short: "Legacy Initiatives", amount: "\u20AA200,000", value: 200 },
+  { label: "Unrestricted fund for board and leadership giving", short: "Board Fund", amount: "\u20AA300,000", value: 300 },
+  { label: "Emergency war-related grants", short: "Emergency Grants", amount: "\u20AA100,000", value: 100 },
+];
+
+const agendaItems = [
+  { title: "Approval of the Foundation\u2019s core focus areas for 2026", subtitle: "Proposed: Reducing educational gaps and supporting populations affected by the war" },
+  { title: "Presentation of the impact of 2025 grants (excluding education) and recommendations for grants for the current year" },
+  { title: "Presentation of an additional recommended list of grants (excluding education, to be presented around June 2026)" },
+  { title: "Recommendation for the 2026 Berelovitz Prize \u2013 discussion of themes" },
+  { title: "Other matters" },
+];
+
+const flagshipItems = [
+  { number: "01", title: "Veterans Center", description: "A dedicated center to support those who served, addressing long-term needs emerging from the war." },
+  { number: "02", title: "Research and Knowledge Center", description: "Building institutional knowledge and evidence-based practice across the Foundation\u2019s priority areas." },
+];
+
+// === RENDER BUDGET TABLE ===
+const table = document.getElementById('budgetTable');
+let tableHTML = '<tbody>';
+budgetItems.forEach((item, i) => {
+  tableHTML += `<tr class="anim-row" data-delay="${i * 50}">
+    <td style="line-height:1.4;">${item.label}</td>
+    <td class="amount">${item.amount}</td>
+  </tr>`;
+});
+tableHTML += `<tr class="total-row anim-row" data-delay="${budgetItems.length * 50}">
+  <td>Total</td><td class="amount">\u20AA5,470,000</td>
+</tr></tbody>`;
+table.innerHTML = tableHTML;
+
+// === RENDER BAR CHART ===
+const chart = document.getElementById('barChart');
+const maxVal = Math.max(...budgetItems.map(i => i.value));
+budgetItems.forEach((item, i) => {
+  const pct = (item.value / maxVal) * 100;
+  const opacity = 0.3 + (item.value / maxVal) * 0.7;
+  chart.innerHTML += `<div class="bar-row anim-row" data-delay="${i * 60 + 200}">
+    <span class="bar-label">${item.short}</span>
+    <div class="bar-track"><div class="bar-fill" data-width="${pct}" style="width:0%;background:rgba(43,45,66,${opacity});"></div></div>
+    <span class="bar-amount">${item.amount}</span>
+  </div>`;
+});
+
+// === RENDER AGENDA ===
+const agenda = document.getElementById('agendaList');
+agendaItems.forEach((item, i) => {
+  agenda.innerHTML += `<div class="agenda-item anim" data-delay="${i * 100 + 200}">
+    <span class="agenda-num">${i + 1}</span>
+    <div>
+      <p class="agenda-title">${item.title}</p>
+      ${item.subtitle ? `<p class="agenda-subtitle">${item.subtitle}</p>` : ''}
+    </div>
+  </div>`;
+});
+
+// === GRANTS DATA ===
+const grantsData = [
+  { n:1, cat:"Im Kalvia", cls:"kalvia", org:"Beit Lechem Yehuda", purpose:"Food vouchers for families", nis:"2,000", usd:"671", impact:"10 families" },
+  { n:2, cat:"Im Kalvia", cls:"kalvia", org:"Patrizio Paoletti Assoc.", purpose:"Healing farm at Sheba Hospital & Dizengoff shelter", nis:"5,000", usd:"1,678", impact:"100+ staff & residents treated" },
+  { n:3, cat:"Im Kalvia", cls:"kalvia", org:"Israel Society Prevention of Cruelty to Animals", purpose:"Food for dogs and cats", nis:"10,000", usd:"3,357", impact:"~80 animals" },
+  { n:4, cat:"Im Kalvia", cls:"kalvia", org:"Social Transport (Shinua Chevrati)", purpose:"Additional driver for emergency operations", nis:"15,000", usd:"5,035", impact:"15,000 residents assisted" },
+  { n:5, cat:"Im Kalvia", cls:"kalvia", org:"Kavim V'Machshavot Assoc.", purpose:"\"Safe Space\" mental health campaign", nis:"4,000", usd:"1,343", impact:"Tens of thousands of exposures" },
+  { n:6, cat:"Im Kalvia", cls:"kalvia", org:"Kibbutz Nir Yitzchak (1/2)", purpose:"Emergency HQ communication & equipment", nis:"10,000", usd:"3,357", impact:"580 community members" },
+  { n:7, cat:"Call for Proposals 25", cls:"kolkore25", org:"Kibbutz Nir Yitzchak (2/2)", purpose:"Half-time fundraising position for rehabilitation", nis:"30,000", usd:"10,070", impact:"86% returned; 1M\u20AA raised for education" },
+  { n:8, cat:"Im Kalvia", cls:"kalvia", org:"Lod Development Foundation", purpose:"Renovation & equipping city shelters", nis:"5,000", usd:"1,678", impact:"Hundreds of residents" },
+  { n:9, cat:"Im Kalvia", cls:"kalvia", org:"Leshanot Olam", purpose:"Emergency dental treatment grant", nis:"5,000", usd:"1,678", impact:"1 patient" },
+  { n:10, cat:"Im Kalvia", cls:"kalvia", org:"Forum Nirut (1/2)", purpose:"Dental care & youth advocacy project", nis:"20,000", usd:"6,714", impact:"~1,000 young people nationwide" },
+  { n:11, cat:"Grant Report 25", cls:"doch25", org:"Forum Nirut (2/2)", purpose:"Gender-sensitive employment training course", nis:"20,000", usd:"6,714", impact:"~2,000 at-risk young women; 8 counselors trained" },
+  { n:12, cat:"Shaagat HaAri", cls:"shaagat", org:"Boomerang", purpose:"\"Hugs from Grandma and Grandpa\" project", nis:"10,000", usd:"3,357", impact:"Intergenerational community impact" },
+  { n:13, cat:"Shaagat HaAri", cls:"shaagat", org:"Yedidim", purpose:"Safe room rescue kits", nis:"12,000", usd:"4,028", impact:"~17,000 safe room incidents handled" },
+  { n:14, cat:"Shaagat HaAri", cls:"shaagat", org:"SOS Children's Villages Israel", purpose:"Games for children in villages & emergency center", nis:"10,000", usd:"3,357", impact:"~150 children" },
+  { n:15, cat:"Shaagat HaAri", cls:"shaagat", org:"Beit LaZafon", purpose:"Children & youth from frontline communities", nis:"30,000", usd:"10,070", impact:"350 children & youth" },
+  { n:16, cat:"Call for Proposals 25", cls:"kolkore25", org:"Basecamp", purpose:"Youth leaders in Upper Galilee frontline communities", nis:"50,000", usd:"16,784", impact:"Youth leaders in frontline communities" },
+  { n:17, cat:"Call for Proposals 25", cls:"kolkore25", org:"Magen HaMishpacha", purpose:"Youth activity group in Beer Sheva (HaMiftan)", nis:"20,000", usd:"6,714", impact:"20 youth aged 12+" },
+  { n:18, cat:"Call for Proposals 25", cls:"kolkore25", org:"Nirim", purpose:"Youth project in Nahariya neighborhoods", nis:"40,000", usd:"13,427", impact:"30 youth aged 14-18" },
+  { n:19, cat:"Call for Proposals 25", cls:"kolkore25", org:"Kibbutz Dafna", purpose:"First Scouts pre-army seed group established", nis:"50,000", usd:"16,784", impact:"111 children grades 1-6" },
+  { n:20, cat:"Call for Proposals 25", cls:"kolkore25", org:"Matzmichim Academy", purpose:"Teacher training in frontline schools", nis:"40,000", usd:"13,427", impact:"280 students grades 7-12" },
+  { n:21, cat:"Call for Proposals 25", cls:"kolkore25", org:"Pele Yoetz", purpose:"Therapeutic support for evacuated children", nis:"30,000", usd:"10,070", impact:"100 children & youth ages 6-18" },
+  { n:22, cat:"Call for Proposals 25", cls:"kolkore25", org:"Beit HaShem", purpose:"Electrical engineering lab for students", nis:"40,000", usd:"13,427", impact:"~78 students aged 14-17" },
+  { n:23, cat:"Call for Proposals 25", cls:"kolkore25", org:"Or Simcha", purpose:"Remedial teaching for children in residential care", nis:"40,000", usd:"13,427", impact:"Children in therapeutic residential care" },
+  { n:24, cat:"Call for Proposals 25", cls:"kolkore25", org:"Leadership Academy", purpose:"Pre-army Mechina in Upper Galilee kibbutzim", nis:"40,000", usd:"13,427", impact:"40-70 mechina; 120-200 youth" },
+  { n:25, cat:"Call for Proposals 25", cls:"kolkore25", org:"Hadassah Neurim Youth Village", purpose:"Rehabilitation kennel for at-risk youth", nis:"50,000", usd:"16,784", impact:"20 youth in rehabilitation program" },
+  { n:26, cat:"Supplementary", cls:"hashlamat", org:"Association 121", purpose:"Quality nutrition for food-insecure youth", nis:"50,000", usd:"16,784", impact:"67% improved nutrition habits" },
+  { n:27, cat:"Supplementary", cls:"hashlamat", org:"Tvuna", purpose:"Family finance workshops in ultra-Orthodox sector", nis:"50,000", usd:"16,784", impact:"45% began savings plan; 72% more confident" },
+  { n:28, cat:"Supplementary", cls:"hashlamat", org:"Planetherapy", purpose:"International online resilience center", nis:"210,000", usd:"70,493", impact:"Expanded accessibility to emotional support" },
+  { n:29, cat:"Supplementary", cls:"hashlamat", org:"Yom Echad Tikun Olam", purpose:"Volunteer activities for northern rehabilitation", nis:"100,000", usd:"33,568", impact:"1,065 volunteers; 2,165 beneficiaries" },
+  { n:30, cat:"Supplementary", cls:"hashlamat", org:"Westa Tsega", purpose:"Culturally-adapted mental health for Ethiopian community", nis:"50,000", usd:"16,784", impact:"~100 patients; culturally-adapted therapy" },
+  { n:31, cat:"Grant Report 25", cls:"doch25", org:"Tashtit", purpose:"Donor recruitment tour in USA", nis:"20,000", usd:"6,714", impact:"~200 adults; 120 youth in leadership" },
+  { n:32, cat:"Grant Report 25", cls:"doch25", org:"Kibbutz Manara", purpose:"Radiators & chairs for active shelters", nis:"10,000", usd:"3,357", impact:"15 shelters made warm & comfortable" },
+  { n:33, cat:"Grant Report 25", cls:"doch25", org:"SAHAR", purpose:"Training volunteers for online youth support", nis:"50,000", usd:"16,784", impact:"17 new volunteers; youth ages 10-30" },
+  { n:34, cat:"Grant Report 25", cls:"doch25", org:"Bnei Zion Friends Assoc.", purpose:"Chinese acupuncture position from Ethiopian community", nis:"20,000", usd:"6,714", impact:"~20 patients daily" },
+  { n:35, cat:"Grant Report 25", cls:"doch25", org:"Vertigo Dance Company", purpose:"\"Breathing Space\" for wives of reservists", nis:"20,000", usd:"6,714", impact:"Wives of reservists aged 25-55" },
+  { n:36, cat:"Grant Report 25", cls:"doch25", org:"Aluma (Osot Chayil)", purpose:"\"Rosh Hashana Together\" for ultra-Orthodox families", nis:"25,000", usd:"8,392", impact:"~500 participants: 120 women + children" },
+];
+
+// === RENDER GRANTS TABLE ===
+const gTable = document.getElementById('grantsTable');
+let gHTML = '<thead><tr><th>#</th><th>Category</th><th>Organization</th><th>Purpose</th><th style="text-align:right;">NIS</th><th style="text-align:right;">USD</th><th>Key Impact</th></tr></thead><tbody>';
+grantsData.forEach((g, i) => {
+  gHTML += `<tr class="anim-row" data-delay="${Math.min(i * 30, 600)}">
+    <td>${g.n}</td>
+    <td><span class="cat-badge cat-${g.cls}">${g.cat}</span></td>
+    <td class="org">${g.org}</td>
+    <td>${g.purpose}</td>
+    <td class="amt">\u20AA${g.nis}</td>
+    <td class="amt">$${g.usd}</td>
+    <td>${g.impact}</td>
+  </tr>`;
+});
+gHTML += `<tr style="background:#2B2D42;color:#F0EDED;font-weight:700;">
+  <td colspan="4" style="padding:8px;">Total: 36 Organizations</td>
+  <td class="amt" style="padding:8px;color:#C4B89B;">\u20AA1,193,000</td>
+  <td class="amt" style="padding:8px;color:#C4B89B;">$400,470</td>
+  <td style="padding:8px;"></td>
+</tr></tbody>`;
+gTable.innerHTML = gHTML;
+
+// === RENDER FLAGSHIP ===
+const cards = document.getElementById('flagshipCards');
+flagshipItems.forEach((item, i) => {
+  cards.innerHTML += `<div class="flagship-card anim" data-delay="${i * 200 + 300}">
+    <div class="flagship-num">${item.number}</div>
+    <div class="flagship-line"></div>
+    <h3 class="flagship-title">${item.title}</h3>
+    <p class="flagship-desc">${item.description}</p>
+  </div>`;
+});
+
+// === SCROLL OBSERVER ===
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot-nav button');
+let activeSlide = 0;
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const idx = Array.from(slides).indexOf(entry.target);
+      activeSlide = idx;
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      // Animate elements in this slide
+      entry.target.querySelectorAll('.anim, .anim-photo, .anim-row').forEach(el => {
+        const delay = el.dataset.delay || 0;
+        setTimeout(() => el.classList.add('visible'), parseInt(delay));
+      });
+      // Animate bar widths
+      entry.target.querySelectorAll('.bar-fill').forEach(bar => {
+        const w = bar.dataset.width;
+        const delay = bar.closest('.anim-row')?.dataset.delay || 0;
+        setTimeout(() => { bar.style.width = w + '%'; }, parseInt(delay) + 200);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+
+slides.forEach(s => observer.observe(s));
+
+function goTo(idx) {
+  slides[idx].scrollIntoView({ behavior: 'smooth' });
+}
+
+// Keyboard navigation
+window.addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+    e.preventDefault();
+    goTo(Math.min(activeSlide + 1, slides.length - 1));
+  } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+    e.preventDefault();
+    goTo(Math.max(activeSlide - 1, 0));
+  } else if (e.key === 'Home') {
+    e.preventDefault(); goTo(0);
+  } else if (e.key === 'End') {
+    e.preventDefault(); goTo(slides.length - 1);
+  }
+});
+</script>
+
+<style>
+@media (max-width: 768px) {
+  .budget-layout { flex-direction: column !important; }
+  .budget-layout > div { flex: 1 1 auto !important; }
+  #flagshipCards { grid-template-columns: 1fr !important; }
+  .slide-header { padding: 12px 16px !important; }
+  .header-label { display: none; }
+  .grants-table th:nth-child(6), .grants-table td:nth-child(6) { display: none; }
+  .grants-table { font-size: 10px; }
+}
+</style>
+</body>
+</html>
